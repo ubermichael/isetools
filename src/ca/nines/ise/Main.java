@@ -24,7 +24,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    String in = "{{s}{s}}";
+    String in = "text.{s}";
     ANTLRInputStream ais = new ANTLRInputStream(in);
     ISELexer lexer = new ISELexer(ais);
     CommonTokenStream tokens = new CommonTokenStream(lexer);

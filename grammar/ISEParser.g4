@@ -12,6 +12,7 @@ document : element* ;
 element
   : abbr
   | character
+  | content
   ;
 
 // abbreviations
@@ -28,7 +29,7 @@ char_spaced
   : CHAR_START CHAR_SPACE CHAR_END ;
 
 char_accented
-  : CHAR_START CHAR_ACCENT ALPHA CHAR_END ;
+  : CHAR_START CHAR_ACCENT CHAR_ALPHA CHAR_END ;
 
 char_typographic
   : CHAR_START CHAR_TYPOGRAPHIC CHAR_END ;
@@ -43,3 +44,25 @@ character
   | char_typographic
   | char_ligature
   ;
+
+// tags
+
+start_tag : TAG_START TAG_NAME S* attribute* TAG_END ;
+empty_tag : TAG_START TAG_NAME S* attribute* TAG_SLASH_END ;
+end_tag : TAG_START TAG_SLASH TAG_NAME TAG_END ;
+short_tag : TAG_START TAG_NAME S* EQ S* ATTR_VALUE S* TAG_END;
+
+tag
+   : start_tag | empty_tag | end_tag | short_tag ;
+
+// attributes
+
+attribute_name : ATTR_NAME ;
+attribute_value : ATTR_VALUE ;
+
+attribute
+  : attribute_name S* EQ S* attribute_value
+  | attribute_name
+  ;
+
+content : TEXT ;
