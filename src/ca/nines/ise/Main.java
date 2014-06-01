@@ -17,7 +17,7 @@ import java.io.IOException;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    String in = "Hello-|wo|rld.";
+    String in = "He|lo|{wo}<a><b></a><!-- r -->ld.";
     Tokenizer t = new Tokenizer(in);
     Node n = t.getNode();
     while(n != null) {

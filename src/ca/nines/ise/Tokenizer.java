@@ -123,9 +123,11 @@ public class Tokenizer {
         case '>':
           break;
         case '{':
+          state = "char";
           break;
         case '|':
           state = "abbr";
+          break;
         case (char) -1:
           break;
         default:
@@ -153,9 +155,34 @@ public class Tokenizer {
       char c = this.getc();
       if (c == '|') {
         state = "data";
-        return this.finish_node();
       }
     }
     return finish_node();
   }
+
+  private Node state_char() throws Exception {
+    int depth = 1;
+    boolean nested = false;
+    
+    prepare_node("char");
+    while ("char".equals(state) && !scanner.finished()) {
+      char c = this.getc();
+      switch(c) {
+        case '{':
+          depth++;
+          nested = true;
+          break;
+        case '}':
+          depth--;
+          break;
+      }
+      if(depth == 0) {
+        state = "data";
+      }
+    }
+    CharNode n = (CharNode) finish_node();
+    n.setNested(nested);
+    return n;
+  }
+
 }

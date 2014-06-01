@@ -12,6 +12,8 @@ package ca.nines.ise.node;
  */
 public class CharNode extends Node {
 
+  private boolean nested = false;
+  
   @Override
   String tagname() {
     return "#CHAR";
@@ -30,6 +32,20 @@ public class CharNode extends Node {
   @Override
   String unicode() {
     return getText();
+  }
+
+  /**
+   * @return the nested
+   */
+  public boolean isNested() {
+    return nested;
+  }
+
+  /**
+   * @param nested the nested to set
+   */
+  public void setNested(boolean nested) {
+    this.nested = nested;
   }
 
 }
