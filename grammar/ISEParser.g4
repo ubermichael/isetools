@@ -12,7 +12,6 @@ document : element* ;
 element
   : abbr
   | character
-  | content
   ;
 
 // abbreviations
@@ -44,25 +43,3 @@ character
   | char_typographic
   | char_ligature
   ;
-
-// tags
-
-start_tag : TAG_START TAG_NAME S* attribute* TAG_END ;
-empty_tag : TAG_START TAG_NAME S* attribute* TAG_SLASH_END ;
-end_tag : TAG_START TAG_SLASH TAG_NAME TAG_END ;
-short_tag : TAG_START TAG_NAME S* EQ S* ATTR_VALUE S* TAG_END;
-
-tag
-   : start_tag | empty_tag | end_tag | short_tag ;
-
-// attributes
-
-attribute_name : ATTR_NAME ;
-attribute_value : ATTR_VALUE ;
-
-attribute
-  : attribute_name S* EQ S* attribute_value
-  | attribute_name
-  ;
-
-content : TEXT ;
