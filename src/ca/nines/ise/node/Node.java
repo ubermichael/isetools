@@ -10,26 +10,77 @@ package ca.nines.ise.node;
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class Node extends AbstractNode {
+abstract public class Node {
+
+  private int line;
+  private String source;
+  private String text;
+  private String asl;
+
+  abstract String tagname();
+  abstract String expanded();
+  abstract String plain();
+  abstract String unicode();
 
   @Override
-  String tagname() {
-    return "#ABBR";
+  public String toString() {
+    return this.tagname() + ":" + this.text;
   }
 
-  @Override
-  String expanded() {
-    return getText();
+  /**
+   * @return the line
+   */
+  public int getLine() {
+    return line;
   }
 
-  @Override
-  String plain() {
-    return getText();
+  /**
+   * @param line the line to set
+   */
+  public void setLine(int line) {
+    this.line = line;
   }
 
-  @Override
-  String unicode() {
-    return getText();
+  /**
+   * @return the source
+   */
+  public String getSource() {
+    return source;
+  }
+
+  /**
+   * @param source the source to set
+   */
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  /**
+   * @return the text
+   */
+  public String getText() {
+    return text;
+  }
+
+  /**
+   * @param text the text to set
+   */
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  /**
+   * @return the asl
+   */
+  public String getAsl() {
+    return asl;
+  }
+
+  /**
+   * @param asl the asl to set
+   */
+  public void setAsl(String asl) {
+    this.asl = asl;
   }
 
 }

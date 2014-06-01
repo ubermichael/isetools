@@ -24,7 +24,7 @@ public class Tokenizer {
   //  @todo make this a string buffer.
   private String current_text = "";
 
-  private AbstractNode current_node;
+  private Node current_node;
 
   private String current_attribute_name;
   private String current_attribute_value;
@@ -51,8 +51,8 @@ public class Tokenizer {
     this.scanner.ungetc();
   }
 
-  public AbstractNode getNode() {
-    AbstractNode n = null;
+  public Node getNode() {
+    Node n = null;
     Method m = null;
     Class<?> c = this.getClass();
     while (n == null && !scanner.finished()) {
@@ -64,7 +64,7 @@ public class Tokenizer {
       }
 
       try {
-        n = (AbstractNode) m.invoke(this);
+        n = (Node) m.invoke(this);
       } catch (Exception ex) {
         Logger.getLogger(Tokenizer.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -81,7 +81,7 @@ public class Tokenizer {
         current_node = new TextNode();
         break;
       case "abbr":
-        current_node = new Node();
+        current_node = new AbbrNode();
         break;
       default:
         throw new Exception("Unknown node type: " + type);
@@ -90,15 +90,15 @@ public class Tokenizer {
     current_node.setSource(scanner.source());
   }
 
-  private AbstractNode finish_node() {
-    AbstractNode n = current_node;
+  private Node finish_node() {
+    Node n = current_node;
     current_node = null;
     n.setText(current_text);
     current_text = "";
     return n;
   }
 
-  private AbstractNode state_data() throws IOException, Exception {
+  private Node state_data() throws IOException, Exception {
 
     while ("data".equals(state) && !scanner.finished()) {
       char c = this.getc();
@@ -120,7 +120,7 @@ public class Tokenizer {
     return null;
   }
 
-  private AbstractNode state_text() throws Exception {
+  private Node state_text() throws Exception {
     prepare_node("text");
     while ("text".equals(state) && !scanner.finished()) {
       char c = this.getc();
@@ -132,7 +132,7 @@ public class Tokenizer {
     return finish_node();
   }
 
-  private AbstractNode state_abbr() throws IOException, Exception {
+  private Node state_abbr() throws IOException, Exception {
     prepare_node("abbr");
     while ("abbr".equals(state) && !scanner.finished()) {
       char c = this.getc();
