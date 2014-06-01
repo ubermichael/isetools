@@ -6,6 +6,7 @@
 
 package ca.nines.ise;
 
+import ca.nines.ise.node.AbstractNode;
 import java.io.File;
 import java.io.IOException;
 
@@ -16,12 +17,12 @@ import java.io.IOException;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    String in = "Hello\nworld.";
-    Scanner s = new Scanner(in);
-    char c = s.getc();
-    while( ! s.finished()) {
-      System.out.println(s.line() + ":" + c);
-      c = s.getc();
+    String in = "Hello-|wo|rld.";
+    Tokenizer t = new Tokenizer(in);
+    AbstractNode n = t.getNode();
+    while(n != null) {
+      System.out.println("node: " + n);
+      n = t.getNode();
     }
   }
 
