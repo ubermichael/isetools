@@ -6,9 +6,16 @@
 
 package ca.nines.ise;
 
+import ca.nines.ise.grammar.ISELexer;
+import ca.nines.ise.grammar.ISEParser;
 import ca.nines.ise.node.Node;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  *
@@ -17,13 +24,13 @@ import java.io.IOException;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    String in = "He|lo|{wo}<a><b></a><!-- r -->ld.";
-    Tokenizer t = new Tokenizer(in);
-    Node n = t.getNode();
-    while(n != null) {
-      System.out.println("node: " + n);
-      n = t.getNode();
-    }
+    String in = "this is |av| text.";
+    ANTLRInputStream ais = new ANTLRInputStream(in);
+    ISELexer lexer = new ISELexer(ais);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    ISEParser parser = new ISEParser(tokens);
+    ParseTree tree = parser.document();
+    System.out.println(tree.toStringTree(parser));
   }
 
 }
