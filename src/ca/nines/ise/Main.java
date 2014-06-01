@@ -6,7 +6,7 @@
 
 package ca.nines.ise;
 
-import ca.nines.ise.node.AbstractNode;
+import ca.nines.ise.node.Node;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class Main {
   public static void main(String[] args) throws IOException {
     String in = "Hello-|wo|rld.";
     Tokenizer t = new Tokenizer(in);
-    AbstractNode n = t.getNode();
+    Node n = t.getNode();
     while(n != null) {
       System.out.println("node: " + n);
       n = t.getNode();

@@ -10,11 +10,11 @@ package ca.nines.ise.node;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class TextNode extends Node {
+public class AbbrNode extends Node {
 
   @Override
   String tagname() {
-    return "#TEXT";
+    return "#ABBR";
   }
 
   @Override
