@@ -17,29 +17,32 @@ element
 // abbreviations
 
 abbr
-  : ABBR_DELIM .*? ABBR_DELIM ;
+  : ABBR_START ABBR_CONTENT* ABBR_END;
 
 // special characters
 
+char_accented
+  : CHAR_ACCENT CHAR_ALPHA ;
+
 char_named
-  : CHAR_START CHAR_NAMED CHAR_END ;
+  : CHAR_NAMED ;
 
 char_spaced
-  : CHAR_START CHAR_SPACE CHAR_END ;
-
-char_accented
-  : CHAR_START CHAR_ACCENT CHAR_ALPHA CHAR_END ;
+  : CHAR_SPACE ;
 
 char_typographic
-  : CHAR_START CHAR_TYPOGRAPHIC CHAR_END ;
+  : CHAR_TYPOGRAPHIC ;
 
 char_ligature
-  : CHAR_START ( CHAR_LIGATURE | character )+ CHAR_END ;
+  : CHAR_ALPHA CHAR_ALPHA CHAR_ALPHA ;
 
 character
-  : char_named
-  | char_spaced
-  | char_accented
-  | char_typographic
-  | char_ligature
+  :
+  CHAR_START (
+      char_named
+    | char_spaced
+    | char_accented
+    | char_typographic
+    | char_ligature
+  ) CHAR_END
   ;

@@ -1,3 +1,5 @@
 build
 nbproject
-/dist/*.class
+*.class
+grammar/*.java
+grammar/*.tokens

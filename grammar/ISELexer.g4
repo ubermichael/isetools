@@ -6,25 +6,22 @@
 lexer grammar ISELexer;
 
 // abbreviations
-ABBR_DELIM : '|' ;
+ABBR_START : '|' -> pushMode(ABBR) ;
 
 // special characters
 CHAR_START : '{' -> pushMode(CHAR) ;
 
-ALPHA : [a-zA-Z] ;
-ALPHANUM : [a-zA-Z0-9] ;
-S : [ \r\t\n] ;
-EQ : '=' ;
-TEXT : ~( '<' | '{' | '|' )+ ;
+mode ABBR ;
+
+ABBR_END : '|' ->popMode ;
+ABBR_CONTENT : ~'|' ;
 
 mode CHAR ;
 
 CHAR_END : '}' -> popMode;
 
 CHAR_NAMED : ( 'c' | 'P' | 'sm' | 'pi' | 'ae' | 'AE' | 'oe' | 'OE' ) ;
+CHAR_TYPOGRAPHIC : ( 's' | 'r' | 'w' | 'W' ) ;
 CHAR_SPACE : [#-\ ] ;
 CHAR_ACCENT : [^"'`_~] ;
 CHAR_ALPHA : [a-zA-Z] ;
-CHAR_TYPOGRAPHIC : ( 's' | 'r' | 'w' | 'W' ) ;
-CHAR_LIGATURE : ALPHA ALPHA ALPHA? ;
-
