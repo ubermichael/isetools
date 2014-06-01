@@ -10,7 +10,7 @@ package ca.nines.ise.node;
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class AbbrNode extends AbstractNode {
+public class Node extends AbstractNode {
 
   @Override
   String tagname() {
