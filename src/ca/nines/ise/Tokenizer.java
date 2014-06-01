@@ -81,7 +81,7 @@ public class Tokenizer {
         current_node = new TextNode();
         break;
       case "abbr":
-        current_node = new AbbrNode();
+        current_node = new Node();
         break;
       default:
         throw new Exception("Unknown node type: " + type);
