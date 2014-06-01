@@ -15,8 +15,9 @@ public class ISELexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		ABBR_START=1, CHAR_START=2, ABBR_END=3, ABBR_CONTENT=4, CHAR_END=5, CHAR_NAMED=6, 
-		CHAR_TYPOGRAPHIC=7, CHAR_SPACE=8, CHAR_ACCENT=9, CHAR_ALPHA=10;
+		ABBR_START=1, CHAR_START=2, ABBR_END=3, ABBR_CONTENT=4, CHAR_END=5, CHAR_NAMED_SINGLE=6, 
+		CHAR_NAMED_DOUBLE=7, CHAR_TYPOGRAPHIC=8, CHAR_SPACE=9, CHAR_ACCENT=10, 
+		CHAR_ALPHA=11;
 	public static final int ABBR = 1;
 	public static final int CHAR = 2;
 	public static String[] modeNames = {
@@ -25,12 +26,14 @@ public class ISELexer extends Lexer {
 
 	public static final String[] tokenNames = {
 		"<INVALID>",
-		"ABBR_START", "'{'", "ABBR_END", "ABBR_CONTENT", "'}'", "CHAR_NAMED", 
-		"CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_ALPHA"
+		"ABBR_START", "'{'", "ABBR_END", "ABBR_CONTENT", "'}'", "CHAR_NAMED_SINGLE", 
+		"CHAR_NAMED_DOUBLE", "CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", 
+		"CHAR_ALPHA"
 	};
 	public static final String[] ruleNames = {
-		"ABBR_START", "CHAR_START", "ABBR_END", "ABBR_CONTENT", "CHAR_END", "CHAR_NAMED", 
-		"CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_ALPHA"
+		"ABBR_START", "CHAR_START", "ABBR_END", "ABBR_CONTENT", "CHAR_END", "CHAR_NAMED_SINGLE", 
+		"CHAR_NAMED_DOUBLE", "CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", 
+		"CHAR_ALPHA"
 	};
 
 
@@ -58,25 +61,25 @@ public class ISELexer extends Lexer {
 	public ATN getATN() { return _ATN; }
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\2\fB\b\1\b\1\b\1\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\2\rE\b\1\b\1\b\1\4"+
 		"\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n"+
-		"\4\13\t\13\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3\6"+
-		"\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\79"+
-		"\n\7\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\2\2\f\5\3\7\4\t\5\13\6\r\7\17\b"+
-		"\21\t\23\n\25\13\27\f\5\2\3\4\b\3\2~~\4\2RRee\5\2YYtuyy\4\2\"\"%^\6\2"+
-		"$$))`b\u0080\u0080\4\2C\\c|E\2\5\3\2\2\2\2\7\3\2\2\2\3\t\3\2\2\2\3\13"+
-		"\3\2\2\2\4\r\3\2\2\2\4\17\3\2\2\2\4\21\3\2\2\2\4\23\3\2\2\2\4\25\3\2\2"+
-		"\2\4\27\3\2\2\2\5\31\3\2\2\2\7\35\3\2\2\2\t!\3\2\2\2\13%\3\2\2\2\r\'\3"+
-		"\2\2\2\178\3\2\2\2\21:\3\2\2\2\23<\3\2\2\2\25>\3\2\2\2\27@\3\2\2\2\31"+
-		"\32\7~\2\2\32\33\3\2\2\2\33\34\b\2\2\2\34\6\3\2\2\2\35\36\7}\2\2\36\37"+
-		"\3\2\2\2\37 \b\3\3\2 \b\3\2\2\2!\"\7~\2\2\"#\3\2\2\2#$\b\4\4\2$\n\3\2"+
-		"\2\2%&\n\2\2\2&\f\3\2\2\2\'(\7\177\2\2()\3\2\2\2)*\b\6\4\2*\16\3\2\2\2"+
-		"+9\t\3\2\2,-\7u\2\2-9\7o\2\2./\7r\2\2/9\7k\2\2\60\61\7c\2\2\619\7g\2\2"+
-		"\62\63\7C\2\2\639\7G\2\2\64\65\7q\2\2\659\7g\2\2\66\67\7Q\2\2\679\7G\2"+
-		"\28+\3\2\2\28,\3\2\2\28.\3\2\2\28\60\3\2\2\28\62\3\2\2\28\64\3\2\2\28"+
-		"\66\3\2\2\29\20\3\2\2\2:;\t\4\2\2;\22\3\2\2\2<=\t\5\2\2=\24\3\2\2\2>?"+
-		"\t\6\2\2?\26\3\2\2\2@A\t\7\2\2A\30\3\2\2\2\6\2\3\48\5\7\3\2\7\4\2\6\2"+
-		"\2";
+		"\4\13\t\13\4\f\t\f\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5"+
+		"\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
+		"\b\3\b\5\b<\n\b\3\t\3\t\3\n\3\n\3\13\3\13\3\f\3\f\2\2\r\5\3\7\4\t\5\13"+
+		"\6\r\7\17\b\21\t\23\n\25\13\27\f\31\r\5\2\3\4\b\3\2~~\4\2RRee\5\2YYtu"+
+		"yy\4\2\"\"%^\6\2$$))`b\u0080\u0080\4\2C\\c|G\2\5\3\2\2\2\2\7\3\2\2\2\3"+
+		"\t\3\2\2\2\3\13\3\2\2\2\4\r\3\2\2\2\4\17\3\2\2\2\4\21\3\2\2\2\4\23\3\2"+
+		"\2\2\4\25\3\2\2\2\4\27\3\2\2\2\4\31\3\2\2\2\5\33\3\2\2\2\7\37\3\2\2\2"+
+		"\t#\3\2\2\2\13\'\3\2\2\2\r)\3\2\2\2\17-\3\2\2\2\21;\3\2\2\2\23=\3\2\2"+
+		"\2\25?\3\2\2\2\27A\3\2\2\2\31C\3\2\2\2\33\34\7~\2\2\34\35\3\2\2\2\35\36"+
+		"\b\2\2\2\36\6\3\2\2\2\37 \7}\2\2 !\3\2\2\2!\"\b\3\3\2\"\b\3\2\2\2#$\7"+
+		"~\2\2$%\3\2\2\2%&\b\4\4\2&\n\3\2\2\2\'(\n\2\2\2(\f\3\2\2\2)*\7\177\2\2"+
+		"*+\3\2\2\2+,\b\6\4\2,\16\3\2\2\2-.\t\3\2\2.\20\3\2\2\2/\60\7u\2\2\60<"+
+		"\7o\2\2\61\62\7r\2\2\62<\7k\2\2\63\64\7c\2\2\64<\7g\2\2\65\66\7C\2\2\66"+
+		"<\7G\2\2\678\7q\2\28<\7g\2\29:\7Q\2\2:<\7G\2\2;/\3\2\2\2;\61\3\2\2\2;"+
+		"\63\3\2\2\2;\65\3\2\2\2;\67\3\2\2\2;9\3\2\2\2<\22\3\2\2\2=>\t\4\2\2>\24"+
+		"\3\2\2\2?@\t\5\2\2@\26\3\2\2\2AB\t\6\2\2B\30\3\2\2\2CD\t\7\2\2D\32\3\2"+
+		"\2\2\6\2\3\4;\5\7\3\2\7\4\2\6\2\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

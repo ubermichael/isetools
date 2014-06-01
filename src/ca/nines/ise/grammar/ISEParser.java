@@ -15,19 +15,21 @@ public class ISEParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		ABBR_START=1, CHAR_TYPOGRAPHIC=7, CHAR_NAMED=6, CHAR_ALPHA=10, CHAR_SPACE=8, 
-		CHAR_ACCENT=9, ABBR_END=3, CHAR_END=5, ABBR_CONTENT=4, CHAR_START=2;
+		ABBR_START=1, CHAR_TYPOGRAPHIC=8, CHAR_NAMED_DOUBLE=7, CHAR_ALPHA=11, 
+		CHAR_SPACE=9, CHAR_ACCENT=10, CHAR_NAMED_SINGLE=6, ABBR_END=3, CHAR_END=5, 
+		ABBR_CONTENT=4, CHAR_START=2;
 	public static final String[] tokenNames = {
-		"<INVALID>", "ABBR_START", "'{'", "ABBR_END", "ABBR_CONTENT", "'}'", "CHAR_NAMED", 
-		"CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_ALPHA"
+		"<INVALID>", "ABBR_START", "'{'", "ABBR_END", "ABBR_CONTENT", "'}'", "CHAR_NAMED_SINGLE", 
+		"CHAR_NAMED_DOUBLE", "CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", 
+		"CHAR_ALPHA"
 	};
 	public static final int
-		RULE_document = 0, RULE_element = 1, RULE_abbr = 2, RULE_char_accented = 3, 
-		RULE_char_named = 4, RULE_char_spaced = 5, RULE_char_typographic = 6, 
-		RULE_char_ligature = 7, RULE_character = 8;
+		RULE_document = 0, RULE_element = 1, RULE_abbr = 2, RULE_char_named = 3, 
+		RULE_char_spaced = 4, RULE_char_typographic = 5, RULE_char_ligature = 6, 
+		RULE_char_accented = 7, RULE_character = 8;
 	public static final String[] ruleNames = {
-		"document", "element", "abbr", "char_accented", "char_named", "char_spaced", 
-		"char_typographic", "char_ligature", "character"
+		"document", "element", "abbr", "char_named", "char_spaced", "char_typographic", 
+		"char_ligature", "char_accented", "character"
 	};
 
 	@Override
@@ -213,46 +215,9 @@ public class ISEParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Char_accentedContext extends ParserRuleContext {
-		public TerminalNode CHAR_ACCENT() { return getToken(ISEParser.CHAR_ACCENT, 0); }
-		public TerminalNode CHAR_ALPHA() { return getToken(ISEParser.CHAR_ALPHA, 0); }
-		public Char_accentedContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_char_accented; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_accented(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_accented(this);
-		}
-	}
-
-	public final Char_accentedContext char_accented() throws RecognitionException {
-		Char_accentedContext _localctx = new Char_accentedContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_char_accented);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(37); match(CHAR_ACCENT);
-			setState(38); match(CHAR_ALPHA);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static class Char_namedContext extends ParserRuleContext {
-		public TerminalNode CHAR_NAMED() { return getToken(ISEParser.CHAR_NAMED, 0); }
+		public TerminalNode CHAR_NAMED_DOUBLE() { return getToken(ISEParser.CHAR_NAMED_DOUBLE, 0); }
+		public TerminalNode CHAR_NAMED_SINGLE() { return getToken(ISEParser.CHAR_NAMED_SINGLE, 0); }
 		public Char_namedContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -269,11 +234,17 @@ public class ISEParser extends Parser {
 
 	public final Char_namedContext char_named() throws RecognitionException {
 		Char_namedContext _localctx = new Char_namedContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_char_named);
+		enterRule(_localctx, 6, RULE_char_named);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(40); match(CHAR_NAMED);
+			setState(37);
+			_la = _input.LA(1);
+			if ( !(_la==CHAR_NAMED_SINGLE || _la==CHAR_NAMED_DOUBLE) ) {
+			_errHandler.recoverInline(this);
+			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -305,11 +276,11 @@ public class ISEParser extends Parser {
 
 	public final Char_spacedContext char_spaced() throws RecognitionException {
 		Char_spacedContext _localctx = new Char_spacedContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_char_spaced);
+		enterRule(_localctx, 8, RULE_char_spaced);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42); match(CHAR_SPACE);
+			setState(39); match(CHAR_SPACE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -341,11 +312,11 @@ public class ISEParser extends Parser {
 
 	public final Char_typographicContext char_typographic() throws RecognitionException {
 		Char_typographicContext _localctx = new Char_typographicContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_char_typographic);
+		enterRule(_localctx, 10, RULE_char_typographic);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44); match(CHAR_TYPOGRAPHIC);
+			setState(41); match(CHAR_TYPOGRAPHIC);
 			}
 		}
 		catch (RecognitionException re) {
@@ -380,13 +351,59 @@ public class ISEParser extends Parser {
 
 	public final Char_ligatureContext char_ligature() throws RecognitionException {
 		Char_ligatureContext _localctx = new Char_ligatureContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_char_ligature);
+		enterRule(_localctx, 12, RULE_char_ligature);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46); match(CHAR_ALPHA);
-			setState(47); match(CHAR_ALPHA);
-			setState(48); match(CHAR_ALPHA);
+			setState(43); match(CHAR_ALPHA);
+			setState(44); match(CHAR_ALPHA);
+			setState(45); match(CHAR_ALPHA);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Char_accentedContext extends ParserRuleContext {
+		public TerminalNode CHAR_ACCENT() { return getToken(ISEParser.CHAR_ACCENT, 0); }
+		public TerminalNode CHAR_TYPOGRAPHIC() { return getToken(ISEParser.CHAR_TYPOGRAPHIC, 0); }
+		public TerminalNode CHAR_NAMED_SINGLE() { return getToken(ISEParser.CHAR_NAMED_SINGLE, 0); }
+		public TerminalNode CHAR_ALPHA() { return getToken(ISEParser.CHAR_ALPHA, 0); }
+		public Char_accentedContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_char_accented; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_accented(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_accented(this);
+		}
+	}
+
+	public final Char_accentedContext char_accented() throws RecognitionException {
+		Char_accentedContext _localctx = new Char_accentedContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_char_accented);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(47); match(CHAR_ACCENT);
+			setState(48);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR_NAMED_SINGLE) | (1L << CHAR_TYPOGRAPHIC) | (1L << CHAR_ALPHA))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -441,7 +458,8 @@ public class ISEParser extends Parser {
 			setState(50); match(CHAR_START);
 			setState(56);
 			switch (_input.LA(1)) {
-			case CHAR_NAMED:
+			case CHAR_NAMED_SINGLE:
+			case CHAR_NAMED_DOUBLE:
 				{
 				setState(51); char_named();
 				}
@@ -484,22 +502,22 @@ public class ISEParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\f?\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\r?\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\7\2\26"+
 		"\n\2\f\2\16\2\31\13\2\3\3\3\3\5\3\35\n\3\3\4\3\4\7\4!\n\4\f\4\16\4$\13"+
-		"\4\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\3\t\3\t\3\n\3\n"+
-		"\3\n\3\n\3\n\3\n\5\n;\n\n\3\n\3\n\3\n\2\2\13\2\4\6\b\n\f\16\20\22\2\2"+
-		"<\2\27\3\2\2\2\4\34\3\2\2\2\6\36\3\2\2\2\b\'\3\2\2\2\n*\3\2\2\2\f,\3\2"+
-		"\2\2\16.\3\2\2\2\20\60\3\2\2\2\22\64\3\2\2\2\24\26\5\4\3\2\25\24\3\2\2"+
-		"\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\3\3\2\2\2\31\27\3\2\2"+
-		"\2\32\35\5\6\4\2\33\35\5\22\n\2\34\32\3\2\2\2\34\33\3\2\2\2\35\5\3\2\2"+
-		"\2\36\"\7\3\2\2\37!\7\6\2\2 \37\3\2\2\2!$\3\2\2\2\" \3\2\2\2\"#\3\2\2"+
-		"\2#%\3\2\2\2$\"\3\2\2\2%&\7\5\2\2&\7\3\2\2\2\'(\7\13\2\2()\7\f\2\2)\t"+
-		"\3\2\2\2*+\7\b\2\2+\13\3\2\2\2,-\7\n\2\2-\r\3\2\2\2./\7\t\2\2/\17\3\2"+
-		"\2\2\60\61\7\f\2\2\61\62\7\f\2\2\62\63\7\f\2\2\63\21\3\2\2\2\64:\7\4\2"+
-		"\2\65;\5\n\6\2\66;\5\f\7\2\67;\5\b\5\28;\5\16\b\29;\5\20\t\2:\65\3\2\2"+
-		"\2:\66\3\2\2\2:\67\3\2\2\2:8\3\2\2\2:9\3\2\2\2;<\3\2\2\2<=\7\7\2\2=\23"+
-		"\3\2\2\2\6\27\34\":";
+		"\4\3\4\3\4\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\n\3\n"+
+		"\3\n\3\n\3\n\3\n\5\n;\n\n\3\n\3\n\3\n\2\2\13\2\4\6\b\n\f\16\20\22\2\4"+
+		"\3\2\b\t\5\2\b\b\n\n\r\r<\2\27\3\2\2\2\4\34\3\2\2\2\6\36\3\2\2\2\b\'\3"+
+		"\2\2\2\n)\3\2\2\2\f+\3\2\2\2\16-\3\2\2\2\20\61\3\2\2\2\22\64\3\2\2\2\24"+
+		"\26\5\4\3\2\25\24\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30"+
+		"\3\3\2\2\2\31\27\3\2\2\2\32\35\5\6\4\2\33\35\5\22\n\2\34\32\3\2\2\2\34"+
+		"\33\3\2\2\2\35\5\3\2\2\2\36\"\7\3\2\2\37!\7\6\2\2 \37\3\2\2\2!$\3\2\2"+
+		"\2\" \3\2\2\2\"#\3\2\2\2#%\3\2\2\2$\"\3\2\2\2%&\7\5\2\2&\7\3\2\2\2\'("+
+		"\t\2\2\2(\t\3\2\2\2)*\7\13\2\2*\13\3\2\2\2+,\7\n\2\2,\r\3\2\2\2-.\7\r"+
+		"\2\2./\7\r\2\2/\60\7\r\2\2\60\17\3\2\2\2\61\62\7\f\2\2\62\63\t\3\2\2\63"+
+		"\21\3\2\2\2\64:\7\4\2\2\65;\5\b\5\2\66;\5\n\6\2\67;\5\20\t\28;\5\f\7\2"+
+		"9;\5\16\b\2:\65\3\2\2\2:\66\3\2\2\2:\67\3\2\2\2:8\3\2\2\2:9\3\2\2\2;<"+
+		"\3\2\2\2<=\7\7\2\2=\23\3\2\2\2\6\27\34\":";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
