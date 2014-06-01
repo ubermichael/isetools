@@ -12,6 +12,7 @@ document : element* ;
 element
   : abbr
   | character
+  | content
   ;
 
 // abbreviations
@@ -21,28 +22,31 @@ abbr
 
 // special characters
 
-char_accented
-  : CHAR_ACCENT CHAR_ALPHA ;
-
 char_named
-  : CHAR_NAMED ;
+  : CHAR_START (CHAR_NAMED_SINGLE | CHAR_NAMED_DOUBLE) CHAR_END ;
 
 char_spaced
-  : CHAR_SPACE ;
+  : CHAR_START CHAR_SPACE CHAR_END;
 
 char_typographic
-  : CHAR_TYPOGRAPHIC ;
+  : CHAR_START CHAR_TYPOGRAPHIC CHAR_END ;
+
+char_accented
+  : CHAR_START CHAR_ACCENT
+    ( CHAR_TYPOGRAPHIC | CHAR_ALPHA | CHAR_NAMED_SINGLE)
+    CHAR_END;
 
 char_ligature
-  : CHAR_ALPHA CHAR_ALPHA CHAR_ALPHA ;
+  : CHAR_START CHAR_ALPHA+ CHAR_END ;
 
 character
-  :
-  CHAR_START (
-      char_named
-    | char_spaced
-    | char_accented
-    | char_typographic
-    | char_ligature
-  ) CHAR_END
+  : char_named
+  | char_spaced
+  | char_accented
+  | char_typographic
+  | char_ligature
   ;
+
+// content - should be last.
+
+content : TEXT ;
