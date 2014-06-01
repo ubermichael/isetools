@@ -77,11 +77,26 @@ public class Tokenizer {
       throw new Exception("Must finish_node() before calling prepare_node().");
     }
     switch (type) {
-      case "text":
-        current_node = new TextNode();
-        break;
       case "abbr":
         current_node = new AbbrNode();
+        break;
+      case "char":
+        current_node = new CharNode();
+        break;
+      case "comment":
+        current_node = new CommentNode();
+        break;
+      case "eof":
+        current_node = new EOFNode();
+        break;
+      case "end":
+        current_node = new EndNode();
+        break;
+      case "start":
+        current_node = new StartNode();
+        break;
+      case "text":
+        current_node = new TextNode();
         break;
       default:
         throw new Exception("Unknown node type: " + type);
