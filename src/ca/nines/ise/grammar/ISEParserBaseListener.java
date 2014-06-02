@@ -56,19 +56,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDocument(@NotNull ISEParser.DocumentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDocument(@NotNull ISEParser.DocumentContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterChar_accented(@NotNull ISEParser.Char_accentedContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -76,6 +63,32 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitChar_accented(@NotNull ISEParser.Char_accentedContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTag(@NotNull ISEParser.TagContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTag(@NotNull ISEParser.TagContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStart_tag(@NotNull ISEParser.Start_tagContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStart_tag(@NotNull ISEParser.Start_tagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -108,13 +121,26 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterChar_named(@NotNull ISEParser.Char_namedContext ctx) { }
+	@Override public void enterAttribute(@NotNull ISEParser.AttributeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitChar_named(@NotNull ISEParser.Char_namedContext ctx) { }
+	@Override public void exitAttribute(@NotNull ISEParser.AttributeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTag_name(@NotNull ISEParser.Tag_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTag_name(@NotNull ISEParser.Tag_nameContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -128,6 +154,97 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCharacter(@NotNull ISEParser.CharacterContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttribute_name(@NotNull ISEParser.Attribute_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttribute_name(@NotNull ISEParser.Attribute_nameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterContent(@NotNull ISEParser.ContentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitContent(@NotNull ISEParser.ContentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEnd_tag(@NotNull ISEParser.End_tagContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnd_tag(@NotNull ISEParser.End_tagContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttribute_value(@NotNull ISEParser.Attribute_valueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttribute_value(@NotNull ISEParser.Attribute_valueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDocument(@NotNull ISEParser.DocumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDocument(@NotNull ISEParser.DocumentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterChar_named(@NotNull ISEParser.Char_namedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitChar_named(@NotNull ISEParser.Char_namedContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEmpty_tag(@NotNull ISEParser.Empty_tagContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEmpty_tag(@NotNull ISEParser.Empty_tagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

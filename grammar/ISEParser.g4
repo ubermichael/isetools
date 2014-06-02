@@ -12,6 +12,7 @@ document : element* ;
 element
   : abbr
   | character
+  | tag
   | content
   ;
 
@@ -46,6 +47,41 @@ character
   | char_typographic
   | char_ligature
   ;
+
+// attributes before tags
+
+attribute
+  : attribute_name TAG_EQ attribute_value
+  | attribute_name
+  ;
+
+attribute_name
+  : TAG_NAME
+  ;
+
+attribute_value
+  : ATTRIBUTE_VALUE
+  ;
+
+// tags
+
+tag
+  : empty_tag
+  | end_tag
+  | start_tag
+  ;
+
+empty_tag
+  : TAG_START tag_name attribute* TAG_SLASH_END ;
+
+end_tag
+  : TAG_START TAG_SLASH tag_name TAG_END ;
+
+start_tag
+  : TAG_START tag_name attribute* TAG_END ;
+
+tag_name
+  : TAG_NAME ;
 
 // content - should be last.
 
