@@ -9,9 +9,9 @@ COMMENT
     : '<!--' .*? '-->'
     ;
 
-SEA_WS
-    :  (' '|'\t'|'\r'? '\n')+
-    ;
+//SEA_WS
+//    :  (' '|'\t'|'\r'? '\n')+
+//    ;
 
 // abbreviations
 ABBR_START : '|' -> pushMode(ABBR) ;
