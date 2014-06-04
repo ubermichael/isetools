@@ -11,6 +11,7 @@ document : element* ;
 
 element
   : abbr
+  | comment
   | character
   | tag
   | content
@@ -21,32 +22,18 @@ element
 abbr
   : ABBR_START ABBR_CONTENT* ABBR_END;
 
+comment
+  : COMMENT
+  | COMMENT_BAD
+  ;
+
+
 // special characters
 
-char_named
-  : CHAR_START (CHAR_NAMED_SINGLE | CHAR_NAMED_DOUBLE) CHAR_END ;
+character : CHAR_START (CHAR_CONTENT | nested_char )* CHAR_END ;
 
-char_spaced
-  : CHAR_START CHAR_SPACE CHAR_END;
+nested_char : NESTED_START NESTED_CONTENT NESTED_END ;
 
-char_typographic
-  : CHAR_START CHAR_TYPOGRAPHIC CHAR_END ;
-
-char_accented
-  : CHAR_START CHAR_ACCENT
-    ( CHAR_TYPOGRAPHIC | CHAR_ALPHA | CHAR_NAMED_SINGLE)
-    CHAR_END;
-
-char_ligature
-  : CHAR_START CHAR_ALPHA+ CHAR_END ;
-
-character
-  : char_named
-  | char_spaced
-  | char_accented
-  | char_typographic
-  | char_ligature
-  ;
 
 // attributes before tags
 
