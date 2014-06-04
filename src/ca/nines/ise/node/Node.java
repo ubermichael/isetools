@@ -13,6 +13,7 @@ package ca.nines.ise.node;
 abstract public class Node {
 
   private int line;
+  private int column;
   private String source;
   private String text;
   private String asl;
@@ -24,7 +25,7 @@ abstract public class Node {
 
   @Override
   public String toString() {
-    return this.tagname() + ":" + this.text;
+    return this.tagname() + ":" + line + ":" + column + ":" + this.text;
   }
 
   /**
@@ -39,6 +40,20 @@ abstract public class Node {
    */
   public void setLine(int line) {
     this.line = line;
+  }
+
+  /**
+   * @return the column
+   */
+  public int getColumn() {
+    return column;
+  }
+
+  /**
+   * @param column the column to set
+   */
+  public void setColumn(int column) {
+    this.column = column;
   }
 
   /**
