@@ -6,6 +6,7 @@
 
 package ca.nines.ise;
 
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.grammar.ISELexer;
 import ca.nines.ise.grammar.ISEParser;
 import ca.nines.ise.node.Node;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 /**
  *
@@ -24,13 +26,19 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    String in = "hel<t n='3'>";
+    String in = "<work genre='cat'>{he}|la|<t n='3'></work>";
     ANTLRInputStream ais = new ANTLRInputStream(in);
     ISELexer lexer = new ISELexer(ais);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
     ISEParser parser = new ISEParser(tokens);
     ParseTree tree = parser.document();
-    System.out.println(tree.toStringTree(parser));
+
+    ParseTreeWalker w = new ParseTreeWalker();
+    DOMBuilder b = new DOMBuilder(parser);
+    w.walk(b, tree);
+    DOM dom = b.getDOM();
+    System.out.println(dom);
+    // System.out.println(tree.toStringTree(parser));
   }
 
 }
