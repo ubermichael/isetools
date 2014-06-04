@@ -15,28 +15,25 @@ public class ISEParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		TAG_NAME=20, TAG_EQ=19, CHAR_TYPOGRAPHIC=12, TAG_END=16, SEA_WS=2, CHAR_NAMED_DOUBLE=11, 
-		CHAR_SPACE=13, TAG_SLASH=18, CHAR_NAMED_SINGLE=10, TAG_START=5, TAG_WS=21, 
-		ATTRIBUTE=23, ABBR_START=3, TAG_SLASH_END=17, ATTRIBUTE_VALUE=22, CHAR_ALPHA=15, 
-		TEXT=6, COMMENT=1, CHAR_ACCENT=14, ABBR_END=7, CHAR_START=4, ABBR_CONTENT=8, 
-		CHAR_END=9;
+		TAG_NAME=18, TAG_EQ=17, NESTED_END=12, CHAR_CONTENT=10, TAG_END=14, NESTED_CONTENT=13, 
+		TAG_SLASH=16, TAG_START=5, TAG_WS=19, ATTRIBUTE=21, COMMENT_BAD=2, ABBR_START=3, 
+		TAG_SLASH_END=15, ATTRIBUTE_VALUE=20, TEXT=6, COMMENT=1, ABBR_END=7, CHAR_START=4, 
+		ABBR_CONTENT=8, CHAR_END=9, NESTED_START=11;
 	public static final String[] tokenNames = {
-		"<INVALID>", "COMMENT", "SEA_WS", "ABBR_START", "'{'", "'<'", "TEXT", 
-		"ABBR_END", "ABBR_CONTENT", "'}'", "CHAR_NAMED_SINGLE", "CHAR_NAMED_DOUBLE", 
-		"CHAR_TYPOGRAPHIC", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_ALPHA", "'>'", 
-		"'/>'", "'/'", "'='", "TAG_NAME", "TAG_WS", "ATTRIBUTE_VALUE", "ATTRIBUTE"
+		"<INVALID>", "COMMENT", "COMMENT_BAD", "ABBR_START", "CHAR_START", "'<'", 
+		"TEXT", "ABBR_END", "ABBR_CONTENT", "CHAR_END", "CHAR_CONTENT", "NESTED_START", 
+		"NESTED_END", "NESTED_CONTENT", "'>'", "'/>'", "'/'", "'='", "TAG_NAME", 
+		"TAG_WS", "ATTRIBUTE_VALUE", "ATTRIBUTE"
 	};
 	public static final int
-		RULE_document = 0, RULE_element = 1, RULE_abbr = 2, RULE_char_named = 3, 
-		RULE_char_spaced = 4, RULE_char_typographic = 5, RULE_char_accented = 6, 
-		RULE_char_ligature = 7, RULE_character = 8, RULE_attribute = 9, RULE_attribute_name = 10, 
-		RULE_attribute_value = 11, RULE_tag = 12, RULE_empty_tag = 13, RULE_end_tag = 14, 
-		RULE_start_tag = 15, RULE_tag_name = 16, RULE_content = 17;
+		RULE_document = 0, RULE_element = 1, RULE_abbr = 2, RULE_comment = 3, 
+		RULE_character = 4, RULE_nested_char = 5, RULE_attribute = 6, RULE_attribute_name = 7, 
+		RULE_attribute_value = 8, RULE_tag = 9, RULE_empty_tag = 10, RULE_end_tag = 11, 
+		RULE_start_tag = 12, RULE_tag_name = 13, RULE_content = 14;
 	public static final String[] ruleNames = {
-		"document", "element", "abbr", "char_named", "char_spaced", "char_typographic", 
-		"char_accented", "char_ligature", "character", "attribute", "attribute_name", 
-		"attribute_value", "tag", "empty_tag", "end_tag", "start_tag", "tag_name", 
-		"content"
+		"document", "element", "abbr", "comment", "character", "nested_char", 
+		"attribute", "attribute_name", "attribute_value", "tag", "empty_tag", 
+		"end_tag", "start_tag", "tag_name", "content"
 	};
 
 	@Override
@@ -86,16 +83,16 @@ public class ISEParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
+			setState(33);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ABBR_START) | (1L << CHAR_START) | (1L << TAG_START) | (1L << TEXT))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT) | (1L << COMMENT_BAD) | (1L << ABBR_START) | (1L << CHAR_START) | (1L << TAG_START) | (1L << TEXT))) != 0)) {
 				{
 				{
-				setState(36); element();
+				setState(30); element();
 				}
 				}
-				setState(41);
+				setState(35);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -113,6 +110,9 @@ public class ISEParser extends Parser {
 	}
 
 	public static class ElementContext extends ParserRuleContext {
+		public CommentContext comment() {
+			return getRuleContext(CommentContext.class,0);
+		}
 		public AbbrContext abbr() {
 			return getRuleContext(AbbrContext.class,0);
 		}
@@ -143,30 +143,37 @@ public class ISEParser extends Parser {
 		ElementContext _localctx = new ElementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_element);
 		try {
-			setState(46);
+			setState(41);
 			switch (_input.LA(1)) {
 			case ABBR_START:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(42); abbr();
+				setState(36); abbr();
+				}
+				break;
+			case COMMENT:
+			case COMMENT_BAD:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(37); comment();
 				}
 				break;
 			case CHAR_START:
-				enterOuterAlt(_localctx, 2);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(43); character();
+				setState(38); character();
 				}
 				break;
 			case TAG_START:
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(44); tag();
+				setState(39); tag();
 				}
 				break;
 			case TEXT:
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 5);
 				{
-				setState(45); content();
+				setState(40); content();
 				}
 				break;
 			default:
@@ -212,21 +219,21 @@ public class ISEParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(48); match(ABBR_START);
-			setState(52);
+			setState(43); match(ABBR_START);
+			setState(47);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==ABBR_CONTENT) {
 				{
 				{
-				setState(49); match(ABBR_CONTENT);
+				setState(44); match(ABBR_CONTENT);
 				}
 				}
-				setState(54);
+				setState(49);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(55); match(ABBR_END);
+			setState(50); match(ABBR_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -240,226 +247,36 @@ public class ISEParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Char_namedContext extends ParserRuleContext {
-		public TerminalNode CHAR_NAMED_DOUBLE() { return getToken(ISEParser.CHAR_NAMED_DOUBLE, 0); }
-		public TerminalNode CHAR_NAMED_SINGLE() { return getToken(ISEParser.CHAR_NAMED_SINGLE, 0); }
-		public TerminalNode CHAR_END() { return getToken(ISEParser.CHAR_END, 0); }
-		public TerminalNode CHAR_START() { return getToken(ISEParser.CHAR_START, 0); }
-		public Char_namedContext(ParserRuleContext parent, int invokingState) {
+	public static class CommentContext extends ParserRuleContext {
+		public TerminalNode COMMENT_BAD() { return getToken(ISEParser.COMMENT_BAD, 0); }
+		public TerminalNode COMMENT() { return getToken(ISEParser.COMMENT, 0); }
+		public CommentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_char_named; }
+		@Override public int getRuleIndex() { return RULE_comment; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_named(this);
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterComment(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_named(this);
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitComment(this);
 		}
 	}
 
-	public final Char_namedContext char_named() throws RecognitionException {
-		Char_namedContext _localctx = new Char_namedContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_char_named);
+	public final CommentContext comment() throws RecognitionException {
+		CommentContext _localctx = new CommentContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_comment);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(57); match(CHAR_START);
-			setState(58);
+			setState(52);
 			_la = _input.LA(1);
-			if ( !(_la==CHAR_NAMED_SINGLE || _la==CHAR_NAMED_DOUBLE) ) {
+			if ( !(_la==COMMENT || _la==COMMENT_BAD) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(59); match(CHAR_END);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Char_spacedContext extends ParserRuleContext {
-		public TerminalNode CHAR_END() { return getToken(ISEParser.CHAR_END, 0); }
-		public TerminalNode CHAR_START() { return getToken(ISEParser.CHAR_START, 0); }
-		public TerminalNode CHAR_SPACE() { return getToken(ISEParser.CHAR_SPACE, 0); }
-		public Char_spacedContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_char_spaced; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_spaced(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_spaced(this);
-		}
-	}
-
-	public final Char_spacedContext char_spaced() throws RecognitionException {
-		Char_spacedContext _localctx = new Char_spacedContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_char_spaced);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(61); match(CHAR_START);
-			setState(62); match(CHAR_SPACE);
-			setState(63); match(CHAR_END);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Char_typographicContext extends ParserRuleContext {
-		public TerminalNode CHAR_TYPOGRAPHIC() { return getToken(ISEParser.CHAR_TYPOGRAPHIC, 0); }
-		public TerminalNode CHAR_END() { return getToken(ISEParser.CHAR_END, 0); }
-		public TerminalNode CHAR_START() { return getToken(ISEParser.CHAR_START, 0); }
-		public Char_typographicContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_char_typographic; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_typographic(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_typographic(this);
-		}
-	}
-
-	public final Char_typographicContext char_typographic() throws RecognitionException {
-		Char_typographicContext _localctx = new Char_typographicContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_char_typographic);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(65); match(CHAR_START);
-			setState(66); match(CHAR_TYPOGRAPHIC);
-			setState(67); match(CHAR_END);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Char_accentedContext extends ParserRuleContext {
-		public TerminalNode CHAR_ACCENT() { return getToken(ISEParser.CHAR_ACCENT, 0); }
-		public TerminalNode CHAR_TYPOGRAPHIC() { return getToken(ISEParser.CHAR_TYPOGRAPHIC, 0); }
-		public TerminalNode CHAR_NAMED_SINGLE() { return getToken(ISEParser.CHAR_NAMED_SINGLE, 0); }
-		public TerminalNode CHAR_ALPHA() { return getToken(ISEParser.CHAR_ALPHA, 0); }
-		public TerminalNode CHAR_END() { return getToken(ISEParser.CHAR_END, 0); }
-		public TerminalNode CHAR_START() { return getToken(ISEParser.CHAR_START, 0); }
-		public Char_accentedContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_char_accented; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_accented(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_accented(this);
-		}
-	}
-
-	public final Char_accentedContext char_accented() throws RecognitionException {
-		Char_accentedContext _localctx = new Char_accentedContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_char_accented);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(69); match(CHAR_START);
-			setState(70); match(CHAR_ACCENT);
-			setState(71);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR_NAMED_SINGLE) | (1L << CHAR_TYPOGRAPHIC) | (1L << CHAR_ALPHA))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			consume();
-			setState(72); match(CHAR_END);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Char_ligatureContext extends ParserRuleContext {
-		public List<TerminalNode> CHAR_ALPHA() { return getTokens(ISEParser.CHAR_ALPHA); }
-		public TerminalNode CHAR_END() { return getToken(ISEParser.CHAR_END, 0); }
-		public TerminalNode CHAR_START() { return getToken(ISEParser.CHAR_START, 0); }
-		public TerminalNode CHAR_ALPHA(int i) {
-			return getToken(ISEParser.CHAR_ALPHA, i);
-		}
-		public Char_ligatureContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_char_ligature; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterChar_ligature(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitChar_ligature(this);
-		}
-	}
-
-	public final Char_ligatureContext char_ligature() throws RecognitionException {
-		Char_ligatureContext _localctx = new Char_ligatureContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_char_ligature);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(74); match(CHAR_START);
-			setState(76); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(75); match(CHAR_ALPHA);
-				}
-				}
-				setState(78); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( _la==CHAR_ALPHA );
-			setState(80); match(CHAR_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -474,21 +291,18 @@ public class ISEParser extends Parser {
 	}
 
 	public static class CharacterContext extends ParserRuleContext {
-		public Char_accentedContext char_accented() {
-			return getRuleContext(Char_accentedContext.class,0);
+		public Nested_charContext nested_char(int i) {
+			return getRuleContext(Nested_charContext.class,i);
 		}
-		public Char_spacedContext char_spaced() {
-			return getRuleContext(Char_spacedContext.class,0);
+		public TerminalNode CHAR_CONTENT(int i) {
+			return getToken(ISEParser.CHAR_CONTENT, i);
 		}
-		public Char_ligatureContext char_ligature() {
-			return getRuleContext(Char_ligatureContext.class,0);
+		public List<TerminalNode> CHAR_CONTENT() { return getTokens(ISEParser.CHAR_CONTENT); }
+		public List<Nested_charContext> nested_char() {
+			return getRuleContexts(Nested_charContext.class);
 		}
-		public Char_typographicContext char_typographic() {
-			return getRuleContext(Char_typographicContext.class,0);
-		}
-		public Char_namedContext char_named() {
-			return getRuleContext(Char_namedContext.class,0);
-		}
+		public TerminalNode CHAR_END() { return getToken(ISEParser.CHAR_END, 0); }
+		public TerminalNode CHAR_START() { return getToken(ISEParser.CHAR_START, 0); }
 		public CharacterContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -505,44 +319,78 @@ public class ISEParser extends Parser {
 
 	public final CharacterContext character() throws RecognitionException {
 		CharacterContext _localctx = new CharacterContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_character);
+		enterRule(_localctx, 8, RULE_character);
+		int _la;
 		try {
-			setState(87);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(54); match(CHAR_START);
+			setState(59);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==CHAR_CONTENT || _la==NESTED_START) {
 				{
-				setState(82); char_named();
+				setState(57);
+				switch (_input.LA(1)) {
+				case CHAR_CONTENT:
+					{
+					setState(55); match(CHAR_CONTENT);
+					}
+					break;
+				case NESTED_START:
+					{
+					setState(56); nested_char();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-				break;
+				}
+				setState(61);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(62); match(CHAR_END);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
 
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(83); char_spaced();
-				}
-				break;
+	public static class Nested_charContext extends ParserRuleContext {
+		public TerminalNode NESTED_END() { return getToken(ISEParser.NESTED_END, 0); }
+		public TerminalNode NESTED_START() { return getToken(ISEParser.NESTED_START, 0); }
+		public TerminalNode NESTED_CONTENT() { return getToken(ISEParser.NESTED_CONTENT, 0); }
+		public Nested_charContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_nested_char; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterNested_char(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitNested_char(this);
+		}
+	}
 
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(84); char_accented();
-				}
-				break;
-
-			case 4:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(85); char_typographic();
-				}
-				break;
-
-			case 5:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(86); char_ligature();
-				}
-				break;
+	public final Nested_charContext nested_char() throws RecognitionException {
+		Nested_charContext _localctx = new Nested_charContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_nested_char);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(64); match(NESTED_START);
+			setState(65); match(NESTED_CONTENT);
+			setState(66); match(NESTED_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -580,23 +428,23 @@ public class ISEParser extends Parser {
 
 	public final AttributeContext attribute() throws RecognitionException {
 		AttributeContext _localctx = new AttributeContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_attribute);
+		enterRule(_localctx, 12, RULE_attribute);
 		try {
-			setState(94);
+			setState(73);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(89); attribute_name();
-				setState(90); match(TAG_EQ);
-				setState(91); attribute_value();
+				setState(68); attribute_name();
+				setState(69); match(TAG_EQ);
+				setState(70); attribute_value();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(93); attribute_name();
+				setState(72); attribute_name();
 				}
 				break;
 			}
@@ -630,11 +478,11 @@ public class ISEParser extends Parser {
 
 	public final Attribute_nameContext attribute_name() throws RecognitionException {
 		Attribute_nameContext _localctx = new Attribute_nameContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_attribute_name);
+		enterRule(_localctx, 14, RULE_attribute_name);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(96); match(TAG_NAME);
+			setState(75); match(TAG_NAME);
 			}
 		}
 		catch (RecognitionException re) {
@@ -666,11 +514,11 @@ public class ISEParser extends Parser {
 
 	public final Attribute_valueContext attribute_value() throws RecognitionException {
 		Attribute_valueContext _localctx = new Attribute_valueContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_attribute_value);
+		enterRule(_localctx, 16, RULE_attribute_value);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98); match(ATTRIBUTE_VALUE);
+			setState(77); match(ATTRIBUTE_VALUE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -710,28 +558,28 @@ public class ISEParser extends Parser {
 
 	public final TagContext tag() throws RecognitionException {
 		TagContext _localctx = new TagContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_tag);
+		enterRule(_localctx, 18, RULE_tag);
 		try {
-			setState(103);
+			setState(82);
 			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(100); empty_tag();
+				setState(79); empty_tag();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(101); end_tag();
+				setState(80); end_tag();
 				}
 				break;
 
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(102); start_tag();
+				setState(81); start_tag();
 				}
 				break;
 			}
@@ -775,27 +623,27 @@ public class ISEParser extends Parser {
 
 	public final Empty_tagContext empty_tag() throws RecognitionException {
 		Empty_tagContext _localctx = new Empty_tagContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_empty_tag);
+		enterRule(_localctx, 20, RULE_empty_tag);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(105); match(TAG_START);
-			setState(106); tag_name();
-			setState(110);
+			setState(84); match(TAG_START);
+			setState(85); tag_name();
+			setState(89);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==TAG_NAME) {
 				{
 				{
-				setState(107); attribute();
+				setState(86); attribute();
 				}
 				}
-				setState(112);
+				setState(91);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(113); match(TAG_SLASH_END);
+			setState(92); match(TAG_SLASH_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -832,14 +680,14 @@ public class ISEParser extends Parser {
 
 	public final End_tagContext end_tag() throws RecognitionException {
 		End_tagContext _localctx = new End_tagContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_end_tag);
+		enterRule(_localctx, 22, RULE_end_tag);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(115); match(TAG_START);
-			setState(116); match(TAG_SLASH);
-			setState(117); tag_name();
-			setState(118); match(TAG_END);
+			setState(94); match(TAG_START);
+			setState(95); match(TAG_SLASH);
+			setState(96); tag_name();
+			setState(97); match(TAG_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -881,27 +729,27 @@ public class ISEParser extends Parser {
 
 	public final Start_tagContext start_tag() throws RecognitionException {
 		Start_tagContext _localctx = new Start_tagContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_start_tag);
+		enterRule(_localctx, 24, RULE_start_tag);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(120); match(TAG_START);
-			setState(121); tag_name();
-			setState(125);
+			setState(99); match(TAG_START);
+			setState(100); tag_name();
+			setState(104);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==TAG_NAME) {
 				{
 				{
-				setState(122); attribute();
+				setState(101); attribute();
 				}
 				}
-				setState(127);
+				setState(106);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(128); match(TAG_END);
+			setState(107); match(TAG_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -933,11 +781,11 @@ public class ISEParser extends Parser {
 
 	public final Tag_nameContext tag_name() throws RecognitionException {
 		Tag_nameContext _localctx = new Tag_nameContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_tag_name);
+		enterRule(_localctx, 26, RULE_tag_name);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(130); match(TAG_NAME);
+			setState(109); match(TAG_NAME);
 			}
 		}
 		catch (RecognitionException re) {
@@ -969,11 +817,11 @@ public class ISEParser extends Parser {
 
 	public final ContentContext content() throws RecognitionException {
 		ContentContext _localctx = new ContentContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_content);
+		enterRule(_localctx, 28, RULE_content);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(132); match(TEXT);
+			setState(111); match(TEXT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -988,40 +836,33 @@ public class ISEParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31\u0089\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\3\2\7\2(\n\2\f\2\16\2+\13\2\3\3\3\3\3\3\3\3\5\3\61\n\3\3\4"+
-		"\3\4\7\4\65\n\4\f\4\16\48\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6"+
-		"\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\t\3\t\6\tO\n\t\r\t\16\tP\3\t\3"+
-		"\t\3\n\3\n\3\n\3\n\3\n\5\nZ\n\n\3\13\3\13\3\13\3\13\3\13\5\13a\n\13\3"+
-		"\f\3\f\3\r\3\r\3\16\3\16\3\16\5\16j\n\16\3\17\3\17\3\17\7\17o\n\17\f\17"+
-		"\16\17r\13\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\7\21~"+
-		"\n\21\f\21\16\21\u0081\13\21\3\21\3\21\3\22\3\22\3\23\3\23\3\23\2\2\24"+
-		"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$\2\4\3\2\f\r\5\2\f\f\16\16"+
-		"\21\21\u0085\2)\3\2\2\2\4\60\3\2\2\2\6\62\3\2\2\2\b;\3\2\2\2\n?\3\2\2"+
-		"\2\fC\3\2\2\2\16G\3\2\2\2\20L\3\2\2\2\22Y\3\2\2\2\24`\3\2\2\2\26b\3\2"+
-		"\2\2\30d\3\2\2\2\32i\3\2\2\2\34k\3\2\2\2\36u\3\2\2\2 z\3\2\2\2\"\u0084"+
-		"\3\2\2\2$\u0086\3\2\2\2&(\5\4\3\2\'&\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3"+
-		"\2\2\2*\3\3\2\2\2+)\3\2\2\2,\61\5\6\4\2-\61\5\22\n\2.\61\5\32\16\2/\61"+
-		"\5$\23\2\60,\3\2\2\2\60-\3\2\2\2\60.\3\2\2\2\60/\3\2\2\2\61\5\3\2\2\2"+
-		"\62\66\7\5\2\2\63\65\7\n\2\2\64\63\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66"+
-		"\67\3\2\2\2\679\3\2\2\28\66\3\2\2\29:\7\t\2\2:\7\3\2\2\2;<\7\6\2\2<=\t"+
-		"\2\2\2=>\7\13\2\2>\t\3\2\2\2?@\7\6\2\2@A\7\17\2\2AB\7\13\2\2B\13\3\2\2"+
-		"\2CD\7\6\2\2DE\7\16\2\2EF\7\13\2\2F\r\3\2\2\2GH\7\6\2\2HI\7\20\2\2IJ\t"+
-		"\3\2\2JK\7\13\2\2K\17\3\2\2\2LN\7\6\2\2MO\7\21\2\2NM\3\2\2\2OP\3\2\2\2"+
-		"PN\3\2\2\2PQ\3\2\2\2QR\3\2\2\2RS\7\13\2\2S\21\3\2\2\2TZ\5\b\5\2UZ\5\n"+
-		"\6\2VZ\5\16\b\2WZ\5\f\7\2XZ\5\20\t\2YT\3\2\2\2YU\3\2\2\2YV\3\2\2\2YW\3"+
-		"\2\2\2YX\3\2\2\2Z\23\3\2\2\2[\\\5\26\f\2\\]\7\25\2\2]^\5\30\r\2^a\3\2"+
-		"\2\2_a\5\26\f\2`[\3\2\2\2`_\3\2\2\2a\25\3\2\2\2bc\7\26\2\2c\27\3\2\2\2"+
-		"de\7\30\2\2e\31\3\2\2\2fj\5\34\17\2gj\5\36\20\2hj\5 \21\2if\3\2\2\2ig"+
-		"\3\2\2\2ih\3\2\2\2j\33\3\2\2\2kl\7\7\2\2lp\5\"\22\2mo\5\24\13\2nm\3\2"+
-		"\2\2or\3\2\2\2pn\3\2\2\2pq\3\2\2\2qs\3\2\2\2rp\3\2\2\2st\7\23\2\2t\35"+
-		"\3\2\2\2uv\7\7\2\2vw\7\24\2\2wx\5\"\22\2xy\7\22\2\2y\37\3\2\2\2z{\7\7"+
-		"\2\2{\177\5\"\22\2|~\5\24\13\2}|\3\2\2\2~\u0081\3\2\2\2\177}\3\2\2\2\177"+
-		"\u0080\3\2\2\2\u0080\u0082\3\2\2\2\u0081\177\3\2\2\2\u0082\u0083\7\22"+
-		"\2\2\u0083!\3\2\2\2\u0084\u0085\7\26\2\2\u0085#\3\2\2\2\u0086\u0087\7"+
-		"\b\2\2\u0087%\3\2\2\2\13)\60\66PY`ip\177";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\27t\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
+		"\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\7\2\"\n\2\f\2\16\2%\13"+
+		"\2\3\3\3\3\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\7\4\60\n\4\f\4\16\4\63\13\4\3"+
+		"\4\3\4\3\5\3\5\3\6\3\6\3\6\7\6<\n\6\f\6\16\6?\13\6\3\6\3\6\3\7\3\7\3\7"+
+		"\3\7\3\b\3\b\3\b\3\b\3\b\5\bL\n\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\5\13"+
+		"U\n\13\3\f\3\f\3\f\7\fZ\n\f\f\f\16\f]\13\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r"+
+		"\3\16\3\16\3\16\7\16i\n\16\f\16\16\16l\13\16\3\16\3\16\3\17\3\17\3\20"+
+		"\3\20\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\3\3\2\3\4q"+
+		"\2#\3\2\2\2\4+\3\2\2\2\6-\3\2\2\2\b\66\3\2\2\2\n8\3\2\2\2\fB\3\2\2\2\16"+
+		"K\3\2\2\2\20M\3\2\2\2\22O\3\2\2\2\24T\3\2\2\2\26V\3\2\2\2\30`\3\2\2\2"+
+		"\32e\3\2\2\2\34o\3\2\2\2\36q\3\2\2\2 \"\5\4\3\2! \3\2\2\2\"%\3\2\2\2#"+
+		"!\3\2\2\2#$\3\2\2\2$\3\3\2\2\2%#\3\2\2\2&,\5\6\4\2\',\5\b\5\2(,\5\n\6"+
+		"\2),\5\24\13\2*,\5\36\20\2+&\3\2\2\2+\'\3\2\2\2+(\3\2\2\2+)\3\2\2\2+*"+
+		"\3\2\2\2,\5\3\2\2\2-\61\7\5\2\2.\60\7\n\2\2/.\3\2\2\2\60\63\3\2\2\2\61"+
+		"/\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2\2\63\61\3\2\2\2\64\65\7\t\2\2\65\7"+
+		"\3\2\2\2\66\67\t\2\2\2\67\t\3\2\2\28=\7\6\2\29<\7\f\2\2:<\5\f\7\2;9\3"+
+		"\2\2\2;:\3\2\2\2<?\3\2\2\2=;\3\2\2\2=>\3\2\2\2>@\3\2\2\2?=\3\2\2\2@A\7"+
+		"\13\2\2A\13\3\2\2\2BC\7\r\2\2CD\7\17\2\2DE\7\16\2\2E\r\3\2\2\2FG\5\20"+
+		"\t\2GH\7\23\2\2HI\5\22\n\2IL\3\2\2\2JL\5\20\t\2KF\3\2\2\2KJ\3\2\2\2L\17"+
+		"\3\2\2\2MN\7\24\2\2N\21\3\2\2\2OP\7\26\2\2P\23\3\2\2\2QU\5\26\f\2RU\5"+
+		"\30\r\2SU\5\32\16\2TQ\3\2\2\2TR\3\2\2\2TS\3\2\2\2U\25\3\2\2\2VW\7\7\2"+
+		"\2W[\5\34\17\2XZ\5\16\b\2YX\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\^"+
+		"\3\2\2\2][\3\2\2\2^_\7\21\2\2_\27\3\2\2\2`a\7\7\2\2ab\7\22\2\2bc\5\34"+
+		"\17\2cd\7\20\2\2d\31\3\2\2\2ef\7\7\2\2fj\5\34\17\2gi\5\16\b\2hg\3\2\2"+
+		"\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2km\3\2\2\2lj\3\2\2\2mn\7\20\2\2n\33\3"+
+		"\2\2\2op\7\24\2\2p\35\3\2\2\2qr\7\b\2\2r\37\3\2\2\2\13#+\61;=KT[j";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

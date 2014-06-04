@@ -17,19 +17,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterChar_ligature(@NotNull ISEParser.Char_ligatureContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitChar_ligature(@NotNull ISEParser.Char_ligatureContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterElement(@NotNull ISEParser.ElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -37,32 +24,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitElement(@NotNull ISEParser.ElementContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterChar_typographic(@NotNull ISEParser.Char_typographicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitChar_typographic(@NotNull ISEParser.Char_typographicContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterChar_accented(@NotNull ISEParser.Char_accentedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitChar_accented(@NotNull ISEParser.Char_accentedContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -89,19 +50,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStart_tag(@NotNull ISEParser.Start_tagContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterChar_spaced(@NotNull ISEParser.Char_spacedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitChar_spaced(@NotNull ISEParser.Char_spacedContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -186,19 +134,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEnd_tag(@NotNull ISEParser.End_tagContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEnd_tag(@NotNull ISEParser.End_tagContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAttribute_value(@NotNull ISEParser.Attribute_valueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -206,6 +141,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAttribute_value(@NotNull ISEParser.Attribute_valueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEnd_tag(@NotNull ISEParser.End_tagContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnd_tag(@NotNull ISEParser.End_tagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -225,13 +173,26 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterChar_named(@NotNull ISEParser.Char_namedContext ctx) { }
+	@Override public void enterNested_char(@NotNull ISEParser.Nested_charContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitChar_named(@NotNull ISEParser.Char_namedContext ctx) { }
+	@Override public void exitNested_char(@NotNull ISEParser.Nested_charContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComment(@NotNull ISEParser.CommentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComment(@NotNull ISEParser.CommentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
