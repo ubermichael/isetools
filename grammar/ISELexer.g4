@@ -5,13 +5,8 @@
  */
 lexer grammar ISELexer;
 
-COMMENT
-    : '<!--' .*? '-->'
-    ;
-
-//SEA_WS
-//    :  (' '|'\t'|'\r'? '\n')+
-//    ;
+COMMENT : '<!--' .*? '-->' ;
+COMMENT_BAD : '<!' .*? '>' ;
 
 // abbreviations
 ABBR_START : '|' -> pushMode(ABBR) ;
@@ -33,12 +28,14 @@ mode CHAR ;
 
 CHAR_END : '}' -> popMode ;
 
-CHAR_NAMED_SINGLE : ( 'c' | 'P' ) ;
-CHAR_NAMED_DOUBLE : ( 'sm' | 'pi' | 'ae' | 'AE' | 'oe' | 'OE' ) ;
-CHAR_TYPOGRAPHIC : ( 's' | 'r' | 'w' | 'W' ) ;
-CHAR_SPACE : [#-\ ] ;
-CHAR_ACCENT : [^"'`_~] ;
-CHAR_ALPHA : [a-zA-Z] ;
+CHAR_CONTENT : ~[{}]+ ;
+
+NESTED_START : '{' -> pushMode(NESTED) ;
+
+mode NESTED ;
+
+NESTED_END : '}' -> popMode;
+NESTED_CONTENT : ~[{}]+ ;
 
 mode TAG ;
 
