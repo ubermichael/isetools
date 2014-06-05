@@ -23,16 +23,22 @@ abbr
   : ABBR_START ABBR_CONTENT* ABBR_END;
 
 comment
-  : COMMENT
-  | COMMENT_BAD
+  : COMMENT         # goodcomment
+  | COMMENT_BAD     # badcomment
   ;
 
 
 // special characters
 
-character : CHAR_START (CHAR_CONTENT | nested_char )* CHAR_END ;
+character 
+  : CHAR_START 
+    ( CHAR_CONTENT 
+    | nested_char 
+    )* 
+  CHAR_END ;
 
-nested_char : NESTED_START NESTED_CONTENT NESTED_END ;
+nested_char 
+  :  NESTED_START NESTED_CONTENT NESTED_END ;
 
 
 // attributes before tags
@@ -53,19 +59,10 @@ attribute_value
 // tags
 
 tag
-  : empty_tag
-  | end_tag
-  | start_tag
+  : TAG_START tag_name attribute* TAG_SLASH_END # emptytag
+  | TAG_START TAG_SLASH tag_name TAG_END        # endtag
+  | TAG_START tag_name attribute* TAG_END       # starttag
   ;
-
-empty_tag
-  : TAG_START tag_name attribute* TAG_SLASH_END ;
-
-end_tag
-  : TAG_START TAG_SLASH tag_name TAG_END ;
-
-start_tag
-  : TAG_START tag_name attribute* TAG_END ;
 
 tag_name
   : TAG_NAME ;
