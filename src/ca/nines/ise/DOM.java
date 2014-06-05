@@ -16,6 +16,7 @@ import java.util.ListIterator;
  */
 public class DOM extends ArrayList<Node> {
 
+  @Override
   public String toString() {
     String s = "";
     ListIterator<Node> i = this.listIterator();
