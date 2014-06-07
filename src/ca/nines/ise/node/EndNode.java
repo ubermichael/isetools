@@ -12,24 +12,12 @@ package ca.nines.ise.node;
  */
 public class EndNode extends TagNode {
 
-  @Override
-  String tagname() {
-    return "#CHAR";
+  public EndNode() {
+    super();
   }
-
-  @Override
-  String expanded() {
-    return getText();
-  }
-
-  @Override
-  String plain() {
-    return getText();
-  }
-
-  @Override
-  String unicode() {
-    return getText();
+  
+  public EndNode(String tagname) {
+    super(tagname);
   }
 
 }

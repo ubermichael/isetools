@@ -6,7 +6,6 @@
 
 package ca.nines.ise.dom;
 
-import ca.nines.ise.DOM;
 import ca.nines.ise.grammar.ISEParser;
 
 import ca.nines.ise.grammar.ISEParser.AbbrContext;
@@ -22,14 +21,14 @@ import org.antlr.v4.runtime.TokenStream;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class DOMBuilder extends ISEParserBaseListener {
+public class Builder extends ISEParserBaseListener {
 
   ISEParser parser;
   TokenStream tokens;
 
   private DOM dom = new DOM();
 
-  public DOMBuilder(ISEParser iseparser) {
+  public Builder(ISEParser iseparser) {
     this.parser = iseparser;
     tokens = iseparser.getTokenStream();
   }

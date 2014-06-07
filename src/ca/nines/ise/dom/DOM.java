@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ca.nines.ise;
+package ca.nines.ise.dom;
 
 import ca.nines.ise.node.Node;
 import java.util.ArrayList;
@@ -27,6 +27,10 @@ public class DOM extends ArrayList<Node> {
     }
 
     return s;
+  }
+  
+  public DOMIterator getIterator() {
+    return new DOMIterator(this);
   }
 
 }

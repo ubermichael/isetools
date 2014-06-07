@@ -12,24 +12,12 @@ package ca.nines.ise.node;
  */
 public class StartNode extends TagNode {
 
-  @Override
-  String tagname() {
-    return "#START";
+  public StartNode() {
+    super();
   }
-
-  @Override
-  String expanded() {
-    return getText();
-  }
-
-  @Override
-  String plain() {
-    return getText();
-  }
-
-  @Override
-  String unicode() {
-    return getText();
+  
+  public StartNode(String tagname) {
+    super(tagname);
   }
 
 }

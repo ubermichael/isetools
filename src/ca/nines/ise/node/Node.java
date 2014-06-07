@@ -6,6 +6,8 @@
 
 package ca.nines.ise.node;
 
+import ca.nines.ise.dom.Fragment;
+
 /**
  *
  * @author Michael Joyce <ubermichael@gmail.com>
@@ -18,14 +20,46 @@ abstract public class Node {
   private String text;
   private String asl;
 
-  abstract String tagname();
-  abstract String expanded();
+  /**
+   * Get the name of the tag that this node came from. For non-tag nodes, this 
+   * is one of
+   * #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
+   * 
+   * @return String
+   */
+  abstract String getName();
+  
+  /**
+   * Expand the node into more tags, if possible and return them.
+   * 
+   * @return DOMFragment
+   */
+  abstract Fragment expanded();
+  
+  /**
+   * Convert the node into plain text. Any unicode text in the node is
+   * untouched and chars are converted into plain text. 
+   * 
+   * @return String
+   */
   abstract String plain();
+  
+  /**
+   * Convert the node into unicode. Any unicode in the node is untouched and
+   * chars are converted into their unicode equivalents
+   * 
+   * @return String
+   */
   abstract String unicode();
 
+  /**
+   * Convert a node to a string, mostly for debugging purposes.
+   * 
+   * @return String
+   */
   @Override
   public String toString() {
-    return this.tagname() + ":" + line + ":" + column + ":" + this.text;
+    return this.getName() + ":" + line + ":" + column + ":" + this.text;
   }
 
   /**

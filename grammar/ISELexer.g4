@@ -14,6 +14,7 @@ ABBR_START : '|' -> pushMode(ABBR) ;
 // special characters
 CHAR_START : '{' -> pushMode(CHAR) ;
 
+// beginning of tags.
 TAG_START : '<' -> pushMode(TAG) ;
 
 // general content.
