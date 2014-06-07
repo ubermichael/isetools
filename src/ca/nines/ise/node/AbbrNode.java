@@ -6,6 +6,8 @@
 
 package ca.nines.ise.node;
 
+import ca.nines.ise.dom.Fragment;
+
 /**
  *
  * @author Michael Joyce <michael@negativespace.net>
@@ -13,13 +15,16 @@ package ca.nines.ise.node;
 public class AbbrNode extends Node {
 
   @Override
-  String tagname() {
+  String getName() {
     return "#ABBR";
   }
 
   @Override
-  String expanded() {
-    return getText();
+  Fragment expanded() {
+    TextNode n = new TextNode();
+    Fragment f = new Fragment();    
+    f.add(n);
+    return f;
   }
 
   @Override

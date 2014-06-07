@@ -6,6 +6,8 @@
 
 package ca.nines.ise.node;
 
+import ca.nines.ise.dom.Fragment;
+
 /**
  *
  * @author Michael Joyce <michael@negativespace.net>
@@ -15,13 +17,16 @@ public class CharNode extends Node {
   private boolean nested = false;
   
   @Override
-  String tagname() {
+  String getName() {
     return "#CHAR";
   }
 
   @Override
-  String expanded() {
-    return getText();
+  Fragment expanded() {
+    TextNode n = new TextNode();
+    Fragment f = new Fragment();    
+    f.add(n);
+    return f;
   }
 
   @Override

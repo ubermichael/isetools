@@ -6,6 +6,8 @@
 
 package ca.nines.ise.node;
 
+import ca.nines.ise.dom.Fragment;
+
 /**
  *
  * @author Michael Joyce <michael@negativespace.net>
@@ -13,13 +15,14 @@ package ca.nines.ise.node;
 public class EOFNode extends Node {
 
   @Override
-  String tagname() {
+  String getName() {
     return "#EOF";
   }
 
   @Override
-  String expanded() {
-    return getText();
+  Fragment expanded() {
+    Fragment f = new Fragment();    
+    return f;
   }
 
   @Override
