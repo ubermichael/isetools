@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
+import java.util.Formatter;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -57,13 +58,20 @@ abstract public class TagNode extends Node {
   }
 
   public String toString() {
-    StringBuilder s = new StringBuilder(super.toString());
-    s.append(":").append(tagname).append('(');
-    for(Map.Entry<String, String> entry : attributes.entrySet()) {
-      s.append('@').append(entry.getKey()).append('=').append(entry.getValue()).append(' ');
+    StringBuilder sb = new StringBuilder(super.toString());
+    Formatter formatter = new Formatter(sb);
+    formatter.format(":%s(", tagname);
+    Iterator i = attributes.keySet().iterator();
+
+    while (i.hasNext()) {
+      String name = (String) i.next();
+      formatter.format("@%s=%s", name, attributes.get(name));
+      if(i.hasNext()) {
+        sb.append(", ");
+      }
     }
-    s.append(')');
-    return s.toString();
+    sb.append(')');
+    return sb.toString();
   }
 
   public String getAttribute(String name) {
