@@ -14,6 +14,10 @@ import ca.nines.ise.dom.Fragment;
  */
 public class CommentNode extends Node {
 
+  public String type() {
+    return "#COMMENT";
+  }
+
   @Override
   String getName() {
     return "#COMMENT";
@@ -22,7 +26,7 @@ public class CommentNode extends Node {
   @Override
   Fragment expanded() {
     TextNode n = new TextNode();
-    Fragment f = new Fragment();    
+    Fragment f = new Fragment();
     f.add(n);
     return f;
   }

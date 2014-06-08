@@ -7,9 +7,14 @@
 package ca.nines.ise;
 
 import ca.nines.ise.dom.*;
-import ca.nines.ise.log.*;
-import ca.nines.ise.node.*;
-import java.util.Iterator;
+import ca.nines.ise.grammar.ISELexer;
+import ca.nines.ise.grammar.ISEParser;
+import ca.nines.ise.node.StartNode;
+import java.io.IOException;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 /**
  *
@@ -17,15 +22,19 @@ import java.util.Iterator;
  */
 public class Main {
 
-  public static void main(String[] args)  {
-    DOM d = new DOM();
-    d.add(new StartNode());
-    d.add(new CommentNode());
-    DOMIterator i = d.getIterator();
-    while(i.hasNext()) {
-      Node n = i.next();
-      System.out.println(n);
-    }
+  public static void main(String[] args) throws IOException {
+    String in = "<work genre='cat' ><t n='3'/>\n</work>";
+    ANTLRInputStream ais = new ANTLRInputStream(in);
+    ISELexer lexer = new ISELexer(ais);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    ISEParser parser = new ISEParser(tokens);
+    ParseTree tree = parser.document();
+
+    ParseTreeWalker w = new ParseTreeWalker();
+    Builder b = new Builder(parser);
+    w.walk(b, tree);
+    DOM dom = b.getDOM();
+    System.out.println(dom);
   }
 
 }

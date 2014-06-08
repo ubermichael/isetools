@@ -21,45 +21,47 @@ abstract public class Node {
   private String asl;
 
   /**
-   * Get the name of the tag that this node came from. For non-tag nodes, this 
+   * Get the name of the tag that this node came from. For non-tag nodes, this
    * is one of
    * #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
-   * 
+   *
    * @return String
    */
   abstract String getName();
-  
+
+  abstract public String type();
+
   /**
    * Expand the node into more tags, if possible and return them.
-   * 
+   *
    * @return DOMFragment
    */
   abstract Fragment expanded();
-  
+
   /**
    * Convert the node into plain text. Any unicode text in the node is
-   * untouched and chars are converted into plain text. 
-   * 
+   * untouched and chars are converted into plain text.
+   *
    * @return String
    */
   abstract String plain();
-  
+
   /**
    * Convert the node into unicode. Any unicode in the node is untouched and
    * chars are converted into their unicode equivalents
-   * 
+   *
    * @return String
    */
   abstract String unicode();
 
   /**
    * Convert a node to a string, mostly for debugging purposes.
-   * 
+   *
    * @return String
    */
   @Override
   public String toString() {
-    return this.getName() + ":" + line + ":" + column + ":" + this.text;
+    return this.type() + ":" + line + ":" + column + ":" + this.text.replaceAll("\n", "\\\\n");
   }
 
   /**

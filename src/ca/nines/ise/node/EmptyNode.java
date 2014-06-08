@@ -15,9 +15,13 @@ public class EmptyNode extends TagNode {
   public EmptyNode() {
     super();
   }
-  
+
   public EmptyNode(String tagname) {
     super(tagname);
+  }
+
+  public String type() {
+    return "#EMPTY";
   }
 
 }

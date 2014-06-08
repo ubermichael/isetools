@@ -5,7 +5,7 @@ options {
 }
 
 // a complete document
-document : element* ;
+document : element+ ;
 
 // elements
 
@@ -23,48 +23,59 @@ abbr
   : ABBR_START ABBR_CONTENT* ABBR_END;
 
 comment
-  : COMMENT         # goodcomment
-  | COMMENT_BAD     # badcomment
+  : COMMENT_GOOD
+  | COMMENT_BAD
   ;
-
 
 // special characters
 
-character 
-  : CHAR_START 
-    ( CHAR_CONTENT 
-    | nested_char 
-    )* 
+character
+  : CHAR_START
+    ( CHAR_CONTENT
+    | nestedChar
+    )*
   CHAR_END ;
 
-nested_char 
+nestedChar
   :  NESTED_START NESTED_CONTENT NESTED_END ;
 
 
 // attributes before tags
 
 attribute
-  : attribute_name TAG_EQ attribute_value
-  | attribute_name
+  : attributeName TAG_EQ attributeValue
+  | attributeName
   ;
 
-attribute_name
+attributeName
   : TAG_NAME
   ;
 
-attribute_value
+attributeValue
   : ATTRIBUTE_VALUE
   ;
 
 // tags
 
-tag
-  : TAG_START tag_name attribute* TAG_SLASH_END # emptytag
-  | TAG_START TAG_SLASH tag_name TAG_END        # endtag
-  | TAG_START tag_name attribute* TAG_END       # starttag
+emptyTag
+  : TAG_START tagName attribute* TAG_SLASH_END
   ;
 
-tag_name
+endTag
+  : TAG_START TAG_SLASH tagName TAG_END
+  ;
+
+startTag
+  : TAG_START tagName attribute* TAG_END
+  ;
+
+tag
+  : emptyTag
+  | endTag
+  | startTag
+  ;
+
+tagName
   : TAG_NAME ;
 
 // content - should be last.

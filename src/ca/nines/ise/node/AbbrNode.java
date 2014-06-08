@@ -14,6 +14,10 @@ import ca.nines.ise.dom.Fragment;
  */
 public class AbbrNode extends Node {
 
+  public String type() {
+    return "#ABBR";
+  }
+
   @Override
   String getName() {
     return "#ABBR";
@@ -22,7 +26,7 @@ public class AbbrNode extends Node {
   @Override
   Fragment expanded() {
     TextNode n = new TextNode();
-    Fragment f = new Fragment();    
+    Fragment f = new Fragment();
     f.add(n);
     return f;
   }
