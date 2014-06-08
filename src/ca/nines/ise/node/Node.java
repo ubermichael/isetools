@@ -7,6 +7,7 @@
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
+import java.util.Formatter;
 
 /**
  *
@@ -61,7 +62,8 @@ abstract public class Node {
    */
   @Override
   public String toString() {
-    return this.type() + ":" + line + ":" + column + ":" + this.text.replaceAll("\n", "\\\\n");
+    Formatter formatter = new Formatter();
+    return formatter.format("%s:%d:%d:%s", this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
   }
 
   /**
