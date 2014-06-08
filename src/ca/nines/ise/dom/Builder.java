@@ -3,29 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.dom;
 
+import ca.nines.ise.grammar.ISELexer;
 import ca.nines.ise.grammar.ISEParser;
 
-import ca.nines.ise.grammar.ISEParser.AbbrContext;
-import ca.nines.ise.grammar.ISEParser.AttributeNameContext;
-import ca.nines.ise.grammar.ISEParser.AttributeValueContext;
-import ca.nines.ise.grammar.ISEParser.CharacterContext;
-import ca.nines.ise.grammar.ISEParser.CommentContext;
-import ca.nines.ise.grammar.ISEParser.ContentContext;
-import ca.nines.ise.grammar.ISEParser.EmptyTagContext;
-import ca.nines.ise.grammar.ISEParser.EndTagContext;
-import ca.nines.ise.grammar.ISEParser.StartTagContext;
-import ca.nines.ise.grammar.ISEParser.TagContext;
-import ca.nines.ise.grammar.ISEParser.TagNameContext;
+import ca.nines.ise.grammar.ISEParser.*;
 import ca.nines.ise.grammar.ISEParserBaseListener;
 
 import ca.nines.ise.node.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.TerminalNode;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 /**
  *
@@ -33,14 +30,33 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  */
 public class Builder extends ISEParserBaseListener {
 
-  private final TokenStream tokens;
-  private final DOM dom = new DOM();
-  private TagNode current_tag;
-  private String currentAttrName;
-  private String currentAttrValue;
+  private final ANTLRInputStream ais;
+  private TokenStream tokens;
 
-  public Builder(ISEParser iseparser) {
-    tokens = iseparser.getTokenStream();
+  private final DOM dom = new DOM();
+  private TagNode currentTag;
+  private String currentAttrName;
+
+  public Builder(String input) {
+    dom.setSource("#STRING");
+    ais = new ANTLRInputStream(input);
+  }
+
+  public Builder(File input) throws FileNotFoundException, IOException {
+    dom.setSource(input.getName());
+    FileReader fr = new FileReader(input);
+    ais = new ANTLRInputStream(fr);
+  }
+
+  public DOM getDOM() {
+    ISELexer lexer = new ISELexer(ais);
+    CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+    ISEParser parser = new ISEParser(tokenStream);
+    ParseTreeWalker ptw = new ParseTreeWalker();
+    tokens = parser.getTokenStream();
+    ParseTree pt = parser.document();
+    ptw.walk(this, pt);
+    return dom;
   }
 
   private Node setupNode(Node n, ParserRuleContext ctx) {
@@ -51,11 +67,7 @@ public class Builder extends ISEParserBaseListener {
     return n;
   }
 
-  public DOM getDOM() {
-    return dom;
-  }
-
-  public void enterAbbr (AbbrContext ctx) {
+  public void enterAbbr(AbbrContext ctx) {
     AbbrNode n = (AbbrNode) setupNode(new AbbrNode(), ctx);
     dom.add(n);
   }
@@ -77,38 +89,37 @@ public class Builder extends ISEParserBaseListener {
 
   public void enterEndTag(EndTagContext ctx) {
     EndNode n = (EndNode) setupNode(new EndNode(), ctx);
-    current_tag = n;
+    currentTag = n;
   }
 
   public void enterEmptyTag(EmptyTagContext ctx) {
     EmptyNode n = (EmptyNode) setupNode(new EmptyNode(), ctx);
-    current_tag = n;
+    currentTag = n;
   }
 
   public void enterStartTag(StartTagContext ctx) {
     StartNode n = (StartNode) setupNode(new StartNode(), ctx);
-    current_tag = n;
+    currentTag = n;
   }
 
   public void enterTagName(TagNameContext ctx) {
     String name = ctx.TAG_NAME().getText();
-    current_tag.setName(name);
+    currentTag.setName(name);
   }
 
   public void enterAttributeName(AttributeNameContext ctx) {
-    currentAttrName =ctx.TAG_NAME().getText();
+    currentAttrName = ctx.TAG_NAME().getText();
   }
 
   public void enterAttributeValue(AttributeValueContext ctx) {
     String value = ctx.ATTRIBUTE_VALUE().getText();
-    current_tag.setAttribute(currentAttrName, value);
+    currentTag.setAttribute(currentAttrName, value);
     currentAttrName = null;
   }
 
   public void exitTag(TagContext ctx) {
-    dom.add(current_tag);
-    current_tag = null;
+    dom.add(currentTag);
+    currentTag = null;
     currentAttrName = null;
-    currentAttrValue = null;
   }
 }

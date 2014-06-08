@@ -7,14 +7,6 @@
 package ca.nines.ise;
 
 import ca.nines.ise.dom.*;
-import ca.nines.ise.grammar.ISELexer;
-import ca.nines.ise.grammar.ISEParser;
-import ca.nines.ise.node.StartNode;
-import java.io.IOException;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 /**
  *
@@ -22,17 +14,10 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
  */
 public class Main {
 
-  public static void main(String[] args) throws IOException {
-    String in = "<work genre='cat' ><t n='3'/>\n</work>";
-    ANTLRInputStream ais = new ANTLRInputStream(in);
-    ISELexer lexer = new ISELexer(ais);
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-    ISEParser parser = new ISEParser(tokens);
-    ParseTree tree = parser.document();
+  public static void main(String[] args) {
+    String in = "<work genre='cat'><t n='3'/>\n</work>";
+    Builder b = new Builder(in);
 
-    ParseTreeWalker w = new ParseTreeWalker();
-    Builder b = new Builder(parser);
-    w.walk(b, tree);
     DOM dom = b.getDOM();
     System.out.println(dom);
   }
