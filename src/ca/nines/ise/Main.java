@@ -7,6 +7,8 @@
 package ca.nines.ise;
 
 import ca.nines.ise.dom.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
@@ -15,8 +17,17 @@ import ca.nines.ise.dom.*;
 public class Main {
 
   public static void main(String[] args) {
-    String in = "<work genre='cat'><t n='3'/>\n</work>";
-    Builder b = new Builder(in);
+//    String in = "<work genre='cat'><t n='3'/>\n</work>";
+    File in = new File("data/sgml/withTitlePage/Oth/Oth_F1.txt");
+    Builder b = null;
+    try {
+      b = new Builder(in);
+    } catch (IOException ex) {
+      System.err.print("Cannot open file '" + in + "': ");
+      System.err.println(ex.getMessage());
+      System.err.println("Stopped.");
+      System.exit(0);
+    }
 
     DOM dom = b.getDOM();
     System.out.println(dom);
