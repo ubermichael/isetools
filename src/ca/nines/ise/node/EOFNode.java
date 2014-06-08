@@ -14,6 +14,10 @@ import ca.nines.ise.dom.Fragment;
  */
 public class EOFNode extends Node {
 
+  public String type() {
+    return "#EOF";
+  }
+
   @Override
   String getName() {
     return "#EOF";
@@ -21,7 +25,7 @@ public class EOFNode extends Node {
 
   @Override
   Fragment expanded() {
-    Fragment f = new Fragment();    
+    Fragment f = new Fragment();
     return f;
   }
 

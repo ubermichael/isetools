@@ -14,6 +14,10 @@ import ca.nines.ise.dom.Fragment;
  */
 public class TextNode extends Node {
 
+  public String type() {
+    return "#TEXT";
+  }
+
   @Override
   String getName() {
     return "#TEXT";
@@ -21,7 +25,7 @@ public class TextNode extends Node {
 
   @Override
   Fragment expanded() {
-    Fragment f = new Fragment();    
+    Fragment f = new Fragment();
     f.add(this);
     return f;
   }

@@ -15,9 +15,13 @@ public class StartNode extends TagNode {
   public StartNode() {
     super();
   }
-  
+
   public StartNode(String tagname) {
     super(tagname);
+  }
+
+  public String type() {
+    return "#START";
   }
 
 }

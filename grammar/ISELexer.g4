@@ -5,7 +5,7 @@
  */
 lexer grammar ISELexer;
 
-COMMENT : '<!--' .*? '-->' ;
+COMMENT_GOOD : '<!--' .*? '-->' ;
 COMMENT_BAD : '<!' .*? '>' ;
 
 // abbreviations
@@ -61,7 +61,7 @@ TAG_NAME
   ;
 
 TAG_WS
-  : [ \r\t\n] -> skip
+  : [ \r\t\n]+ -> skip
   ;
 
 mode ATTR ;

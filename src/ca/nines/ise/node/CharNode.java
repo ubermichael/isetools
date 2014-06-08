@@ -15,7 +15,11 @@ import ca.nines.ise.dom.Fragment;
 public class CharNode extends Node {
 
   private boolean nested = false;
-  
+
+  public String type() {
+    return "#CHAR";
+  }
+
   @Override
   String getName() {
     return "#CHAR";
@@ -24,7 +28,7 @@ public class CharNode extends Node {
   @Override
   Fragment expanded() {
     TextNode n = new TextNode();
-    Fragment f = new Fragment();    
+    Fragment f = new Fragment();
     f.add(n);
     return f;
   }

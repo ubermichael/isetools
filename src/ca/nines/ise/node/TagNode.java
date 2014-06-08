@@ -8,6 +8,7 @@ package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,11 +18,11 @@ abstract public class TagNode extends Node {
 
   private final LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
   private String tagname;
-  
+
   public TagNode() {
     this.tagname = "";
   }
-  
+
   /**
    *
    * @param tagname
@@ -29,18 +30,18 @@ abstract public class TagNode extends Node {
   public TagNode(String tagname) {
     this.tagname = tagname;
   }
-  
-  public String setName(String name) {    
+
+  public String setName(String name) {
     return this.tagname = name;
   }
-  
+
   public String getName() {
     return tagname;
   }
-  
+
   @Override
   Fragment expanded() {
-    Fragment f = new Fragment();    
+    Fragment f = new Fragment();
     f.add(this);
     return f;
   }
@@ -56,19 +57,26 @@ abstract public class TagNode extends Node {
   }
 
   public String toString() {
-    return super.toString() + ":" + tagname;
+    StringBuilder s = new StringBuilder(super.toString());
+    s.append(":").append(tagname).append('(');
+    for(Map.Entry<String, String> entry : attributes.entrySet()) {
+      s.append('@').append(entry.getKey()).append('=').append(entry.getValue()).append(' ');
+    }
+    s.append(')');
+    return s.toString();
   }
-  
+
   public String getAttribute(String name) {
     return (String) attributes.get(name);
   }
-  
+
   public void setAttribute(String name, String value) {
     attributes.put(name, value);
   }
-  
+
   public String[] attributeNames() {
-    return (String[]) attributes.keySet().toArray();
+    String[] names = (String[]) attributes.keySet().toArray();
+    return names;
   }
-  
+
 }
