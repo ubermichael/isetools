@@ -20,6 +20,7 @@ abstract public class Node {
   private String source;
   private String text;
   private String asl;
+  private String tln;
 
   /**
    * Get the name of the tag that this node came from. For non-tag nodes, this
@@ -134,6 +135,20 @@ abstract public class Node {
    */
   public void setAsl(String asl) {
     this.asl = asl;
+  }
+
+  /**
+   * @return the tln
+   */
+  public String getTln() {
+    return tln;
+  }
+
+  /**
+   * @param tln the tln to set
+   */
+  public void setTln(String tln) {
+    this.tln = tln;
   }
 
 }

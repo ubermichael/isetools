@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.log;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Message {
 
-  private String code = "unknown";
+  private String code = "(unknown)";
   private String component = "(unknown)";
   private String TLN = "(unknown)";
   private String source = "(unknown)";
@@ -23,16 +22,24 @@ public class Message {
   private char severity = 'U';
   private ArrayList<String> notes = new ArrayList<>();
 
+  Message(String code) {
+    if (code == null) {
+      this.code = "(unknown)";
+    } else {
+      this.code = code;
+    }
+  }
+
   @Override
   public String toString() {
     String s = source + ":" + line + ":" + column + ":" + code + "\n";
     s += "  near TLN " + TLN + "\n";
-    for(String note : notes) {
+    for (String note : notes) {
       s += "  " + note;
     }
     return s;
   }
-  
+
   /**
    * @return the code
    */
@@ -141,7 +148,6 @@ public class Message {
   /**
    * @param note the note to add
    */
-  
   public void addNote(String note) {
     notes.add(note);
   }
