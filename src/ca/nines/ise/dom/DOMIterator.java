@@ -13,14 +13,14 @@ import java.util.Iterator;
  *
  * @author michael
  */
-public class DOMIterator implements java.util.Iterator {
+public class DOMIterator implements java.util.Iterator<Node> {
 
-  Iterator i;
-  
+  private final Iterator<Node> i;
+
   public DOMIterator(DOM d) {
     i = d.iterator();
   }
-  
+
   @Override
   public boolean hasNext() {
     return i.hasNext();
@@ -35,5 +35,5 @@ public class DOMIterator implements java.util.Iterator {
   public void remove() {
     i.remove();
   }
-  
+
 }

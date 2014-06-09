@@ -80,6 +80,7 @@ public class Builder extends ISEParserBaseListener {
 
   private Node setupNode(Node n, ParserRuleContext ctx) {
     Token t = ctx.getStart();
+    n.setSource(dom.getSource());
     n.setLine(t.getLine());
     n.setColumn(t.getCharPositionInLine());
     n.setText(tokens.getText(ctx.getSourceInterval()));
