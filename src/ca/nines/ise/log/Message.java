@@ -6,6 +6,7 @@
 package ca.nines.ise.log;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 
 /**
  *
@@ -33,10 +34,11 @@ public class Message {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(source + ":" + line + ":" + column + ":" + code + "\n");
-    sb.append("  near TLN " + TLN + "\n");
+    Formatter formatter = new Formatter(sb);
+    formatter.format("%s:%d:%d:%s%n", source, line, column, code);
+    formatter.format("  near TLN %s%n", TLN);
     for (String note : notes) {
-      sb.append("  " + note);
+      formatter.format("    * %s%n", note);
     }
     return sb.toString();
   }
