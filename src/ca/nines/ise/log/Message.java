@@ -32,12 +32,13 @@ public class Message {
 
   @Override
   public String toString() {
-    String s = source + ":" + line + ":" + column + ":" + code + "\n";
-    s += "  near TLN " + TLN + "\n";
+    StringBuilder sb = new StringBuilder();
+    sb.append(source + ":" + line + ":" + column + ":" + code + "\n");
+    sb.append("  near TLN " + TLN + "\n");
     for (String note : notes) {
-      s += "  " + note;
+      sb.append("  " + note);
     }
-    return s;
+    return sb.toString();
   }
 
   /**
