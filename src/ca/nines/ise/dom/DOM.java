@@ -9,7 +9,6 @@ package ca.nines.ise.dom;
 import ca.nines.ise.node.Node;
 import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.ListIterator;
 
 /**
  *
@@ -26,13 +25,13 @@ public class DOM extends ArrayList<Node> {
   protected void setSource(String source) {
     this.source = source;
   }
-
+  
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
 
-    ListIterator<Node> i = this.listIterator();
+    DOMIterator i = this.getIterator();
 
     while(i.hasNext()) {
       Node n = i.next();

@@ -33,8 +33,8 @@ import org.xml.sax.SAXException;
  */
 public class TagValidator {
 
-  private Schema schema;
-  private Log log;
+  private final Schema schema;
+  private final Log log;
 
   public TagValidator() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     log = Log.getInstance();
@@ -83,7 +83,6 @@ public class TagValidator {
 
   public void validate(DOM dom) throws Exception {
     DOMIterator iterator = dom.getIterator();
-    String tln = null;
     while(iterator.hasNext()) {
       Node n = iterator.next();
       switch(n.type()) {
