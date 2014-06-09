@@ -7,6 +7,7 @@
 package ca.nines.ise.log;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 
 /**
  *
@@ -39,12 +40,13 @@ public class Log {
 
   @Override
   public String toString() {
-    String s = "";
+    StringBuilder sb = new StringBuilder();
+    Formatter formatter = new Formatter(sb);
+    
     for(Message message : messages) {
-      s += message;
-      s += "\n";
+      formatter.format("%s%n", message);
     }
-    return s;
+    return sb.toString();
   }
 
 }

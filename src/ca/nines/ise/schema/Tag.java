@@ -69,6 +69,7 @@ public class Tag {
     return attributes.get(name.toUpperCase());
   }
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
