@@ -1,0 +1,245 @@
+<!-- ISE Tools schema for the Internet Shakespeare Editions (the mothership). -->
+
+<schema edition="default" group="default">
+  <tags>
+    <tag name="ACT" namespace="s">
+      <attribute name="n" type="number"/>
+    </tag>
+    <tag name="ABBR" namespace="t">
+      <attribute name="expan" type="string"/>
+    </tag>
+    <tag name="BACKMATTER" namespace="s"/>
+    <tag name="BLL" namespace="t" where="oldspelling"/>
+    <tag name="BR" namespace="p" empty="empty"/>
+    <tag name="C" namespace="t"/>
+    <tag name="CL" namespace="s"/>
+    <tag name="COL" namespace="p">
+      <attribute name="n" type="select">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+      </attribute>
+    </tag>
+    <tag name="CW" namespace="p"/>
+    <tag name="DIV" namespace="s">
+      <attribute name="link" type="string" optional="optional" depreciated="Link attributes should be dropped from the text."/>
+      <attribute name="name" type="select">
+        <option>Argument</option>
+        <option>Colophon</option>
+        <option>Dedication</option>
+        <option>Disposition of the Characters</option>
+        <option>Dumb Show</option>
+        <option>Epilogue</option>
+        <option>Epistle [1]</option>
+        <option>Epistle [2]</option>
+        <option>Epistle</option>
+        <option>Introduction</option>
+        <option>List of Characters</option>
+        <option>Prologue</option>
+        <option>The Names of the Actors</option>
+        <option>Titlepage [1]</option>
+        <option>Titlepage [2]</option>
+        <option>Titlepage</option>
+      </attribute>
+    </tag>
+    <tag name="EM" namespace="t"/>
+    <tag name="EPILOGUE" namespace="" depreciated="Use BACKMATTER and DIV instead."/>
+    <tag name="FONTGROUP" namespace="t">
+      <attribute name="n" type="match" match="^[1-6]$" renumber="no" />
+    </tag>
+    <tag name="FOREIGN" namespace="a">
+      <attribute name="lang" type="string"/>
+    </tag>
+    <tag name="FRONTMATTER" namespace="s"/>
+    <tag name="H1" namespace="t" depreciated="Use LD instead."/>
+    <tag name="H2" namespace="t" depreciated="Use LD instead."/>
+    <tag name="H3" namespace="t" depreciated="Use LD instead."/>
+    <tag name="H4" namespace="t" depreciated="Use LD instead."/>
+    <tag name="H5" namespace="t" depreciated="Use LD instead."/>
+    <tag name="H6" namespace="t" depreciated="Use LD instead."/>
+    <tag name="HW" namespace="p">
+      <attribute name="t" type="select">
+        <option>prev</option>
+        <option>next</option>
+      </attribute>
+    </tag>
+    <tag name="iembed" namespace="*">
+      <attribute name="site" type="string" optional="optional" />
+      <attribute name="component" type="select" optional="optional">
+        <option>imagedb</option>
+        <option>text</option>
+        <option>slt</option>
+        <option>sip</option>
+        <option>facsimile</option>
+        <option>link</option>
+        <option>static</option>
+      </attribute>
+      <attribute name="href" type="string" />
+      <attribute name="showCaption" type="select" optional="optional">
+        <option>true</option>
+        <option>false</option>
+      </attribute>
+      <attribute name="height" type="number" optional="optional" />
+      <attribute name="width" type="number" optional="optional" />
+      <attribute name="align" type="select" optional="optional">
+        <option>left</option>
+        <option>center</option>
+        <option>right</option>
+        <option>lightbox</option>
+        <option>auto</option>
+      </attribute>
+      <attribute name="lightbox" type="string" optional="optional" />
+      <attribute name="longCaption" type="string" optional="optional" />
+    </tag>
+    <tag name="ilink" namespace="*">
+      <attribute name="site" type="string" optional="optional" />
+      <attribute name="component" type="select" optional="optional">
+        <option>imagedb</option>
+        <option>text</option>
+        <option>slt</option>
+        <option>sip</option>
+        <option>facsimile</option>
+        <option>link</option>
+        <option>static</option>
+      </attribute>
+      <attribute name="href" type="string" />
+    </tag>
+    <tag name="I" namespace="t"/>
+    <tag name="INDENT" namespace="t">
+      <attribute name="n" type="number" renumber="no" />
+    </tag>
+    <tag name="iseHeader" namespace="*"/>
+    <tag name="J" namespace="t"/>
+    <tag name="L" namespace="p" empty="empty">
+      <attribute name="n" type="number" optional="optional" empty="empty" />
+      <attribute name="part" type="select" optional="optional">
+        <option>i</option>
+        <option>m</option>
+        <option>f</option>
+      </attribute>
+    </tag>
+    <tag name="LD" namespace="s"/>
+    <tag name="LINEGROUP" namespace="a">
+      <attribute name="form" type="select">
+        <option>couplet</option>
+        <option>coupletSequence</option>
+        <option>sonnet</option>
+        <option>quatrain</option>
+        <option>rhymeSequence</option>
+      </attribute>
+      <attribute name="rhyme" type="string"/>
+    </tag>
+    <tag name="LINK" namespace="*" empty="empty">
+      <attribute name="rel" type="string" optional="optional"/>
+      <attribute name="rev" type="string" optional="optional"/>
+      <attribute name="href" type="string" optional="optional"/>
+      <attribute name="order" type="number" optional="optional"/>
+    </tag>
+    <tag name="LN" namespace="a"/>
+    <tag name="LS" namespace='t'/>
+    <tag name="MARG" namespace="a">
+      <attribute name="loc" type="select">
+        <option>left</option>
+        <option>right</option>
+      </attribute>
+    </tag>
+    <tag name="META" namespace="*" empty="empty">
+      <attribute name="name" type="string"/>
+      <attribute name="content" type="string" empty="empty"/>
+      <attribute name="scheme" type="string" optional="optional"/>
+    </tag>
+    <tag name="MODE" namespace="a">
+      <attribute name="t" type="select">
+        <option>prose</option>
+        <option>verse</option>
+        <option>uncertain</option>
+      </attribute>
+    </tag>
+    <tag name="note" namespace="*" />
+    <tag name="ORNAMENT" namespace="t" empty="optional">
+      <attribute name="drop" type="number" optional="optional" />
+      <attribute name="letter" type="string" optional="optional" />
+    </tag>
+    <tag name="PAGE" namespace="p">
+      <attribute name="n" type="number"/>
+    </tag>
+    <tag name="PN" namespace="p">
+      <attribute name="n" type="number" optional="optional" renumber="no" />
+    </tag>
+    <tag name="PROLOGUE" namespace="" depreciated="Use FRONTMATTER and DIV instead."/>
+    <tag name="PROP" namespace="s" empty="optional">
+      <attribute name="item" type="string" optional="optional"/>
+      <attribute name="desc" type="string" optional="optional"/>
+    </tag>
+    <tag name="PROSEQUOTE" namespace="a">
+      <attribute name="source" type="string" optional="optional"/>
+    </tag>
+    <tag name="QLN" namespace="*" empty="empty" where="quarto">
+      <attribute name="n" type="number"/>
+    </tag>
+    <tag name="R" namespace="t"/>
+    <tag name="RA" namespace="t"/>
+    <tag name="RT" namespace="p"/>
+    <tag name="RULE" namespace="t" empty="empty">
+      <attribute name="n" type="number" optional="optional" empty="empty" renumber="no"/>
+    </tag>
+    <tag name="S" namespace="s"/>
+    <tag name="SCENE" namespace="s">
+      <attribute name="n" type="number"/>
+      <attribute name="link" type="string" optional="optional" depreciated="Link attributes should be dropped from the text."/>
+    </tag>
+    <tag name="SD" namespace="s">
+      <attribute name="t" type="list">
+        <option>entrance</option>
+        <option>exit</option>
+        <option>setting</option>
+        <option>sound</option>
+        <option>delivery</option>
+        <option>whoto</option>
+        <option>action</option>
+        <option>location</option>
+        <option>other</option>
+        <option>optional</option>
+        <option>uncertain</option>
+      </attribute>
+    </tag>
+    <tag name="SIG" namespace="s">
+      <attribute name="n" type="string" optional="optional" renumber="no" />
+    </tag>
+    <tag name="SP" namespace="s">
+      <attribute name="norm" type="string"/>
+    </tag>
+    <tag name="SPACE" namespace="t" empty="empty">
+      <attribute name="n" type="number" optional="optional" renumber="no" />
+    </tag>
+    <tag name="STANZA" namespace="s">
+      <attribute name="n" type="number" />
+    </tag>
+    <tag name="SUB" namespace="t"/>
+    <tag name="SUP" namespace="t"/>
+    <tag name="SWASH" namespace="t">
+      <attribute name="where" type="select">
+        <option>before</option>
+        <option>after</option>
+        <option>both</option>
+      </attribute>
+    </tag>
+    <tag name="TITLEHEAD" namespace="t"/>
+    <tag name="TLN" namespace="*" empty="empty">
+      <attribute name="n" type="number"/>
+    </tag>
+    <tag name="VERSEQUOTE" namespace="a">
+      <attribute name="source" type="string" optional="optional"/>
+    </tag>
+    <tag name="WORK" namespace="*">
+      <attribute name="genre" type="select" default="unknown" depreciated="Use ISE.DocumentType metadata instead.">
+        <option>play</option>
+        <option>poem</option>
+        <option>collection</option>
+        <option>essay</option>
+        <option>document</option>
+        <option>unknown</option>
+      </attribute>
+    </tag>
+  </tags>
+</schema>
