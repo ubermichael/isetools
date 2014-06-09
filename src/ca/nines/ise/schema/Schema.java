@@ -7,6 +7,7 @@
 package ca.nines.ise.schema;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.xml.parsers.DocumentBuilder;
@@ -37,7 +38,8 @@ public class Schema {
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     DocumentBuilder builder = factory.newDocumentBuilder();
-    Document document = builder.parse("default.xml");
+    InputStream in = Class.class.getResourceAsStream("/resources/schemas/default.xml");
+    Document document = builder.parse(in);
 
     XPathFactory xpfactory = XPathFactory.newInstance();
     XPath xpath = xpfactory.newXPath();

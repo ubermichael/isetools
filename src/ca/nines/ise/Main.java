@@ -25,7 +25,12 @@ public class Main {
 
   public static void main(String[] args) {
     try {
-      File in = new File("data/sgml/withTitlePage/Oth/Oth_F1.txt");
+      String filepath = "data/sgml/withTitlePage/Oth/Oth_F1.txt";
+
+      if(args.length == 1) {
+        filepath = args[0];
+      }
+      File in = new File(filepath);
       DOM dom = new Builder(in).getDOM();
       TagValidator tv = new TagValidator();
       Log log = Log.getInstance();
