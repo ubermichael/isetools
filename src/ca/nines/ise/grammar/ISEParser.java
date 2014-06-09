@@ -1,4 +1,4 @@
-// Generated from grammar/ISEParser.g4 by ANTLR 4.2.2
+// Generated from src/ca/nines/ise/grammar/ISEParser.g4 by ANTLR 4.2.2
 package ca.nines.ise.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;

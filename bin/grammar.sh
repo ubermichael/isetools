@@ -2,13 +2,13 @@
 
 export CLASSPATH=$CLASSPATH:lib/antlr-4.2.2-complete.jar
 
-dir=src/ca/nines/ise/
-lib=src/ca/nines/ise/grammar
 pkg=ca.nines.ise.grammar
+dir=src/ca/nines/ise/grammar
 
-lexer=grammar/ISELexer.g4
-parser=grammar/ISEParser.g4
+lexer=ISELexer.g4
+parser=ISEParser.g4
 
-rm $lib/*
-java org.antlr.v4.Tool -o $dir -package $pkg -lib $lib $lexer
-java org.antlr.v4.Tool -o $dir -package $pkg -lib $lib $parser
+rm -f $dir/*.java
+rm -f $dir/*.tokens
+java org.antlr.v4.Tool -o . -package $pkg -lib $dir -encoding UTF-8 $dir/ISELexer.g4 
+java org.antlr.v4.Tool -o . -package $pkg -lib $dir -encoding UTF-8 $dir/ISEParser.g4 

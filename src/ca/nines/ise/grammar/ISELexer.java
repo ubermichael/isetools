@@ -1,4 +1,4 @@
-// Generated from grammar/ISELexer.g4 by ANTLR 4.2.2
+// Generated from src/ca/nines/ise/grammar/ISELexer.g4 by ANTLR 4.2.2
 package ca.nines.ise.grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
