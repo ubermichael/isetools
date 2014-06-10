@@ -64,7 +64,7 @@ abstract public class Node {
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%d:%d:%s", this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
+    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
   }
 
   /**
