@@ -70,12 +70,10 @@ public class Builder extends ISEParserBaseListener {
   public DOM getDOM() {
     ParserErrorListener parseErr = new ParserErrorListener();
     parseErr.setSource(dom.getSource());
-    LexerErrorListener lexerErr = new LexerErrorListener();
-    lexerErr.setSource(dom.getSource());
-    
+
     ISELexer lexer = new ISELexer(ais);
     lexer.removeErrorListeners();
-    lexer.addErrorListener(lexerErr);
+    lexer.addErrorListener(parseErr);
     
     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
     

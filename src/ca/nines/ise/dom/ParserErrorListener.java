@@ -5,6 +5,8 @@
  */
 package ca.nines.ise.dom;
 
+import ca.nines.ise.log.Log;
+import ca.nines.ise.log.Message;
 import java.awt.Color;
 import java.awt.Container;
 import java.util.Collections;
@@ -27,6 +29,7 @@ import org.antlr.v4.runtime.Token;
 public class ParserErrorListener extends BaseErrorListener {
 
   private String source = "";
+  private Log log = Log.getInstance();
   
   @Override
   public void syntaxError(
@@ -37,16 +40,11 @@ public class ParserErrorListener extends BaseErrorListener {
           String msg,
           RecognitionException e) {
     
-    List<String> stack = ((Parser) recognizer).getRuleInvocationStack();
-    Collections.reverse(stack);
-
-    StringBuilder buf = new StringBuilder();
-    Formatter f = new Formatter(buf);
-    f.format("%s:%s:%s:%s%n", source, line, charPositionInLine, msg);
-    buf.append("rule stack: ").append(stack).append(" ");
-    buf.append(e);
-    
-    System.out.println(buf.toString());
+    Message m = log.add("parser.grammar");
+    m.setLine(line);
+    m.setColumn(charPositionInLine);
+    m.setSource(source);
+    m.addNote(msg);
   }
 
   /**
