@@ -62,15 +62,27 @@ public class Builder extends ISEParserBaseListener {
   }
 
   public Builder(File input) throws FileNotFoundException, IOException {
-    dom.setSource(input.getName());
+    dom.setSource(input.getAbsolutePath());
     FileReader fr = new FileReader(input);
     ais = new ANTLRInputStream(fr);
   }
 
   public DOM getDOM() {
+    ParserErrorListener parseErr = new ParserErrorListener();
+    parseErr.setSource(dom.getSource());
+    LexerErrorListener lexerErr = new LexerErrorListener();
+    lexerErr.setSource(dom.getSource());
+    
     ISELexer lexer = new ISELexer(ais);
+    lexer.removeErrorListeners();
+    lexer.addErrorListener(lexerErr);
+    
     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+    
     ISEParser parser = new ISEParser(tokenStream);
+    parser.removeErrorListeners();
+    parser.addErrorListener(parseErr);
+    
     ParseTreeWalker ptw = new ParseTreeWalker();
     tokens = parser.getTokenStream();
     ParseTree pt = parser.document();
