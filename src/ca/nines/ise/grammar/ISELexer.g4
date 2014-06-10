@@ -57,7 +57,7 @@ TAG_EQ
   ;
 
 TAG_NAME
-  : [a-zA-Z]+
+  : [a-zA-Z] [a-zA-Z0-9]*
   ;
 
 TAG_WS
