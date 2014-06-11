@@ -43,7 +43,7 @@
       </attribute>
     </tag>
     <tag name="EM" namespace="t"/>
-    <tag name="EPILOGUE" namespace="" depreciated="Use BACKMATTER and DIV instead."/>
+    <tag name="EPILOGUE" namespace="" depreciated="Use BACKMATTER or DIV instead of EPILOGUE"/>
     <tag name="FONTGROUP" namespace="t">
       <attribute name="n" type="match" match="^[1-6]$" renumber="no" />
     </tag>
@@ -51,12 +51,12 @@
       <attribute name="lang" type="string"/>
     </tag>
     <tag name="FRONTMATTER" namespace="s"/>
-    <tag name="H1" namespace="t" depreciated="Use LD instead."/>
-    <tag name="H2" namespace="t" depreciated="Use LD instead."/>
-    <tag name="H3" namespace="t" depreciated="Use LD instead."/>
-    <tag name="H4" namespace="t" depreciated="Use LD instead."/>
-    <tag name="H5" namespace="t" depreciated="Use LD instead."/>
-    <tag name="H6" namespace="t" depreciated="Use LD instead."/>
+    <tag name="H1" namespace="t" depreciated="Use LD instead of H1."/>
+    <tag name="H2" namespace="t" depreciated="Use LD instead of H2."/>
+    <tag name="H3" namespace="t" depreciated="Use LD instead of H3."/>
+    <tag name="H4" namespace="t" depreciated="Use LD instead of H4."/>
+    <tag name="H5" namespace="t" depreciated="Use LD instead of H5."/>
+    <tag name="H6" namespace="t" depreciated="Use LD instead of H6."/>
     <tag name="HW" namespace="p">
       <attribute name="t" type="select">
         <option>prev</option>
@@ -166,7 +166,7 @@
     <tag name="PN" namespace="p">
       <attribute name="n" type="number" optional="optional" renumber="no" />
     </tag>
-    <tag name="PROLOGUE" namespace="" depreciated="Use FRONTMATTER and DIV instead."/>
+    <tag name="PROLOGUE" namespace="" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE"/>
     <tag name="PROP" namespace="s" empty="optional">
       <attribute name="item" type="string" optional="optional"/>
       <attribute name="desc" type="string" optional="optional"/>
@@ -232,14 +232,7 @@
       <attribute name="source" type="string" optional="optional"/>
     </tag>
     <tag name="WORK" namespace="*">
-      <attribute name="genre" type="select" default="unknown" depreciated="Use ISE.DocumentType metadata instead.">
-        <option>play</option>
-        <option>poem</option>
-        <option>collection</option>
-        <option>essay</option>
-        <option>document</option>
-        <option>unknown</option>
-      </attribute>
+      <attribute name="genre" type="string" empty="empty" optional="optional" depreciated="Use metadata instead of the genre attribute."/>
     </tag>
   </tags>
 </schema>
