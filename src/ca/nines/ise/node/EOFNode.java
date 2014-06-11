@@ -19,23 +19,23 @@ public class EOFNode extends Node {
   }
 
   @Override
-  String getName() {
+  public String getName() {
     return "#EOF";
   }
 
   @Override
-  Fragment expanded() {
+  public Fragment expanded() {
     Fragment f = new Fragment();
     return f;
   }
 
   @Override
-  String plain() {
+  public String plain() {
     return getText();
   }
 
   @Override
-  String unicode() {
+  public String unicode() {
     return getText();
   }
 

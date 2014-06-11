@@ -19,24 +19,24 @@ public class TextNode extends Node {
   }
 
   @Override
-  String getName() {
+  public String getName() {
     return "#TEXT";
   }
 
   @Override
-  Fragment expanded() {
+  public Fragment expanded() {
     Fragment f = new Fragment();
     f.add(this);
     return f;
   }
 
   @Override
-  String plain() {
+  public String plain() {
     return getText();
   }
 
   @Override
-  String unicode() {
+  public String unicode() {
     return getText();
   }
 
