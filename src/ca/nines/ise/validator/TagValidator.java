@@ -20,6 +20,7 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
 import ca.nines.ise.schema.Schema;
+import ca.nines.ise.schema.Tag;
 
 import java.io.IOException;
 import javax.lang.model.type.UnknownTypeException;
@@ -42,7 +43,12 @@ public class TagValidator {
   }
 
   public void validate(AbbrNode n) {
-
+    Message m = error("validator.abbr.depreciated", n);    
+    if(n.getText().length() > 7) {
+      m = error("validator.abbr.long", n);
+      m.addNote("The long abbreviation starts with " + n.getText().substring(0, 7));
+      m.addNote("The abbreviation cannot be corrected automatically.");
+    }
   }
 
   public void validate(CharNode n) {
@@ -50,19 +56,67 @@ public class TagValidator {
   }
 
   public void validate(CommentNode n) {
-
+    Message m = null;
+    String text = n.getText();
+    if( ! text.startsWith("<!--")) {
+      m = error("validator.comment.badstart", n);
+      m.addNote("The comment started with " + text.substring(0,4));
+    }
+    if( ! text.endsWith("-->")) {
+      m = error("validator.comment.badend", n);
+      m.addNote("The comment ended with " + text.substring(text.length() - 3));
+    }
+  }
+  
+  public void validate_attributes(TagNode n, Tag t) {
+    
   }
 
   public void validate(EndNode n) {
-
+    Tag t = schema.getTag(n.getName());    
+    if(t == null) {
+      Message m = error("validator.tag.unknown", n);
+      m.addNote("Tag " + n.getName() + " is not defined in the schema.");
+      return;
+    }
+    if(t.getEmpty() == "empty") {
+      Message m = error("validator.tag.endempty", n);
+      m.addNote("End tag " + n.getName() + " should not occur.");
+    }
   }
 
   public void validate(EmptyNode n) {
-
+    Tag t = schema.getTag(n.getName());    
+    if(t == null) {
+      Message m = error("validator.tag.unknown", n);
+      m.addNote("Tag " + n.getName() + " is not defined in the schema.");
+      return;
+    }
+    if( t.getEmpty() == "") {
+      Message m = error("validator.tag.emptystart", n);
+      m.addNote("Tag " + n.getName() + " should not be self-closing.");
+    }
+    if( t.isDepreciated()) {
+      Message m = error("validator.tag.depreciated", n);
+      m.addNote(t.getDepreciated());
+    }
   }
 
   public void validate(StartNode n) {
-
+    Tag t = schema.getTag(n.getName());
+    if(t == null) {
+      Message m = error("validator.tag.unknown", n);
+      m.addNote("Tag " + n.getName() + " is not defined in the schema.");
+      return;
+    }
+    if(t.getEmpty() == "empty") {
+      Message m = error("validator.tag.startempty", n);
+      m.addNote("Start tag " + n.getName() + " should be self-closing.");
+    }
+    if( t.isDepreciated()) {
+      Message m = error("validator.tag.depreciated", n);
+      m.addNote(t.getDepreciated());
+    }
   }
 
   public void validate(TextNode n) {
