@@ -2,26 +2,28 @@
 
 <schema edition="default" group="default">
   <tags>
-    <tag name="ACT" namespace="s">
+    <tag name="ACT">
       <attribute name="n" type="number"/>
     </tag>
-    <tag name="ABBR" namespace="t">
+    <tag name="ABBR">
       <attribute name="expan" type="string"/>
     </tag>
-    <tag name="BACKMATTER" namespace="s"/>
-    <tag name="BLL" namespace="t" where="oldspelling"/>
-    <tag name="BR" namespace="p" empty="empty"/>
-    <tag name="C" namespace="t"/>
-    <tag name="CL" namespace="s"/>
-    <tag name="COL" namespace="p">
+    <tag name="BACKMATTER"/>
+    <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL."/>
+    <tag name="BLL" where="oldspelling"/>
+    <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE"/>
+    <tag name="BR" empty="empty"/>
+    <tag name="C"/>
+    <tag name="CL"/>
+    <tag name="COL">
       <attribute name="n" type="select">
         <option>0</option>
         <option>1</option>
         <option>2</option>
       </attribute>
     </tag>
-    <tag name="CW" namespace="p"/>
-    <tag name="DIV" namespace="s">
+    <tag name="CW"/>
+    <tag name="DIV">
       <attribute name="link" type="string" optional="optional" depreciated="Link attributes should be dropped from the text."/>
       <attribute name="name" type="select">
         <option>Argument</option>
@@ -42,28 +44,28 @@
         <option>Titlepage</option>
       </attribute>
     </tag>
-    <tag name="EM" namespace="t"/>
+    <tag name="EM"/>
     <tag name="EPILOGUE" namespace="" depreciated="Use BACKMATTER or DIV instead of EPILOGUE"/>
-    <tag name="FONTGROUP" namespace="t">
+    <tag name="FONTGROUP">
       <attribute name="n" type="match" match="^[1-6]$" renumber="no" />
     </tag>
-    <tag name="FOREIGN" namespace="a">
+    <tag name="FOREIGN">
       <attribute name="lang" type="string"/>
     </tag>
-    <tag name="FRONTMATTER" namespace="s"/>
-    <tag name="H1" namespace="t" depreciated="Use LD instead of H1."/>
-    <tag name="H2" namespace="t" depreciated="Use LD instead of H2."/>
-    <tag name="H3" namespace="t" depreciated="Use LD instead of H3."/>
-    <tag name="H4" namespace="t" depreciated="Use LD instead of H4."/>
-    <tag name="H5" namespace="t" depreciated="Use LD instead of H5."/>
-    <tag name="H6" namespace="t" depreciated="Use LD instead of H6."/>
-    <tag name="HW" namespace="p">
+    <tag name="FRONTMATTER"/>
+    <tag name="H1" depreciated="Use LD instead of H1."/>
+    <tag name="H2" depreciated="Use LD instead of H2."/>
+    <tag name="H3" depreciated="Use LD instead of H3."/>
+    <tag name="H4" depreciated="Use LD instead of H4."/>
+    <tag name="H5" depreciated="Use LD instead of H5."/>
+    <tag name="H6" depreciated="Use LD instead of H6."/>
+    <tag name="HW">
       <attribute name="t" type="select">
         <option>prev</option>
         <option>next</option>
       </attribute>
     </tag>
-    <tag name="iembed" namespace="*">
+    <tag name="iembed">
       <attribute name="site" type="string" optional="optional" />
       <attribute name="component" type="select" optional="optional">
         <option>imagedb</option>
@@ -91,7 +93,7 @@
       <attribute name="lightbox" type="string" optional="optional" />
       <attribute name="longCaption" type="string" optional="optional" />
     </tag>
-    <tag name="ilink" namespace="*">
+    <tag name="ilink">
       <attribute name="site" type="string" optional="optional" />
       <attribute name="component" type="select" optional="optional">
         <option>imagedb</option>
@@ -104,13 +106,13 @@
       </attribute>
       <attribute name="href" type="string" />
     </tag>
-    <tag name="I" namespace="t"/>
-    <tag name="INDENT" namespace="t">
+    <tag name="I"/>
+    <tag name="INDENT">
       <attribute name="n" type="number" renumber="no" />
     </tag>
-    <tag name="iseHeader" namespace="*"/>
-    <tag name="J" namespace="t"/>
-    <tag name="L" namespace="p" empty="empty">
+    <tag name="iseHeader"/>
+    <tag name="J"/>
+    <tag name="L" empty="empty">
       <attribute name="n" type="number" optional="optional" empty="empty" />
       <attribute name="part" type="select" optional="optional">
         <option>i</option>
@@ -118,8 +120,9 @@
         <option>f</option>
       </attribute>
     </tag>
-    <tag name="LD" namespace="s"/>
-    <tag name="LINEGROUP" namespace="a">
+    <tag name="LB" depreciated="Use L for lineation instead of LB."/>    
+    <tag name="LD"/>
+    <tag name="LINEGROUP">
       <attribute name="form" type="select">
         <option>couplet</option>
         <option>coupletSequence</option>
@@ -129,66 +132,75 @@
       </attribute>
       <attribute name="rhyme" type="string"/>
     </tag>
-    <tag name="LINK" namespace="*" empty="empty">
+    <tag name="LINK" empty="empty">
       <attribute name="rel" type="string" optional="optional"/>
       <attribute name="rev" type="string" optional="optional"/>
       <attribute name="href" type="string" optional="optional"/>
       <attribute name="order" type="number" optional="optional"/>
     </tag>
-    <tag name="LN" namespace="a"/>
-    <tag name="LS" namespace='t'/>
-    <tag name="MARG" namespace="a">
+    <tag name="LN"/>
+    <tag name="LS"/>
+    <tag name="MARG">
       <attribute name="loc" type="select">
         <option>left</option>
         <option>right</option>
       </attribute>
     </tag>
-    <tag name="META" namespace="*" empty="empty">
+    <tag name="META" empty="empty">
       <attribute name="name" type="string"/>
       <attribute name="content" type="string" empty="empty"/>
       <attribute name="scheme" type="string" optional="optional"/>
     </tag>
-    <tag name="MODE" namespace="a">
+    <tag name="MODE">
       <attribute name="t" type="select">
         <option>prose</option>
         <option>verse</option>
         <option>uncertain</option>
       </attribute>
     </tag>
-    <tag name="note" namespace="*" />
-    <tag name="ORNAMENT" namespace="t" empty="optional">
+    <tag name="note" />
+    <tag name="ORNAMENT" empty="optional">
       <attribute name="drop" type="number" optional="optional" />
       <attribute name="letter" type="string" optional="optional" />
     </tag>
-    <tag name="PAGE" namespace="p">
+    <tag name="PAGE">
       <attribute name="n" type="number"/>
     </tag>
-    <tag name="PN" namespace="p">
+    <tag name="PN">
       <attribute name="n" type="number" optional="optional" renumber="no" />
     </tag>
+    <tag name="POEM" depreciated="Use DIV with a name attrbute instead of POEM"/>
     <tag name="PROLOGUE" namespace="" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE"/>
-    <tag name="PROP" namespace="s" empty="optional">
+    <tag name="PROP" empty="optional">
       <attribute name="item" type="string" optional="optional"/>
       <attribute name="desc" type="string" optional="optional"/>
     </tag>
-    <tag name="PROSEQUOTE" namespace="a">
+    <tag name="PROSEQUOTE" depreciated="Use QUOTE instead of PROSEQUOTE.">
       <attribute name="source" type="string" optional="optional"/>
     </tag>
-    <tag name="QLN" namespace="*" empty="empty" where="quarto">
+    <tag name="QLN" empty="empty" where="quarto">
       <attribute name="n" type="number"/>
     </tag>
-    <tag name="R" namespace="t"/>
-    <tag name="RA" namespace="t"/>
-    <tag name="RT" namespace="p"/>
-    <tag name="RULE" namespace="t" empty="empty">
+    <tag name="QUOTE">
+      <attribute name="source" type="string" optional="optional"/>
+      <attribute name="type" type="select">
+        <option>prose</option>
+        <option>verse</option>
+      </attribute>
+    </tag>
+    <tag name="R"/>
+    <tag name="RA"/>
+    <tag name="RT"/>
+    <tag name="RULE" empty="empty">
       <attribute name="n" type="number" optional="optional" empty="empty" renumber="no"/>
     </tag>
-    <tag name="S" namespace="s"/>
-    <tag name="SCENE" namespace="s">
+    <tag name="S"/>
+    <tag name="SC"/>
+    <tag name="SCENE">
       <attribute name="n" type="number"/>
       <attribute name="link" type="string" optional="optional" depreciated="Link attributes should be dropped from the text."/>
     </tag>
-    <tag name="SD" namespace="s">
+    <tag name="SD">
       <attribute name="t" type="list">
         <option>entrance</option>
         <option>exit</option>
@@ -203,35 +215,41 @@
         <option>uncertain</option>
       </attribute>
     </tag>
-    <tag name="SIG" namespace="s">
+    <tag name="SECTION" depreciated="Use DIV with a name attrbute instead of SECTION."/>
+    <tag name="SIG">
       <attribute name="n" type="string" optional="optional" renumber="no" />
     </tag>
-    <tag name="SP" namespace="s">
+    <tag name="SP">
       <attribute name="norm" type="string"/>
     </tag>
-    <tag name="SPACE" namespace="t" empty="empty">
+    <tag name="SPACE" empty="empty">
       <attribute name="n" type="number" optional="optional" renumber="no" />
     </tag>
-    <tag name="STANZA" namespace="s">
+    <tag name="STANZA">
       <attribute name="n" type="number" />
     </tag>
-    <tag name="SUB" namespace="t"/>
-    <tag name="SUP" namespace="t"/>
-    <tag name="SWASH" namespace="t">
+    <tag name="SUB"/>
+    <tag name="SUP"/>
+    <tag name="SWASH">
       <attribute name="where" type="select">
         <option>before</option>
         <option>after</option>
         <option>both</option>
       </attribute>
     </tag>
-    <tag name="TITLEHEAD" namespace="t"/>
-    <tag name="TLN" namespace="*" empty="empty">
+    <tag name="TITLEHEAD"/>
+    <tag name="TITLEPAGE" depreciated="Use DIV with a name attrbute instead of TITLEPAGE"/>
+    <tag name="TLN" empty="empty">
       <attribute name="n" type="number"/>
     </tag>
-    <tag name="VERSEQUOTE" namespace="a">
+    <tag name="VERSEQUOTE">
       <attribute name="source" type="string" optional="optional"/>
     </tag>
-    <tag name="WORK" namespace="*">
+    <tag name="WLN" empty="empty">
+      <attribute name="n" type="number" />
+      <attribute name="wit" type="string" optional="optional" />
+    </tag>
+    <tag name="WORK">
       <attribute name="genre" type="string" empty="empty" optional="optional" depreciated="Use metadata instead of the genre attribute."/>
     </tag>
   </tags>
