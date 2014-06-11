@@ -1,7 +1,5 @@
 build
-nbproject
 *.class
-grammar/*.java
-grammar/*.tokens
 dist
 data
+*.log
