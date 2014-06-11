@@ -21,12 +21,12 @@ public class CharNode extends Node {
   }
 
   @Override
-  String getName() {
+  public String getName() {
     return "#CHAR";
   }
 
   @Override
-  Fragment expanded() {
+  public Fragment expanded() {
     TextNode n = new TextNode();
     Fragment f = new Fragment();
     f.add(n);
@@ -34,12 +34,12 @@ public class CharNode extends Node {
   }
 
   @Override
-  String plain() {
+  public String plain() {
     return getText();
   }
 
   @Override
-  String unicode() {
+  public String unicode() {
     return getText();
   }
 

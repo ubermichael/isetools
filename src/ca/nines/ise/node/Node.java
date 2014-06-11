@@ -29,7 +29,7 @@ abstract public class Node {
    *
    * @return String
    */
-  abstract String getName();
+  abstract public String getName();
 
   abstract public String type();
 
@@ -38,7 +38,7 @@ abstract public class Node {
    *
    * @return DOMFragment
    */
-  abstract Fragment expanded();
+  abstract public Fragment expanded();
 
   /**
    * Convert the node into plain text. Any unicode text in the node is
@@ -46,7 +46,7 @@ abstract public class Node {
    *
    * @return String
    */
-  abstract String plain();
+  abstract public String plain();
 
   /**
    * Convert the node into unicode. Any unicode in the node is untouched and
@@ -54,7 +54,7 @@ abstract public class Node {
    *
    * @return String
    */
-  abstract String unicode();
+  abstract public String unicode();
 
   /**
    * Convert a node to a string, mostly for debugging purposes.
