@@ -6,6 +6,7 @@
 package ca.nines.ise.schema;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Formatter;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -147,7 +148,13 @@ public class Attribute {
    * @return the options
    */
   public String[] getOptions() {
-    return (String[]) options.toArray();
+    if(options != null && options.size() > 0) {
+    String[] names = options.toArray(new String[options.size()]);
+    Arrays.sort(names);
+    return names;
+    } else {
+      return new String[0];
+    }
   }
 
 }
