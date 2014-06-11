@@ -67,12 +67,12 @@ public class Tag {
     NodeList nl = (NodeList) expr.evaluate(n, XPathConstants.NODESET);
     for(int i = 0; i < nl.getLength(); i++) {
       Attribute attribute = new Attribute(nl.item(i));
-      attributes.put(attribute.getName().toUpperCase(), attribute);
+      attributes.put(attribute.getName().toLowerCase(), attribute);
     }
   }
 
   public Attribute getAttribute(String name) {
-    return attributes.get(name.toUpperCase());
+    return attributes.get(name.toLowerCase());
   }
 
   @Override

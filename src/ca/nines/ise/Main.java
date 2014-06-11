@@ -53,7 +53,8 @@ public class Main {
         TagValidator tv = new TagValidator();
         Log log = Log.getInstance();
         tv.validate(dom);
-        System.out.println(log);
+        System.out.print(log);
+        log.clear();
       }
     } catch (IOException ex) {
       Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

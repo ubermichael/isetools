@@ -68,10 +68,6 @@ public class TagValidator {
     }
   }
   
-  public void validate_attributes(TagNode n, Tag t) {
-    
-  }
-
   public void validate(EndNode n) {
     Tag t = schema.getTag(n.getName());    
     if(t == null) {
