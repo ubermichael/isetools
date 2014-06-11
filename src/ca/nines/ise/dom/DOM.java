@@ -7,8 +7,10 @@
 package ca.nines.ise.dom;
 
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.TagNode;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.HashMap;
 
 /**
  *
@@ -17,6 +19,7 @@ import java.util.Formatter;
 public class DOM extends ArrayList<Node> {
 
   private String source;
+  private HashMap<String, Node> index = null;
 
   public String getSource() {
     return source;
@@ -24,6 +27,35 @@ public class DOM extends ArrayList<Node> {
 
   protected void setSource(String source) {
     this.source = source;
+  }
+  
+  public void index() {
+    DOMIterator i = this.getIterator();
+    index = new HashMap<>();
+    String act = "0";
+    String scene = "0";
+    String line = "0";
+    String tln = "0";
+    
+    while(i.hasNext()) {
+      Node n = i.next();
+      switch(n.getName()) {
+        case "ACT":
+          act = ((TagNode)n).getAttribute("n");
+          break;
+        case "SCENE":
+          scene = ((TagNode)n).getAttribute("n");
+          break;
+        case "L":
+          line = ((TagNode)n).getAttribute("n");
+          break;
+        case "TLN":
+          tln = ((TagNode)n).getAttribute("n");
+          break;
+      }
+      n.setTln(tln);
+      n.setAsl(act + "." + scene + "." + line);
+    }
   }
   
   @Override

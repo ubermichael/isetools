@@ -85,6 +85,7 @@ public class Builder extends ISEParserBaseListener {
     tokens = parser.getTokenStream();
     ParseTree pt = parser.document();
     ptw.walk(this, pt);
+    dom.index();
     return dom;
   }
 
