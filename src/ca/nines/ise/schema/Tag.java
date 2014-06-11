@@ -26,6 +26,7 @@ public class Tag {
   private String name;
   private String depreciated;
   private String where;
+  private String empty;
 
   private HashMap<String, Attribute> attributes;
 
@@ -52,6 +53,11 @@ public class Tag {
     a = nodeAttrs.getNamedItem("where");
     if(a != null) {
       where = a.getNodeValue();
+    }
+
+    a = nodeAttrs.getNamedItem("empty");
+    if(a != null) {
+      empty = a.getNodeValue();
     }
 
     if(expr == null) {
@@ -92,7 +98,11 @@ public class Tag {
   }
 
   public boolean isDepreciated() {
-    return !"".equals(depreciated);
+    return depreciated != null;
+  }
+  
+  public String getEmpty() {
+    return empty;
   }
 
   /**
