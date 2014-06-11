@@ -10,6 +10,7 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMIterator;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
+import ca.nines.ise.misc.ErrorCode;
 import ca.nines.ise.node.AbbrNode;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.CommentNode;
@@ -17,13 +18,11 @@ import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
-import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
 
 import java.io.IOException;
-import javax.lang.model.type.UnknownTypeException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
@@ -42,6 +41,7 @@ public class TagValidator {
     schema = new Schema();
   }
 
+  @ErrorCode(code="validator.abbr.depreciated")
   public void validate(AbbrNode n) {
     Message m = error("validator.abbr.depreciated", n);    
     if(n.getText().length() > 7) {
@@ -55,6 +55,10 @@ public class TagValidator {
 
   }
 
+  @ErrorCode(code={
+    "validator.comment.badstart", 
+    "validator.comment.badend"
+  })
   public void validate(CommentNode n) {
     Message m = null;
     String text = n.getText();
@@ -68,6 +72,10 @@ public class TagValidator {
     }
   }
   
+  @ErrorCode(code={
+    "validator.tag.unknown", 
+    "validator.tag.endempty"
+  })
   public void validate(EndNode n) {
     Tag t = schema.getTag(n.getName());    
     if(t == null) {
@@ -81,6 +89,11 @@ public class TagValidator {
     }
   }
 
+  @ErrorCode(code={
+    "validator.tag.unknown", 
+    "validator.tag.emptystart",
+    "validator.tag.depreciated"
+  })
   public void validate(EmptyNode n) {
     Tag t = schema.getTag(n.getName());    
     if(t == null) {
@@ -98,6 +111,11 @@ public class TagValidator {
     }
   }
 
+  @ErrorCode(code={
+    "validator.tag.unknown", 
+    "validator.tag.startempty",
+    "validator.tag.depreciated"
+  })
   public void validate(StartNode n) {
     Tag t = schema.getTag(n.getName());
     if(t == null) {
@@ -115,6 +133,9 @@ public class TagValidator {
     }
   }
 
+  @ErrorCode(code={
+    "validator.tag.depreciatedhash", 
+  })
   public void validate(TextNode n) {
     if(n.getText().contains("#")) {
       error("validator.text.depreciatedhash", n);
