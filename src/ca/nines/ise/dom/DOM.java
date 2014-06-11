@@ -51,6 +51,7 @@ public class DOM extends ArrayList<Node> {
           break;
         case "TLN":
           tln = ((TagNode)n).getAttribute("n");
+          index.put(tln, n);
           break;
       }
       n.setTln(tln);

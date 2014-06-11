@@ -16,12 +16,12 @@ import java.util.Formatter;
 public class Log {
   private final ArrayList<Message> messages = new ArrayList<>();
 
-  private static final Log log = new Log();
+  private static final Log instance = new Log();
 
   private Log() {}
 
   public static Log getInstance() {
-    return log;
+    return instance;
   }
 
   public Message add(String code) {
@@ -30,6 +30,10 @@ public class Log {
     return m;
   }
 
+  public void clear() {
+    messages.clear();
+  }
+  
   public void add(Message m) {
     messages.add(m);
   }
