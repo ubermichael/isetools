@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.schema;
 
+import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,16 +49,22 @@ public class Tag {
     a = nodeAttrs.getNamedItem("depreciated");
     if (a != null) {
       depreciated = a.getNodeValue();
+    } else {
+      depreciated = "";
     }
 
     a = nodeAttrs.getNamedItem("where");
     if(a != null) {
       where = a.getNodeValue();
+    } else {
+      where = "";
     }
 
     a = nodeAttrs.getNamedItem("empty");
     if(a != null) {
       empty = a.getNodeValue();
+    } else {
+      empty = "no";
     }
 
     if(expr == null) {
@@ -75,6 +82,16 @@ public class Tag {
     return attributes.get(name.toLowerCase());
   }
 
+  public String[] getAttributeNames() {
+    String[] names = attributes.keySet().toArray(new String[attributes.size()]);
+    Arrays.sort(names);
+    return names;
+  }
+  
+  public int countAttributes() {    
+    return attributes.size();
+  }
+  
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
