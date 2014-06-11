@@ -159,7 +159,7 @@
       </attribute>
     </tag>
     <tag name="note" />
-    <tag name="ORNAMENT" empty="optional">
+    <tag name="ORNAMENT"  empty="optional">
       <attribute name="drop" type="number" optional="optional" />
       <attribute name="letter" type="string" optional="optional" />
     </tag>
@@ -170,7 +170,7 @@
       <attribute name="n" type="number" optional="optional" renumber="no" />
     </tag>
     <tag name="POEM" depreciated="Use DIV with a name attrbute instead of POEM"/>
-    <tag name="PROLOGUE" namespace="" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE"/>
+    <tag name="PROLOGUE" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE"/>
     <tag name="PROP" empty="optional">
       <attribute name="item" type="string" optional="optional"/>
       <attribute name="desc" type="string" optional="optional"/>
@@ -242,7 +242,7 @@
     <tag name="TLN" empty="empty">
       <attribute name="n" type="number"/>
     </tag>
-    <tag name="VERSEQUOTE">
+    <tag name="VERSEQUOTE" depreciated="Use DIV with the type attribute instead of VERSEQUOTE.">
       <attribute name="source" type="string" optional="optional"/>
     </tag>
     <tag name="WLN" empty="empty">

@@ -21,26 +21,6 @@ import java.util.logging.Logger;
  */
 public class SW {
 
-  public static void row(StringBuilder sb) {
-    sb.append("|------------\n");
-  }
-
-  public static void tagRow(Formatter fmt, Tag tag) {
-    fmt.format("|| %s || %s || %s || %s ||%n",
-            tag.getName(),
-            tag.getEmpty(),
-            tag.getWhere(),
-            tag.getDepreciated());
-  }
-
-  public static void attrHeader(StringBuilder sb) {
-    sb.append("{{{#!td\n"
-            + "}}}\n"
-            + "{{{#!td colspan=3\n"
-            + "|| Name || Type || Optional || Emtpy || Match || Renmberable || Options ||\n"
-    );
-  }
-
   public static String attrOptions(Attribute attr) {
     StringBuilder sb = new StringBuilder();
     String[] options = attr.getOptions();
@@ -58,15 +38,38 @@ public class SW {
     return sb.toString();
   }
 
-  public static void attrRow(Formatter fmt, Attribute attr) {
-    fmt.format("|| @''%s'' || %s || %s || %s || %s || %s || %s ||%n",
-            attr.getName(),
-            attr.getType(),
-            attr.getOptional(),
-            attr.getEmpty(),
-            attr.getMatch(),
-            attr.getRenumber(),
-            attrOptions(attr));
+  public static void attrInfo(Tag tag) {
+    if (tag.countAttributes() == 0) {
+      return;
+    }
+    StringBuilder sb = new StringBuilder();
+    Formatter fmt = new Formatter(sb);
+    System.out.println("|| Name || Type || Optional || Empty || Match || Renumberable || Options ||");
+    for (String attrName : tag.getAttributeNames()) {
+      Attribute attr = tag.getAttribute(attrName);
+      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s ||%n", 
+              attr.getName(), 
+              attr.getType(), 
+              attr.getOptional() == null ? "no" : "yes",
+              attr.getEmpty() == null ? "no" : "yes", 
+              attr.getMatch() == null ? "" : attr.getMatch(),  
+              attr.getRenumber() == null ? "no" : "yes",
+              attrOptions(attr)
+      );
+    }
+    System.out.println(sb);
+  }
+
+  public static void tagInfo(Tag tag) {
+    System.out.println("== " + tag.getName() + "==\n");
+    System.out.println("A description.\n");
+    System.out.println(" Empty::");
+    System.out.println("  " + tag.getEmpty());
+    System.out.println(" Context::");
+    System.out.println("  " + (tag.getWhere() == "" ? "anywhere" : tag.getWhere()));
+    System.out.println(" Depreciated::");
+    System.out.println("  " + (tag.getDepreciated() == "" ? "no" : tag.getDepreciated()));
+    System.out.println("\n");
   }
 
   public static void main(String[] args) {
@@ -75,25 +78,12 @@ public class SW {
       StringBuilder sb = new StringBuilder();
       Formatter fmt = new Formatter(sb);
 
-      sb.append("||= Name =||= Empty =||= Context =||= Depreciated =||\n");
-      row(sb);
-
       for (String tagName : schema.getTagNames()) {
         Tag tag = schema.getTag(tagName);
-        tagRow(fmt, tag);
-        row(sb);
-
-        if (tag.countAttributes() > 0) {
-          attrHeader(sb);
-          row(sb);
-          for (String attrName : tag.getAttributeNames()) {
-            Attribute attr = tag.getAttribute(attrName);
-            attrRow(fmt, attr);
-          }
-          sb.append("}}}\n");
-          row(sb);
-        }
+        tagInfo(tag);
+        attrInfo(tag);
       }
+
       System.out.println(sb);
     } catch (Exception ex) {
       Logger.getLogger(SW.class.getName()).log(Level.SEVERE, null, ex);
