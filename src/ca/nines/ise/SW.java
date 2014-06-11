@@ -44,16 +44,17 @@ public class SW {
     }
     StringBuilder sb = new StringBuilder();
     Formatter fmt = new Formatter(sb);
-    System.out.println("|| Name || Type || Optional || Empty || Match || Renumberable || Options ||");
+    System.out.println("|| Name || Type || Optional || Empty || Match || Renumberable || Depreciated || Options ||");
     for (String attrName : tag.getAttributeNames()) {
       Attribute attr = tag.getAttribute(attrName);
-      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s ||%n", 
+      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s || %s ||%n", 
               attr.getName(), 
               attr.getType(), 
               attr.getOptional() == null ? "no" : "yes",
               attr.getEmpty() == null ? "no" : "yes", 
-              attr.getMatch() == null ? "" : attr.getMatch(),  
+              attr.getMatch() == null ? " " : attr.getMatch(),  
               attr.getRenumber() == null ? "no" : "yes",
+              attr.getDepreciated() == null ? " " : attr.getDepreciated(),
               attrOptions(attr)
       );
     }
