@@ -9,34 +9,72 @@ COMMENT_GOOD : '<!--' .*? '-->' ;
 COMMENT_BAD : '<!' .*? '>' ;
 
 // abbreviations
-ABBR_START : '|' -> pushMode(ABBR) ;
+ABBREVIATION : '|' ~'|'* '|' ;
 
-// special characters
-CHAR_START : '{' -> pushMode(CHAR) ;
+CHAR_UNICODE 
+  : 
+    ( '{c}'       // lower c with cedilla ç     U+00E7
+    | '{C}'       // upper c with cedilla Ç     U+00C7
+    | '{th}'      // lower thorn          þ     U+00FE
+    | '{TH}'      // upper thorn          Þ     U+00DE  
+    ) 
+  ;
+
+CHAR_DIGRAPH 
+  :           
+    ( '{ae}'        // ae digraph               æ   U+00E6
+    | '{AE}'        // AE digraph               Æ   U+00C6
+    | '{oe}'        // oe digraph               œ   U+0153
+    | '{OE}'        // OE digraph               Œ   U+0152
+    | '{qp}'        // qp diagraph (quod/quoth) ȹ   U+0239
+    )             
+  ;
+
+CHAR_SPACE 
+  :  
+    ( '{ }'         // extra space
+    | '{-}'         // shy space
+    | '{#}'         // missing space
+    )
+  ;
+
+CHAR_ACCENT
+  : 
+    ( '{^'  [a-zA-Z] '}'         // carret   (ê)   U+0302 
+    | '{"'  [a-zA-Z] '}'         // umlat    (ë)   U+0308 
+    | '{\'' [a-zA-Z] '}'        // acute    (é)   U+0301
+    | '{`'  [a-zA-Z] '}'         // grave    (̀e)   U+0300
+    | '{_'  [a-zA-Z] '}'         // macron   (ō)   U+0304
+    | '{~'  [a-zA-Z] '}'         // tilde    (ñ)   U+0303
+    )
+  ;
+
+CHAR_TYPOGRAPHIC
+  :
+    ( '{s}'         // long/medial s    ſ   U+0174
+    | '{r}'         // lower rotunda r  ꝛ   U+A75B
+    | '{R}'         // upper rotunda r  Ꝛ   U+A75A
+    | '{w}'         // two v characters for a w. No unicode equivalent.
+    | '{W}'         // two V characters for a W. No unicode equivalent.
+    )
+  ;
+
+CHAR_LIGATURE
+  : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]? '}'
+  ;
+
+CHAR_NESTED
+  : '{' ( ALPHA | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}'
+  ;
 
 // beginning of tags.
 TAG_START : '<' -> pushMode(TAG) ;
 
 // general content.
 TEXT : ~[<{|}>]+ ;
-
-mode ABBR ;
-
-ABBR_END : '|' ->popMode ;
-ABBR_CONTENT : ~'|' ;
-
-mode CHAR ;
-
-CHAR_END : '}' -> popMode ;
-
-CHAR_CONTENT : ~[{}]+ ;
-
-NESTED_START : '{' -> pushMode(NESTED) ;
-
-mode NESTED ;
-
-NESTED_END : '}' -> popMode;
-NESTED_CONTENT : ~[{}]+ ;
+ALPHA : [a-zA-Z] ;
+LB: '{' ;
+RB: '}' ;
 
 mode TAG ;
 

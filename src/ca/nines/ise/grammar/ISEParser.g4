@@ -20,7 +20,7 @@ element
 // abbreviations
 
 abbr
-  : ABBR_START ABBR_CONTENT* ABBR_END;
+  : ABBREVIATION;
 
 comment
   : COMMENT_GOOD
@@ -29,16 +29,43 @@ comment
 
 // special characters
 
+charUnicode 
+  : CHAR_UNICODE 
+  ;
+
+charDigraph 
+  : CHAR_DIGRAPH 
+  ;
+
+charSpace   
+  : CHAR_SPACE 
+  ;
+
+charAccent  
+  : CHAR_ACCENT 
+  ;
+
+charTypographic 
+  : CHAR_TYPOGRAPHIC 
+  ;
+
+charLigature
+  : CHAR_LIGATURE
+  ;
+
+charNested
+  : CHAR_NESTED
+  ;
+
 character
-  : CHAR_START
-    ( CHAR_CONTENT
-    | nestedChar
-    )*
-  CHAR_END ;
-
-nestedChar
-  :  NESTED_START NESTED_CONTENT NESTED_END ;
-
+  : charUnicode 
+  | charDigraph 
+  | charSpace
+  | charAccent
+  | charTypographic
+  | charLigature
+  | charNested
+  ;
 
 // attributes before tags
 

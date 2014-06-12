@@ -20,15 +20,15 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitEndTag(@NotNull ISEParser.EndTagContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#element}.
+	 * Enter a parse tree produced by {@link ISEParser#charNested}.
 	 * @param ctx the parse tree
 	 */
-	void enterElement(@NotNull ISEParser.ElementContext ctx);
+	void enterCharNested(@NotNull ISEParser.CharNestedContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ISEParser#element}.
+	 * Exit a parse tree produced by {@link ISEParser#charNested}.
 	 * @param ctx the parse tree
 	 */
-	void exitElement(@NotNull ISEParser.ElementContext ctx);
+	void exitCharNested(@NotNull ISEParser.CharNestedContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#startTag}.
@@ -42,6 +42,61 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitStartTag(@NotNull ISEParser.StartTagContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link ISEParser#element}.
+	 * @param ctx the parse tree
+	 */
+	void enterElement(@NotNull ISEParser.ElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#element}.
+	 * @param ctx the parse tree
+	 */
+	void exitElement(@NotNull ISEParser.ElementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charSpace}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharSpace(@NotNull ISEParser.CharSpaceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charSpace}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharSpace(@NotNull ISEParser.CharSpaceContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charDigraph}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharDigraph(@NotNull ISEParser.CharDigraphContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charDigraph}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharDigraph(@NotNull ISEParser.CharDigraphContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charTypographic}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharTypographic(@NotNull ISEParser.CharTypographicContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charTypographic}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharTypographic(@NotNull ISEParser.CharTypographicContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charAccent}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharAccent(@NotNull ISEParser.CharAccentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charAccent}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharAccent(@NotNull ISEParser.CharAccentContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link ISEParser#tag}.
 	 * @param ctx the parse tree
 	 */
@@ -51,6 +106,17 @@ public interface ISEParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTag(@NotNull ISEParser.TagContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttribute(@NotNull ISEParser.AttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttribute(@NotNull ISEParser.AttributeContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#abbr}.
@@ -64,15 +130,15 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitAbbr(@NotNull ISEParser.AbbrContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#attribute}.
+	 * Enter a parse tree produced by {@link ISEParser#charUnicode}.
 	 * @param ctx the parse tree
 	 */
-	void enterAttribute(@NotNull ISEParser.AttributeContext ctx);
+	void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ISEParser#attribute}.
+	 * Exit a parse tree produced by {@link ISEParser#charUnicode}.
 	 * @param ctx the parse tree
 	 */
-	void exitAttribute(@NotNull ISEParser.AttributeContext ctx);
+	void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#character}.
@@ -108,17 +174,6 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitAttributeName(@NotNull ISEParser.AttributeNameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#document}.
-	 * @param ctx the parse tree
-	 */
-	void enterDocument(@NotNull ISEParser.DocumentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ISEParser#document}.
-	 * @param ctx the parse tree
-	 */
-	void exitDocument(@NotNull ISEParser.DocumentContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link ISEParser#emptyTag}.
 	 * @param ctx the parse tree
 	 */
@@ -128,6 +183,17 @@ public interface ISEParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEmptyTag(@NotNull ISEParser.EmptyTagContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#document}.
+	 * @param ctx the parse tree
+	 */
+	void enterDocument(@NotNull ISEParser.DocumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#document}.
+	 * @param ctx the parse tree
+	 */
+	void exitDocument(@NotNull ISEParser.DocumentContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#attributeValue}.
@@ -152,15 +218,15 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitTagName(@NotNull ISEParser.TagNameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#nestedChar}.
+	 * Enter a parse tree produced by {@link ISEParser#charLigature}.
 	 * @param ctx the parse tree
 	 */
-	void enterNestedChar(@NotNull ISEParser.NestedCharContext ctx);
+	void enterCharLigature(@NotNull ISEParser.CharLigatureContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ISEParser#nestedChar}.
+	 * Exit a parse tree produced by {@link ISEParser#charLigature}.
 	 * @param ctx the parse tree
 	 */
-	void exitNestedChar(@NotNull ISEParser.NestedCharContext ctx);
+	void exitCharLigature(@NotNull ISEParser.CharLigatureContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#comment}.
