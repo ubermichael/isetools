@@ -49,8 +49,17 @@ charTypographic
   : CHAR_TYPOGRAPHIC 
   ;
 
+charSimpleLigature
+  : CHAR_SIMPLE_LIGATURE
+  ;
+
+charComplexLigature
+  : CHAR_COMPLEX_LIGATURE
+  ;
+
 charLigature
-  : CHAR_LIGATURE
+  : charSimpleLigature
+  | charComplexLigature
   ;
 
 character

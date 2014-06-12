@@ -30,6 +30,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCharComplexLigature(@NotNull ISEParser.CharComplexLigatureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCharComplexLigature(@NotNull ISEParser.CharComplexLigatureContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStartTag(@NotNull ISEParser.StartTagContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -121,19 +134,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAbbr(@NotNull ISEParser.AbbrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAbbr(@NotNull ISEParser.AbbrContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAttribute(@NotNull ISEParser.AttributeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -147,13 +147,26 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
+	@Override public void enterAbbr(@NotNull ISEParser.AbbrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
+	@Override public void exitAbbr(@NotNull ISEParser.AbbrContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCharSimpleLigature(@NotNull ISEParser.CharSimpleLigatureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCharSimpleLigature(@NotNull ISEParser.CharSimpleLigatureContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -167,6 +180,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCharacter(@NotNull ISEParser.CharacterContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
