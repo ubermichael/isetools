@@ -59,9 +59,12 @@ CHAR_TYPOGRAPHIC
     )
   ;
 
-CHAR_LIGATURE
-  : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]+ '}' 
-  | '{' ( [a-zA-Z] | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
+CHAR_SIMPLE_LIGATURE
+  : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]? '}' 
+  ;
+
+CHAR_COMPLEX_LIGATURE
+  : '{' ( [a-zA-Z] | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
   ;
 
 // beginning of tags.
