@@ -20,17 +20,6 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitEndTag(@NotNull ISEParser.EndTagContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#charNested}.
-	 * @param ctx the parse tree
-	 */
-	void enterCharNested(@NotNull ISEParser.CharNestedContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ISEParser#charNested}.
-	 * @param ctx the parse tree
-	 */
-	void exitCharNested(@NotNull ISEParser.CharNestedContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link ISEParser#startTag}.
 	 * @param ctx the parse tree
 	 */
@@ -108,17 +97,6 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitTag(@NotNull ISEParser.TagContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#attribute}.
-	 * @param ctx the parse tree
-	 */
-	void enterAttribute(@NotNull ISEParser.AttributeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ISEParser#attribute}.
-	 * @param ctx the parse tree
-	 */
-	void exitAttribute(@NotNull ISEParser.AttributeContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link ISEParser#abbr}.
 	 * @param ctx the parse tree
 	 */
@@ -128,6 +106,17 @@ public interface ISEParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAbbr(@NotNull ISEParser.AbbrContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttribute(@NotNull ISEParser.AttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttribute(@NotNull ISEParser.AttributeContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#charUnicode}.

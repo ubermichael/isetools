@@ -60,21 +60,15 @@ CHAR_TYPOGRAPHIC
   ;
 
 CHAR_LIGATURE
-  : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]? '}'
-  ;
-
-CHAR_NESTED
-  : '{' ( ALPHA | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}'
+  : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]+ '}' 
+  | '{' ( [a-zA-Z] | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
   ;
 
 // beginning of tags.
 TAG_START : '<' -> pushMode(TAG) ;
 
 // general content.
-TEXT : ~[<{|}>]+ ;
-ALPHA : [a-zA-Z] ;
-LB: '{' ;
-RB: '}' ;
+TEXT : ~[<{|]+ ;
 
 mode TAG ;
 
