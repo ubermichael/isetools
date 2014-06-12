@@ -53,10 +53,6 @@ charLigature
   : CHAR_LIGATURE
   ;
 
-charNested
-  : CHAR_NESTED
-  ;
-
 character
   : charUnicode 
   | charDigraph 
@@ -64,7 +60,6 @@ character
   | charAccent
   | charTypographic
   | charLigature
-  | charNested
   ;
 
 // attributes before tags

@@ -30,19 +30,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharNested(@NotNull ISEParser.CharNestedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCharNested(@NotNull ISEParser.CharNestedContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterStartTag(@NotNull ISEParser.StartTagContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -134,19 +121,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAttribute(@NotNull ISEParser.AttributeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAttribute(@NotNull ISEParser.AttributeContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAbbr(@NotNull ISEParser.AbbrContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -154,6 +128,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAbbr(@NotNull ISEParser.AbbrContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttribute(@NotNull ISEParser.AttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttribute(@NotNull ISEParser.AttributeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

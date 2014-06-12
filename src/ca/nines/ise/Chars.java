@@ -18,7 +18,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Chars {
 
   public static void main(String[] args) {
-    String str = "{c}{{s}f}{cf}";
+    String str = "{abc}{{s}f}{{s}{s}h}";
     ANTLRInputStream ais = new ANTLRInputStream(str);
     ISELexer lexer = new ISELexer(ais);
     CommonTokenStream ts = new CommonTokenStream(lexer);    
