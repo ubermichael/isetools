@@ -8,6 +8,8 @@
     <tag name="ABBR">
       <attribute name="expan" type="string"/>
     </tag>
+    <tag name="ADD"/>
+    <tag name="AMBIG"/>
     <tag name="BACKMATTER"/>
     <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL."/>
     <tag name="BLL" where="oldspelling"/>
@@ -122,6 +124,7 @@
     </tag>
     <tag name="LB" depreciated="Use L for lineation instead of LB."/>    
     <tag name="LD"/>
+    <tag name="LEM"/>
     <tag name="LINEGROUP">
       <attribute name="form" type="select">
         <option>couplet</option>
@@ -190,6 +193,7 @@
     </tag>
     <tag name="R"/>
     <tag name="RA"/>
+    <tag name="RDG"/>
     <tag name="RT"/>
     <tag name="RULE" empty="empty">
       <attribute name="n" type="number" optional="optional" empty="empty" renumber="no"/>

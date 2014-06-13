@@ -20,6 +20,7 @@ public class DOM extends ArrayList<Node> {
 
   private String source;
   private HashMap<String, Node> index = null;
+  private String[] lines;
 
   public String getSource() {
     return source;
@@ -57,6 +58,28 @@ public class DOM extends ArrayList<Node> {
       n.setTln(tln);
       n.setAsl(act + "." + scene + "." + line);
     }
+  }
+  
+  public void setLines(String lines) {
+    this.lines = lines.split("\n");
+  }
+  
+  public void setLines(String[] lines) {
+    this.lines = lines;
+  }
+  
+  public String getLine(int n) {
+    if(lines == null) {
+      return "";
+    }
+    if(n >= lines.length) {
+      return "";
+    }
+    if(n < 0) {
+      return "";
+    }
+    
+    return lines[n];
   }
   
   @Override

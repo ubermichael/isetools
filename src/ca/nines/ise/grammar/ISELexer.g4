@@ -1,4 +1,4 @@
-/*
+/**
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -42,7 +42,7 @@ CHAR_ACCENT
   : 
     ( '{^'  [a-zA-Z] '}'         // carret   (ê)   U+0302 
     | '{"'  [a-zA-Z] '}'         // umlat    (ë)   U+0308 
-    | '{\'' [a-zA-Z] '}'        // acute    (é)   U+0301
+    | '{\'' [a-zA-Z] '}'         // acute    (é)   U+0301
     | '{`'  [a-zA-Z] '}'         // grave    (̀e)   U+0300
     | '{_'  [a-zA-Z] '}'         // macron   (ō)   U+0304
     | '{~'  [a-zA-Z] '}'         // tilde    (ñ)   U+0303

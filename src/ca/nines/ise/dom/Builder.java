@@ -34,6 +34,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -58,12 +61,15 @@ public class Builder extends ISEParserBaseListener {
 
   public Builder(String input) {
     dom.setSource("#STRING");
+    dom.setLines(input);
     ais = new ANTLRInputStream(input);
   }
 
   public Builder(File input) throws FileNotFoundException, IOException {
     dom.setSource(input.getAbsolutePath());
     FileReader fr = new FileReader(input);
+    List<String> lines = Files.readAllLines(input.toPath(), StandardCharsets.UTF_8);
+    dom.setLines(lines.toArray(new String[lines.size()]));
     ais = new ANTLRInputStream(fr);
   }
 
