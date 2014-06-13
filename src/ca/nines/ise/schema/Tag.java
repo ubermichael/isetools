@@ -28,6 +28,7 @@ public class Tag {
   private String depreciated;
   private String where;
   private String empty;
+  private String desc;
 
   private HashMap<String, Attribute> attributes;
 
@@ -66,7 +67,10 @@ public class Tag {
     } else {
       empty = "no";
     }
-
+    
+    XPathExpression descXPath = xpath.compile("desc/text()");
+    desc = (String) descXPath.evaluate(n, XPathConstants.STRING);
+    
     if(expr == null) {
       expr = xpath.compile("attribute");
     }
@@ -135,5 +139,11 @@ public class Tag {
   public String getWhere() {
     return where;
   }
-
+  
+  public String getDescription() {
+  if(desc != "") {
+    return desc;
+    }
+    return "no description provided.";
+  }
 }

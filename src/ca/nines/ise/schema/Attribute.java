@@ -36,6 +36,7 @@ public class Attribute {
   private final String renumber;
   private final String defaultValue;
   private final String empty;
+  private final String desc;
 
   private ArrayList<String> options = null;
 
@@ -53,6 +54,9 @@ public class Attribute {
     renumber = namedAttrVal(nodeAttrs, "renumber");
     defaultValue = namedAttrVal(nodeAttrs, "defaultValue");
     empty = namedAttrVal(nodeAttrs, "empty");
+
+    XPathExpression descXPath = xpath.compile("desc/text()");
+    desc = (String) descXPath.evaluate(n, XPathConstants.STRING);
 
     if (expr == null) {
       expr = xpath.compile("option/text()");
@@ -155,6 +159,13 @@ public class Attribute {
     } else {
       return new String[0];
     }
+  }
+  
+  public String getDescription() {
+    if(desc != "") {
+    return desc;
+    }
+    return "no description provided.";
   }
 
 }
