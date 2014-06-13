@@ -115,7 +115,7 @@ public class Tag {
   }
 
   public boolean isDepreciated() {
-    return depreciated != null;
+    return depreciated != "";
   }
   
   public String getEmpty() {

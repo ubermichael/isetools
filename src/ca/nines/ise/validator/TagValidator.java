@@ -35,6 +35,7 @@ public class TagValidator {
 
   private final Schema schema;
   private final Log log;
+  private DOM dom;
 
   public TagValidator() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     log = Log.getInstance();
@@ -44,9 +45,9 @@ public class TagValidator {
   @ErrorCode(code="validator.abbr.depreciated")
   public void validate(AbbrNode n) {
     Message m = error("validator.abbr.depreciated", n);    
-    if(n.getText().length() > 7) {
+    if(n.getText().length() > 12) {
       m = error("validator.abbr.long", n);
-      m.addNote("The long abbreviation starts with " + n.getText().substring(0, 7));
+      m.addNote("The long abbreviation starts with " + n.getText().substring(0, 12));
       m.addNote("The abbreviation cannot be corrected automatically.");
     }
   }
@@ -101,7 +102,7 @@ public class TagValidator {
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
-    if( t.getEmpty() == "") {
+    if( t.getEmpty() == "no") {
       Message m = error("validator.tag.emptystart", n);
       m.addNote("Tag " + n.getName() + " should not be self-closing.");
     }
@@ -149,11 +150,14 @@ public class TagValidator {
     m.setColumn(n.getColumn());
     m.setLine(n.getLine());
     m.setTLN(n.getTln());
+    m.addNote(dom.getLine(n.getLine()-1));
     return m;
   }
 
   public void validate(DOM dom) throws Exception {
     DOMIterator iterator = dom.getIterator();
+    this.dom = dom;
+    
     while(iterator.hasNext()) {
       Node n = iterator.next();
       switch(n.type()) {
