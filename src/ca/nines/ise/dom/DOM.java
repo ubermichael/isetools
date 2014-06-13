@@ -13,7 +13,16 @@ import java.util.Formatter;
 import java.util.HashMap;
 
 /**
+ * An ISE DOM (a document object model) is a stream of Node objects. Since
+ * ISE tags are not hierarchical, they cannot be stored as a tree. DOM
+ * extends {@code ArrayList<Node>} to do most of the heavy lifting.
+ * <p>
+ * DOM also stores all of the text used to create the DOM, so it can 
+ * be accessed later.
  *
+ * @see Node
+ * @see ArrayList
+ * 
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class DOM extends ArrayList<Node> {
@@ -22,14 +31,35 @@ public class DOM extends ArrayList<Node> {
   private HashMap<String, Node> index = null;
   private String[] lines;
 
+  /**
+   * Either "#STRING" if the DOM was created by parsing a string, or the 
+   * absolute path to the file parsed to create the DOM.
+   * 
+   * @return  The source of the data in the DOM.
+   */
   public String getSource() {
     return source;
   }
 
+  /**
+   * Set the source for the DOM, either "#STRING" or the absolute
+   * file path.
+   * 
+   * @param source 
+   */
   protected void setSource(String source) {
     this.source = source;
   }
   
+  /**
+   * Calculate an internal index for the DOM to make some lookups 
+   * faster. Also sets the TLN and ASL properties of each node
+   * in the DOM.
+   * <p>
+   * If you change the DOM by adding or removing nodes, or if you 
+   * change the act, scene, line, or TLN numbering in the DOM
+   * you should call this function.
+   */
   public void index() {
     DOMIterator i = this.getIterator();
     index = new HashMap<>();
@@ -60,14 +90,32 @@ public class DOM extends ArrayList<Node> {
     }
   }
   
+  /**
+   * Store the lines of text used to create the DOM.
+   * 
+   * @param lines  The data used to create the DOM.
+   */
   public void setLines(String lines) {
     this.lines = lines.split("\n");
   }
   
+  /**
+   * Store the text used to create the DOM.
+   * 
+   * @param lines  The data used to create the DOM.
+   */
   public void setLines(String[] lines) {
     this.lines = lines;
   }
-  
+
+  /**
+   * Get the nth line of text which was parsed to create the DOM. Note that
+   * the lines are stored in a zero-based array. Line numbers in nodes are 
+   * one-based. Do your arithmetic carefully.
+   * 
+   * @param n  The index of the line to get.
+   * @return  The nth line (zero based).
+   */
   public String getLine(int n) {
     if(lines == null) {
       return "";
@@ -82,6 +130,16 @@ public class DOM extends ArrayList<Node> {
     return lines[n];
   }
   
+  /**
+   * Produce a string representation of the DOM by stringifying all of
+   * the nodes in the DOM. 
+   * <p>
+   * For serialization into SGML, text, or XML see elsewhere.
+   * 
+   * @todo figure out where the elsewhere is.
+   * 
+   * @return  a string representation.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -97,6 +155,11 @@ public class DOM extends ArrayList<Node> {
     return sb.toString();
   }
 
+  /**
+   * Create an return an iterator for the DOM.
+   * 
+   * @return an return an iterator for the DOM. 
+   */
   public DOMIterator getIterator() {
     return new DOMIterator(this);
   }
