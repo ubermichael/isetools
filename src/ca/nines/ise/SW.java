@@ -55,15 +55,16 @@ public class SW {
               attr.getMatch() == null ? " " : attr.getMatch(),  
               attr.getRenumber() == null ? "no" : "yes",
               attr.getDepreciated() == null ? " " : attr.getDepreciated(),
-              attrOptions(attr)
+              attrOptions(attr)       
       );
+      fmt.format("{{{#!td%n}}}%n{{{#!td colspan=7%n%s%n}}}%n|-------------------%n", attr.getDescription());
     }
     System.out.println(sb);
   }
 
   public static void tagInfo(Tag tag) {
     System.out.println("== " + tag.getName() + "==\n");
-    System.out.println("A description.\n");
+    System.out.println(tag.getDescription() + "\n");
     System.out.println(" Empty::");
     System.out.println("  " + tag.getEmpty());
     System.out.println(" Context::");
