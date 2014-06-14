@@ -92,8 +92,8 @@ abstract public class TagNode extends Node {
     attributes.put(name, value);
   }
 
-  public String[] attributeNames() {
-    String[] names = (String[]) attributes.keySet().toArray();
+  public String[] getAttributeNames() {
+    String[] names = attributes.keySet().toArray(new String[attributes.size()]);
     return names;
   }
 

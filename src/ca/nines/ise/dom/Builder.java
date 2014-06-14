@@ -203,6 +203,7 @@ public class Builder extends ISEParserBaseListener {
   @Override
   public void enterAttributeValue(AttributeValueContext ctx) {
     String value = ctx.ATTRIBUTE_VALUE().getText();
+    value = value.replaceAll("^['\"]|['\"]$", "");
     currentTag.setAttribute(currentAttrName, value);
     currentAttrName = null;
   }

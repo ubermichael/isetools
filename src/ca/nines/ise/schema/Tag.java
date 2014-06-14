@@ -82,8 +82,8 @@ public class Tag {
     }
   }
 
-  public Attribute getAttribute(String name) {
-    return attributes.get(name.toLowerCase());
+  public Attribute getAttribute(String attrName) {
+    return attributes.get(attrName.toLowerCase());
   }
 
   public String[] getAttributeNames() {
