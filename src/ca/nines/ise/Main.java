@@ -8,6 +8,11 @@ package ca.nines.ise;
 import ca.nines.ise.dom.Builder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.node.CommentNode;
+import ca.nines.ise.node.EmptyNode;
+import ca.nines.ise.node.EndNode;
+import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TextNode;
 import ca.nines.ise.validator.TagValidator;
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +72,5 @@ public class Main {
     } catch (Exception ex) {
       Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
     }
-
   }
 }

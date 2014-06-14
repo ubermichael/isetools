@@ -15,13 +15,26 @@ import java.util.Formatter;
  */
 abstract public class Node {
 
-  private int line;
-  private int column;
-  private String source;
-  private String text;
-  private String asl;
-  private String tln;
+  protected int line;
+  protected int column;
+  protected String source = "";
+  protected String text = "";
+  protected String asl = "";
+  protected String tln = "";
 
+  public Node() {
+    // do nothing.
+  }
+  
+  public Node(Node n) {
+    this.asl = n.asl;
+    this.column = n.column;
+    this.line = n.line;
+    this.source = n.source;
+    this.text = n.text;
+    this.tln = n.tln;
+  }
+  
   /**
    * Get the name of the tag that this node came from. For non-tag nodes, this
    * is one of
@@ -31,6 +44,13 @@ abstract public class Node {
    */
   abstract public String getName();
 
+  /**
+   * Get the type of the tag that this node came from. For non-tag nodes, this
+   * is one of#ABBR, #CHAR, #COMMENT, #EOF, or #TEXT. For tag nodes it is
+   * one of #START, #EMPTY, #END.
+   *
+   * @return String
+   */
   abstract public String type();
 
   /**

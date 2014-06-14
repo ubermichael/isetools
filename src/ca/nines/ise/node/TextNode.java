@@ -14,6 +14,15 @@ import ca.nines.ise.dom.Fragment;
  */
 public class TextNode extends Node {
 
+  public TextNode() {
+    super();
+  }
+  
+  public TextNode(Node n) {
+    super(n);
+  }
+  
+  @Override
   public String type() {
     return "#TEXT";
   }

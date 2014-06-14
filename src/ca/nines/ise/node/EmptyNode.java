@@ -15,11 +15,16 @@ public class EmptyNode extends TagNode {
   public EmptyNode() {
     super();
   }
+  
+  public EmptyNode(StartNode n) {
+    super(n);
+  }
 
   public EmptyNode(String tagname) {
     super(tagname);
   }
 
+  @Override
   public String type() {
     return "#EMPTY";
   }
