@@ -20,6 +20,7 @@ public class EndNode extends TagNode {
     super(tagname);
   }
 
+  @Override
   public String type() {
     return "#END";
   }

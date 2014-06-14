@@ -17,13 +17,21 @@ import java.util.Map;
  */
 abstract public class TagNode extends Node {
 
-  private final LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
+  private LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
   private String tagname;
 
   public TagNode() {
+    super();
     this.tagname = "";
+    this.attributes = new LinkedHashMap<>();
   }
 
+  public TagNode(TagNode n) {
+    super(n);
+    this.tagname = n.tagname;
+    this.attributes = (LinkedHashMap<String, String>) n.attributes.clone();
+  }
+  
   /**
    *
    * @param tagname
@@ -36,6 +44,7 @@ abstract public class TagNode extends Node {
     return this.tagname = name;
   }
 
+  @Override
   public String getName() {
     return tagname;
   }
@@ -57,6 +66,7 @@ abstract public class TagNode extends Node {
     return getText();
   }
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(super.toString());
     Formatter formatter = new Formatter(sb);

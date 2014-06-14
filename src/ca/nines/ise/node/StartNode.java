@@ -15,11 +15,16 @@ public class StartNode extends TagNode {
   public StartNode() {
     super();
   }
+  
+  public StartNode(EmptyNode n) {
+    super(n);
+  }
 
   public StartNode(String tagname) {
     super(tagname);
   }
 
+  @Override
   public String type() {
     return "#START";
   }

@@ -16,6 +16,7 @@ public class CharNode extends Node {
 
   private boolean nested = false;
 
+  @Override
   public String type() {
     return "#CHAR";
   }
