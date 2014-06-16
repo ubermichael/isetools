@@ -6,7 +6,6 @@
 package ca.nines.ise.validator;
 
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMIterator;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.misc.ErrorCode;
@@ -24,6 +23,7 @@ import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
 
 import java.io.IOException;
+import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
@@ -268,7 +268,7 @@ public class TagValidator {
   }
 
   public void validate(DOM dom) throws Exception {
-    DOMIterator iterator = dom.getIterator();
+    Iterator<Node> iterator = dom.iterator();
     this.dom = dom;
 
     while (iterator.hasNext()) {
