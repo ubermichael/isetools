@@ -20,11 +20,6 @@ import java.util.Iterator;
  * <p>
  * DOM also stores all of the text used to create the DOM, so it can 
  * be accessed later.
- *
- * @see Node
- * @see ArrayList
- * 
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class DOM extends ArrayList<Node> {
 

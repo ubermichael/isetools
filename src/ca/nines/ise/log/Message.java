@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Formatter;
 
 /**
- *
+ * Message captures all the information about a parse, validation,
+ * or other error.
+ * 
  * @author michael
  */
 public class Message implements Comparable<Message> {
@@ -23,6 +25,7 @@ public class Message implements Comparable<Message> {
   private char severity = 'U';
   private ArrayList<String> notes = new ArrayList<>();
 
+  
   Message(String code) {
     if (code == null) {
       this.code = "(unknown)";
@@ -157,7 +160,7 @@ public class Message implements Comparable<Message> {
 
   @Override
   public int compareTo(Message o) {
-    if(this.line != o.line) {
+    if (this.line != o.line) {
       return this.line - o.line;
     }
     return this.column - o.column;

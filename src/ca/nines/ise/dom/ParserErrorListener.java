@@ -12,14 +12,25 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
 /**
- *
- * @author michael
+ * ParserErrorListener intercepts parser errors and 
+ * generates error messages in the log. Used by Builder.
  */
 public class ParserErrorListener extends BaseErrorListener {
 
   private String source = "";
   private Log log = Log.getInstance();
-  
+
+  /**
+   * Called automatically when the parser encounters
+   * an error.
+   * 
+   * @param recognizer
+   * @param offendingSymbol
+   * @param line
+   * @param charPositionInLine
+   * @param msg
+   * @param e 
+   */
   @Override
   public void syntaxError(
           Recognizer<?, ?> recognizer,
@@ -37,6 +48,9 @@ public class ParserErrorListener extends BaseErrorListener {
   }
 
   /**
+   * Sets the source of the parsed data. Either #STRING
+   * or the path to the file.
+   * 
    * @param source the source to set
    */
   public void setSource(String source) {

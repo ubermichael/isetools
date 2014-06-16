@@ -7,8 +7,10 @@
 package ca.nines.ise.dom;
 
 /**
- *
- * @author michael
+ * A Fragment is a piece of a DOM. They are 
+ * identical to DOMs in almost every way: validations
+ * may be different for Fragments.
+ * 
  */
 public class Fragment extends DOM {
   
