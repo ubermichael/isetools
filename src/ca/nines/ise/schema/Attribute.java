@@ -22,7 +22,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class Attribute {
+public class Attribute implements Comparable<Attribute>{
 
   // @TODO maybe a hashmap would be good here. Store the namednodemap
   // obj, get the values as needed and store them in the map
@@ -166,6 +166,11 @@ public class Attribute {
     return desc;
     }
     return "no description provided.";
+  }
+
+  @Override
+  public int compareTo(Attribute a) {
+    return this.name.toLowerCase().compareTo(a.name.toLowerCase());
   }
 
 }

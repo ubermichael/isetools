@@ -45,8 +45,7 @@ public class SW {
     StringBuilder sb = new StringBuilder();
     Formatter fmt = new Formatter(sb);
     System.out.println("|| Name || Type || Optional || Empty || Match || Renumberable || Depreciated || Options ||");
-    for (String attrName : tag.getAttributeNames()) {
-      Attribute attr = tag.getAttribute(attrName);
+    for (Attribute attr : tag.getAttributes()) {
       fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s || %s ||%n", 
               attr.getName(), 
               attr.getType(), 
@@ -80,8 +79,7 @@ public class SW {
       StringBuilder sb = new StringBuilder();
       Formatter fmt = new Formatter(sb);
 
-      for (String tagName : schema.getTagNames()) {
-        Tag tag = schema.getTag(tagName);
+      for (Tag tag : schema.getTags()) {
         tagInfo(tag);
         attrInfo(tag);
       }

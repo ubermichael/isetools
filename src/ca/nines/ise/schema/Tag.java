@@ -6,6 +6,7 @@
 package ca.nines.ise.schema;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +23,7 @@ import org.w3c.dom.NodeList;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class Tag {
+public class Tag implements Comparable<Tag>{
 
   private String name;
   private String depreciated;
@@ -92,6 +93,13 @@ public class Tag {
     return names;
   }
   
+  public Attribute[] getAttributes() {
+
+    Attribute[] a = attributes.values().toArray(new Attribute[attributes.size()]);
+    Arrays.sort(a);
+    return a;
+  }
+
   public int countAttributes() {    
     return attributes.size();
   }
@@ -145,5 +153,10 @@ public class Tag {
     return desc;
     }
     return "no description provided.";
+  }
+
+  @Override
+  public int compareTo(Tag t) {
+    return this.name.toLowerCase().compareTo(t.name.toLowerCase());
   }
 }
