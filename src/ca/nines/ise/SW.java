@@ -11,7 +11,6 @@ import ca.nines.ise.schema.Tag;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,11 +48,11 @@ public class SW {
       fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s || %s ||%n", 
               attr.getName(), 
               attr.getType(), 
-              attr.getOptional() == null ? "no" : "yes",
-              attr.getEmpty() == null ? "no" : "yes", 
-              attr.getMatch() == null ? " " : attr.getMatch(),  
-              attr.getRenumber() == null ? "no" : "yes",
-              attr.getDepreciated() == null ? " " : attr.getDepreciated(),
+              attr.isOptional(),
+              attr.isEmpty(),
+              attr.getMatch(),  
+              attr.isRenumberable(),
+              attr.getDepreciated(),
               attrOptions(attr)       
       );
       fmt.format("{{{#!td%n}}}%n{{{#!td colspan=7%n%s%n}}}%n|-------------------%n", attr.getDescription());

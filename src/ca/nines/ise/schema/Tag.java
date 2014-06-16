@@ -5,11 +5,14 @@
  */
 package ca.nines.ise.schema;
 
+import ca.nines.ise.util.XMLReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -18,6 +21,7 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -33,56 +37,39 @@ public class Tag implements Comparable<Tag>{
 
   private HashMap<String, Attribute> attributes;
 
-  private static XPathFactory xpfactory = XPathFactory.newInstance();
-  private static XPath xpath = xpfactory.newXPath();
-  private static XPathExpression expr = null;
-
-  Tag(Node n) throws XPathExpressionException {
+  public Tag(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    XMLReader xmlIn = new XMLReader(in);
     attributes = new HashMap<>();
-
-    NamedNodeMap nodeAttrs = n.getAttributes();
-    Node a;
-
-    a = nodeAttrs.getNamedItem("name");
-    if (a != null) {
-      name = a.getNodeValue();
-    }
-
-    a = nodeAttrs.getNamedItem("depreciated");
-    if (a != null) {
-      depreciated = a.getNodeValue();
-    } else {
-      depreciated = "";
-    }
-
-    a = nodeAttrs.getNamedItem("where");
-    if(a != null) {
-      where = a.getNodeValue();
-    } else {
-      where = "";
-    }
-
-    a = nodeAttrs.getNamedItem("empty");
-    if(a != null) {
-      empty = a.getNodeValue();
-    } else {
-      empty = "no";
-    }
+    name = xmlIn.attrValue("name");
+    depreciated = xmlIn.attrValue("depreciated");
+    where = xmlIn.attrValue("where");
+    empty = xmlIn.attrValue("empty");
+    desc = xmlIn.xpathString("desc");
     
-    XPathExpression descXPath = xpath.compile("desc/text()");
-    desc = (String) descXPath.evaluate(n, XPathConstants.STRING);
-    
-    if(expr == null) {
-      expr = xpath.compile("attribute");
-    }
-
-    NodeList nl = (NodeList) expr.evaluate(n, XPathConstants.NODESET);
-    for(int i = 0; i < nl.getLength(); i++) {
-      Attribute attribute = new Attribute(nl.item(i));
-      attributes.put(attribute.getName().toLowerCase(), attribute);
+    for(Node n : xmlIn.xpathList("attributes")) {
+      Attribute attr = new Attribute(n, xmlIn);
+      attributes.put(attr.getName().toLowerCase(), attr);
     }
   }
-
+  
+  public Tag(Node in) throws XPathExpressionException {
+    this(in, new XMLReader(in));
+  }
+  
+  public Tag(Node in, XMLReader xmlIn) throws XPathExpressionException {
+    attributes = new HashMap<>();
+    name = xmlIn.attrValue("name");
+    depreciated = xmlIn.attrValue("depreciated", in);
+    where = xmlIn.attrValue("where", in);
+    empty = xmlIn.attrValue("empty", in);
+    desc = xmlIn.xpathString("desc", in);
+    
+    for(Node n : xmlIn.xpathList("attribute", in)) {
+      Attribute attr = new Attribute(n, xmlIn);
+      attributes.put(attr.getName().toLowerCase(), attr);
+    }
+  }
+  
   public Attribute getAttribute(String attrName) {
     return attributes.get(attrName.toLowerCase());
   }
@@ -92,7 +79,7 @@ public class Tag implements Comparable<Tag>{
     Arrays.sort(names);
     return names;
   }
-  
+
   public Attribute[] getAttributes() {
 
     Attribute[] a = attributes.values().toArray(new Attribute[attributes.size()]);
@@ -100,10 +87,10 @@ public class Tag implements Comparable<Tag>{
     return a;
   }
 
-  public int countAttributes() {    
+  public int countAttributes() {
     return attributes.size();
   }
-  
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -111,7 +98,7 @@ public class Tag implements Comparable<Tag>{
 
     formatter.format("%s:%s:%s%n", name, depreciated, where);
     Iterator<Attribute> i = attributes.values().iterator();
-    while(i.hasNext()) {
+    while (i.hasNext()) {
       Attribute a = i.next();
       sb.append(a);
     }
@@ -126,19 +113,27 @@ public class Tag implements Comparable<Tag>{
     return name;
   }
 
-  public boolean isDepreciated() {
-    return depreciated != "";
+  public boolean isEmpty() {
+    return empty == "yes";
+  }
+  
+  public boolean maybeEmpty() {
+    return empty == "yes" || empty =="optional";
   }
   
   public String getEmpty() {
-    return empty;
+    return (empty == "" ? "no" : empty);
   }
-
+  
   /**
    * @return the depreciated
    */
   public String getDepreciated() {
     return depreciated;
+  }
+
+  public boolean isDepreciated() {
+    return depreciated != "";
   }
 
   /**
@@ -147,10 +142,10 @@ public class Tag implements Comparable<Tag>{
   public String getWhere() {
     return where;
   }
-  
+
   public String getDescription() {
-  if(desc != "") {
-    return desc;
+    if (desc != "") {
+      return desc;
     }
     return "no description provided.";
   }
