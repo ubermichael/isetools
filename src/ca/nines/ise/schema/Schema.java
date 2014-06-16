@@ -38,16 +38,16 @@ public class Schema {
     source = in.getPath();
   }
   
-  public Schema(Node in) throws XPathExpressionException {
+  public Schema(Node in) throws XPathExpressionException, ParserConfigurationException {
     this(new XMLReader(in));
     source = "#NODE";
   }
   
-  public Schema(XMLReader xmlIn) throws XPathExpressionException {
+  public Schema(XMLReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
     tags = new HashMap<>();
     source = "";
-    for(Node n : xmlIn.xpathList("/schema/tags/tag")) {
-      Tag t = new Tag(n);
+    for(Node n : xmlIn.xpathList("//tag")) {
+      Tag t = new Tag(n, xmlIn);
       tags.put(t.getName().toUpperCase(), t);
     }    
   }

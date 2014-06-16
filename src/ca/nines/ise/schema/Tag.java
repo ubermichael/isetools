@@ -45,13 +45,13 @@ public class Tag implements Comparable<Tag>{
     }
   }
   
-  public Tag(Node in) throws XPathExpressionException {
+  public Tag(Node in) throws XPathExpressionException, ParserConfigurationException {
     this(in, new XMLReader(in));
   }
   
   public Tag(Node in, XMLReader xmlIn) throws XPathExpressionException {
     attributes = new HashMap<>();
-    name = xmlIn.attrValue("name");
+    name = xmlIn.attrValue("name", in);
     depreciated = xmlIn.attrValue("depreciated", in);
     where = xmlIn.attrValue("where", in);
     empty = xmlIn.attrValue("empty", in);

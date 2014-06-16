@@ -46,7 +46,7 @@ public class Attribute implements Comparable<Attribute> {
     desc = xmlIn.xpathString("desc");
   }
 
-  public Attribute(Node in) throws XPathExpressionException {
+  public Attribute(Node in) throws XPathExpressionException, ParserConfigurationException {
     this(in, new XMLReader(in));
   }
 
