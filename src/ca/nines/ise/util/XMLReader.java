@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,13 +36,16 @@ public class XMLReader {
   private final DocumentBuilder builder;
   private final XPathFactory xpfactory;
   private final XPath xpath;
+  private String source;
 
   public XMLReader(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(IOUtils.toInputStream(in, "UTF-8"));
+    source = "#STRING";
   }
 
   public XMLReader(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(Class.class.getResourceAsStream(in.getPath()));
+    source = in.getPath();
   }
 
   public XMLReader(InputStream stream) throws SAXException, IOException, XPathExpressionException, ParserConfigurationException {
@@ -52,7 +53,8 @@ public class XMLReader {
     builder = factory.newDocumentBuilder();
     xpfactory = XPathFactory.newInstance();
     xpath = xpfactory.newXPath();
-
+    source = "#STREAM";
+    
     Document doc = builder.parse(stream);
     XPathExpression expr = xpath.compile("/node()");
     root = (Node) expr.evaluate(doc, XPathConstants.NODE);
@@ -63,6 +65,8 @@ public class XMLReader {
     builder = null;
     xpfactory = XPathFactory.newInstance();
     xpath = xpfactory.newXPath();
+    source = "#NODE";
+    
     root = in;
   }
 
@@ -124,5 +128,9 @@ public class XMLReader {
       return "";
     }
     return attribute.getNodeValue();
+  }
+  
+  public String getSource() {
+    return source;
   }
 }

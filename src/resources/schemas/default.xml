@@ -21,10 +21,10 @@
       </attribute>
     </tag>
     <tag name="ADD">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version.]]></desc>
     </tag>
     <tag name="AMBIG">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[Designates alternative readings in a modern text where a word in the original is irreducibly ambiguous. Note: this is not a textual variant, but a product of the process of modernization. ]]></desc>
     </tag>
     <tag name="BACKMATTER">
       <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of FRONTMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, List of Characters and so on.]]></desc>
