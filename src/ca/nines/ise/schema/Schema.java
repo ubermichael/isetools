@@ -63,6 +63,13 @@ public class Schema {
     return names;
   }
 
+  public Tag[] getTags() {
+    Tag[] t = tags.values().toArray(new Tag[tags.size()]);
+    
+    Arrays.sort(t);
+    return t;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
