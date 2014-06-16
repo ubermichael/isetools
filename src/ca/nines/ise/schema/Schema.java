@@ -22,25 +22,35 @@ import org.xml.sax.SAXException;
  */
 public class Schema {
 
-  private HashMap<String, Tag> tags;
+  private final HashMap<String, Tag> tags;
   private String source;
   
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    tags = new HashMap<>();
-    File file = new File("/resources/schemas/default.xml");
-    XMLReader xmlIn = new XMLReader(file);
+    this(new File("/resources/schemas/default.xml"));
+  }
+  
+  public Schema(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+    this(new XMLReader(in));
+    source = "#STRING";
+  }
     
-    InputStream in = Class.class.getResourceAsStream("/resources/schemas/default.xml");
+  public Schema(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    this(new XMLReader(in));
+    source = in.getPath();
+  }
+  
+  public Schema(Node in) throws XPathExpressionException {
+    this(new XMLReader(in));
+    source = "#NODE";
+  }
+  
+  public Schema(XMLReader xmlIn) throws XPathExpressionException {
+    tags = new HashMap<>();
+    source = "";
     for(Node n : xmlIn.xpathList("/schema/tags/tag")) {
       Tag t = new Tag(n);
       tags.put(t.getName().toUpperCase(), t);
-    }
-  }
-  
-  
-  public Schema(Node in) {
-    source = "#NODE";
-    tags = new HashMap<>();
+    }    
   }
 
   public Tag getTag(String name) {
