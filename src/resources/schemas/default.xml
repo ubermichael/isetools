@@ -1,9 +1,15 @@
 <!-- ISE Tools schema for the Internet Shakespeare Editions (the mothership). -->
+
+<!-- 
+  java -jar ~/Classes/trang.jar sgml-metaschema.rnc sgml-metaschema.rng 
+  java -jar ~/Classes/jing.jar sgml-metaschema.rng default.xml 
+-->
+
 <schema edition="default" group="default">
   <tags>
     <tag name="ACT">
       <desc>Act division as in the modern edition.</desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the act. If the original includes an act division which has been retained, the notation would be thus: </ACT><ACT n="2">
 <LD>Actus Secundus</LD>.]]></desc>
       </attribute>
@@ -32,7 +38,7 @@
     <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="BR" empty="empty" where="apparatus">
+    <tag name="BR" empty="yes" where="apparatus">
       <desc><![CDATA[Forces a line break where no other option is available. To be used with caution.]]></desc>
     </tag>
     <tag name="C">
@@ -55,7 +61,7 @@
     </tag>
     <tag name="DIV">
       <desc><![CDATA[Divisions of the FRONTMATTER and ENDMATTER tags, indicating what kind of material follows.]]></desc>
-      <attribute name="link" type="string" optional="optional" depreciated="Link attributes should be dropped from the text.">
+      <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
       </attribute>
       <attribute name="name" type="select">
@@ -81,7 +87,7 @@
     <tag name="EM">
       <desc><![CDATA[Surrounds words to be emphasized. May be replaced by word processor italics.]]></desc>
     </tag>
-    <tag name="EPILOGUE" namespace="" depreciated="Use BACKMATTER or DIV instead of EPILOGUE">
+    <tag name="EPILOGUE" depreciated="Use BACKMATTER or DIV instead of EPILOGUE">
       <desc><![CDATA[]]></desc>
     </tag>
     <tag name="FONTGROUP" where="oldspelling">
@@ -127,10 +133,10 @@
     </tag>
     <tag name="iembed">
       <desc><![CDATA[]]></desc>
-      <attribute name="site" type="string" optional="optional">
+      <attribute name="site" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="component" type="select" optional="optional">
+      <attribute name="component" type="select" optional="yes">
         <desc><![CDATA[]]></desc>
         <option>imagedb</option>
         <option>text</option>
@@ -143,18 +149,18 @@
       <attribute name="href" type="string">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="showCaption" type="select" optional="optional">
+      <attribute name="showCaption" type="select" optional="yes">
         <desc><![CDATA[]]></desc>
         <option>true</option>
         <option>false</option>
       </attribute>
-      <attribute name="height" type="number" optional="optional">
+      <attribute name="height" type="number" optional="yes" renumber="no">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="width" type="number" optional="optional">
+      <attribute name="width" type="number" optional="yes" renumber="no">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="align" type="select" optional="optional">
+      <attribute name="align" type="select" optional="yes">
         <desc><![CDATA[]]></desc>
         <option>left</option>
         <option>center</option>
@@ -162,19 +168,19 @@
         <option>lightbox</option>
         <option>auto</option>
       </attribute>
-      <attribute name="lightbox" type="string" optional="optional">
+      <attribute name="lightbox" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="longCaption" type="string" optional="optional">
+      <attribute name="longCaption" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
     <tag name="ilink">
       <desc><![CDATA[]]></desc>
-      <attribute name="site" type="string" optional="optional">
+      <attribute name="site" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="component" type="select" optional="optional">
+      <attribute name="component" type="select" optional="yes">
         <desc><![CDATA[]]></desc>
         <option>imagedb</option>
         <option>text</option>
@@ -203,12 +209,12 @@
     <tag name="J">
       <desc><![CDATA[Justified line(s). Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
     </tag>
-    <tag name="L" empty="empty">
+    <tag name="L" empty="yes">
       <desc><![CDATA[Blank line in the old-spelling texts. (Previously tagged <L></L> and even earlier <BL>.)]]></desc>
-      <attribute name="n" type="number" optional="optional" empty="empty">
+      <attribute name="n" type="number" optional="yes" empty="yes" renumber="yes">
         <desc><![CDATA[A line in the modern text, with its line number, each scene renumbered from 1.]]></desc>
       </attribute>
-      <attribute name="part" type="select" optional="optional">
+      <attribute name="part" type="select" optional="yes">
         <desc><![CDATA[See Editor Guidelines 4.4.8 on division into lines. Part may optionally be indicated by tabs: one tab = medial, two tabs = final.]]></desc>
         <option>i</option>
         <option>m</option>
@@ -238,18 +244,18 @@
         <desc><![CDATA[The group's rhyming pattern, for example aabbcddc]]></desc>
       </attribute>
     </tag>
-    <tag name="LINK" empty="empty">
+    <tag name="LINK" empty="yes">
       <desc><![CDATA[]]></desc>
-      <attribute name="rel" type="string" optional="optional">
+      <attribute name="rel" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="rev" type="string" optional="optional">
+      <attribute name="rev" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="href" type="string" optional="optional">
+      <attribute name="href" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="order" type="number" optional="optional">
+      <attribute name="order" type="number" optional="yes" renumber="no">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
@@ -267,15 +273,15 @@
         <option>right</option>
       </attribute>
     </tag>
-    <tag name="META" empty="empty">
+    <tag name="META" empty="yes">
       <desc><![CDATA[]]></desc>
       <attribute name="name" type="string">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="content" type="string" empty="empty">
+      <attribute name="content" type="string" empty="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="scheme" type="string" optional="optional">
+      <attribute name="scheme" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
@@ -293,22 +299,22 @@
     </tag>
     <tag name="ORNAMENT" empty="optional">
       <desc><![CDATA[Self-closing <ORNAMENT /> is a printer's ornament. <ORNAMENT> </ORNAMENT> is used for decorative or large font letters only.]]></desc>
-      <attribute name="drop" type="number" optional="optional">
+      <attribute name="drop" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Marks this ornament as a drop-capital, and specifies the number of lines to span.]]></desc>
       </attribute>
-      <attribute name="letter" type="string" optional="optional">
+      <attribute name="letter" type="string" optional="yes">
         <desc><![CDATA[The oranmented letter.]]></desc>
       </attribute>
     </tag>
     <tag name="PAGE" where="oldspelling">
       <desc><![CDATA[Indicates page breaks in the old-spelling texts.]]></desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number"  renumber="yes">
         <desc><![CDATA[The "through page number" for the text.]]></desc>
       </attribute>
     </tag>
     <tag name="PN" where="oldspelling">
       <desc><![CDATA[Page number as printed.]]></desc>
-      <attribute name="n" type="number" optional="optional" renumber="no">
+      <attribute name="n" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Actual page number where it differs from the printed number.]]></desc>
       </attribute>
     </tag>
@@ -320,28 +326,28 @@
     </tag>
     <tag name="PROP" empty="optional">
       <desc><![CDATA[Surrounds an annotation that provides information about props to be used in the play, in the location they are needed.]]></desc>
-      <attribute name="item" type="string" optional="optional">
+      <attribute name="item" type="string" optional="yes">
         <desc><![CDATA[A one-word indication of the nature of the item. Where there are more than one in the play (in the case of multiple letters, for example) these should be designate "letter 1" "letter 2" etc.]]></desc>
       </attribute>
-      <attribute name="desc" type="string" optional="optional">
+      <attribute name="desc" type="string" optional="yes">
         <desc><![CDATA[A short description of the prop, if needed.]]></desc>
       </attribute>
     </tag>
     <tag name="PROSEQUOTE" depreciated="Use QUOTE instead of PROSEQUOTE.">
       <desc><![CDATA[Formerly a prose quotation (e.g. quoted letter).]]></desc>
-      <attribute name="source" type="string" optional="optional">
+      <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[When the passage is a quotation from another source, the source should be recorded.]]></desc>
       </attribute>
     </tag>
-    <tag name="QLN" empty="empty" where="quarto">
+    <tag name="QLN" empty="yes" where="quarto">
       <desc><![CDATA[quarto line number]]></desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
     <tag name="QUOTE">
       <desc><![CDATA[]]></desc>
-      <attribute name="source" type="string" optional="optional">
+      <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
       <attribute name="type" type="select">
@@ -358,16 +364,16 @@
     </tag>
     <tag name="RDG">
       <desc><![CDATA[The reading of an editor or edition for an entry in the collation. One collation may contain multiple variant readings.]]></desc>
-      <attribute name="resp" type="string" optional="optional">
+      <attribute name="resp" type="string" optional="yes">
         <desc><![CDATA[The edition or editor responsible for the reading.]]></desc>
       </attribute>
     </tag>
     <tag name="RT" where="oldspelling">
       <desc><![CDATA[Running title.]]></desc>
     </tag>
-    <tag name="RULE" empty="empty">
+    <tag name="RULE" empty="yes">
       <desc><![CDATA[A horizontal rule. The tag is self-closing.]]></desc>
-      <attribute name="n" type="number" optional="optional" empty="empty" renumber="no">
+      <attribute name="n" type="number" optional="yes" empty="yes" renumber="no">
         <desc><![CDATA[Width of the rule in m-spaces. The default is a full width rule.]]></desc>
       </attribute>
     </tag>
@@ -379,10 +385,10 @@
     </tag>
     <tag name="SCENE">
       <desc><![CDATA[Scene division as in the modern edition. Note: In plays with a non-diegetic chorus, like Henry V (F) and Pericles, use <SCENE n="0"> to designate chorus passages that are not prologues or epilogues. SCENEs may be used with or without enclosing ACTs.]]></desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the scene.]]></desc>
       </attribute>
-      <attribute name="link" type="string" optional="optional" depreciated="Link attributes should be dropped from the text.">
+      <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
@@ -408,7 +414,7 @@
     </tag>
     <tag name="SIG">
       <desc><![CDATA[Page Signature (encloses the printed signature, and appears at the end of the page, where it will be displayed). Note that the signature itself may include other tags where necessary (if, for example, an italic letter is used). Examples: <SIG n="A2v"></SIG><BR> <SIG n="aaa1r"><LS>aaa</LS></SIG>]]></desc>
-      <attribute name="n" type="string" optional="optional" renumber="no">
+      <attribute name="n" type="string" optional="yes" renumber="no">
         <desc><![CDATA[The signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
     </tag>
@@ -418,15 +424,15 @@
         <desc><![CDATA[Normalized form of the name; must be included in every instance of a speech prefix, but not in the course of a speech.]]></desc>
       </attribute>
     </tag>
-    <tag name="SPACE" empty="empty">
+    <tag name="SPACE" empty="yes">
       <desc><![CDATA[Indicates significant space to be left in the text. The most common instance of this will be in formatting the lines of verse in a song or sonnet, where some lines will be indented further than others.]]></desc>
-      <attribute name="n" type="number" optional="optional" renumber="no">
+      <attribute name="n" type="number" optional="yes" renumber="no">
         <desc><![CDATA[The number of m-spaces should be indicated.]]></desc>
       </attribute>
     </tag>
     <tag name="STANZA">
       <desc><![CDATA[]]></desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the stanza.]]></desc>
       </attribute>
     </tag>
@@ -451,31 +457,31 @@
     <tag name="TITLEPAGE" depreciated="Use DIV with a name attrbute instead of TITLEPAGE">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="TLN" empty="empty">
+    <tag name="TLN" empty="yes">
       <desc><![CDATA[Through Line Number. The basic method of internal reference for the editions will be the TLN number. Where a quarto or modern edition omits material the numbers will be omitted; where they add material the numbers will be added decimally (<TLN n="1033.1"> etc.); where the line division varies from the Folio the TLN number will be that of the first word of the line.]]></desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The TLN.]]></desc>
       </attribute>
     </tag>
     <tag name="VERSEQUOTE" depreciated="Use DIV with the type attribute instead of VERSEQUOTE.">
       <desc><![CDATA[Previously used for a verse quotation (e.g. song).]]></desc>
-      <attribute name="source" type="string" optional="optional">
+      <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[When the verse is a quotation from another source, the source should be recorded (as in Pistol's quotations from earlier plays).]]></desc>
       </attribute>
     </tag>
-    <tag name="WLN" empty="empty">
+    <tag name="WLN" empty="yes">
       <desc><![CDATA[Witness Line Number.]]></desc>
-      <attribute name="n" type="number">
+      <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The WLN.]]></desc>
       </attribute>
-      <attribute name="wit" type="string" optional="optional">
+      <attribute name="wit" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
     <tag name="WORK">
       <desc><![CDATA[The tag that surrounds the entire document.]]></desc>
-      <attribute name="genre" type="string" empty="empty" optional="optional" depreciated="Use metadata instead of the genre attribute.">
-        <desc><![CDATA[Previously used to the genre.]]></desc>
+      <attribute name="genre" type="string" empty="yes" optional="yes" depreciated="Use metadata instead of the genre attribute.">
+        <desc><![CDATA[Previously used to decribe the work's genre.]]></desc>
       </attribute>
     </tag>
   </tags>
