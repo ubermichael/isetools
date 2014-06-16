@@ -6,9 +6,11 @@
 
 package ca.nines.ise;
 
-import ca.nines.ise.schema.Schema;
+import ca.nines.ise.util.XMLReader;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -17,8 +19,14 @@ import java.util.logging.Logger;
 public class Tester {
   public static void main(String[] args) {
     try {
-      Schema s = new Schema();
-      System.out.println(s);
+      File file = new File("/resources/schemas/default.xml");
+      XMLReader xmlIn = new XMLReader(file);
+      Node[] nl = xmlIn.xpathList("//tag");
+      System.out.println("found " + nl.length);
+      for(Node n : nl) {
+        System.out.println(n.getNodeName());
+        System.out.println(xmlIn.attrValue("name", n));
+      }
     } catch (Exception ex) {
       Logger.getLogger(Tester.class.getName()).log(Level.SEVERE, null, ex);
     }

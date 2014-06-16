@@ -44,6 +44,9 @@ public class Attribute implements Comparable<Attribute> {
     defaultValue = xmlIn.attrValue("default");
     empty = xmlIn.attrValue("empty") == "yes";
     desc = xmlIn.xpathString("desc");
+    for(Node n : xmlIn.xpathList("option")) {
+      options.add(n.getTextContent());
+    }
   }
 
   public Attribute(Node in) throws XPathExpressionException, ParserConfigurationException {
@@ -60,6 +63,10 @@ public class Attribute implements Comparable<Attribute> {
     defaultValue = xmlIn.attrValue("default", in);
     empty = xmlIn.attrValue("empty", in) == "yes";
     desc = xmlIn.xpathString("desc", in);
+    options = new ArrayList<>();
+    for(Node n : xmlIn.xpathList("option", in)) {
+      options.add(n.getTextContent());
+    }
   }
 
   public String toString() {

@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 public class Schema {
 
   private final HashMap<String, Tag> tags;
-  private String source;
+  private final String source;
   
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new File("/resources/schemas/default.xml"));
@@ -30,22 +30,19 @@ public class Schema {
   
   public Schema(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     this(new XMLReader(in));
-    source = "#STRING";
   }
     
   public Schema(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new XMLReader(in));
-    source = in.getPath();
   }
   
   public Schema(Node in) throws XPathExpressionException, ParserConfigurationException {
     this(new XMLReader(in));
-    source = "#NODE";
   }
   
   public Schema(XMLReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
     tags = new HashMap<>();
-    source = "";
+    source = xmlIn.getSource();
     for(Node n : xmlIn.xpathList("//tag")) {
       Tag t = new Tag(n, xmlIn);
       tags.put(t.getName().toUpperCase(), t);
