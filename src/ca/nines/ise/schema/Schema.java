@@ -5,22 +5,15 @@
  */
 package ca.nines.ise.schema;
 
+import ca.nines.ise.util.XMLReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -29,28 +22,25 @@ import org.xml.sax.SAXException;
  */
 public class Schema {
 
-  HashMap<String, Tag> tags;
-
+  private HashMap<String, Tag> tags;
+  private String source;
+  
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-
-    // @TODO this should be a hashmap.
     tags = new HashMap<>();
-
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder builder = factory.newDocumentBuilder();
+    File file = new File("/resources/schemas/default.xml");
+    XMLReader xmlIn = new XMLReader(file);
+    
     InputStream in = Class.class.getResourceAsStream("/resources/schemas/default.xml");
-    Document document = builder.parse(in);
-
-    XPathFactory xpfactory = XPathFactory.newInstance();
-    XPath xpath = xpfactory.newXPath();
-    XPathExpression expr = xpath.compile("/schema/tags/tag");
-
-    NodeList nl = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
-    for (int i = 0; i < nl.getLength(); i++) {
-      Node n = nl.item(i);
+    for(Node n : xmlIn.xpathList("/schema/tags/tag")) {
       Tag t = new Tag(n);
       tags.put(t.getName().toUpperCase(), t);
     }
+  }
+  
+  
+  public Schema(Node in) {
+    source = "#NODE";
+    tags = new HashMap<>();
   }
 
   public Tag getTag(String name) {
@@ -62,7 +52,7 @@ public class Schema {
     Arrays.sort(names);
     return names;
   }
-
+  
   public Tag[] getTags() {
     Tag[] t = tags.values().toArray(new Tag[tags.size()]);
     
@@ -73,12 +63,9 @@ public class Schema {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    Iterator<Tag> i = tags.values().iterator();
-    while (i.hasNext()) {
-      Tag t = i.next();
+    for(Tag t : getTags()) {
       sb.append(t);
     }
-
     return sb.toString();
   }
 

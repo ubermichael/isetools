@@ -8,6 +8,7 @@ package ca.nines.ise.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -19,11 +20,9 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.IOUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -32,7 +31,7 @@ import org.xml.sax.SAXException;
  */
 public class XMLReader {
 
-  private Node root;
+  private final Node root;
   private DocumentBuilderFactory factory;
   private DocumentBuilder builder;
   private XPathFactory xpfactory;
@@ -40,13 +39,13 @@ public class XMLReader {
 
   private void __construct() {
     factory = DocumentBuilderFactory.newInstance();
-    xpfactory = XPathFactory.newInstance();
-    xpath = xpfactory.newXPath();
     try {
       builder = factory.newDocumentBuilder();
     } catch (ParserConfigurationException ex) {
       Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
     }
+    xpfactory = XPathFactory.newInstance();
+    xpath = xpfactory.newXPath();
   }
 
   public XMLReader(String in) throws ParserConfigurationException, SAXException, IOException {
@@ -65,15 +64,27 @@ public class XMLReader {
     __construct();
     root = in;
   }
-
-  public NodeList xpathList(String xp) throws XPathExpressionException {
+  
+  public Node[] xpathList(String xp) throws XPathExpressionException {
+    ArrayList<Node> nodes = new ArrayList<>();    
     XPathExpression expr = xpath.compile(xp);
-    return (NodeList) expr.evaluate(root, XPathConstants.NODESET);
+    NodeList nl = (NodeList) expr.evaluate(root, XPathConstants.NODESET);
+    int length = nl.getLength();
+    for(int i = 0; i < length; i++) {
+      nodes.add(nl.item(i));
+    }
+    return nodes.toArray(new Node[nodes.size()]);
   }
 
-  public NodeList xpathList(String xp, Node node) throws XPathExpressionException {
+  public Node[] xpathList(String xp, Node node) throws XPathExpressionException {
+    ArrayList<Node> nodes = new ArrayList<>();    
     XPathExpression expr = xpath.compile(xp);
-    return (NodeList) expr.evaluate(node, XPathConstants.NODESET);
+    NodeList nl = (NodeList) expr.evaluate(node, XPathConstants.NODESET);
+    int length = nl.getLength();
+    for(int i = 0; i < length; i++) {
+      nodes.add(nl.item(i));
+    }
+    return nodes.toArray(new Node[nodes.size()]);
   }
 
   public String xpathString(String xp) throws XPathExpressionException {
