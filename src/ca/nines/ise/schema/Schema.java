@@ -8,7 +8,6 @@ package ca.nines.ise.schema;
 import ca.nines.ise.util.XMLReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
