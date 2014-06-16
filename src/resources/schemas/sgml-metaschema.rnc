@@ -1,0 +1,28 @@
+default namespace = ""
+
+start =
+  element schema {
+    attribute edition { xsd:NCName },
+    attribute group { xsd:NCName },
+    element tags {
+      element tag {
+        attribute name { xsd:NCName },
+        attribute depreciated { text }?,
+        attribute empty { "yes" | "no" | "optional" }?,
+        attribute where { xsd:NCName }?,
+        desc,
+        element attribute {
+          attribute name { xsd:NCName },
+          attribute type { xsd:NCName },
+          attribute depreciated { text }?,
+          attribute empty { "yes" | "no" }?,
+          attribute match { text }?,
+          attribute optional { "yes" | "no" }?,
+          attribute renumber { "yes" | "no" }?,
+          desc,
+          element option { text }*
+        }*
+      }+
+    }
+  }
+desc = element desc { text }
