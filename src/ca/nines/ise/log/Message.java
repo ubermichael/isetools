@@ -12,7 +12,7 @@ import java.util.Formatter;
  *
  * @author michael
  */
-public class Message {
+public class Message implements Comparable<Message> {
 
   private String code = "(unknown)";
   private String component = "(unknown)";
@@ -153,5 +153,13 @@ public class Message {
    */
   public void addNote(String note) {
     notes.add(note);
+  }
+
+  @Override
+  public int compareTo(Message o) {
+    if(this.line != o.line) {
+      return this.line - o.line;
+    }
+    return this.column - o.column;
   }
 }
