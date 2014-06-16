@@ -7,6 +7,7 @@
 package ca.nines.ise.log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Formatter;
 
 /**
@@ -39,7 +40,9 @@ public class Log {
   }
 
   public Message[] messages() {
-    return (Message[]) messages.toArray();
+    Message[] m = messages.toArray(new Message[messages.size()]);
+    Arrays.sort(m);
+    return m;
   }
 
   @Override
