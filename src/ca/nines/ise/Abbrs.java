@@ -7,11 +7,9 @@ package ca.nines.ise;
 
 import ca.nines.ise.dom.Builder;
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMIterator;
 import ca.nines.ise.node.Node;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,7 +49,7 @@ public class Abbrs {
       while (fi.hasNext()) {
         File in = (File) fi.next();
         DOM dom = new Builder(in).getDOM();
-        DOMIterator i = dom.getIterator();
+        Iterator<Node> i = dom.iterator();
         while (i.hasNext()) {
           Node n = i.next();
           if (n.type() == "#ABBR") {

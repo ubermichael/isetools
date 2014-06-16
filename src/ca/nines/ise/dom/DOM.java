@@ -11,6 +11,7 @@ import ca.nines.ise.node.TagNode;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * An ISE DOM (a document object model) is a stream of Node objects. Since
@@ -61,7 +62,7 @@ public class DOM extends ArrayList<Node> {
    * you should call this function.
    */
   public void index() {
-    DOMIterator i = this.getIterator();
+    Iterator<Node> i = this.iterator();
     index = new HashMap<>();
     String act = "0";
     String scene = "0";
@@ -145,7 +146,7 @@ public class DOM extends ArrayList<Node> {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
 
-    DOMIterator i = this.getIterator();
+    Iterator<Node> i = this.iterator();
 
     while(i.hasNext()) {
       Node n = i.next();
@@ -160,8 +161,10 @@ public class DOM extends ArrayList<Node> {
    * 
    * @return an return an iterator for the DOM. 
    */
-  public DOMIterator getIterator() {
-    return new DOMIterator(this);
+  @Override
+  public Iterator<Node> iterator() {
+    return this.iterator();
   }
-
+  
+  
 }
