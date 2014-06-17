@@ -28,7 +28,7 @@ abstract public class TagNode extends Node {
   public TagNode(TagNode n) {
     super(n);
     this.tagname = n.tagname;
-    this.attributes = (LinkedHashMap<String, String>) n.attributes.clone();
+    this.attributes = new LinkedHashMap<>(n.attributes);
   }
   
   /**
