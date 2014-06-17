@@ -52,7 +52,7 @@ public class Abbrs {
         Iterator<Node> i = dom.iterator();
         while (i.hasNext()) {
           Node n = i.next();
-          if (n.type() == "#ABBR") {
+          if (n.type().equals("#ABBR")) {
             if (n.getText().length() < 12) {
               m.put(n.getText(), "");
             }

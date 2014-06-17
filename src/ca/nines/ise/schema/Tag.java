@@ -33,11 +33,11 @@ public class Tag implements Comparable<Tag>{
   public Tag(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn = new XMLReader(in);
     attributes = new HashMap<>();
-    name = xmlIn.attrValue("name");
-    depreciated = xmlIn.attrValue("depreciated");
-    where = xmlIn.attrValue("where");
-    empty = xmlIn.attrValue("empty");
-    desc = xmlIn.xpathString("desc");
+    name = xmlIn.xpathString("@name");
+    depreciated = xmlIn.xpathString("@depreciated");
+    where = xmlIn.xpathString("@where");
+    empty = xmlIn.xpathString("@empty");
+    desc = xmlIn.xpathString("desc/text()");
     
     for(Node n : xmlIn.xpathList("attributes")) {
       Attribute attr = new Attribute(n, xmlIn);
@@ -51,11 +51,11 @@ public class Tag implements Comparable<Tag>{
   
   public Tag(Node in, XMLReader xmlIn) throws XPathExpressionException {
     attributes = new HashMap<>();
-    name = xmlIn.attrValue("name", in);
-    depreciated = xmlIn.attrValue("depreciated", in);
-    where = xmlIn.attrValue("where", in);
-    empty = xmlIn.attrValue("empty", in);
-    desc = xmlIn.xpathString("desc", in);
+    name = xmlIn.xpathString("@name", in);
+    depreciated = xmlIn.xpathString("@depreciated", in);
+    where = xmlIn.xpathString("@where", in);
+    empty = xmlIn.xpathString("@empty", in);
+    desc = xmlIn.xpathString("desc/text()", in);
     
     for(Node n : xmlIn.xpathList("attribute", in)) {
       Attribute attr = new Attribute(n, xmlIn);
@@ -107,15 +107,18 @@ public class Tag implements Comparable<Tag>{
   }
 
   public boolean isEmpty() {
-    return empty == "yes";
+    return empty.equals("yes");
   }
   
   public boolean maybeEmpty() {
-    return empty == "yes" || empty =="optional";
+    return empty.equals("yes") || empty.equals("optional");
   }
   
   public String getEmpty() {
-    return (empty == "" ? "no" : empty);
+    if(empty.equals("")) {
+      return "no";
+    }
+    return "yes";
   }
   
   /**
@@ -126,21 +129,24 @@ public class Tag implements Comparable<Tag>{
   }
 
   public boolean isDepreciated() {
-    return depreciated != "";
+    return ! depreciated.equals("");
   }
 
   /**
    * @return the where
    */
   public String getWhere() {
+    if(where.equals("")) {
+      return "anywhere";
+    }
     return where;
   }
 
   public String getDescription() {
-    if (desc != "") {
-      return desc;
+    if (desc.equals("")) {
+      return "No description provided.";
     }
-    return "no description provided.";
+    return desc;
   }
 
   @Override
