@@ -208,7 +208,12 @@ public class TagValidator {
         continue;
       }
       String attrValue = n.getAttribute(name);
-      if ((attrValue.length() == 0) && (!attr.isEmpty())) {
+      if (attrValue.length() == 0) {
+        
+        if(attr.isEmpty()) {
+          continue;
+        }
+        
         m = error("validator.attribute.nonempty", n);
         m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
         continue;
