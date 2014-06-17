@@ -16,7 +16,7 @@ import org.antlr.v4.runtime.Recognizer;
  * ParserErrorListener intercepts parser errors and 
  * generates error messages in the log. Used by Builder.
  */
-public class ParserErrorListener extends BaseErrorListener {
+public class LexerErrorListener extends BaseErrorListener {
 
   private String source = "";
   private Log log = Log.getInstance();
@@ -44,7 +44,7 @@ public class ParserErrorListener extends BaseErrorListener {
           String msg,
           RecognitionException e) {
     
-    Message m = log.add("parser.grammar");
+    Message m = log.add("lexer.syntax");
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
     m.setSource(source);
