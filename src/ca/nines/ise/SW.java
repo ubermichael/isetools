@@ -75,15 +75,12 @@ public class SW {
   public static void main(String[] args) {
     try {
       Schema schema = new Schema();
-      StringBuilder sb = new StringBuilder();
-      Formatter fmt = new Formatter(sb);
 
       for (Tag tag : schema.getTags()) {
         tagInfo(tag);
         attrInfo(tag);
       }
 
-      System.out.println(sb);
     } catch (Exception ex) {
       Logger.getLogger(SW.class.getName()).log(Level.SEVERE, null, ex);
     }
