@@ -43,6 +43,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
@@ -117,18 +118,19 @@ public class Builder extends ISEParserBaseListener {
    * @return the DOM built by parsing the string or file.
    */
   public DOM getDOM() {
-    ParserErrorListener parseErr = new ParserErrorListener();
-    parseErr.setSource(dom.getSource());
-
+    LexerErrorListener lexListener = new LexerErrorListener();
+    lexListener.setSource(dom.getSource());
     ISELexer lexer = new ISELexer(ais);
     lexer.removeErrorListeners();
-    lexer.addErrorListener(parseErr);
+    lexer.addErrorListener(lexListener);
     
     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
     
+    ParserErrorListener parseListener = new ParserErrorListener();
+    parseListener.setSource(dom.getSource());
     ISEParser parser = new ISEParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(parseErr);
+    parser.addErrorListener(parseListener);
     
     ParseTreeWalker ptw = new ParseTreeWalker();
     tokens = parser.getTokenStream();
@@ -145,6 +147,11 @@ public class Builder extends ISEParserBaseListener {
     n.setColumn(t.getCharPositionInLine());
     n.setText(tokens.getText(ctx.getSourceInterval()));
     return n;
+  }
+  
+  @Override
+  public void visitErrorNode(ErrorNode node) {
+    System.out.println("error node: " + node.getText());
   }
 
   @Override
