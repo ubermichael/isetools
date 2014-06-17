@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+import org.apache.commons.lang3.ArrayUtils;
 import org.xml.sax.SAXException;
 
 /**
@@ -91,7 +92,7 @@ public class TagValidator {
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
-    if (t.getEmpty() == "empty") {
+    if (t.isEmpty()) {
       Message m = error("validator.tag.endempty", n);
       m.addNote("End tag " + n.getName() + " should not occur.");
     }
@@ -122,11 +123,23 @@ public class TagValidator {
   }
 
   public void validate_attribute_list(TagNode n, Attribute attr) {
-    //throw new NotImplementedException();
+    String values[] = n.getAttribute(attr.getName()).split(", ?");
+    String[] options = attr.getOptions();
+    for (String value : values) {
+      if (!ArrayUtils.contains(options, value)) {
+        Message m = error("validator.attribute.badlist", n);
+        m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
+      }
+    }
   }
 
   public void validate_attribute_select(TagNode n, Attribute attr) {
-    //throw new NotImplementedException();
+    String value = n.getAttribute(attr.getName());
+    String[] options = attr.getOptions();
+    if (!ArrayUtils.contains(options, value)) {
+      Message m = error("validator.attribute.badselect", n);
+      m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
+    }
   }
 
   @ErrorCode(code = {
@@ -173,31 +186,31 @@ public class TagValidator {
         m.addNote("The schema does not define attribute " + name + " for tag " + tagName + ".");
         continue;
       }
-//      if (attr.isDepreciated()) {
-//        m = error("validator.attribute.depreciated", n);
-//        m.addNote(attr.getDepreciated());
-//        continue;
-//      }
+      if (attr.isDepreciated()) {
+        m = error("validator.attribute.depreciated", n);
+        m.addNote(attr.getDepreciated());
+        continue;
+      }
       String attrValue = n.getAttribute(name);
-//      if ((attrValue.length() == 0) && (!attr.isEmpty())) {
-//        m = error("validator.attribute.nonempty", n);
-//        m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
-//        continue;
-//      }
-//      validate_attribute_value(n, attr);
-//    }
+      if ((attrValue.length() == 0) && (!attr.isEmpty())) {
+        m = error("validator.attribute.nonempty", n);
+        m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
+        continue;
+      }
+      validate_attribute_value(n, attr);
+    }
 
-//    for (String attrName : tag.getAttributeNames()) {      
-//      Attribute attr = tag.getAttribute(attrName);
-//      if (attr.isOptional()) {
-//        continue;
-//      }
-//      String attrValue = n.getAttribute(attrName);
-//      if (attrValue == null) {
-//        m = error("validator.attribute.missing", n);
-//        m.addNote("Attribute " + attrName + " is required for " + tagName + " tags");
-//        continue;
-//      }
+    for (String attrName : tag.getAttributeNames()) {
+      Attribute attr = tag.getAttribute(attrName);
+      if (attr.isOptional()) {
+        continue;
+      }
+      String attrValue = n.getAttribute(attrName);
+      if (attrValue == null) {
+        m = error("validator.attribute.missing", n);
+        m.addNote("Attribute " + attrName + " is required for " + tagName + " tags");
+        continue;
+      }
     }
 
   }
@@ -214,7 +227,7 @@ public class TagValidator {
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
-    if (t.getEmpty() == "no") {
+    if (!t.maybeEmpty()) {
       Message m = error("validator.tag.emptystart", n);
       m.addNote("Tag " + n.getName() + " should not be self-closing.");
     }
@@ -237,7 +250,7 @@ public class TagValidator {
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
-    if (t.getEmpty() == "empty") {
+    if (t.isEmpty()) {
       Message m = error("validator.tag.startempty", n);
       m.addNote("Start tag " + n.getName() + " should be self-closing.");
     }
