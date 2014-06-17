@@ -41,8 +41,8 @@ public class ParserErrorListener extends BaseErrorListener {
           RecognitionException e) {
     
     Message m = log.add("parser.grammar");
-    m.setLine(line);
-    m.setColumn(charPositionInLine);
+    m.setLineNumber(line);
+    m.setColumnNumber(charPositionInLine);
     m.setSource(source);
     m.addNote(msg);
   }
