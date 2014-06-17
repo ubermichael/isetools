@@ -97,15 +97,22 @@ public class TagValidator {
       m.addNote("End tag " + n.getName() + " should not occur.");
     }
   }
-
+  
+  @ErrorCode(code={
+    "validator.attribute.badstring"
+  })
   public void validate_attribute_string(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
+    // @todo use StringUtils.isWhitespace instead. faster.
     if (value.matches("^\\s*$")) {
       Message m = error("validator.attribute.badstring", n);
       m.addNote("Attribute " + attr.getName() + "=\"" + value + "\" only contains whitespace.");
     }
   }
 
+  @ErrorCode(code={
+    "validator.attribute.badnumber"
+  })
   public void validate_attribute_number(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     if (!value.matches("^[+-]?\\d+(\\.\\d+)?$")) {
@@ -114,6 +121,9 @@ public class TagValidator {
     }
   }
 
+  @ErrorCode(code={
+    "validator.attribute.badmatch"
+  })
   public void validate_attribute_match(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     if (!value.matches(attr.getMatch())) {
@@ -122,6 +132,9 @@ public class TagValidator {
     }
   }
 
+  @ErrorCode(code={
+    "validator.attribute.badlist"
+  })
   public void validate_attribute_list(TagNode n, Attribute attr) {
     String values[] = n.getAttribute(attr.getName()).split(", ?");
     String[] options = attr.getOptions();
@@ -133,6 +146,9 @@ public class TagValidator {
     }
   }
 
+  @ErrorCode(code={
+    "validator.attribute.badselect"
+  })
   public void validate_attribute_select(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     String[] options = attr.getOptions();
