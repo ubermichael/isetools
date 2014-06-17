@@ -463,7 +463,7 @@
         <desc><![CDATA[The TLN.]]></desc>
       </attribute>
     </tag>
-    <tag name="VERSEQUOTE" depreciated="Use DIV with the type attribute instead of VERSEQUOTE.">
+    <tag name="VERSEQUOTE" depreciated="Use QUOTE with the type attribute instead of VERSEQUOTE.">
       <desc><![CDATA[Previously used for a verse quotation (e.g. song).]]></desc>
       <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[When the verse is a quotation from another source, the source should be recorded (as in Pistol's quotations from earlier plays).]]></desc>
