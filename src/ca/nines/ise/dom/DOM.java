@@ -158,7 +158,7 @@ public class DOM extends ArrayList<Node> {
    */
   @Override
   public Iterator<Node> iterator() {
-    return this.iterator();
+    return super.iterator();
   }
   
   
