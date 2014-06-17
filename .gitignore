@@ -1,6 +1,11 @@
-build
+
+# file types.
+
 *.class
-dist
-data
 *.log
-sgml-metaschema.rng
+*.rng
+
+# directories
+/build
+/data
+/dist
