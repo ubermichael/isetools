@@ -294,10 +294,10 @@ public class TagValidator {
     Message m = log.add(code);
     m.setComponent(this.getClass().getCanonicalName());
     m.setSource(n.getSource());
-    m.setColumn(n.getColumn());
-    m.setLine(n.getLine());
+    m.setColumnNumber(n.getColumn());
+    m.setLineNumber(n.getLine());
     m.setTLN(n.getTln());
-    m.addNote(dom.getLine(n.getLine() - 1));
+    m.setLine(dom.getLine(n.getLine() - 1));
     return m;
   }
 

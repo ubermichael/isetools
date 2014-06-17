@@ -20,8 +20,9 @@ public class Message implements Comparable<Message> {
   private String component = "(unknown)";
   private String TLN = "(unknown)";
   private String source = "(unknown)";
-  private int line = 0;
-  private int column = 0;
+  private String line = "";
+  private int lineNumber = 0;
+  private int columnNumber = 0;  
   private char severity = 'U';
   private ArrayList<String> notes = new ArrayList<>();
 
@@ -38,8 +39,9 @@ public class Message implements Comparable<Message> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
-    formatter.format("%s:%d:%d:%s%n", source, line, column, code);
+    formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
     formatter.format("  near TLN %s%n", TLN);
+    formatter.format("  %s%n", line);
     for (String note : notes) {
       formatter.format("    * %s%n", note);
     }
@@ -105,29 +107,29 @@ public class Message implements Comparable<Message> {
   /**
    * @return the line
    */
-  public int getLine() {
-    return line;
+  public int getLineNumber() {
+    return lineNumber;
   }
 
   /**
    * @param line the line to set
    */
-  public void setLine(int line) {
-    this.line = line;
+  public void setLineNumber(int line) {
+    this.lineNumber = line;
   }
 
   /**
    * @return the column
    */
-  public int getColumn() {
-    return column;
+  public int getColumnNumber() {
+    return columnNumber;
   }
 
   /**
    * @param column the column to set
    */
-  public void setColumn(int column) {
-    this.column = column;
+  public void setColumnNumber(int column) {
+    this.columnNumber = column;
   }
 
   /**
@@ -160,9 +162,23 @@ public class Message implements Comparable<Message> {
 
   @Override
   public int compareTo(Message o) {
-    if (this.line != o.line) {
-      return this.line - o.line;
+    if (this.lineNumber != o.lineNumber) {
+      return this.lineNumber - o.lineNumber;
     }
-    return this.column - o.column;
+    return this.columnNumber - o.columnNumber;
+  }
+
+  /**
+   * @return the line
+   */
+  public String getLine() {
+    return line;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  public void setLine(String line) {
+    this.line = line;
   }
 }
