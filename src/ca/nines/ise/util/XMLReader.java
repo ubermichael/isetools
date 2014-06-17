@@ -90,7 +90,6 @@ public class XMLReader {
   }
 
   public Node xpathNode(String xp, Node node) throws XPathExpressionException {
-    ArrayList<Node> nodes = new ArrayList<>();
     XPathExpression expr = xpath.compile(xp);
     Node n = (Node) expr.evaluate(node, XPathConstants.NODE);
     return n;
@@ -103,31 +102,6 @@ public class XMLReader {
   public String xpathString(String xp, Node node) throws XPathExpressionException {
     XPathExpression expr = xpath.compile(xp);
     return (String) expr.evaluate(node, XPathConstants.STRING);
-  }
-
-  public boolean xpathBoolean(String xp) throws XPathExpressionException {
-    return xpathBoolean(xp, root);
-  }
-
-  public boolean xpathBoolean(String xp, Node node) throws XPathExpressionException {
-    XPathExpression expr = xpath.compile(xp);
-    return (boolean) expr.evaluate(node, XPathConstants.BOOLEAN);
-  }
-
-  public String attrValue(String attrName) throws XPathExpressionException {
-    return attrValue(attrName, xpathNode("/node()"));
-  }
-
-  public String attrValue(String attrName, Node node) {
-    NamedNodeMap nodeAttrs = node.getAttributes();
-    if(nodeAttrs == null) {
-      return "";
-    }
-    Node attribute = nodeAttrs.getNamedItem(attrName);
-    if (attribute == null) {
-      return "";
-    }
-    return attribute.getNodeValue();
   }
   
   public String getSource() {

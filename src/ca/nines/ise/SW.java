@@ -66,9 +66,9 @@ public class SW {
     System.out.println(" Empty::");
     System.out.println("  " + tag.getEmpty());
     System.out.println(" Context::");
-    System.out.println("  " + (tag.getWhere() == "" ? "anywhere" : tag.getWhere()));
+    System.out.println("  " + tag.getWhere());
     System.out.println(" Depreciated::");
-    System.out.println("  " + (tag.getDepreciated() == "" ? "no" : tag.getDepreciated()));
+    System.out.println("  " + (tag.isDepreciated() ? tag.getDepreciated() : "no"));
     System.out.println("\n");
   }
 

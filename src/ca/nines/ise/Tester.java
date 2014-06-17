@@ -25,7 +25,6 @@ public class Tester {
       System.out.println("found " + nl.length);
       for(Node n : nl) {
         System.out.println(n.getNodeName());
-        System.out.println(xmlIn.attrValue("name", n));
       }
     } catch (Exception ex) {
       Logger.getLogger(Tester.class.getName()).log(Level.SEVERE, null, ex);

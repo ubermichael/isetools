@@ -35,15 +35,15 @@ public class Attribute implements Comparable<Attribute> {
 
   public Attribute(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     XMLReader xmlIn = new XMLReader(in);
-    name = xmlIn.attrValue("name");
-    type = xmlIn.attrValue("type");
-    optional = xmlIn.attrValue("optional") == "yes";
-    depreciated = xmlIn.attrValue("depreciated");
-    match = xmlIn.attrValue("match");
-    renumber = xmlIn.attrValue("renumber") == "yes";
-    defaultValue = xmlIn.attrValue("default");
-    empty = xmlIn.attrValue("empty") == "yes";
-    desc = xmlIn.xpathString("desc");
+    name = xmlIn.xpathString("@name");
+    type = xmlIn.xpathString("@type");
+    optional = "yes".equals(xmlIn.xpathString("@optional"));
+    depreciated = xmlIn.xpathString("@depreciated");
+    match = xmlIn.xpathString("@match");
+    renumber = "yes".equals(xmlIn.xpathString("@renumber"));
+    defaultValue = xmlIn.xpathString("@default");
+    empty = "yes".equals(xmlIn.xpathString("@empty"));
+    desc = xmlIn.xpathString("desc/text()");
     for(Node n : xmlIn.xpathList("option")) {
       options.add(n.getTextContent());
     }
@@ -54,21 +54,22 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   public Attribute(Node in, XMLReader xmlIn) throws XPathExpressionException {
-    name = xmlIn.attrValue("name", in);
-    type = xmlIn.attrValue("type", in);
-    optional = xmlIn.attrValue("optional", in) == "yes";
-    depreciated = xmlIn.attrValue("depreciated", in);
-    match = xmlIn.attrValue("match", in);
-    renumber = xmlIn.attrValue("renumber", in) == "yes";
-    defaultValue = xmlIn.attrValue("default", in);
-    empty = xmlIn.attrValue("empty", in) == "yes";
-    desc = xmlIn.xpathString("desc", in);
+    name = xmlIn.xpathString("@name", in);
+    type = xmlIn.xpathString("@type", in);
+    optional = "yes".equals(xmlIn.xpathString("@optional", in));
+    depreciated = xmlIn.xpathString("@depreciated", in);
+    match = xmlIn.xpathString("@match", in);
+    renumber = "yes".equals(xmlIn.xpathString("@renumber", in));
+    defaultValue = xmlIn.xpathString("@default", in);
+    empty = "yes".equals(xmlIn.xpathString("@empty", in));
+    desc = xmlIn.xpathString("desc/text()", in);
     options = new ArrayList<>();
     for(Node n : xmlIn.xpathList("option", in)) {
       options.add(n.getTextContent());
     }
   }
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
