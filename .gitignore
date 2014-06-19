@@ -4,8 +4,13 @@
 *.class
 *.log
 *.rng
+*.properties
 
 # directories
 /build
 /data
 /dist
+/nbproject
+/lib/CopyLibs
+/lib/junit
+/lib/junit_4
