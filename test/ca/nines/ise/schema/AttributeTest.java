@@ -6,11 +6,13 @@
 
 package ca.nines.ise.schema;
 
+import ca.nines.ise.util.XMLReader;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -27,10 +29,19 @@ public class AttributeTest {
    * @throws java.io.IOException
    */
   @Test
-  public void testGetName()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+  public void testGetName()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {    
     Attribute a;
     
     a = new Attribute("<attribute name='foo' />");
+    assertEquals("foo", a.getName());
+    
+    XMLReader xmlIn = new XMLReader("<tag><attribute name='foo'/></tag>");
+    Node n = xmlIn.xpathNode("/tag/attribute");
+    a = new Attribute(n);
+    assertEquals("foo", a.getName());
+    
+    n = xmlIn.xpathNode("/tag/attribute");
+    a = new Attribute(n, xmlIn);
     assertEquals("foo", a.getName());
   }
 
