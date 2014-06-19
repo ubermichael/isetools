@@ -1,50 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!-- ISE Tools schema for the Internet Shakespeare Editions (the mothership). -->
 
-<!-- 
-  java -jar ~/Classes/trang.jar sgml-metaschema.rnc sgml-metaschema.rng 
-  java -jar ~/Classes/jing.jar sgml-metaschema.rng default.xml 
+<!--
+    Validate this schema with this thin wrapper around Jing (included in lib/jing.jar)
+
+    See http://www.thaiopensource.com/relaxng/jing.html
+
+    @TODO add an ant task to do this: http://www.thaiopensource.com/relaxng/jing-ant.html
+    
+    ./bin/validate-schema.sh
 -->
 
 <schema edition="default" group="default">
+  <locations>
+    <location id="all">any non-apparatus text.</location>
+    <location id="annotations">level 1 or level 2 stand-off footnotes</location>    
+    <location id="anywhere">any primary text or apparatus.</location>
+    <location id="apparatus">collation or annotation files, excluding level 3 footnotes</location>
+    <location id="collations">stand-off collations</location>
+    <location id="modern">modern primary texts.</location>
+    <location id="oldspelling">non-modern, primary texts.</location>
+    <location id="primary">any main text of an edition (old spelling or modern), encoded using the SGML syntax.</location>
+    <location id="quarto">old spelling quarto</location>
+    <location id="unknown">a location for this tag has not been specified yet.</location>
+  </locations>
+    
   <tags>
-    <tag name="ACT">
-      <desc>Act division as in the modern edition.</desc>
-      <attribute name="n" type="number" renumber="yes">
-        <desc><![CDATA[The number of the act. If the original includes an act division which has been retained, the notation would be thus: </ACT><ACT n="2">
-<LD>Actus Secundus</LD>.]]></desc>
-      </attribute>
-    </tag>
     <tag name="ABBR" where="oldspelling">
       <desc><![CDATA[Used to expand old-spelling contractions, e.g. <ABBR expan="the">y<SUP>e</SUP></ABBR>]]></desc>
       <attribute name="expan" type="string">
         <desc><![CDATA[The word abbreviated. This will eventually permit searches on the word.]]></desc>
       </attribute>
     </tag>
-    <tag name="ADD">
+    <tag name="ACT" where="primary">
+      <desc>Act division as in the modern edition.</desc>
+      <attribute name="n" type="number" renumber="yes">
+        <desc><![CDATA[The number of the act. If the original includes an act division which has been retained, the notation would be thus: </ACT><ACT n="2">
+<LD>Actus Secundus</LD>.]]></desc>
+      </attribute>
+    </tag>
+    <tag name="ADD" where="unknown">
       <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version.]]></desc>
     </tag>
-    <tag name="AMBIG">
+    <tag name="AMBIG" where="unknown">
       <desc><![CDATA[Designates alternative readings in a modern text where a word in the original is irreducibly ambiguous. Note: this is not a textual variant, but a product of the process of modernization. ]]></desc>
     </tag>
-    <tag name="BACKMATTER">
+    <tag name="BACKMATTER" where="all">
       <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of FRONTMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, List of Characters and so on.]]></desc>
     </tag>
-    <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL.">
+    <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL." where="unknown">
       <desc><![CDATA[Formerly blank line. Depreciated in favour of L.]]></desc>
     </tag>
     <tag name="BLL" where="oldspelling">
       <desc><![CDATA[Black Letter (not to be confused with BL, previously the indication of a blank line).]]></desc>
     </tag>
-    <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE">
+    <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE" where="oldspelling">
       <desc><![CDATA[]]></desc>
     </tag>
     <tag name="BR" empty="yes" where="apparatus">
       <desc><![CDATA[Forces a line break where no other option is available. To be used with caution.]]></desc>
     </tag>
-    <tag name="C">
+    <tag name="C" where="primary">
       <desc><![CDATA[Centered text. As in HTML this tag applies to a whole line.]]></desc>
     </tag>
-    <tag name="CL">
+    <tag name="CL" where="primary">
       <desc><![CDATA[Closing (e.g. Finis).]]></desc>
     </tag>
     <tag name="COL" where="oldspelling">
@@ -56,10 +75,10 @@
         <option>2</option>
       </attribute>
     </tag>
-    <tag name="CW" where="oldspelling">
+    <tag name="CW" where="primary">
       <desc><![CDATA[Catchword]]></desc>
     </tag>
-    <tag name="DIV">
+    <tag name="DIV" where="all">
       <desc><![CDATA[Divisions of the FRONTMATTER and ENDMATTER tags, indicating what kind of material follows.]]></desc>
       <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
@@ -84,10 +103,10 @@
         <option>Titlepage</option>
       </attribute>
     </tag>
-    <tag name="EM">
+    <tag name="EM" where="anywhere">
       <desc><![CDATA[Surrounds words to be emphasized. May be replaced by word processor italics.]]></desc>
     </tag>
-    <tag name="EPILOGUE" depreciated="Use BACKMATTER or DIV instead of EPILOGUE">
+    <tag name="EPILOGUE" depreciated="Use BACKMATTER or DIV instead of EPILOGUE" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
     <tag name="FONTGROUP" where="oldspelling">
@@ -96,31 +115,31 @@
         <desc><![CDATA[The normal (default) size is "3", the smallest "1" and the largest "6".]]></desc>
       </attribute>
     </tag>
-    <tag name="FOREIGN" where="oldspelling">
+    <tag name="FOREIGN" where="primary">
       <desc><![CDATA[Surrounds a word or phrase in a language other than English. Used for the content of speeches only, not Latin stage directions, literary divisions etc. Example <FOREIGN lang="French">Diable!</FOREIGN>.]]></desc>
       <attribute name="lang" type="string">
         <desc><![CDATA[The name of the language used.]]></desc>
       </attribute>
     </tag>
-    <tag name="FRONTMATTER">
+    <tag name="FRONTMATTER" where="all">
       <desc><![CDATA[Surrounds all sections of an edition that precede the first scene. The actual division(s) of FRONTMATTER are designated by the <DIV> tag, and include (and replace) such items as Prologue, Epistle, Dedication and so on.]]></desc>
     </tag>
-    <tag name="H1" depreciated="Use LD instead of H1.">
+    <tag name="H1" depreciated="Use LD instead of H1." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
-    <tag name="H2" depreciated="Use LD instead of H2.">
+    <tag name="H2" depreciated="Use LD instead of H2." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
-    <tag name="H3" depreciated="Use LD instead of H3.">
+    <tag name="H3" depreciated="Use LD instead of H3." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
-    <tag name="H4" depreciated="Use LD instead of H4.">
+    <tag name="H4" depreciated="Use LD instead of H4." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
-    <tag name="H5" depreciated="Use LD instead of H5.">
+    <tag name="H5" depreciated="Use LD instead of H5." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
-    <tag name="H6" depreciated="Use LD instead of H6.">
+    <tag name="H6" depreciated="Use LD instead of H6." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
     <tag name="HW" where="oldspelling">
@@ -131,7 +150,7 @@
         <option>next</option>
       </attribute>
     </tag>
-    <tag name="iembed">
+    <tag name="iembed" where="anywhere">
       <desc><![CDATA[]]></desc>
       <attribute name="site" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
@@ -175,7 +194,7 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="ilink">
+    <tag name="ilink" where="anywhere">
       <desc><![CDATA[]]></desc>
       <attribute name="site" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
@@ -194,22 +213,22 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="I">
+    <tag name="I" where="anywhere">
       <desc><![CDATA[Italic text. Italics may also be generated in the normal word processor way to assist you in working with a readable text; they will later be converted automatically.]]></desc>
     </tag>
-    <tag name="INDENT">
+    <tag name="INDENT" where="primary">
       <desc><![CDATA[Surrounds a passage indented in the original.]]></desc>
       <attribute name="n" type="number" renumber="no">
         <desc><![CDATA[Indicates the number of em spaces a block of text (verse or prose) is to be indented.]]></desc>
       </attribute>
     </tag>
-    <tag name="iseHeader">
+    <tag name="iseHeader" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="J">
+    <tag name="J" where="primary">
       <desc><![CDATA[Justified line(s). Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
     </tag>
-    <tag name="L" empty="yes">
+    <tag name="L" empty="yes" where="primary">
       <desc><![CDATA[Blank line in the old-spelling texts. (Previously tagged <L></L> and even earlier <BL>.)]]></desc>
       <attribute name="n" type="number" optional="yes" empty="yes" renumber="yes">
         <desc><![CDATA[A line in the modern text, with its line number, each scene renumbered from 1.]]></desc>
@@ -221,16 +240,16 @@
         <option>f</option>
       </attribute>
     </tag>
-    <tag name="LB" depreciated="Use L for lineation instead of LB.">
+    <tag name="LB" depreciated="Use L for lineation instead of LB." where="anywhere">
       <desc><![CDATA[Previously used for line break. <L/> is recommended.]]></desc>
     </tag>    
-    <tag name="LD">
+    <tag name="LD" where="primary">
       <desc><![CDATA[Literary Division (e.g. Act, Scene.). Note that this tag encloses original literary divisions; modern divisions are indicated by separate tags]]></desc>
     </tag>
-    <tag name="LEM">
+    <tag name="LEM" where="apparatus">
       <desc><![CDATA[Surrounds the lemma for an annotation or collation. The lemma will become the link on the text, and must be wholly accurate, including final punctuation.]]></desc>
     </tag>
-    <tag name="LINEGROUP">
+    <tag name="LINEGROUP" where="primary">
       <desc><![CDATA[Surrounds a pattern of rhyming verse.]]></desc>
       <attribute name="form" type="select">
         <desc><![CDATA[The form of the rhyme.]]></desc>
@@ -244,7 +263,7 @@
         <desc><![CDATA[The group's rhyming pattern, for example aabbcddc]]></desc>
       </attribute>
     </tag>
-    <tag name="LINK" empty="yes">
+    <tag name="LINK" empty="yes" where="primary">
       <desc><![CDATA[]]></desc>
       <attribute name="rel" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
@@ -259,13 +278,13 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="LN">
+    <tag name="LN" where="apparatus">
       <desc><![CDATA[The line numbers from the modern edition to which a collation or note is linked. The format follows the MLA style: 1.3.33, for example.]]></desc>
     </tag>
-    <tag name="LS">
+    <tag name="LS" where="primary">
       <desc><![CDATA[Surrounds letter-spaced words (e.g., "G O D").]]></desc>
     </tag>
-    <tag name="MARG">
+    <tag name="MARG" where="all">
       <desc><![CDATA[Marginalia]]></desc>
       <attribute name="loc" type="select">
         <desc><![CDATA["left" or "right". Which page margin this text appears in]]></desc>
@@ -273,7 +292,7 @@
         <option>right</option>
       </attribute>
     </tag>
-    <tag name="META" empty="yes">
+    <tag name="META" empty="yes" where="primary">
       <desc><![CDATA[]]></desc>
       <attribute name="name" type="string">
         <desc><![CDATA[]]></desc>
@@ -285,7 +304,7 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="MODE">
+    <tag name="MODE" where="primary">
       <desc><![CDATA[Indicator of verse or prose.]]></desc>
       <attribute name="t" type="select">
         <desc><![CDATA[Note that you may choose to use a type of "uncertain" where it is not clear that the section is either verse or prose.]]></desc>
@@ -294,10 +313,10 @@
         <option>uncertain</option>
       </attribute>
     </tag>
-    <tag name="note">
+    <tag name="note" where="apparatus">
       <desc><![CDATA[Surrounds the note.]]></desc>
     </tag>
-    <tag name="ORNAMENT" empty="optional">
+    <tag name="ORNAMENT" empty="optional" where="primary">
       <desc><![CDATA[Self-closing <ORNAMENT /> is a printer's ornament. <ORNAMENT> </ORNAMENT> is used for decorative or large font letters only.]]></desc>
       <attribute name="drop" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Marks this ornament as a drop-capital, and specifies the number of lines to span.]]></desc>
@@ -318,13 +337,13 @@
         <desc><![CDATA[Actual page number where it differs from the printed number.]]></desc>
       </attribute>
     </tag>
-    <tag name="POEM" depreciated="Use DIV with a name attrbute instead of POEM">
+    <tag name="POEM" depreciated="Use DIV with a name attrbute instead of POEM" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="PROLOGUE" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE">
+    <tag name="PROLOGUE" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="PROP" empty="optional">
+    <tag name="PROP" empty="optional" where="primary">
       <desc><![CDATA[Surrounds an annotation that provides information about props to be used in the play, in the location they are needed.]]></desc>
       <attribute name="item" type="string" optional="yes">
         <desc><![CDATA[A one-word indication of the nature of the item. Where there are more than one in the play (in the case of multiple letters, for example) these should be designate "letter 1" "letter 2" etc.]]></desc>
@@ -333,7 +352,7 @@
         <desc><![CDATA[A short description of the prop, if needed.]]></desc>
       </attribute>
     </tag>
-    <tag name="PROSEQUOTE" depreciated="Use QUOTE instead of PROSEQUOTE.">
+    <tag name="PROSEQUOTE" depreciated="Use QUOTE instead of PROSEQUOTE." where="primary">
       <desc><![CDATA[Formerly a prose quotation (e.g. quoted letter).]]></desc>
       <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[When the passage is a quotation from another source, the source should be recorded.]]></desc>
@@ -345,7 +364,7 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="QUOTE">
+    <tag name="QUOTE" where="primary">
       <desc><![CDATA[]]></desc>
       <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
@@ -356,13 +375,13 @@
         <option>verse</option>
       </attribute>
     </tag>
-    <tag name="R">
+    <tag name="R" where="primary">
       <desc><![CDATA[Roman type. This tag is used only in texts where the default font is black letter.]]></desc>
     </tag>
-    <tag name="RA">
+    <tag name="RA" where="primary">
       <desc><![CDATA[Right Aligned text. This tag can be applied to a separate part of a line, so is the equivalent of a tab rather than right alignment for the whole line.]]></desc>
     </tag>
-    <tag name="RDG">
+    <tag name="RDG" where="collations">
       <desc><![CDATA[The reading of an editor or edition for an entry in the collation. One collation may contain multiple variant readings.]]></desc>
       <attribute name="resp" type="string" optional="yes">
         <desc><![CDATA[The edition or editor responsible for the reading.]]></desc>
@@ -371,19 +390,19 @@
     <tag name="RT" where="oldspelling">
       <desc><![CDATA[Running title.]]></desc>
     </tag>
-    <tag name="RULE" empty="yes">
+    <tag name="RULE" empty="yes" where="primary">
       <desc><![CDATA[A horizontal rule. The tag is self-closing.]]></desc>
       <attribute name="n" type="number" optional="yes" empty="yes" renumber="no">
         <desc><![CDATA[Width of the rule in m-spaces. The default is a full width rule.]]></desc>
       </attribute>
     </tag>
-    <tag name="S">
+    <tag name="S" where="primary">
       <desc><![CDATA[Speech. Includes the speech prefix and any included stage directions (</S> may appear at the end of a hung word).]]></desc>
     </tag>
-    <tag name="SC">
-      <desc><![CDATA[]]></desc>
+    <tag name="SC" where="oldspelling">
+      <desc><![CDATA[Small caps.]]></desc>
     </tag>
-    <tag name="SCENE">
+    <tag name="SCENE" where="primary">
       <desc><![CDATA[Scene division as in the modern edition. Note: In plays with a non-diegetic chorus, like Henry V (F) and Pericles, use <SCENE n="0"> to designate chorus passages that are not prologues or epilogues. SCENEs may be used with or without enclosing ACTs.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the scene.]]></desc>
@@ -392,7 +411,7 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="SD">
+    <tag name="SD" where="primary">
       <desc><![CDATA[Stage Direction. Each line of a split direction in the right hand margin should be tagged separately; directions different in kind should also be tagged separately.]]></desc>
       <attribute name="t" type="list">
         <desc><![CDATA[The type of the stage direction, a comma-separated list.]]></desc>
@@ -409,40 +428,40 @@
         <option>uncertain</option>
       </attribute>
     </tag>
-    <tag name="SECTION" depreciated="Use DIV with a name attrbute instead of SECTION.">
+    <tag name="SECTION" depreciated="Use DIV with a name attrbute instead of SECTION." where="modern">
       <desc><![CDATA[Previously used as section divisions in essays and supplementary works.]]></desc>
     </tag>
-    <tag name="SIG">
+    <tag name="SIG" where="primary">
       <desc><![CDATA[Page Signature (encloses the printed signature, and appears at the end of the page, where it will be displayed). Note that the signature itself may include other tags where necessary (if, for example, an italic letter is used). Examples: <SIG n="A2v"></SIG><BR> <SIG n="aaa1r"><LS>aaa</LS></SIG>]]></desc>
       <attribute name="n" type="string" optional="yes" renumber="no">
         <desc><![CDATA[The signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
     </tag>
-    <tag name="SP">
+    <tag name="SP" where="primary">
       <desc><![CDATA[Normalized form of the name; must be included in every instance of a speech prefix, but not if the name is used in the course of a speech. Example: <SP norm="Hamlet">Ham.</SP>. Where there are more than one speaker, separate the normalized names by commas; if there is a speech without a speech prefix, put<SP norm="normalized name"></SP> to indicate its omission.]]></desc>
       <attribute name="norm" type="string">
         <desc><![CDATA[Normalized form of the name; must be included in every instance of a speech prefix, but not in the course of a speech.]]></desc>
       </attribute>
     </tag>
-    <tag name="SPACE" empty="yes">
+    <tag name="SPACE" empty="yes" where="primary">
       <desc><![CDATA[Indicates significant space to be left in the text. The most common instance of this will be in formatting the lines of verse in a song or sonnet, where some lines will be indented further than others.]]></desc>
       <attribute name="n" type="number" optional="yes" renumber="no">
         <desc><![CDATA[The number of m-spaces should be indicated.]]></desc>
       </attribute>
     </tag>
-    <tag name="STANZA">
+    <tag name="STANZA" where="primary">
       <desc><![CDATA[]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the stanza.]]></desc>
       </attribute>
     </tag>
-    <tag name="SUB">
+    <tag name="SUB" where="anywhere">
       <desc><![CDATA[Subscript characters.]]></desc>
     </tag>
-    <tag name="SUP">
+    <tag name="SUP" where="anywhere">
       <desc><![CDATA[Superscript characters.]]></desc>
     </tag>
-    <tag name="SWASH">
+    <tag name="SWASH" where="primary">
       <desc><![CDATA[Indicates an ornamental swash letter. DRE texts only.]]></desc>
       <attribute name="where" type="select">
         <desc><![CDATA[The direction of the swash ornament.]]></desc>
@@ -451,25 +470,25 @@
         <option>both</option>
       </attribute>
     </tag>
-    <tag name="TITLEHEAD">
+    <tag name="TITLEHEAD" where="primary">
       <desc><![CDATA[Title page material in quartos; initial heading in Folio.]]></desc>
     </tag>
-    <tag name="TITLEPAGE" depreciated="Use DIV with a name attrbute instead of TITLEPAGE">
+    <tag name="TITLEPAGE" depreciated="Use DIV with a name attrbute instead of TITLEPAGE" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="TLN" empty="yes">
+    <tag name="TLN" empty="yes" where="primary">
       <desc><![CDATA[Through Line Number. The basic method of internal reference for the editions will be the TLN number. Where a quarto or modern edition omits material the numbers will be omitted; where they add material the numbers will be added decimally (<TLN n="1033.1"> etc.); where the line division varies from the Folio the TLN number will be that of the first word of the line.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The TLN.]]></desc>
       </attribute>
     </tag>
-    <tag name="VERSEQUOTE" depreciated="Use QUOTE instead of VERSEQUOTE.">
+    <tag name="VERSEQUOTE" depreciated="Use QUOTE instead of VERSEQUOTE." where="primary">
       <desc><![CDATA[Previously used for a verse quotation (e.g. song).]]></desc>
       <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[When the verse is a quotation from another source, the source should be recorded (as in Pistol's quotations from earlier plays).]]></desc>
       </attribute>
     </tag>
-    <tag name="WLN" empty="yes">
+    <tag name="WLN" empty="yes" where="primary">
       <desc><![CDATA[Witness Line Number.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The WLN.]]></desc>
@@ -478,7 +497,7 @@
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
-    <tag name="WORK">
+    <tag name="WORK" where="anywhere">
       <desc><![CDATA[The tag that surrounds the entire document.]]></desc>
       <attribute name="genre" type="string" empty="yes" optional="yes" depreciated="Use metadata instead of the genre attribute.">
         <desc><![CDATA[Previously used to decribe the work's genre.]]></desc>

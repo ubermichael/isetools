@@ -4,12 +4,18 @@ start =
   element schema {
     attribute edition { xsd:NCName },
     attribute group { xsd:NCName },
+    element locations {
+      element location {
+        attribute id { xsd:ID },
+        text
+      }+
+    },
     element tags {
       element tag {
         attribute name { xsd:NCName },
         attribute depreciated { text }?,
         attribute empty { "yes" | "no" | "optional" }?,
-        attribute where { xsd:NCName }?,
+        attribute where { xsd:IDREF },
         desc,
         element attribute {
           attribute name { xsd:NCName },
