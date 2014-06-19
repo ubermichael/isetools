@@ -20,9 +20,9 @@ start =
         element attribute {
           attribute name { xsd:NCName },
           attribute type { xsd:NCName },
+          attribute default { text }?,
           attribute depreciated { text }?,
           attribute empty { "yes" | "no" }?,
-          attribute match { text }?,
           attribute optional { "yes" | "no" }?,
           attribute renumber { "yes" | "no" }?,
           desc,

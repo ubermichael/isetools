@@ -43,14 +43,13 @@ public class SW {
     }
     StringBuilder sb = new StringBuilder();
     Formatter fmt = new Formatter(sb);
-    System.out.println("|| Name || Type || Optional || Empty || Match || Renumberable || Depreciated || Options ||");
+    System.out.println("|| Name || Type || Optional || Empty || Renumberable || Depreciated || Options ||");
     for (Attribute attr : tag.getAttributes()) {
-      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s || %s ||%n", 
+      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s ||%n", 
               attr.getName(), 
               attr.getType(), 
               attr.isOptional(),
               attr.isEmpty(),
-              attr.getMatch(),  
               attr.isRenumberable(),
               attr.getDepreciated(),
               attrOptions(attr)       
@@ -97,14 +96,14 @@ public class SW {
  {{{#!th
  }}}
  {{{#!th colspan=3
- || Name || Type || Optional || Emtpy || Match || Renmberable || Options ||
+ || Name || Type || Optional || Emtpy ||  Renmberable || Options ||
  }}}
  |------
  {{{#!td
  }}}
  {{{#!td colspan=3
- || @''expan'' || string || null || null || null || null ||  ||
- || @''expan'' || string || null || null || null || null ||  ||
+ || @''expan'' || string || null || null || null ||  ||
+ || @''expan'' || string || null || null || null ||  ||
  }}}
  |------
  || '''ACT''' || no ||  ||  ||
@@ -112,9 +111,9 @@ public class SW {
  {{{#!th
  }}}
  {{{#!th colspan=3
- || Name || Type || Optional || Emtpy || Match || Renmberable || Options ||
- || @''expan'' || string || null || null || null || null ||  ||
- || @''expan'' || string || null || null || null || null ||  ||
+ || Name || Type || Optional || Emtpy || Renmberable || Options ||
+ || @''expan'' || string || null || null || null ||  ||
+ || @''expan'' || string || null || null || null ||  ||
  }}}
 
  */
