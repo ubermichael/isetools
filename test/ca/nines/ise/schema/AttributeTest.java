@@ -9,10 +9,6 @@ package ca.nines.ise.schema;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.xml.sax.SAXException;
@@ -22,25 +18,6 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class AttributeTest {
-  
-  public AttributeTest() {
-  }
-  
-  @BeforeClass
-  public static void setUpClass() {
-  }
-  
-  @AfterClass
-  public static void tearDownClass() {
-  }
-  
-  @Before
-  public void setUp() {
-  }
-  
-  @After
-  public void tearDown() {
-  }
 
   /**
    * Test of getName method, of class Attribute.
@@ -49,16 +26,13 @@ public class AttributeTest {
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
    */
-//  @Test
-//  public void testGetName()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-//    System.out.println("getName");
-//    Attribute instance = null;
-//    String expResult = "";
-//    String result = instance.getName();
-//    assertEquals(expResult, result);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
+  @Test
+  public void testGetName()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+    Attribute a;
+    
+    a = new Attribute("<attribute name='foo' />");
+    assertEquals("foo", a.getName());
+  }
 
   /**
    * Test of getType method, of class Attribute.
@@ -67,16 +41,13 @@ public class AttributeTest {
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
    */
-//  @Test
-//  public void testGetType()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-//    System.out.println("getType");
-//    Attribute instance = null;
-//    String expResult = "";
-//    String result = instance.getType();
-//    assertEquals(expResult, result);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
+  @Test
+  public void testGetType()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+    Attribute a;
+    
+    a = new Attribute("<attribute type='string' />");
+    assertEquals("string", a.getType());
+  }
 
   /**
    * Test of isOptional method, of class Attribute.
@@ -85,34 +56,22 @@ public class AttributeTest {
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
    */
-//  @Test
-//  public void testIsOptional()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-//    System.out.println("isOptional");
-//    Attribute instance = null;
-//    boolean expResult = false;
-//    boolean result = instance.isOptional();
-//    assertEquals(expResult, result);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
+  @Test
+  public void testIsOptional()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+    Attribute a;
+    
+    a = new Attribute("<attribute />");
+    assertFalse(a.isOptional());
+    
+    a = new Attribute("<attribute optional='' />");
+    assertFalse(a.isOptional());
 
-  /**
-   * Test of getDepreciated method, of class Attribute.
-   * @throws javax.xml.xpath.XPathExpressionException
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
-//  @Test
-//  public void testGetDepreciated()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-//    System.out.println("getDepreciated");
-//    Attribute instance = null;
-//    String expResult = "";
-//    String result = instance.getDepreciated();
-//    assertEquals(expResult, result);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
+    a = new Attribute("<attribute optional='because' />");
+    assertFalse(a.isOptional());
+
+    a = new Attribute("<attribute optional='yes' />");
+    assertTrue(a.isOptional());
+  }
 
   /**
    * Test of isDepreciated method, of class Attribute.
@@ -121,16 +80,22 @@ public class AttributeTest {
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
    */
-//  @Test
-//  public void testIsDepreciated()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-//    System.out.println("isDepreciated");
-//    Attribute instance = null;
-//    boolean expResult = false;
-//    boolean result = instance.isDepreciated();
-//    assertEquals(expResult, result);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
+  @Test
+  public void testDepreciated()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+    Attribute a;
+    
+    a = new Attribute("<attribute />");
+    assertFalse(a.isDepreciated());
+    assertEquals("", a.getDepreciated());
+    
+    a = new Attribute("<attribute depreciated='' />");
+    assertFalse(a.isDepreciated());
+    assertEquals("", a.getDepreciated());
+
+    a = new Attribute("<attribute depreciated='because of reasons.' />");
+    assertTrue(a.isDepreciated());
+    assertEquals("because of reasons.", a.getDepreciated());  
+  }
 
   /**
    * Test of isRenumberable method, of class Attribute.
@@ -143,16 +108,16 @@ public class AttributeTest {
   public void testIsRenumberable()   throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     Attribute a;
     
-    a = new Attribute("<attribute name='foo' />");
+    a = new Attribute("<attribute />");
     assertFalse(a.isRenumberable());
     
-    a = new Attribute("<attribute name='foo' renumber='yes' />");
+    a = new Attribute("<attribute renumber='yes' />");
     assertFalse(a.isRenumberable());
 
-    a = new Attribute("<attribute name='foo' type='number' />");
+    a = new Attribute("<attribute type='number' />");
     assertFalse(a.isRenumberable());
 
-    a = new Attribute("<attribute name='foo' type='number' renumber='yes' />");
+    a = new Attribute("<attribute type='number' renumber='yes' />");
     assertTrue(a.isRenumberable());
 }
 
@@ -167,10 +132,10 @@ public class AttributeTest {
   public void testGetDefaultValue()  throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     Attribute a;
     
-    a = new Attribute("<attribute name='foo'/>");
+    a = new Attribute("<attribute/>");
     assertEquals("", a.getDefaultValue());
     
-    a = new Attribute("<attribute name='foo' default='abc'/>");
+    a = new Attribute("<attribute default='abc'/>");
     assertEquals("abc", a.getDefaultValue());
   }
 
@@ -185,13 +150,13 @@ public class AttributeTest {
   public void testIsEmpty() throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     Attribute a;
     
-    a = new Attribute("<attribute name='foo'/>");
+    a = new Attribute("<attribute/>");
     assertFalse(a.isEmpty());
-    a = new Attribute("<attribute name='foo' empty=''/>");
+    a = new Attribute("<attribute empty=''/>");
     assertFalse(a.isEmpty());
-    a = new Attribute("<attribute name='foo' empty='foo'/>");
+    a = new Attribute("<attribute empty='foo'/>");
     assertFalse(a.isEmpty());
-    a = new Attribute("<attribute name='foo' empty='yes'/>");
+    a = new Attribute("<attribute empty='yes'/>");
     assertTrue(a.isEmpty());
   }
 
@@ -207,10 +172,10 @@ public class AttributeTest {
   public void testGetOptions() throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     Attribute a;
     
-    a = new Attribute("<attribute name='foo'/>");
+    a = new Attribute("<attribute/>");
     assertArrayEquals(new String[0], a.getOptions());
 
-    a = new Attribute("<attribute name='foo'><option>yes</option><option>no</option><option>maybe</option></attribute>");
+    a = new Attribute("<attribute><option>yes</option><option>no</option><option>maybe</option></attribute>");
 
     assertArrayEquals(new String[]{"maybe", "no", "yes"}, a.getOptions());
 }
@@ -226,10 +191,10 @@ public class AttributeTest {
   public void testGetDescription() throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     Attribute a;
     
-    a = new Attribute("<attribute name='foo'/>");
+    a = new Attribute("<attribute/>");
     assertEquals("no description provided.", a.getDescription());
     
-    a = new Attribute("<attribute name='foo'><desc>yes please</desc></attribute>");
+    a = new Attribute("<attribute><desc>yes please</desc></attribute>");
     assertEquals("yes please", a.getDescription());
     
   }
