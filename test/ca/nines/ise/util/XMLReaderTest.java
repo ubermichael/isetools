@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.util;
 
+import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -19,6 +20,23 @@ import org.xml.sax.SAXException;
  */
 public class XMLReaderTest {
 
+  /**
+   * Test constructor with a file.
+   *
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @throws XPathExpressionException
+   */
+  @Test
+  public void testConstructorFile() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    XMLReader xmlIn = new XMLReader(new File("/resources/schemas/default.xml"));
+    
+    Node n = xmlIn.xpathNode("/schema");
+    assertEquals("schema", n.getNodeName());
+    assertEquals("default", xmlIn.xpathString("/schema/@edition"));
+  }
+  
   /**
    * Test of xpathList method, of class XMLReader.
    * @throws javax.xml.parsers.ParserConfigurationException
