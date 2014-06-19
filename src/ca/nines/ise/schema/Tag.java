@@ -32,14 +32,14 @@ public class Tag implements Comparable<Tag>{
 
   public Tag(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn = new XMLReader(in);
-    attributes = new HashMap<>();
     name = xmlIn.xpathString("@name");
     depreciated = xmlIn.xpathString("@depreciated");
     where = xmlIn.xpathString("@where");
     empty = xmlIn.xpathString("@empty");
     desc = xmlIn.xpathString("desc/text()");
-    
-    for(Node n : xmlIn.xpathList("attributes")) {
+
+    attributes = new HashMap<>();
+    for(Node n : xmlIn.xpathList("attribute")) {
       Attribute attr = new Attribute(n, xmlIn);
       attributes.put(attr.getName().toLowerCase(), attr);
     }
@@ -50,13 +50,13 @@ public class Tag implements Comparable<Tag>{
   }
   
   public Tag(Node in, XMLReader xmlIn) throws XPathExpressionException {
-    attributes = new HashMap<>();
     name = xmlIn.xpathString("@name", in);
     depreciated = xmlIn.xpathString("@depreciated", in);
     where = xmlIn.xpathString("@where", in);
     empty = xmlIn.xpathString("@empty", in);
     desc = xmlIn.xpathString("desc/text()", in);
     
+    attributes = new HashMap<>();
     for(Node n : xmlIn.xpathList("attribute", in)) {
       Attribute attr = new Attribute(n, xmlIn);
       attributes.put(attr.getName().toLowerCase(), attr);
@@ -74,7 +74,6 @@ public class Tag implements Comparable<Tag>{
   }
 
   public Attribute[] getAttributes() {
-
     Attribute[] a = attributes.values().toArray(new Attribute[attributes.size()]);
     Arrays.sort(a);
     return a;
@@ -115,10 +114,10 @@ public class Tag implements Comparable<Tag>{
   }
   
   public String getEmpty() {
-    if(empty.equals("")) {
-      return "no";
+    if(empty.equals("yes") || empty.equals("optional")) {
+      return empty;
     }
-    return "yes";
+    return "no";
   }
   
   /**
