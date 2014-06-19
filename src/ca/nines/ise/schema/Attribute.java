@@ -25,7 +25,6 @@ public class Attribute implements Comparable<Attribute> {
   private final String type;
   private final boolean optional;
   private final String depreciated;
-  private final String match;
   private final boolean renumber;
   private final String defaultValue;
   private final boolean empty;
@@ -43,7 +42,8 @@ public class Attribute implements Comparable<Attribute> {
     defaultValue = xmlIn.xpathString("@default");
     empty = "yes".equals(xmlIn.xpathString("@empty"));
     desc = xmlIn.xpathString("desc/text()");
-    for(Node n : xmlIn.xpathList("option")) {
+    options = new ArrayList<>();
+    for (Node n : xmlIn.xpathList("option")) {
       options.add(n.getTextContent());
     }
   }
@@ -62,7 +62,7 @@ public class Attribute implements Comparable<Attribute> {
     empty = "yes".equals(xmlIn.xpathString("@empty", in));
     desc = xmlIn.xpathString("desc/text()", in);
     options = new ArrayList<>();
-    for(Node n : xmlIn.xpathList("option", in)) {
+    for (Node n : xmlIn.xpathList("option", in)) {
       options.add(n.getTextContent());
     }
   }
@@ -109,21 +109,14 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   public boolean isDepreciated() {
-    return depreciated != "";
-  }
-
-  /**
-   * @return the match
-   */
-  public String getMatch() {
-    return match;
+    return depreciated.equals("");
   }
 
   /**
    * @return the renumber
    */
   public boolean isRenumberable() {
-    return renumber;
+    return type.equals("number") && renumber;
   }
 
   /**
@@ -154,10 +147,10 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   public String getDescription() {
-    if (desc != "") {
-      return desc;
+    if (desc.equals("")) {
+      return "no description provided.";
     }
-    return "no description provided.";
+    return desc;
   }
 
   @Override
