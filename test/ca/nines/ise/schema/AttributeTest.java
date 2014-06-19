@@ -203,7 +203,7 @@ public class AttributeTest {
     Attribute a;
     
     a = new Attribute("<attribute/>");
-    assertEquals("no description provided.", a.getDescription());
+    assertEquals("No description provided.", a.getDescription());
     
     a = new Attribute("<attribute><desc>yes please</desc></attribute>");
     assertEquals("yes please", a.getDescription());

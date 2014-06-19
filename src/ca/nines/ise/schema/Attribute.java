@@ -148,7 +148,7 @@ public class Attribute implements Comparable<Attribute> {
 
   public String getDescription() {
     if (desc.equals("")) {
-      return "no description provided.";
+      return "No description provided.";
     }
     return desc;
   }
