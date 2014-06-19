@@ -122,17 +122,6 @@ public class TagValidator {
   }
 
   @ErrorCode(code={
-    "validator.attribute.badmatch"
-  })
-  public void validate_attribute_match(TagNode n, Attribute attr) {
-    String value = n.getAttribute(attr.getName());
-    if (!value.matches(attr.getMatch())) {
-      Message m = error("validator.attribute.badmatch", n);
-      m.addNote("Attribute " + attr.getName() + " does not match the regular expression " + attr.getMatch() + ".");
-    }
-  }
-
-  @ErrorCode(code={
     "validator.attribute.badlist"
   })
   public void validate_attribute_list(TagNode n, Attribute attr) {
@@ -168,9 +157,6 @@ public class TagValidator {
         break;
       case "number":
         validate_attribute_number(n, attr);
-        break;
-      case "match":
-        validate_attribute_match(n, attr);
         break;
       case "list":
         validate_attribute_list(n, attr);

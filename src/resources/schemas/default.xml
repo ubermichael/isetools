@@ -111,8 +111,14 @@
     </tag>
     <tag name="FONTGROUP" where="oldspelling">
       <desc><![CDATA[This tag allows the editor to fine-tune font size where necessary, as, for example, on a title page.]]></desc>
-      <attribute name="n" type="match" match="^[1-6]$" renumber="no">
+      <attribute name="n" type="select" default="3">
         <desc><![CDATA[The normal (default) size is "3", the smallest "1" and the largest "6".]]></desc>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
       </attribute>
     </tag>
     <tag name="FOREIGN" where="primary">

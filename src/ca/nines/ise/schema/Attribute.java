@@ -39,7 +39,6 @@ public class Attribute implements Comparable<Attribute> {
     type = xmlIn.xpathString("@type");
     optional = "yes".equals(xmlIn.xpathString("@optional"));
     depreciated = xmlIn.xpathString("@depreciated");
-    match = xmlIn.xpathString("@match");
     renumber = "yes".equals(xmlIn.xpathString("@renumber"));
     defaultValue = xmlIn.xpathString("@default");
     empty = "yes".equals(xmlIn.xpathString("@empty"));
@@ -58,7 +57,6 @@ public class Attribute implements Comparable<Attribute> {
     type = xmlIn.xpathString("@type", in);
     optional = "yes".equals(xmlIn.xpathString("@optional", in));
     depreciated = xmlIn.xpathString("@depreciated", in);
-    match = xmlIn.xpathString("@match", in);
     renumber = "yes".equals(xmlIn.xpathString("@renumber", in));
     defaultValue = xmlIn.xpathString("@default", in);
     empty = "yes".equals(xmlIn.xpathString("@empty", in));
@@ -74,7 +72,7 @@ public class Attribute implements Comparable<Attribute> {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
 
-    formatter.format("  @%s(%s:%s:%s:%s:%s:%s:%s)%n", name, type, optional, depreciated, match, renumber, defaultValue, empty);
+    formatter.format("  @%s(%s:%s:%s:%s:%s:%s)%n", name, type, optional, depreciated, renumber, defaultValue, empty);
     if (options != null) {
       sb.append("    ").append(options).append("\n");
     }
