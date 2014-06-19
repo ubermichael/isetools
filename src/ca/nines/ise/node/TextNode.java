@@ -23,8 +23,8 @@ public class TextNode extends Node {
   }
   
   @Override
-  public String type() {
-    return "#TEXT";
+  public NodeType type() {
+    return NodeType.TEXT;
   }
 
   @Override

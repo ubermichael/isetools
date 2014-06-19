@@ -15,8 +15,8 @@ import ca.nines.ise.dom.Fragment;
 public class EOFNode extends Node {
 
   @Override
-  public String type() {
-    return "#EOF";
+  public NodeType type() {
+    return NodeType.EOF;
   }
 
   @Override

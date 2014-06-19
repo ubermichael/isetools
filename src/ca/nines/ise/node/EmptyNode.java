@@ -25,8 +25,8 @@ public class EmptyNode extends TagNode {
   }
 
   @Override
-  public String type() {
-    return "#EMPTY";
+  public NodeType type() {
+    return NodeType.EMPTY;
   }
 
 }

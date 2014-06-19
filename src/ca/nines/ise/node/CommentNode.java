@@ -15,8 +15,8 @@ import ca.nines.ise.dom.Fragment;
 public class CommentNode extends Node {
 
   @Override
-  public String type() {
-    return "#COMMENT";
+  public NodeType type() {
+    return NodeType.COMMENT;
   }
 
   @Override

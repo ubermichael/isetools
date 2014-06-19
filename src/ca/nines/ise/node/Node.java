@@ -15,6 +15,17 @@ import java.util.Formatter;
  */
 abstract public class Node {
 
+  public enum NodeType {
+    ABBR,
+    CHAR,
+    COMMENT,
+    EOF,
+    EMPTY,
+    END,
+    START,
+    TEXT
+  }
+  
   protected int line;
   protected int column;
   protected String source = "";
@@ -51,7 +62,7 @@ abstract public class Node {
    *
    * @return String
    */
-  abstract public String type();
+  abstract public NodeType type();
 
   /**
    * Expand the node into more tags, if possible and return them.

@@ -17,8 +17,8 @@ public class CharNode extends Node {
   private boolean nested = false;
 
   @Override
-  public String type() {
-    return "#CHAR";
+  public NodeType type() {
+    return NodeType.CHAR;
   }
 
   @Override

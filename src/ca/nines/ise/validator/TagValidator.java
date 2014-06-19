@@ -308,25 +308,25 @@ public class TagValidator {
     while (iterator.hasNext()) {
       Node n = iterator.next();
       switch (n.type()) {
-        case "#ABBR":
+        case ABBR:
           validate((AbbrNode) n);
           break;
-        case "#CHAR":
+        case CHAR:
           validate((CharNode) n);
           break;
-        case "#COMMENT":
+        case COMMENT:
           validate((CommentNode) n);
           break;
-        case "#EMPTY":
+        case EMPTY:
           validate((EmptyNode) n);
           break;
-        case "#END":
+        case END:
           validate((EndNode) n);
           break;
-        case "#START":
+        case START:
           validate((StartNode) n);
           break;
-        case "#TEXT":
+        case TEXT:
           validate((TextNode) n);
           break;
         default:
