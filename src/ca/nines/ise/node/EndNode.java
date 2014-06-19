@@ -21,8 +21,8 @@ public class EndNode extends TagNode {
   }
 
   @Override
-  public String type() {
-    return "#END";
+  public NodeType type() {
+    return NodeType.END;
   }
 
 }

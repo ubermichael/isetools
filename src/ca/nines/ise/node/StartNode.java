@@ -25,8 +25,8 @@ public class StartNode extends TagNode {
   }
 
   @Override
-  public String type() {
-    return "#START";
+  public NodeType type() {
+    return NodeType.START;
   }
 
 }

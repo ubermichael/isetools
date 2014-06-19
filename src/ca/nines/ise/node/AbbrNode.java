@@ -15,8 +15,8 @@ import ca.nines.ise.dom.Fragment;
 public class AbbrNode extends Node {
 
   @Override
-  public String type() {
-    return "#ABBR";
+  public NodeType type() {
+    return NodeType.ABBR;
   }
 
   @Override
