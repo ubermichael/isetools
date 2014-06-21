@@ -8,6 +8,7 @@ package ca.nines.ise;
 import ca.nines.ise.dom.Builder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.TagValidator;
 import java.io.File;
 import java.io.PrintStream;
@@ -33,6 +34,9 @@ public class Main {
 
     try {
       out = new PrintStream(System.out, true, "UTF-8");
+      Schema schema = new Schema();
+      TagValidator tv = new TagValidator(schema);
+      
       if (args.length == 0) {
         FileUtils fu = new FileUtils();
         File dir = new File("data/sgml");
@@ -51,7 +55,6 @@ public class Main {
       while (fi.hasNext()) {
         File in = (File) fi.next();
         DOM dom = new Builder(in).getDOM();
-        TagValidator tv = new TagValidator();
         tv.validate(dom);
         out.println(log);
         log.clear();
