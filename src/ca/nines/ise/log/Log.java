@@ -56,7 +56,10 @@ public class Log {
     messages.add(m);
   }
 
-
+  public Message get(int i) {
+    return messages.get(i);
+  }
+  
   /**
    * Empty the message log.
    */
@@ -90,5 +93,9 @@ public class Log {
       formatter.format("%s%n", message);
     }
     return sb.toString();
+  }
+
+  public int count() {
+    return messages.size();
   }
 }
