@@ -87,6 +87,7 @@ public class Builder extends ISEParserBaseListener {
   public Builder(InputStream in, String source) throws IOException {
     DOMStream domStream = new DOMStream(in, source);
     dom.setSource(source);
+    dom.setLines(domStream.getLines());
     ais = new ANTLRInputStream(domStream.getContent());
   }
   
@@ -100,6 +101,7 @@ public class Builder extends ISEParserBaseListener {
   public Builder(String in) throws IOException {
     DOMStream domStream = new DOMStream(in);
     dom.setSource("#STRING");
+    dom.setLines(domStream.getLines());
     ais = new ANTLRInputStream(domStream.getContent());
   }
 
@@ -114,6 +116,7 @@ public class Builder extends ISEParserBaseListener {
   public Builder(File in) throws FileNotFoundException, IOException {
     DOMStream domStream = new DOMStream(in);
     dom.setSource(in.getCanonicalPath());
+    dom.setLines(domStream.getLines());
     ais = new ANTLRInputStream(domStream.getContent());
   }
 
