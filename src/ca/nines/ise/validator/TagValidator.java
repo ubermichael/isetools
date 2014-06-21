@@ -43,6 +43,11 @@ public class TagValidator {
     log = Log.getInstance();
     schema = new Schema();
   }
+  
+  public TagValidator(Schema schema) {
+    log = Log.getInstance();
+    this.schema = schema;
+  }
 
   @ErrorCode(code = "validator.abbr.depreciated")
   public void validate(AbbrNode n) {
