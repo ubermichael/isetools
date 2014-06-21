@@ -269,10 +269,15 @@ public class TagValidator {
   }
 
   @ErrorCode(code = {
-    "validator.tag.depreciatedhash",})
+    "validator.text.depreciatedhash",
+    "validator.text.badunicode"
+  })
   public void validate(TextNode n) {
     if (n.getText().contains("#")) {
       error("validator.text.depreciatedhash", n);
+    }
+    if(n.getText().contains("\uFFFD")) {
+      error("validator.text.badunicode", n);
     }
   }
 
