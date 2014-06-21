@@ -84,11 +84,11 @@ abstract public class TagNode extends Node {
   }
 
   public String getAttribute(String name) {
-    return (String) attributes.get(name);
+    return (String) attributes.get(name.toLowerCase());
   }
 
   public void setAttribute(String name, String value) {
-    attributes.put(name, value);
+    attributes.put(name.toLowerCase(), value);
   }
 
   public String[] getAttributeNames() {
