@@ -20,6 +20,7 @@ import ca.nines.ise.grammar.ISEParser.TagContext;
 import ca.nines.ise.grammar.ISEParser.TagNameContext;
 
 import ca.nines.ise.grammar.ISEParserBaseListener;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.AbbrNode;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.CommentNode;
@@ -32,11 +33,8 @@ import ca.nines.ise.node.TextNode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
+import java.io.InputStream;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -81,31 +79,42 @@ public class Builder extends ISEParserBaseListener {
   private String currentAttrName;
 
   /**
+   *
+   * @param in
+   * @param source
+   * @throws java.io.IOException
+   */
+  public Builder(InputStream in, String source) throws IOException {
+    DOMStream domStream = new DOMStream(in, source);
+    dom.setSource(source);
+    ais = new ANTLRInputStream(domStream.getContent());
+  }
+  
+  /**
    * Constructs a Builder from a string. The resulting DOM
    * source will be "#STRING".
    * 
-   * @param input  The string to parse.
+   * @param in  The string to parse.
+   * @throws java.io.IOException
    */  
-  public Builder(String input) {
+  public Builder(String in) throws IOException {
+    DOMStream domStream = new DOMStream(in);
     dom.setSource("#STRING");
-    dom.setLines(input);
-    ais = new ANTLRInputStream(input);
+    ais = new ANTLRInputStream(domStream.getContent());
   }
 
   /**
    * Constructs a Builder from a File. The resulting DOM source
    * will return the absolute path to the file.
    * 
-   * @param input  The file to read and parse.
+   * @param in  The file to read and parse.
    * @throws FileNotFoundException  if the file cannot be found.
    * @throws IOException  if the file cannot be read.
    */
-  public Builder(File input) throws FileNotFoundException, IOException {
-    dom.setSource(input.getAbsolutePath());
-    FileReader fr = new FileReader(input);
-    List<String> lines = Files.readAllLines(input.toPath(), StandardCharsets.UTF_8);
-    dom.setLines(lines.toArray(new String[lines.size()]));
-    ais = new ANTLRInputStream(fr);
+  public Builder(File in) throws FileNotFoundException, IOException {
+    DOMStream domStream = new DOMStream(in);
+    dom.setSource(in.getCanonicalPath());
+    ais = new ANTLRInputStream(domStream.getContent());
   }
 
   /**
