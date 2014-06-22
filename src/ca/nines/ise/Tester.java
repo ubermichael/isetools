@@ -5,11 +5,9 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.dom.Builder;
-import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import java.io.File;
+import ca.nines.ise.node.AbbrNode;
 
 /**
  *
@@ -20,8 +18,10 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new Builder(new File("foo")).getDOM();
-      System.out.println(dom);
+      AbbrNode a = new AbbrNode();
+      a.setText("|y^e|");
+      System.out.println(a.expanded());
+      System.out.println(a.plain());
     } catch (Exception ex) {
       Message m = log.add("unknown");
       m.addNote(ex.getMessage());
