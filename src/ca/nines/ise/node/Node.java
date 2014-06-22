@@ -32,6 +32,10 @@ abstract public class Node {
   protected String text = "";
   protected String asl = "";
   protected String tln = "";
+  
+  protected Fragment _expanded;
+  protected String _plain;
+  protected String _unicode;
 
   public Node() {
     // do nothing.

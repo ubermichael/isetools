@@ -57,6 +57,7 @@ public class TagValidator {
       m.addNote("The long abbreviation starts with " + n.getText().substring(0, 12));
       m.addNote("The abbreviation cannot be corrected automatically.");
     }
+    n.expanded();
   }
 
   public void validate(CharNode n) {
