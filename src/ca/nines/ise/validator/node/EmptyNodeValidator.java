@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.validator;
+package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.misc.ErrorCode;
@@ -15,9 +15,9 @@ import ca.nines.ise.schema.Tag;
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class EmptyValidator extends TagValidator<EmptyNode> {
+public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
 
-  public EmptyValidator(Schema schema) {
+  public EmptyNodeValidator(Schema schema) {
     super(schema);
   }
 
