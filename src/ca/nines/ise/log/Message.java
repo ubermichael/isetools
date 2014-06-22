@@ -24,7 +24,7 @@ public class Message implements Comparable<Message> {
   private int lineNumber = 0;
   private int columnNumber = 0;
   private char severity = 'U';
-  private ArrayList<String> notes = new ArrayList<>();
+  private final ArrayList<String> notes = new ArrayList<>();
 
   public Message(String code) {
     if (code == null) {
@@ -38,7 +38,7 @@ public class Message implements Comparable<Message> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
-    formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
+    formatter.format("%s:%d:%d:%s:%s%n", source, lineNumber, columnNumber, code, component);
     formatter.format("  near TLN %s%n", TLN);
     formatter.format("  %s%n", line);
     for (String note : notes) {
