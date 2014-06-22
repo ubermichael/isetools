@@ -36,7 +36,7 @@ public class DOMValidator {
     this(new Schema());
   }
 
-  public DOMValidator(Schema schema) {   
+  public DOMValidator(Schema schema) {
     this.validators = new HashMap<>();
     validators.put(NodeType.ABBR, new AbbrNodeValidator(schema));
     validators.put(NodeType.CHAR, new CharNodeValidator(schema));
@@ -58,7 +58,6 @@ public class DOMValidator {
       }
       validator.validate(n);
     }
-
   }
 
 }
