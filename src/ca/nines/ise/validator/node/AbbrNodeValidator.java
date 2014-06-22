@@ -3,24 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.validator;
+package ca.nines.ise.validator.node;
 
-import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.misc.ErrorCode;
 import ca.nines.ise.node.AbbrNode;
-import ca.nines.ise.node.CommentNode;
 import ca.nines.ise.schema.Schema;
 
 /**
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class AbbrValidator extends NodeValidator<AbbrNode> {
+public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
 
   public final static int ABBR_LENGTH = 12;
   
-  public AbbrValidator(Schema schema) {
+  public AbbrNodeValidator(Schema schema) {
     super(schema);
   }
 
