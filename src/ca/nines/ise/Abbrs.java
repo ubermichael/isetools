@@ -11,7 +11,7 @@ import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.schema.Schema;
-import ca.nines.ise.validator.TagValidator;
+import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class Abbrs {
     try {
       out = new PrintStream(System.out, true, "UTF-8");
       Schema schema = new Schema();
-      TagValidator tv = new TagValidator(schema);
+      DOMValidator tv = new DOMValidator(schema);
 
       if (args.length == 0) {
         FileUtils fu = new FileUtils();
