@@ -1,0 +1,47 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ca.nines.ise.validator;
+
+import ca.nines.ise.log.Message;
+import ca.nines.ise.misc.ErrorCode;
+import ca.nines.ise.node.CommentNode;
+import ca.nines.ise.schema.Schema;
+
+/**
+ *
+ * @author Michael Joyce <ubermichael@gmail.com>
+ */
+public class CommentValidator extends NodeValidator<CommentNode> {
+
+  public CommentValidator(Schema schema) {
+    super(schema);
+  }
+
+  @ErrorCode(code = {
+    "validator.comment.badstart",
+    "validator.comment.badend",
+    "validator.comment.dashes"
+  })
+  @Override
+  public void validate(CommentNode n) {
+    Message m;
+    String text = n.getText();
+    if (!text.startsWith("<!--")) {
+      m = error("validator.comment.badstart", n);
+      m.addNote("The comment started with " + text.substring(0, 4));
+    }
+    if (!text.endsWith("-->")) {
+      m = error("validator.comment.badend", n);
+      m.addNote("The comment ended with " + text.substring(text.length() - 3));
+    }
+    text = text.replaceAll("^(<!--)|(-->)$", "");
+    if (text.contains("--")) {
+      m = error("validator.comment.dashes", n);
+      m.addNote("after replace: " + text);
+    }
+  }
+
+}
