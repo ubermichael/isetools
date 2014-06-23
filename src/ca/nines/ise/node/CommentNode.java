@@ -27,11 +27,6 @@ public class CommentNode extends Node {
   }
 
   @Override
-  public String getName() {
-    return "#COMMENT";
-  }
-
-  @Override
   public Fragment expanded() {
     CommentNode node = new CommentNode(this);
     Fragment f = new Fragment();

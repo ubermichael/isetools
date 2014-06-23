@@ -59,11 +59,6 @@ public class AbbrNode extends Node {
   }
 
   @Override
-  public String getName() {
-    return "#ABBR";
-  }
-
-  @Override
   public String plain() {
     if (this._plain != null) {
       return this._plain;
