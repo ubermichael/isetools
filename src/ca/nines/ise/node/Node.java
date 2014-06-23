@@ -14,28 +14,17 @@ import java.util.Formatter;
  * @author Michael Joyce <michael@negativespace.net>
  */
 abstract public class Node {
-
-  public enum NodeType {
-    ABBR,
-    CHAR,
-    COMMENT,
-    EOF,
-    EMPTY,
-    END,
-    START,
-    TEXT
-  }
-  
-  protected int line;
-  protected int column;
-  protected String source = "";
-  protected String text = "";
-  protected String asl = "";
-  protected String tln = "";
   
   protected Fragment _expanded;
   protected String _plain;
   protected String _unicode;
+  protected String asl = "";
+  protected int column;
+  
+  protected int line;
+  protected String source = "";
+  protected String text = "";
+  protected String tln = "";
 
   public Node() {
     // do nothing.
@@ -51,24 +40,6 @@ abstract public class Node {
   }
   
   /**
-   * Get the name of the tag that this node came from. For non-tag nodes, this
-   * is one of
-   * #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
-   *
-   * @return String
-   */
-  abstract public String getName();
-
-  /**
-   * Get the type of the tag that this node came from. For non-tag nodes, this
-   * is one of#ABBR, #CHAR, #COMMENT, #EOF, or #TEXT. For tag nodes it is
-   * one of #START, #EMPTY, #END.
-   *
-   * @return String
-   */
-  abstract public NodeType type();
-
-  /**
    * Expand the node into more tags, if possible and return them.
    *
    * @return DOMFragment
@@ -76,44 +47,17 @@ abstract public class Node {
   abstract public Fragment expanded();
 
   /**
-   * Convert the node into plain text. Any unicode text in the node is
-   * untouched and chars are converted into plain text.
-   *
-   * @return String
+   * @return the asl
    */
-  abstract public String plain();
-
-  /**
-   * Convert the node into unicode. Any unicode in the node is untouched and
-   * chars are converted into their unicode equivalents
-   *
-   * @return String
-   */
-  abstract public String unicode();
-
-  /**
-   * Convert a node to a string, mostly for debugging purposes.
-   *
-   * @return String
-   */
-  @Override
-  public String toString() {
-    Formatter formatter = new Formatter();
-    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
+  public String getAsl() {
+    return asl;
   }
 
   /**
-   * @return the line
+   * @param asl the asl to set
    */
-  public int getLine() {
-    return line;
-  }
-
-  /**
-   * @param line the line to set
-   */
-  public void setLine(int line) {
-    this.line = line;
+  public void setAsl(String asl) {
+    this.asl = asl;
   }
 
   /**
@@ -129,6 +73,29 @@ abstract public class Node {
   public void setColumn(int column) {
     this.column = column;
   }
+
+  /**
+   * @return the line
+   */
+    public int getLine() {
+      return line;
+    }
+
+  /**
+   * @param line the line to set
+   */
+  public void setLine(int line) {
+    this.line = line;
+  }
+
+  /**
+   * Get the name of the tag that this node came from. For non-tag nodes, this
+   * is one of
+   * #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
+   *
+   * @return String
+   */
+  public abstract String getName();
 
   /**
    * @return the source
@@ -159,20 +126,6 @@ abstract public class Node {
   }
 
   /**
-   * @return the asl
-   */
-  public String getAsl() {
-    return asl;
-  }
-
-  /**
-   * @param asl the asl to set
-   */
-  public void setAsl(String asl) {
-    this.asl = asl;
-  }
-
-  /**
    * @return the tln
    */
   public String getTln() {
@@ -184,6 +137,52 @@ abstract public class Node {
    */
   public void setTln(String tln) {
     this.tln = tln;
+  }
+
+  /**
+   * Convert the node into plain text. Any unicode text in the node is
+   * untouched and chars are converted into plain text.
+   *
+   * @return String
+   */
+  public abstract String plain();
+
+  /**
+   * Convert a node to a string, mostly for debugging purposes.
+   *
+   * @return String
+   */
+  @Override
+  public String toString() {
+    Formatter formatter = new Formatter();
+    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
+  }
+
+  /**
+   * Get the type of the tag that this node came from. For non-tag nodes, this
+   * is one of#ABBR, #CHAR, #COMMENT, #EOF, or #TEXT. For tag nodes it is
+   * one of #START, #EMPTY, #END.
+   *
+   * @return String
+   */
+  public abstract NodeType type();
+
+  /**
+   * Convert the node into unicode. Any unicode in the node is untouched and
+   * chars are converted into their unicode equivalents
+   *
+   * @return String
+   */
+  public abstract String unicode();
+
+  public enum NodeType {
+    ABBR,
+    CHAR,
+    COMMENT,
+    EMPTY,
+    END,
+    START,
+    TEXT
   }
 
 }

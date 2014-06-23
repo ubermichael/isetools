@@ -57,18 +57,14 @@ charComplexLigature
   : CHAR_COMPLEX_LIGATURE
   ;
 
-charLigature
-  : charSimpleLigature
-  | charComplexLigature
-  ;
-
 character
   : charUnicode 
   | charDigraph 
   | charSpace
   | charAccent
   | charTypographic
-  | charLigature
+  | charSimpleLigature
+  | charComplexLigature  
   ;
 
 // attributes before tags

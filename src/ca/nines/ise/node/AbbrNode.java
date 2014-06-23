@@ -18,32 +18,12 @@ import java.util.regex.Pattern;
 public class AbbrNode extends Node {
 
   @Override
-  public NodeType type() {
-    return NodeType.ABBR;
-  }
-
-  @Override
-  public String getName() {
-    return "#ABBR";
-  }
-
-  private Message error(String code) {
-    Message m = Log.getInstance().error(code);
-    m.setComponent(this.getClass().getCanonicalName());
-    m.setSource(getSource());
-    m.setColumnNumber(getColumn());
-    m.setLineNumber(getLine());
-    m.setTLN(getTln());
-    return m;
-  }
-
-  @Override
   public Fragment expanded() {
-    
-    if(this._expanded != null) {
+
+    if (this._expanded != null) {
       return this._expanded;
     }
-    
+
     String content = text.replaceAll("\\|", "");
     Pattern longAbbrPattern = Pattern.compile("^([a-zA-Z])\\^([a-zA-Z])$");
     Pattern shortAbbrPattern = Pattern.compile("^([a-zA-Z]+)$");
@@ -64,7 +44,7 @@ public class AbbrNode extends Node {
       fragment.add(new EndNode("SUP"));
     } else {
       if (!content.matches(shortAbbrPattern.pattern())) {
-        Message msg = error("abbr.expand.syntax");
+        Message msg = Log.getInstance().error("abbr.expand.syntax", this);
         msg.addNote("The syntax error occurs in " + text);
       }
       TextNode tn = new TextNode();
@@ -74,13 +54,18 @@ public class AbbrNode extends Node {
     fragment.add(new EndNode("ABBR"));
 
     this._expanded = fragment;
-    
+
     return fragment;
   }
 
   @Override
+  public String getName() {
+    return "#ABBR";
+  }
+
+  @Override
   public String plain() {
-    if(this._plain != null) {
+    if (this._plain != null) {
       return this._plain;
     }
     this._plain = getText().replaceAll("[^a-zA-Z]*", "");
@@ -88,12 +73,16 @@ public class AbbrNode extends Node {
   }
 
   @Override
+  public NodeType type() {
+    return NodeType.ABBR;
+  }
+
+  @Override
   public String unicode() {
-    if(this._unicode != null) {
+    if (this._unicode != null) {
       return this._unicode;
     }
     this._unicode = getText().replaceAll("[^a-zA-Z]*", "");
     return this._unicode;
   }
-
 }
