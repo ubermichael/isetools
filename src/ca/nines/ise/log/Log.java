@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.node.Node;
@@ -12,24 +11,24 @@ import java.util.Arrays;
 import java.util.Formatter;
 
 /**
- * Log collects error messages generated during parsing 
- * and validation.
- * 
- * Log is a singleton: use getInstance() to get an object, 
- * rather than new().
- *
+ * Log collects error messages generated during parsing and validation.
+ * <p>
+ * Log is a singleton: use getInstance() to get an object, rather than new().
+ * <p>
  * @author michael
  */
 public class Log {
+
   private final ArrayList<Message> messages = new ArrayList<>();
 
   private static final Log instance = new Log();
 
-  private Log() {}
+  private Log() {
+  }
 
   /**
    * Get an instance of the log.
-   * 
+   * <p>
    * @return log instance.
    */
   public static Log getInstance() {
@@ -38,8 +37,8 @@ public class Log {
 
   /**
    * Create and error a new error message to the log.
-   * 
-   * @param code 
+   * <p>
+   * @param code <p>
    * @return Message, so that notes can be added.
    */
   public Message error(String code) {
@@ -47,7 +46,7 @@ public class Log {
     messages.add(m);
     return m;
   }
-  
+
   public Message error(String code, Node node) {
     Message m = error(code);
     m.setComponent(this.getClass().getSimpleName());
@@ -57,10 +56,10 @@ public class Log {
     m.setTLN(node.getTln());
     return m;
   }
-  
+
   /**
    * Add a message to the log.
-   * 
+   * <p>
    * @param m the message to error.
    */
   public void add(Message m) {
@@ -70,18 +69,17 @@ public class Log {
   public Message get(int i) {
     return messages.get(i);
   }
-  
+
   /**
    * Empty the message log.
    */
   public void clear() {
     messages.clear();
   }
-  
+
   /**
-   * Return am array of error messages, sorted by 
-   * source and line number.
-   * 
+   * Return am array of error messages, sorted by source and line number.
+   * <p>
    * @return sorted message array.
    */
   public Message[] messages() {
@@ -92,15 +90,15 @@ public class Log {
 
   /**
    * Serialize the messages into a string.
-   * 
+   * <p>
    * @return string of messages.
    */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
-    
-    for(Message message : messages) {
+
+    for (Message message : messages) {
       formatter.format("%s%n", message);
     }
     return sb.toString();

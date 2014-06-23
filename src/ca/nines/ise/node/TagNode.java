@@ -30,7 +30,7 @@ abstract public class TagNode extends Node {
     this.tagname = n.tagname;
     this.attributes = new LinkedHashMap<>(n.attributes);
   }
-  
+
   /**
    *
    * @param tagname
@@ -75,7 +75,7 @@ abstract public class TagNode extends Node {
     while (i.hasNext()) {
       String name = (String) i.next();
       formatter.format("@%s=%s", name, attributes.get(name));
-      if(i.hasNext()) {
+      if (i.hasNext()) {
         sb.append(", ");
       }
     }

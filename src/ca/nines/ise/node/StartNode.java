@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node;
 
 /**
@@ -15,7 +14,7 @@ public class StartNode extends TagNode {
   public StartNode() {
     super();
   }
-  
+
   public StartNode(EmptyNode n) {
     super(n);
   }

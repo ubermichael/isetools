@@ -84,6 +84,7 @@ public class CharNode extends Node {
   }
 
   public enum CharType {
+
     ACCENT,
     DIGRAPH,
     LIGATURE,

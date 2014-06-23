@@ -20,6 +20,7 @@ public class TagTest {
 
   /**
    * Test of getAttribute method, of class Tag.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -36,6 +37,7 @@ public class TagTest {
 
   /**
    * Test of getAttributeNames method, of class Tag.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -53,14 +55,14 @@ public class TagTest {
 
     tag = new Tag("<tag><attribute name='a'/><attribute name='a'/></tag>");
     assertArrayEquals(new String[]{"a"}, tag.getAttributeNames());
-    
+
     tag = new Tag("<tag><attribute name='b'/><attribute name='a'/></tag>");
     assertArrayEquals(new String[]{"a", "b"}, tag.getAttributeNames());
   }
 
   /**
    * Test of getAttributes method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -81,7 +83,7 @@ public class TagTest {
     a = tag.getAttributes();
     assertEquals("a", a[0].getName());
     assertEquals(1, a.length);
-    
+
     tag = new Tag("<tag><attribute name='b'/><attribute name='a'/></tag>");
     a = tag.getAttributes();
     assertEquals("a", a[0].getName());
@@ -91,7 +93,7 @@ public class TagTest {
 
   /**
    * Test of countAttributes method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -116,7 +118,7 @@ public class TagTest {
 
   /**
    * Test of getName method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -129,7 +131,7 @@ public class TagTest {
 
   /**
    * Test of getEmpty method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -169,7 +171,7 @@ public class TagTest {
 
   /**
    * Test of isDepreciated method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -191,7 +193,7 @@ public class TagTest {
 
   /**
    * Test of getWhere method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -211,7 +213,7 @@ public class TagTest {
 
   /**
    * Test of getDescription method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -228,7 +230,7 @@ public class TagTest {
 
   /**
    * Test of compareTo method, of class Tag.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException

@@ -30,7 +30,7 @@ public class SW {
     while (i.hasNext()) {
       String s = (String) i.next();
       sb.append(s);
-      if(i.hasNext()) {
+      if (i.hasNext()) {
         sb.append(", ");
       }
     }
@@ -45,14 +45,14 @@ public class SW {
     Formatter fmt = new Formatter(sb);
     System.out.println("|| Name || Type || Optional || Empty || Renumberable || Depreciated || Options ||");
     for (Attribute attr : tag.getAttributes()) {
-      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s ||%n", 
-              attr.getName(), 
-              attr.getType(), 
-              attr.isOptional(),
-              attr.isEmpty(),
-              attr.isRenumberable(),
-              attr.getDepreciated(),
-              attrOptions(attr)       
+      fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s ||%n",
+                 attr.getName(),
+                 attr.getType(),
+                 attr.isOptional(),
+                 attr.isEmpty(),
+                 attr.isRenumberable(),
+                 attr.getDepreciated(),
+                 attrOptions(attr)
       );
       fmt.format("{{{#!td%n}}}%n{{{#!td colspan=7%n%s%n}}}%n|-------------------%n", attr.getDescription());
     }
@@ -88,32 +88,15 @@ public class SW {
 }
 
 /*
-
- ||= Name =||= Empty =||= Context =||= Depreciated =||
- |------
- || '''ABBR''' || no ||  ||  ||
- |------
- {{{#!th
- }}}
- {{{#!th colspan=3
- || Name || Type || Optional || Emtpy ||  Renmberable || Options ||
- }}}
- |------
- {{{#!td
- }}}
- {{{#!td colspan=3
- || @''expan'' || string || null || null || null ||  ||
- || @''expan'' || string || null || null || null ||  ||
- }}}
- |------
- || '''ACT''' || no ||  ||  ||
- |------
- {{{#!th
- }}}
- {{{#!th colspan=3
- || Name || Type || Optional || Emtpy || Renmberable || Options ||
- || @''expan'' || string || null || null || null ||  ||
- || @''expan'' || string || null || null || null ||  ||
- }}}
-
+ *
+ * ||= Name =||= Empty =||= Context =||= Depreciated =|| |------ || '''ABBR'''
+ * || no || || || |------ {{{#!th }}} {{{#!th colspan=3 || Name || Type ||
+ * Optional || Emtpy || Renmberable || Options || }}} |------ {{{#!td }}}
+ * {{{#!td colspan=3 || @''expan'' || string || null || null || null || || ||
+ * @''expan'' || string || null || null || null || || }}} |------ || '''ACT'''
+ * || no || || || |------ {{{#!th }}} {{{#!th colspan=3 || Name || Type ||
+ * Optional || Emtpy || Renmberable || Options || || @''expan'' || string ||
+ * null || null || null || || || @''expan'' || string || null || null || null ||
+ * || }}}
+ *
  */

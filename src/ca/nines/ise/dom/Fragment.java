@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.dom;
 
 /**
- * A Fragment is a piece of a DOM. They are 
- * identical to DOMs in almost every way: validations
- * may be different for Fragments.
- * 
+ * A Fragment is a piece of a DOM. They are identical to DOMs in almost every
+ * way: validations may be different for Fragments.
+ * <p>
  */
 public class Fragment extends DOM {
-  
+
 }

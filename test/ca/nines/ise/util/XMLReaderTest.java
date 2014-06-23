@@ -22,7 +22,7 @@ public class XMLReaderTest {
 
   /**
    * Test constructor with a file.
-   *
+   * <p>
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
@@ -31,14 +31,15 @@ public class XMLReaderTest {
   @Test
   public void testConstructorFile() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn = new XMLReader(new File("/resources/schemas/default.xml"));
-    
+
     Node n = xmlIn.xpathNode("/schema");
     assertEquals("schema", n.getNodeName());
     assertEquals("default", xmlIn.xpathString("/schema/@edition"));
   }
-  
+
   /**
    * Test of xpathList method, of class XMLReader.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -48,7 +49,7 @@ public class XMLReaderTest {
   public void testXpathList_String() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn;
     Node[] nl;
-    
+
     xmlIn = new XMLReader("<foo><bar n='1'/><bar n='2'/></foo>");
     nl = xmlIn.xpathList("/foo/bar");
     assertEquals(2, nl.length);
@@ -56,6 +57,7 @@ public class XMLReaderTest {
 
   /**
    * Test of xpathList method, of class XMLReader.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -65,18 +67,19 @@ public class XMLReaderTest {
   public void testXpathNode_String() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn;
     Node n;
-    
+
     xmlIn = new XMLReader("<foo><bar n='1'/><qux n='2'/></foo>");
     n = xmlIn.xpathNode("/foo/node()[position() = 1]");
-    
+
     assertEquals("bar", n.getNodeName());
-    
+
     n = xmlIn.xpathNode("/foo/barley");
     assertEquals(null, n);
   }
 
   /**
    * Test of xpathList method, of class XMLReader.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -86,7 +89,7 @@ public class XMLReaderTest {
   public void testXpathNode_String_Node() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn;
     Node a, n;
-    
+
     xmlIn = new XMLReader("<foo><a><bar n='1'/><qux n='2'/></a></foo>");
     a = xmlIn.xpathNode("/foo/a");
     assertNotNull(a);
@@ -99,6 +102,7 @@ public class XMLReaderTest {
 
   /**
    * Test of xpathString method, of class XMLReader.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -107,7 +111,7 @@ public class XMLReaderTest {
   @Test
   public void testXpathString_String() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn;
-    
+
     xmlIn = new XMLReader("<foo bar='3'/>");
     assertEquals("3", xmlIn.xpathString("/foo/@bar"));
     assertEquals("", xmlIn.xpathString("/foo/@blorp"));
@@ -115,6 +119,7 @@ public class XMLReaderTest {
 
   /**
    * Test of xpathString method, of class XMLReader.
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -123,10 +128,10 @@ public class XMLReaderTest {
   @Test
   public void testXpathString_String_Node() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLReader xmlIn;
-    
+
     xmlIn = new XMLReader("<foo><bar a='3'/></foo>");
     Node n = xmlIn.xpathNode("/foo/bar");
-    
+
     assertEquals("3", xmlIn.xpathString("@a", n));
     assertEquals("", xmlIn.xpathString("@blorp", n));
   }

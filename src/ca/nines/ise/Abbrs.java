@@ -70,21 +70,21 @@ public class Abbrs {
           if (n.type() == Node.NodeType.ABBR) {
             if (n.getText().length() < 12) {
               Integer c = (Integer) m.get(n.getText());
-              if(c == null) {
+              if (c == null) {
                 c = new Integer(1);
               } else {
                 c = c + 1;
-              }              
+              }
               m.put(n.getText(), c);
             }
           }
         }
       }
-      for(String k : m.keySet()) {
+      for (String k : m.keySet()) {
         out.println(k + ":" + m.get(k));
       }
-      for(Message msg : log.messages()) {
-        if(msg.getCode().startsWith("validator.abbr.")) {
+      for (Message msg : log.messages()) {
+        if (msg.getCode().startsWith("validator.abbr.")) {
           out.println(msg);
         }
       }

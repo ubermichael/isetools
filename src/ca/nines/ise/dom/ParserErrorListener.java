@@ -13,8 +13,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
 /**
- * ParserErrorListener intercepts parser errors and 
- * generates error messages in the log. Used by Builder.
+ * ParserErrorListener intercepts parser errors and generates error messages in
+ * the log. Used by Builder.
  */
 public class ParserErrorListener extends BaseErrorListener {
 
@@ -22,17 +22,16 @@ public class ParserErrorListener extends BaseErrorListener {
   private final Log log = Log.getInstance();
 
   /**
-   * Called automatically when the parser encounters
-   * an error.
-   * 
+   * Called automatically when the parser encounters an error.
+   * <p>
    * @param recognizer
    * @param offendingSymbol
    * @param line
    * @param charPositionInLine
    * @param msg
-   * @param e 
+   * @param e
    */
-  @ErrorCode(code={
+  @ErrorCode(code = {
     "lexer.syntax"
   })
   @Override
@@ -43,7 +42,7 @@ public class ParserErrorListener extends BaseErrorListener {
           int charPositionInLine,
           String msg,
           RecognitionException e) {
-    
+
     Message m = log.error("parser.grammar");
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
@@ -52,9 +51,8 @@ public class ParserErrorListener extends BaseErrorListener {
   }
 
   /**
-   * Sets the source of the parsed data. Either #STRING
-   * or the path to the file.
-   * 
+   * Sets the source of the parsed data. Either #STRING or the path to the file.
+   * <p>
    * @param source the source to set
    */
   public void setSource(String source) {

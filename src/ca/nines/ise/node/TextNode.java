@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
@@ -17,11 +16,11 @@ public class TextNode extends Node {
   public TextNode() {
     super();
   }
-  
+
   public TextNode(Node n) {
     super(n);
   }
-  
+
   @Override
   public NodeType type() {
     return NodeType.TEXT;

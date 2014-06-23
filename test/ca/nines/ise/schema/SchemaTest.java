@@ -20,7 +20,7 @@ public class SchemaTest {
 
   /**
    * Test of getTag method, of class Schema.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -29,23 +29,23 @@ public class SchemaTest {
   @Test
   public void testGetTag() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     Schema schema = new Schema();
-    
+
     Tag t = schema.getTag("ABBR");
     assertEquals("ABBR", t.getName());
-    
+
     t = schema.getTag("abbr");
-    assertEquals("ABBR", t.getName());   
-    
+    assertEquals("ABBR", t.getName());
+
     t = schema.getTag("foorb");
     assertNull(t);
 
     t = schema.getTag("");
     assertNull(t);
-}
+  }
 
   /**
    * Test of getTagNames method, of class Schema.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException
@@ -56,8 +56,8 @@ public class SchemaTest {
     Schema schema = new Schema();
     String names[] = schema.getTagNames();
     assertTrue(names.length > 1);
-    for(int i = 0; i < names.length - 1; i++) {
-      if(names[i].compareTo(names[i+1]) > 0) {
+    for (int i = 0; i < names.length - 1; i++) {
+      if (names[i].compareTo(names[i + 1]) > 0) {
         fail("Array of tag names isn't sorted.");
       }
     }
@@ -65,7 +65,7 @@ public class SchemaTest {
 
   /**
    * Test of getTags method, of class Schema.
-   *
+   * <p>
    * @throws javax.xml.parsers.ParserConfigurationException
    * @throws org.xml.sax.SAXException
    * @throws java.io.IOException

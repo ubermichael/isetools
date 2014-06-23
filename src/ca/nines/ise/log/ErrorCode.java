@@ -48,13 +48,13 @@ public class ErrorCode implements Comparable<ErrorCode> {
   public int compareTo(ErrorCode o) {
     return this.code.compareTo(o.code);
   }
-  
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
     formatter.format("%s:%s:%s%n", code, severity, message);
-    return sb.toString();    
+    return sb.toString();
   }
 
 }

@@ -17,7 +17,7 @@ import ca.nines.ise.schema.Schema;
 public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
 
   public final static int ABBR_LENGTH = 12;
-  
+
   public AbbrNodeValidator(Schema schema) {
     super(schema);
   }

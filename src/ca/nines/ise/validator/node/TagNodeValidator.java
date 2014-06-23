@@ -24,7 +24,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     super(schema);
   }
 
-  @ErrorCode(code={
+  @ErrorCode(code = {
     "validator.attribute.badstring"
   })
   public void validate_attribute_string(T n, Attribute attr) {
@@ -36,7 +36,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
-  @ErrorCode(code={
+  @ErrorCode(code = {
     "validator.attribute.badnumber"
   })
   public void validate_attribute_number(T n, Attribute attr) {
@@ -47,7 +47,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
-  @ErrorCode(code={
+  @ErrorCode(code = {
     "validator.attribute.badlist"
   })
   public void validate_attribute_list(T n, Attribute attr) {
@@ -61,7 +61,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
-  @ErrorCode(code={
+  @ErrorCode(code = {
     "validator.attribute.badselect"
   })
   public void validate_attribute_select(T n, Attribute attr) {
@@ -121,11 +121,11 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
       }
       String attrValue = n.getAttribute(name);
       if (attrValue.length() == 0) {
-        
-        if(attr.isEmpty()) {
+
+        if (attr.isEmpty()) {
           continue;
         }
-        
+
         m = log.error("validator.attribute.nonempty", n);
         m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
         continue;

@@ -23,30 +23,30 @@ public class Schema {
 
   private final HashMap<String, Tag> tags;
   private final String source;
-  
+
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new File("/resources/schemas/default.xml"));
   }
-  
+
   public Schema(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     this(new XMLReader(in));
   }
-    
+
   public Schema(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new XMLReader(in));
   }
-  
+
   public Schema(Node in) throws XPathExpressionException, ParserConfigurationException {
     this(new XMLReader(in));
   }
-  
+
   public Schema(XMLReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
     tags = new HashMap<>();
     source = xmlIn.getSource();
-    for(Node n : xmlIn.xpathList("//tag")) {
+    for (Node n : xmlIn.xpathList("//tag")) {
       Tag t = new Tag(n, xmlIn);
       tags.put(t.getName().toUpperCase(), t);
-    }    
+    }
   }
 
   public Tag getTag(String name) {
@@ -58,10 +58,10 @@ public class Schema {
     Arrays.sort(names);
     return names;
   }
-  
+
   public Tag[] getTags() {
     Tag[] t = tags.values().toArray(new Tag[tags.size()]);
-    
+
     Arrays.sort(t);
     return t;
   }
@@ -69,7 +69,7 @@ public class Schema {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for(Tag t : getTags()) {
+    for (Tag t : getTags()) {
       sb.append(t);
     }
     return sb.toString();
