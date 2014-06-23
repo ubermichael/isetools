@@ -7,29 +7,12 @@ package ca.nines.ise.dom;
 
 import ca.nines.ise.grammar.ISELexer;
 import ca.nines.ise.grammar.ISEParser;
-import ca.nines.ise.grammar.ISEParser.AbbrContext;
-import ca.nines.ise.grammar.ISEParser.AttributeNameContext;
-import ca.nines.ise.grammar.ISEParser.AttributeValueContext;
-import ca.nines.ise.grammar.ISEParser.CharacterContext;
-import ca.nines.ise.grammar.ISEParser.CommentContext;
-import ca.nines.ise.grammar.ISEParser.ContentContext;
-import ca.nines.ise.grammar.ISEParser.EmptyTagContext;
-import ca.nines.ise.grammar.ISEParser.EndTagContext;
-import ca.nines.ise.grammar.ISEParser.StartTagContext;
-import ca.nines.ise.grammar.ISEParser.TagContext;
-import ca.nines.ise.grammar.ISEParser.TagNameContext;
+import ca.nines.ise.grammar.ISEParser.*;
 
 import ca.nines.ise.grammar.ISEParserBaseListener;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.node.AbbrNode;
-import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.CommentNode;
-import ca.nines.ise.node.EmptyNode;
-import ca.nines.ise.node.EndNode;
-import ca.nines.ise.node.Node;
-import ca.nines.ise.node.StartNode;
-import ca.nines.ise.node.TagNode;
-import ca.nines.ise.node.TextNode;
+import ca.nines.ise.node.*;
+import ca.nines.ise.node.CharNode.CharType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,11 +55,12 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 public class Builder extends ISEParserBaseListener {
 
   private final ANTLRInputStream ais;
-  private TokenStream tokens;
-
-  private final DOM dom = new DOM();
-  private TagNode currentTag;
   private String currentAttrName;
+
+  private CharNode currentChar;
+  private TagNode currentTag;
+  private final DOM dom = new DOM();
+  private TokenStream tokens;
 
   /**
    *
@@ -120,52 +104,6 @@ public class Builder extends ISEParserBaseListener {
     ais = new ANTLRInputStream(domStream.getContent());
   }
 
-  /**
-   * Fire off the full parse of the input and return the resulting
-   * DOM object. Any errors encountered during the parse will be logged
-   * in the Log class.
-   * 
-   * @see Log
-   * 
-   * @return the DOM built by parsing the string or file.
-   */
-  public DOM getDOM() {
-    LexerErrorListener lexListener = new LexerErrorListener();
-    lexListener.setSource(dom.getSource());
-    ISELexer lexer = new ISELexer(ais);
-    lexer.removeErrorListeners();
-    lexer.addErrorListener(lexListener);
-    
-    CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-    
-    ParserErrorListener parseListener = new ParserErrorListener();
-    parseListener.setSource(dom.getSource());
-    ISEParser parser = new ISEParser(tokenStream);
-    parser.removeErrorListeners();
-    parser.addErrorListener(parseListener);
-    
-    ParseTreeWalker ptw = new ParseTreeWalker();
-    tokens = parser.getTokenStream();
-    ParseTree pt = parser.document();
-    ptw.walk(this, pt);
-    dom.index();
-    return dom;
-  }
-
-  private Node setupNode(Node n, ParserRuleContext ctx) {
-    Token t = ctx.getStart();
-    n.setSource(dom.getSource());
-    n.setLine(t.getLine());
-    n.setColumn(t.getCharPositionInLine());
-    n.setText(tokens.getText(ctx.getSourceInterval()));
-    return n;
-  }
-  
-  @Override
-  public void visitErrorNode(ErrorNode node) {
-    System.out.println("error node: " + node.getText());
-  }
-
   @Override
   public void enterAbbr(AbbrContext ctx) {
     AbbrNode n = (AbbrNode) setupNode(new AbbrNode(), ctx);
@@ -173,8 +111,68 @@ public class Builder extends ISEParserBaseListener {
   }
 
   @Override
+  public void enterAttributeName(AttributeNameContext ctx) {
+    currentAttrName = ctx.TAG_NAME().getText();
+  }
+  
+  @Override
+  public void enterAttributeValue(AttributeValueContext ctx) {
+    String value = ctx.ATTRIBUTE_VALUE().getText();
+    value = value.replaceAll("^['\"]|['\"]$", "");
+    currentTag.setAttribute(currentAttrName, value);
+    currentAttrName = null;
+  }
+
+  @Override
+  public void enterCharAccent(CharAccentContext ctx) {
+    currentChar.setType(CharType.ACCENT);
+  }
+
+  @Override
+  public void enterCharComplexLigature(CharComplexLigatureContext ctx) {
+    currentChar.setType(CharType.NESTED);
+  }
+
+  @Override
+  public void enterCharDigraph(CharDigraphContext ctx) {
+    currentChar.setType(CharType.DIGRAPH);
+  }
+
+  @Override
+  public void enterCharSimpleLigature(CharSimpleLigatureContext ctx) {
+    currentChar.setType(CharType.LIGATURE);
+  }
+  
+  @Override
+  public void enterCharSpace(CharSpaceContext ctx) {
+    currentChar.setType(CharType.SPACE);
+  }
+
+  @Override
+  public void enterCharTypographic(CharTypographicContext ctx) {
+    currentChar.setType(CharType.TYPOGRAPHIC);
+  }
+  
+  @Override
+  public void enterCharUnicode(CharUnicodeContext ctx) {
+    currentChar.setType(CharType.UNICODE);
+  }
+  
+  @Override
   public void enterCharacter(CharacterContext ctx) {
     CharNode n = (CharNode) setupNode(new CharNode(), ctx);
+    this.currentChar = n;
+  }
+  
+  @Override
+  public void exitCharacter(CharacterContext ctx) {
+    dom.add(currentChar);
+    currentChar = null;
+  }
+
+  @Override
+  public void enterComment(CommentContext ctx) {
+    CommentNode n = (CommentNode) setupNode(new CommentNode(), ctx);
     dom.add(n);
   }
 
@@ -185,20 +183,14 @@ public class Builder extends ISEParserBaseListener {
   }
 
   @Override
-  public void enterComment(CommentContext ctx) {
-    CommentNode n = (CommentNode) setupNode(new CommentNode(), ctx);
-    dom.add(n);
+  public void enterEmptyTag(EmptyTagContext ctx) {
+    EmptyNode n = (EmptyNode) setupNode(new EmptyNode(), ctx);
+    currentTag = n;
   }
 
   @Override
   public void enterEndTag(EndTagContext ctx) {
     EndNode n = (EndNode) setupNode(new EndNode(), ctx);
-    currentTag = n;
-  }
-
-  @Override
-  public void enterEmptyTag(EmptyTagContext ctx) {
-    EmptyNode n = (EmptyNode) setupNode(new EmptyNode(), ctx);
     currentTag = n;
   }
 
@@ -215,22 +207,50 @@ public class Builder extends ISEParserBaseListener {
   }
 
   @Override
-  public void enterAttributeName(AttributeNameContext ctx) {
-    currentAttrName = ctx.TAG_NAME().getText();
-  }
-
-  @Override
-  public void enterAttributeValue(AttributeValueContext ctx) {
-    String value = ctx.ATTRIBUTE_VALUE().getText();
-    value = value.replaceAll("^['\"]|['\"]$", "");
-    currentTag.setAttribute(currentAttrName, value);
-    currentAttrName = null;
-  }
-
-  @Override
   public void exitTag(TagContext ctx) {
     dom.add(currentTag);
     currentTag = null;
     currentAttrName = null;
   }
+
+  /**
+   * Fire off the full parse of the input and return the resulting
+   * DOM object. Any errors encountered during the parse will be logged
+   * in the Log class.
+   *
+   * @see Log
+   *
+   * @return the DOM built by parsing the string or file.
+   */
+    public DOM getDOM() {
+      LexerErrorListener lexListener = new LexerErrorListener();
+      lexListener.setSource(dom.getSource());
+      ISELexer lexer = new ISELexer(ais);
+      lexer.removeErrorListeners();
+      lexer.addErrorListener(lexListener);
+      
+      CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+      
+      ParserErrorListener parseListener = new ParserErrorListener();
+      parseListener.setSource(dom.getSource());
+      ISEParser parser = new ISEParser(tokenStream);
+      parser.removeErrorListeners();
+      parser.addErrorListener(parseListener);
+      
+      ParseTreeWalker ptw = new ParseTreeWalker();
+      tokens = parser.getTokenStream();
+      ParseTree pt = parser.document();
+      ptw.walk(this, pt);
+      dom.index();
+      return dom;
+    }
+
+    private Node setupNode(Node n, ParserRuleContext ctx) {
+      Token t = ctx.getStart();
+      n.setSource(dom.getSource());
+      n.setLine(t.getLine());
+      n.setColumn(t.getCharPositionInLine());
+      n.setText(tokens.getText(ctx.getSourceInterval()));
+      return n;
+    }
 }

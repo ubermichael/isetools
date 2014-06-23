@@ -14,6 +14,14 @@ import ca.nines.ise.dom.Fragment;
  */
 public class CommentNode extends Node {
 
+  public CommentNode() {
+    super();
+  }
+  
+  public CommentNode(CommentNode node) {
+    super(node);
+  }
+  
   @Override
   public NodeType type() {
     return NodeType.COMMENT;
@@ -26,20 +34,20 @@ public class CommentNode extends Node {
 
   @Override
   public Fragment expanded() {
-    TextNode n = new TextNode();
+    CommentNode node = new CommentNode(this);
     Fragment f = new Fragment();
-    f.add(n);
+    f.add(node);
     return f;
   }
 
   @Override
   public String plain() {
-    return getText();
+    return "";
   }
 
   @Override
   public String unicode() {
-    return getText();
+    return "";
   }
 
 }
