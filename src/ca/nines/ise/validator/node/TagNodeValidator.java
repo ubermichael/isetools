@@ -31,7 +31,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     String value = n.getAttribute(attr.getName());
     // @todo use StringUtils.isWhitespace instead. faster.
     if (value.matches("^\\s*$")) {
-      Message m = error("validator.attribute.badstring", n);
+      Message m = log.error("validator.attribute.badstring", n);
       m.addNote("Attribute " + attr.getName() + "=\"" + value + "\" only contains whitespace.");
     }
   }
@@ -42,7 +42,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   public void validate_attribute_number(T n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     if (!value.matches("^[+-]?\\d+(\\.\\d+)?$")) {
-      Message m = error("validator.attribute.badnumber", n);
+      Message m = log.error("validator.attribute.badnumber", n);
       m.addNote("Attribute " + attr.getName() + "=" + value + " does not look like a number.");
     }
   }
@@ -55,7 +55,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     String[] options = attr.getOptions();
     for (String value : values) {
       if (!ArrayUtils.contains(options, value)) {
-        Message m = error("validator.attribute.badlist", n);
+        Message m = log.error("validator.attribute.badlist", n);
         m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
       }
     }
@@ -68,7 +68,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     String value = n.getAttribute(attr.getName());
     String[] options = attr.getOptions();
     if (!ArrayUtils.contains(options, value)) {
-      Message m = error("validator.attribute.badselect", n);
+      Message m = log.error("validator.attribute.badselect", n);
       m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
     }
   }
@@ -91,7 +91,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
         validate_attribute_select(n, attr);
         break;
       default:
-        Message m = error("validator.attribute.unknowntype", n);
+        Message m = log.error("validator.attribute.unknowntype", n);
         m.addNote("The unknown attribute is " + attr.getType() + " defined on " + n.getName());
     }
   }
@@ -110,12 +110,12 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     for (String name : n.getAttributeNames()) {
       Attribute attr = tag.getAttribute(name);
       if (attr == null) {
-        m = error("validator.attribute.unknown", n);
+        m = log.error("validator.attribute.unknown", n);
         m.addNote("The schema does not define attribute " + name + " for tag " + tagName + ".");
         continue;
       }
       if (attr.isDepreciated()) {
-        m = error("validator.attribute.depreciated", n);
+        m = log.error("validator.attribute.depreciated", n);
         m.addNote(attr.getDepreciated());
         continue;
       }
@@ -126,7 +126,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
           continue;
         }
         
-        m = error("validator.attribute.nonempty", n);
+        m = log.error("validator.attribute.nonempty", n);
         m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
         continue;
       }
@@ -140,9 +140,8 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
       }
       String attrValue = n.getAttribute(attrName);
       if (attrValue == null) {
-        m = error("validator.attribute.missing", n);
+        m = log.error("validator.attribute.missing", n);
         m.addNote("Attribute " + attrName + " is required for " + tagName + " tags");
-        continue;
       }
     }
 

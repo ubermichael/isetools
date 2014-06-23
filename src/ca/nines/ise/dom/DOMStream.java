@@ -53,6 +53,7 @@ public class DOMStream {
   private String source;
   private String content;
   private ArrayList<String> lines;
+  private final Log log = Log.getInstance();
 
   /**
    *
@@ -68,14 +69,18 @@ public class DOMStream {
     bom = bomStream.getBOM();
     encoding = "UTF-8";
     if(bom != null) {
-      Message m = error("builder.bom");
+      Message m = log.error("builder.bom");
+      m.setSource(source);
+      m.setComponent(this.getClass().getSimpleName());
       m.addNote("The byte order mark was " + bom.getCharsetName());
       m.setLineNumber(0);
       m.setColumnNumber(0);
       encoding = bom.getCharsetName();
     }
     if(! encoding.equals("UTF-8")) {
-      Message m = error("builder.notutf8");
+      Message m = log.error("builder.notutf8");
+      m.setSource(source);
+      m.setComponent(this.getClass().getSimpleName());
       m.addNote("The incorrect encoding is " + encoding);
       m.setLineNumber(0);
       m.setColumnNumber(0);
@@ -119,13 +124,6 @@ public class DOMStream {
     this(new FileInputStream(input), input.getCanonicalPath());
   }
 
-  private Message error(String code) {
-    Message m = Log.getInstance().add(code);
-    m.setSource(source);
-    m.setComponent(this.getClass().getCanonicalName());
-    return m;    
-  }
-  
   public String getContent() {
     return content;
   }
