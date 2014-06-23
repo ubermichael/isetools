@@ -26,10 +26,10 @@ public class TextNodeValidator extends NodeValidator<TextNode> {
   @Override
   public void validate(TextNode n) {
     if (n.getText().contains("#")) {
-      error("validator.text.depreciatedhash", n);
+      log.error("validator.text.depreciatedhash", n);
     }
     if (n.getText().contains("\uFFFD")) {
-      error("validator.text.badunicode", n);
+      log.error("validator.text.badunicode", n);
     }
   }
 

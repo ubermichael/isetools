@@ -30,16 +30,16 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
   public void validate(EmptyNode n) {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
-      Message m = error("validator.tag.unknown", n);
+      Message m = log.error("validator.tag.unknown", n);
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
     if (!t.maybeEmpty()) {
-      Message m = error("validator.tag.emptystart", n);
+      Message m = log.error("validator.tag.emptystart", n);
       m.addNote("Tag " + n.getName() + " should not be self-closing.");
     }
     if (t.isDepreciated()) {
-      Message m = error("validator.tag.depreciated", n);
+      Message m = log.error("validator.tag.depreciated", n);
       m.addNote(t.getDepreciated());
     }
     validate_attributes(n);

@@ -6,7 +6,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.schema.Schema;
 
@@ -26,15 +25,5 @@ abstract public class NodeValidator<T extends Node> {
   }
 
   abstract public void validate(T n);
-
-  protected Message error(String code, T n) {
-    Message m = log.add(code);
-    m.setComponent(this.getClass().getCanonicalName());
-    m.setSource(n.getSource());
-    m.setColumnNumber(n.getColumn());
-    m.setLineNumber(n.getLine());
-    m.setTLN(n.getTln());
-    return m;
-  }
 
 }

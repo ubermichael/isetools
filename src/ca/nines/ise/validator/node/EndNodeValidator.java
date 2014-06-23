@@ -30,12 +30,12 @@ public class EndNodeValidator extends TagNodeValidator<EndNode> {
   public void validate(EndNode n) {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
-      Message m = error("validator.tag.unknown", n);
+      Message m = log.error("validator.tag.unknown", n);
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
     if (t.isEmpty()) {
-      Message m = error("validator.tag.endempty", n);
+      Message m = log.error("validator.tag.endempty", n);
       m.addNote("End tag " + n.getName() + " should not occur.");
     }
   }

@@ -28,7 +28,7 @@ public class AbbrNode extends Node {
   }
 
   private Message error(String code) {
-    Message m = Log.getInstance().add(code);
+    Message m = Log.getInstance().error(code);
     m.setComponent(this.getClass().getCanonicalName());
     m.setSource(getSource());
     m.setColumnNumber(getColumn());

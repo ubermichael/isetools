@@ -19,7 +19,7 @@ import org.antlr.v4.runtime.Recognizer;
 public class ParserErrorListener extends BaseErrorListener {
 
   private String source = "";
-  private Log log = Log.getInstance();
+  private final Log log = Log.getInstance();
 
   /**
    * Called automatically when the parser encounters
@@ -44,7 +44,7 @@ public class ParserErrorListener extends BaseErrorListener {
           String msg,
           RecognitionException e) {
     
-    Message m = log.add("parser.grammar");
+    Message m = log.error("parser.grammar");
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
     m.setSource(source);
