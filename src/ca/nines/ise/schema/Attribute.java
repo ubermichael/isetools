@@ -109,7 +109,7 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   public boolean isDepreciated() {
-    return ! depreciated.equals("");
+    return !depreciated.equals("");
   }
 
   /**

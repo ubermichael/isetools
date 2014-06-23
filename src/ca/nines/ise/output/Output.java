@@ -38,9 +38,9 @@ abstract public class Output {
 
   abstract public void print(DOM dom);
 
-  abstract public void print(Node n); 
+  abstract public void print(Node n);
 
-  abstract public void print(Log log); 
+  abstract public void print(Log log);
 
   abstract public void print(Message m);
 

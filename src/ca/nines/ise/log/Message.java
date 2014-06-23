@@ -11,7 +11,7 @@ import java.util.Formatter;
 /**
  * Message captures all the information about a parse, validation, or other
  * error.
- *
+ * <p>
  * @author michael
  */
 public class Message implements Comparable<Message> {

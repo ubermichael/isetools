@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Thin wrapper around W3C Document and XPath APIs. Because they're a PITA.
- *
+ * <p>
  * @author michael
  */
 public class XMLReader {
@@ -54,7 +54,7 @@ public class XMLReader {
     xpfactory = XPathFactory.newInstance();
     xpath = xpfactory.newXPath();
     source = "#STREAM";
-    
+
     Document doc = builder.parse(stream);
     XPathExpression expr = xpath.compile("/node()");
     root = (Node) expr.evaluate(doc, XPathConstants.NODE);
@@ -66,7 +66,7 @@ public class XMLReader {
     xpfactory = XPathFactory.newInstance();
     xpath = xpfactory.newXPath();
     source = "#NODE";
-    
+
     root = in;
   }
 
@@ -103,7 +103,7 @@ public class XMLReader {
     XPathExpression expr = xpath.compile(xp);
     return (String) expr.evaluate(node, XPathConstants.STRING);
   }
-  
+
   public String getSource() {
     return source;
   }

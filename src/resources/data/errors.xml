@@ -7,227 +7,227 @@
     <severity id="unknown">An unknown or unanticipated error occured in the application. Processing cannot continue.</severity>
   </severities>
   <errorCodes>
-  <message code="char.bom" severity="error">
+    <message code="char.bom" severity="error">
     <![CDATA[Unicode byte-order-markers are not allowed in input.]]>
-  </message>
-  <message code="char.eof" severity="error">
+    </message>
+    <message code="char.eof" severity="error">
     <![CDATA[End-of-file characters are not allowed in input.]]>
-  </message>
-  <message code="char.expand.simplebad" severity="error">
+    </message>
+    <message code="char.expand.simplebad" severity="error">
     <![CDATA[Cannot expand a simple character into unicode or tags.]]>
-  </message>
-  <message code="char.null" severity="error">
+    </message>
+    <message code="char.null" severity="error">
     <![CDATA[Null characters are not allowed in input.]]>
-  </message>
-  <message code="structure.afterwork.tag" severity="error">
+    </message>
+    <message code="structure.afterwork.tag" severity="error">
     <![CDATA[Tags are not allowed after the end WORK tag.]]>
-  </message>
-  <message code="structure.afterwork.text" severity="error">
+    </message>
+    <message code="structure.afterwork.text" severity="error">
     <![CDATA[Text is not allowed after the end WORK tag.]]>
-  </message>
-  <message code="structure.beforehead.eof" severity="error">
+    </message>
+    <message code="structure.beforehead.eof" severity="error">
     <![CDATA[The document ended before the iseHeader start tag.]]>
-  </message>
-  <message code="structure.beforehead.tag" severity="error">
+    </message>
+    <message code="structure.beforehead.tag" severity="error">
     <![CDATA[The first tag after the WORK tag must be the start iseHeader tag.]]>
-  </message>
-  <message code="structure.beforehead.text" severity="error">
+    </message>
+    <message code="structure.beforehead.text" severity="error">
     <![CDATA[Text is not allowed before the start iseHeader tag.]]>
-  </message>
-  <message code="structure.beforework.eof" severity="error">
+    </message>
+    <message code="structure.beforework.eof" severity="error">
     <![CDATA[The document ended before the WORK start tag.]]>
-  </message>
-  <message code="structure.beforework.tag" severity="error">
+    </message>
+    <message code="structure.beforework.tag" severity="error">
     <![CDATA[The first tag in a document must be the start WORK tag.]]>
-  </message>
-  <message code="structure.beforework.text" severity="error">
+    </message>
+    <message code="structure.beforework.text" severity="error">
     <![CDATA[Text is not allowed before the start WORK tag.]]>
-  </message>
-  <message code="structure.inbody.eof" severity="error">
+    </message>
+    <message code="structure.inbody.eof" severity="error">
     <![CDATA[The documented ended before the end WORK tag.]]>
-  </message>
-  <message code="structure.inbody.header" severity="error">
+    </message>
+    <message code="structure.inbody.header" severity="error">
     <![CDATA[The iseHeader tag should not occur in the body of the document.]]>
-  </message>
-  <message code="structure.inbody.meta" severity="error">
+    </message>
+    <message code="structure.inbody.meta" severity="error">
     <![CDATA[The META and LINK tags should only occur inside iseHeader tags.]]>
-  </message>
-  <message code="structure.inbody.work" severity="error">
+    </message>
+    <message code="structure.inbody.work" severity="error">
     <![CDATA[The WORK tag should only occur at the start and end of a document.]]>
-  </message>
-  <message code="structure.inhead.eof" severity="error">
+    </message>
+    <message code="structure.inhead.eof" severity="error">
     <![CDATA[The document ended inside the iseHeader tag.]]>
-  </message>
-  <message code="structure.inhead.tag" severity="error">
+    </message>
+    <message code="structure.inhead.tag" severity="error">
     <![CDATA[Only LINK and META tags are allowed in the iseHeader tag.]]>
-  </message>
-  <message code="structure.inhead.text" severity="error">
+    </message>
+    <message code="structure.inhead.text" severity="error">
     <![CDATA[Text is not allowed inside the iseHeader tag.]]>
-  </message>
-  <message code="tokenizer.abbr.char" severity="error">
+    </message>
+    <message code="tokenizer.abbr.char" severity="error">
     <![CDATA[Old-style Abbreviations cannot contain special character markup.]]>
-  </message>
-  <message code="tokenizer.abbr.eof" severity="fatal">
+    </message>
+    <message code="tokenizer.abbr.eof" severity="fatal">
     <![CDATA[End of file inside abbreviation markup.]]>
-  </message>
-  <message code="tokenizer.abbr.long" severity="error">
+    </message>
+    <message code="tokenizer.abbr.long" severity="error">
     <![CDATA[Old-style Abbreviation missing closing pipe character (|).]]>
-  </message>
-  <message code="tokenizer.attr.eof" severity="fatal">
+    </message>
+    <message code="tokenizer.attr.eof" severity="fatal">
     <![CDATA[End of file inside attribute value.]]>
-  </message>
-  <message code="tokenizer.attr.junkafter" severity="error">
+    </message>
+    <message code="tokenizer.attr.junkafter" severity="error">
     <![CDATA[Expected space after attribute value.]]>
-  </message>
-  <message code="tokenizer.attr.shorthand" severity="warning">
+    </message>
+    <message code="tokenizer.attr.shorthand" severity="warning">
     <![CDATA[Shorthand attribute markup (<TLN=3> instead of <TLN n="3">) is depreciated.]]>
-  </message>
-  <message code="tokenizer.attr.smartquotes" severity="warning">
+    </message>
+    <message code="tokenizer.attr.smartquotes" severity="warning">
     <![CDATA[Smart quotes are not allowed around attribute values.]]>
-  </message>
-  <message code="tokenizer.attr.startsbad" severity="error">
+    </message>
+    <message code="tokenizer.attr.startsbad" severity="error">
     <![CDATA[Attribute names must start with a letter. ]]>
-  </message>
-  <message code="tokenizer.attr.syntax" severity="error">
+    </message>
+    <message code="tokenizer.attr.syntax" severity="error">
     <![CDATA[Attribute names must only contain letters and digits.]]>
-  </message>
-  <message code="tokenizer.attr.unquoted" severity="warning">
+    </message>
+    <message code="tokenizer.attr.unquoted" severity="warning">
     <![CDATA[Attribute values should be quoted.]]>
-  </message>
-  <message code="tokenizer.attr.unquotedvalue" severity="error">
+    </message>
+    <message code="tokenizer.attr.unquotedvalue" severity="error">
     <![CDATA[Unquoted attribute values are ambiguous.]]>
-  </message>
-  <message code="tokenizer.attr.valuemissing" severity="error">
+    </message>
+    <message code="tokenizer.attr.valuemissing" severity="error">
     <![CDATA[Attribute value is missing.]]>
-  </message>
-  <message code="tokenizer.char.deep" severity="error">
+    </message>
+    <message code="tokenizer.char.deep" severity="error">
     <![CDATA[Special characters do not nest more than two levels deep.]]>
-  </message>
-  <message code="tokenizer.char.eof" severity="fatal">
+    </message>
+    <message code="tokenizer.char.eof" severity="fatal">
     <![CDATA[End of file inside special character markup.  ]]>
-  </message>
-  <message code="tokenizer.char.long" severity="error">
+    </message>
+    <message code="tokenizer.char.long" severity="error">
     <![CDATA[Special character markup missing the closing brace (}).]]>
-  </message>
-  <message code="tokenizer.comment.dashes" severity="warning">
+    </message>
+    <message code="tokenizer.comment.dashes" severity="warning">
     <![CDATA[Comments should not contain "--" except at the start and end.]]>
-  </message>
-  <message code="tokenizer.comment.eof" severity="error">
+    </message>
+    <message code="tokenizer.comment.eof" severity="error">
     <![CDATA[End of file inside comment.]]>
-  </message>
-  <message code="tokenizer.comment.start" severity="error">
+    </message>
+    <message code="tokenizer.comment.start" severity="error">
     <![CDATA[Comments should start '<!--'.]]>
-  </message>
-  <message code="tokenizer.comment.syntax" severity="error">
+    </message>
+    <message code="tokenizer.comment.syntax" severity="error">
     <![CDATA[Comments should not contain '--'.]]>
-  </message>
-  <message code="tokenizer.eof" severity="fatal">
+    </message>
+    <message code="tokenizer.eof" severity="fatal">
     <![CDATA[Unexpected end of file inside markup.]]>
-  </message>
-  <message code="tokenizer.gt" severity="error">
+    </message>
+    <message code="tokenizer.gt" severity="error">
     <![CDATA[Unexpected greater-than (>) inside markup.]]>
-  </message>
-  <message code="tokenizer.tag.syntax" severity="error">
+    </message>
+    <message code="tokenizer.tag.syntax" severity="error">
     <![CDATA[Syntax error in tag.]]>
-  </message>
-  <message code="tokenizer.tagname.eof" severity="fatal">
+    </message>
+    <message code="tokenizer.tagname.eof" severity="fatal">
     <![CDATA[End of file inside tag name.]]>
-  </message>
-  <message code="tokenizer.tagname.missing" severity="error">
+    </message>
+    <message code="tokenizer.tagname.missing" severity="error">
     <![CDATA[Cannot find tag name.]]>
-  </message>
-  <message code="tokenizer.tagname.startsbad" severity="error">
+    </message>
+    <message code="tokenizer.tagname.startsbad" severity="error">
     <![CDATA[Tag names must start with a letter.]]>
-  </message>
-  <message code="tokenizer.tagname.syntax" severity="error">
+    </message>
+    <message code="tokenizer.tagname.syntax" severity="error">
     <![CDATA[Tag names must only contain letters and digits.]]>
-  </message>
-  <message code="error.unknown" severity="unknown">
+    </message>
+    <message code="error.unknown" severity="unknown">
     <![CDATA[An unknown or unexpected error occured.]]>
-  </message>
-  <message code="validator.abbr.depreciated" severity="error">
+    </message>
+    <message code="validator.abbr.depreciated" severity="error">
     <![CDATA[Pipe-style abbreviations are depreciated. Use <ABBR>...</ABBR> instead.]]>
-  </message>
-  <message code="validator.annotation.badlevel" severity="error">
+    </message>
+    <message code="validator.annotation.badlevel" severity="error">
     <![CDATA[Annotation notes must be level 0, 1, 2, or 3.]]>
-  </message>
-  <message code="validator.apparatus.bad_tln" severity="error">
+    </message>
+    <message code="validator.apparatus.bad_tln" severity="error">
     <![CDATA[This TLN is not parseable.]]>
-  </message>
-  <message code="validator.apparatus.lemma_notsplit" severity="error">
+    </message>
+    <message code="validator.apparatus.lemma_notsplit" severity="error">
     <![CDATA[This lemma should be split.]]>
-  </message>
-  <message code="validator.apparatus.no_match" severity="error">
+    </message>
+    <message code="validator.apparatus.no_match" severity="error">
     <![CDATA[The lemma cannot be matched to the document.]]>
-  </message>
-  <message code="validator.apparatus.tln_not_found" severity="error">
+    </message>
+    <message code="validator.apparatus.tln_not_found" severity="error">
     <![CDATA[The lemma's TLN cannot be found in the document.]]>
-  </message>
-  <message code="validator.attribute.badlist" severity="error">
+    </message>
+    <message code="validator.attribute.badlist" severity="error">
     <![CDATA[The attribute value is not in the list of allowed values.]]>
-  </message>
-  <message code="validator.attribute.badnumber" severity="error">
+    </message>
+    <message code="validator.attribute.badnumber" severity="error">
     <![CDATA[The attribute should be a number.]]>
-  </message>
-  <message code="validator.attribute.badselect" severity="error">
+    </message>
+    <message code="validator.attribute.badselect" severity="error">
     <![CDATA[The attribute value is not in the list of allowed values.]]>
-  </message>
-  <message code="validator.attribute.badstring" severity="error">
+    </message>
+    <message code="validator.attribute.badstring" severity="error">
     <![CDATA[The attribute is missing.]]>
-  </message>
-  <message code="validator.attribute.depreciated" severity="error">
+    </message>
+    <message code="validator.attribute.depreciated" severity="error">
     <![CDATA[The attribute is depreciated.]]>
-  </message>
-  <message code="validator.attribute.missing" severity="error">
+    </message>
+    <message code="validator.attribute.missing" severity="error">
     <![CDATA[A required attribute is missing.]]>
-  </message>
-  <message code="validator.attribute.placeholder" severity="error">
+    </message>
+    <message code="validator.attribute.placeholder" severity="error">
     <![CDATA[The attribute's value is a placeholder.]]>
-  </message>
-  <message code="validator.attribute.unknown" severity="error">
+    </message>
+    <message code="validator.attribute.unknown" severity="error">
     <![CDATA[The attribute is not defined in the schema.]]>
-  </message>
-  <message code="validator.collation.badlemresp" severity="error">
+    </message>
+    <message code="validator.collation.badlemresp" severity="error">
     <![CDATA[The lemma's @resp attribute does not look correct.]]>
-  </message>
-  <message code="validator.collation.badln" severity="warning">
+    </message>
+    <message code="validator.collation.badln" severity="warning">
     <![CDATA[The ln element does not look like a line number.]]>
-  </message>
-  <message code="validator.collation.badrdgresp" severity="error">
+    </message>
+    <message code="validator.collation.badrdgresp" severity="error">
     <![CDATA[The rdg @resp attribute does not look correct.]]>
-  </message>
-  <message code="validator.nesting.missing_start" severity="error">
+    </message>
+    <message code="validator.nesting.missing_start" severity="error">
     <![CDATA[End tag without a start tag.]]>
-  </message>
-  <message code="validator.nesting.recursive" severity="error">
+    </message>
+    <message code="validator.nesting.recursive" severity="error">
     <![CDATA[ISE tags cannot be nested recursively.]]>
-  </message>
-  <message code="validator.nesting.split_tag" severity="warning">
+    </message>
+    <message code="validator.nesting.split_tag" severity="warning">
     <![CDATA[This tag is split/improperly nested.]]>
-  </message>
-  <message code="validator.nesting.unclosed" severity="warning">
+    </message>
+    <message code="validator.nesting.unclosed" severity="warning">
     <![CDATA[This tag is not closed.]]>
-  </message>
-  <message code="validator.tag.depreciated" severity="error">
+    </message>
+    <message code="validator.tag.depreciated" severity="error">
     <![CDATA[This tag is depreciated.]]>
-  </message>
-  <message code="validator.tag.endattributes" severity="error">
+    </message>
+    <message code="validator.tag.endattributes" severity="error">
     <![CDATA[End tags do not take attributes.]]>
-  </message>
-  <message code="validator.tag.endempty" severity="warning">
+    </message>
+    <message code="validator.tag.endempty" severity="warning">
     <![CDATA[Empty tag should be empty.]]>
-  </message>
-  <message code="validator.tag.notempty" severity="error">
+    </message>
+    <message code="validator.tag.notempty" severity="error">
     <![CDATA[Empty tag should be start/end tags.]]>
-  </message>
-  <message code="validator.tag.startempty" severity="warning">
+    </message>
+    <message code="validator.tag.startempty" severity="warning">
     <![CDATA[Start tag should be empty tag.]]>
-  </message>
-  <message code="validator.tag.unknown" severity="error">
+    </message>
+    <message code="validator.tag.unknown" severity="error">
     <![CDATA[This tag is not defined in the schema.]]>
-  </message>
-  <message code="validator.text.depreciatedhash" severity="error">
+    </message>
+    <message code="validator.text.depreciatedhash" severity="error">
     <![CDATA[{#} is depreciated SGML markup. ]]>
-  </message>
+    </message>
   </errorCodes>
 </messages>

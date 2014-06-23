@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class Tag implements Comparable<Tag>{
+public class Tag implements Comparable<Tag> {
 
   private String name;
   private String depreciated;
@@ -39,30 +39,30 @@ public class Tag implements Comparable<Tag>{
     desc = xmlIn.xpathString("desc/text()");
 
     attributes = new HashMap<>();
-    for(Node n : xmlIn.xpathList("attribute")) {
+    for (Node n : xmlIn.xpathList("attribute")) {
       Attribute attr = new Attribute(n, xmlIn);
       attributes.put(attr.getName().toLowerCase(), attr);
     }
   }
-  
+
   public Tag(Node in) throws XPathExpressionException, ParserConfigurationException {
     this(in, new XMLReader(in));
   }
-  
+
   public Tag(Node in, XMLReader xmlIn) throws XPathExpressionException {
     name = xmlIn.xpathString("@name", in);
     depreciated = xmlIn.xpathString("@depreciated", in);
     where = xmlIn.xpathString("@where", in);
     empty = xmlIn.xpathString("@empty", in);
     desc = xmlIn.xpathString("desc/text()", in);
-    
+
     attributes = new HashMap<>();
-    for(Node n : xmlIn.xpathList("attribute", in)) {
+    for (Node n : xmlIn.xpathList("attribute", in)) {
       Attribute attr = new Attribute(n, xmlIn);
       attributes.put(attr.getName().toLowerCase(), attr);
     }
   }
-  
+
   public Attribute getAttribute(String attrName) {
     return attributes.get(attrName.toLowerCase());
   }
@@ -108,18 +108,18 @@ public class Tag implements Comparable<Tag>{
   public boolean isEmpty() {
     return empty.equals("yes");
   }
-  
+
   public boolean maybeEmpty() {
     return empty.equals("yes") || empty.equals("optional");
   }
-  
+
   public String getEmpty() {
-    if(empty.equals("yes") || empty.equals("optional")) {
+    if (empty.equals("yes") || empty.equals("optional")) {
       return empty;
     }
     return "no";
   }
-  
+
   /**
    * @return the depreciated
    */
@@ -128,14 +128,14 @@ public class Tag implements Comparable<Tag>{
   }
 
   public boolean isDepreciated() {
-    return ! depreciated.equals("");
+    return !depreciated.equals("");
   }
 
   /**
    * @return the where
    */
   public String getWhere() {
-    if(where.equals("")) {
+    if (where.equals("")) {
       return "anywhere";
     }
     return where;

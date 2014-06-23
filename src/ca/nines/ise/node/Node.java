@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
@@ -14,13 +13,13 @@ import java.util.Formatter;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Node {
-  
+
   protected Fragment _expanded;
   protected String _plain;
   protected String _unicode;
   protected String asl = "";
   protected int column;
-  
+
   protected int line;
   protected String source = "";
   protected String text = "";
@@ -29,7 +28,7 @@ abstract public class Node {
   public Node() {
     // do nothing.
   }
-  
+
   public Node(Node n) {
     this.asl = n.asl;
     this.column = n.column;
@@ -38,10 +37,10 @@ abstract public class Node {
     this.text = n.text;
     this.tln = n.tln;
   }
-  
+
   /**
    * Expand the node into more tags, if possible and return them.
-   *
+   * <p>
    * @return DOMFragment
    */
   abstract public Fragment expanded();
@@ -77,9 +76,9 @@ abstract public class Node {
   /**
    * @return the line
    */
-    public int getLine() {
-      return line;
-    }
+  public int getLine() {
+    return line;
+  }
 
   /**
    * @param line the line to set
@@ -90,9 +89,8 @@ abstract public class Node {
 
   /**
    * Get the name of the tag that this node came from. For non-tag nodes, this
-   * is one of
-   * #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
-   *
+   * is one of #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
+   * <p>
    * @return String
    */
   public abstract String getName();
@@ -140,16 +138,16 @@ abstract public class Node {
   }
 
   /**
-   * Convert the node into plain text. Any unicode text in the node is
-   * untouched and chars are converted into plain text.
-   *
+   * Convert the node into plain text. Any unicode text in the node is untouched
+   * and chars are converted into plain text.
+   * <p>
    * @return String
    */
   public abstract String plain();
 
   /**
    * Convert a node to a string, mostly for debugging purposes.
-   *
+   * <p>
    * @return String
    */
   @Override
@@ -160,9 +158,9 @@ abstract public class Node {
 
   /**
    * Get the type of the tag that this node came from. For non-tag nodes, this
-   * is one of#ABBR, #CHAR, #COMMENT, #EOF, or #TEXT. For tag nodes it is
-   * one of #START, #EMPTY, #END.
-   *
+   * is one of#ABBR, #CHAR, #COMMENT, #EOF, or #TEXT. For tag nodes it is one of
+   * #START, #EMPTY, #END.
+   * <p>
    * @return String
    */
   public abstract NodeType type();
@@ -170,12 +168,13 @@ abstract public class Node {
   /**
    * Convert the node into unicode. Any unicode in the node is untouched and
    * chars are converted into their unicode equivalents
-   *
+   * <p>
    * @return String
    */
   public abstract String unicode();
 
   public enum NodeType {
+
     ABBR,
     CHAR,
     COMMENT,

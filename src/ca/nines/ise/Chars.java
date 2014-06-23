@@ -21,7 +21,7 @@ public class Chars {
     String str = "{abc}{{s}f}{{s}{s}h}";
     ANTLRInputStream ais = new ANTLRInputStream(str);
     ISELexer lexer = new ISELexer(ais);
-    CommonTokenStream ts = new CommonTokenStream(lexer);    
+    CommonTokenStream ts = new CommonTokenStream(lexer);
     ISEParser parser = new ISEParser(ts);
     ParseTree pt = parser.document();
     System.out.println(pt.toStringTree(parser));
