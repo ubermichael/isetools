@@ -12,9 +12,9 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.Node;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 
 /**
  *
@@ -23,11 +23,11 @@ import java.io.UnsupportedEncodingException;
 public class TextOutput extends Output{
   
   public TextOutput() throws UnsupportedEncodingException {
-    this(System.out);
+    super();
   }
   
   public TextOutput(File file) throws FileNotFoundException, UnsupportedEncodingException {
-    this(new FileOutputStream(file));
+    super(file);
   }
   
   public TextOutput(OutputStream out) throws UnsupportedEncodingException {
@@ -35,15 +35,31 @@ public class TextOutput extends Output{
   }
   
   @Override
-  public void print(DOM dom) {}
+  public void print(DOM dom) {
+    Iterator<Node> iterator = dom.iterator();
+    while(iterator.hasNext()) {
+      Node n = iterator.next();
+      this.print(n); // no super.print() please.
+    }
+  }
   
   @Override
-  public void print(Node n) {}
+  public void print(Node n) {
+    out.println(n);
+  }
   
   @Override
-  public void print(Log log) {}
+  public void print(Log log) {
+    out.print(log);
+  }
   
   @Override
-  public void print(Message m) {}
+  public void print(Message m) {
+    out.print(m);
+  }
+  
+  public void print(String string) {
+    out.print(string);
+  }
   
 }
