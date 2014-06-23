@@ -25,11 +25,6 @@ public class CharNode extends Node {
     return f;
   }
 
-  @Override
-  public String getName() {
-    return "#CHAR";
-  }
-
   /**
    * @return the type
    */

@@ -93,7 +93,10 @@ abstract public class Node {
    * <p>
    * @return String
    */
-  public abstract String getName();
+  public String getName() {
+    return "#" + this.type().toString();
+            
+  }
 
   /**
    * @return the source

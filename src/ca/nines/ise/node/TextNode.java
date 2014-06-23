@@ -27,11 +27,6 @@ public class TextNode extends Node {
   }
 
   @Override
-  public String getName() {
-    return "#TEXT";
-  }
-
-  @Override
   public Fragment expanded() {
     Fragment f = new Fragment();
     f.add(this);
