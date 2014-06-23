@@ -36,7 +36,7 @@ public class Main {
       out = new PrintStream(System.out, true, "UTF-8");
       Schema schema = new Schema();
       DOMValidator validator = new DOMValidator(schema);
-      
+
       if (args.length == 0) {
         FileUtils fu = new FileUtils();
         File dir = new File("data/sgml");
@@ -48,16 +48,14 @@ public class Main {
           fileList.add(new File(name));
         }
       }
-
-      out.println("Found " + fileList.size() + " files to check.");
-
-      Iterator fi = fileList.iterator();
-      while (fi.hasNext()) {
-        File in = (File) fi.next();
-        DOM dom = new Builder(in).getDOM();
-        validator.validate(dom);
-        out.println(log);
-        log.clear();
+      if (fileList != null) {
+        out.println("Found " + fileList.size() + " files to check.");
+        for (File in : fileList) {
+          DOM dom = new Builder(in).getDOM();
+          validator.validate(dom);
+          out.println(log);
+          log.clear();
+        }
       }
     } catch (Exception ex) {
       ex.printStackTrace(out);
