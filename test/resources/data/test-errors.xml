@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+  <severities>
+    <severity id="fatal">An error occured in the application, processing cannot continue.</severity>
+    <severity id="error">An unrecoverable error in the document. Output cannot be processed.</severity>
+    <severity id="warning">A recoverable error was discovered in the document. Processing can continue.</severity>
+    <severity id="unknown">An unknown or unanticipated error occured in the application. Processing cannot continue.</severity>
+  </severities>
+  <errorCodes>
+    <message code="test.error" severity="error">
+      error code
+    </message>
+    <message code="test.warning" severity="warning">
+      warning code
+    </message>
+    <message code="test.fatal" severity="fatal">
+      fatal code
+    </message>
+    <message code="test.unknown" severity="unknown">
+      unknown code
+    </message>
+  </errorCodes>
+</messages>

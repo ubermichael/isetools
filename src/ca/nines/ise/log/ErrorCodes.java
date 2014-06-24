@@ -24,9 +24,20 @@ public class ErrorCodes {
   private final HashMap<String, ErrorCode> list;
 
   public ErrorCodes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    this(new File(ErrorCodes.class.getResource("/resources/data/errors.xml").getFile()));    
+  }
+
+  public ErrorCodes(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    this(new XMLReader(in));
+  }
+
+  public ErrorCodes(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    this(new XMLReader(in));
+  }
+
+  public ErrorCodes(XMLReader xmlIn) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     list = new HashMap<>();
-    XMLReader xmlIn = new XMLReader(new File("/resources/data/errors.xml"));
-    for (Node n : xmlIn.xpathList("/messages/message")) {
+    for (Node n : xmlIn.xpathList("/messages/errorCodes/message")) {
       String code = xmlIn.xpathString("@code", n).toLowerCase();
       ErrorCode ec = new ErrorCode(code, xmlIn.xpathString("@severity", n), xmlIn.xpathString("text()", n));
       list.put(code, ec);
@@ -45,10 +56,10 @@ public class ErrorCodes {
     }
     return list.get("unknown");
   }
-  
+
   public String getSeverity(String code) {
     ErrorCode ec = list.get(code);
-    if(ec != null) {
+    if (ec != null) {
       return ec.getSeverity();
     }
     return "unknown";
@@ -56,7 +67,7 @@ public class ErrorCodes {
 
   public String getMessage(String code) {
     ErrorCode ec = list.get(code);
-    if(ec != null) {
+    if (ec != null) {
       return ec.getMessage();
     }
     return "unknown";

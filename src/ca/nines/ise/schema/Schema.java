@@ -25,7 +25,7 @@ public class Schema {
   private final String source;
 
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new File("/resources/schemas/default.xml"));
+    this(new File(Schema.class.getResource("/resources/schemas/default.xml").getFile()));
   }
 
   public Schema(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {

@@ -6,6 +6,7 @@
 package ca.nines.ise.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,8 +45,9 @@ public class XMLReader {
   }
 
   public XMLReader(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(Class.class.getResourceAsStream(in.getPath()));
-    source = in.getPath();
+    this(new FileInputStream(in));
+    source = in.getCanonicalPath();
+    
   }
 
   public XMLReader(InputStream stream) throws SAXException, IOException, XPathExpressionException, ParserConfigurationException {

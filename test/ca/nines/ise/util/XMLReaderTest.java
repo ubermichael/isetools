@@ -7,6 +7,7 @@ package ca.nines.ise.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
@@ -30,7 +31,9 @@ public class XMLReaderTest {
    */
   @Test
   public void testConstructorFile() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    XMLReader xmlIn = new XMLReader(new File("/resources/schemas/default.xml"));
+    URL url = this.getClass().getResource("/resources/schemas/default.xml");
+    File f = new File(url.getFile());
+    XMLReader xmlIn = new XMLReader(f);
 
     Node n = xmlIn.xpathNode("/schema");
     assertEquals("schema", n.getNodeName());
