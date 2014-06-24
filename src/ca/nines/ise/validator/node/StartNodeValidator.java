@@ -31,15 +31,18 @@ public class StartNodeValidator extends TagNodeValidator<StartNode> {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = log.error("validator.tag.unknown", n);
+      m.setComponent(this.getClass().getSimpleName());
       m.addNote("Tag " + n.getName() + " is not defined in the schema.");
       return;
     }
     if (t.isEmpty()) {
       Message m = log.error("validator.tag.startempty", n);
+      m.setComponent(this.getClass().getSimpleName());
       m.addNote("Start tag " + n.getName() + " should be self-closing.");
     }
     if (t.isDepreciated()) {
       Message m = log.error("validator.tag.depreciated", n);
+      m.setComponent(this.getClass().getSimpleName());
       m.addNote(t.getDepreciated());
     }
     validate_attributes(n);
