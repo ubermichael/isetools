@@ -25,7 +25,7 @@ public class CharNode extends Node {
   private CharType charType;
 
   @Override
-  public Fragment expanded() throws IOException  {
+  public Fragment expanded() throws IOException {
     switch (charType) {
       case UNICODE:
         return expandUnicode();
@@ -41,9 +41,10 @@ public class CharNode extends Node {
         return expandLigature();
       case NESTED:
         return expandNested();
-//      default:
-//        Message m = Log.getInstance().error("char.type.unknown", this);
-//        m.addNote("Expansion of " + charType.name() + " characters is not supported.");        
+      default:
+        Message m = Log.getInstance().error("char.type.unknown", this);
+        m.setComponent(this.getClass().getSimpleName());
+        m.addNote("Expansion of " + charType.name() + " characters is not supported.");
     }
     return new Fragment();
   }
@@ -86,6 +87,7 @@ public class CharNode extends Node {
       default:
         node.setText("�");
         Message m = Log.getInstance().error("char.unicode.unknown", this);
+        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Character " + text + " cannot be turned into unicode.");
     }
     dom.add(node);
@@ -123,6 +125,7 @@ public class CharNode extends Node {
       default:
         node.setText("�");
         Message m = Log.getInstance().error("char.digraph.unknown", this);
+        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Character " + text + " cannot be turned into a digraph.");
     }
     dom.add(node);
@@ -154,6 +157,7 @@ public class CharNode extends Node {
         break;
       default:
         Message m = Log.getInstance().error("char.space.unknown", this);
+        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Space markup " + text + " cannot be transformed.");
     }
 
@@ -192,8 +196,9 @@ public class CharNode extends Node {
         str = cs[1] + "\u0302";
         break;
       default:
-        str = "\uFFFD";
+        str = "\uFFFD" + cs[1];
         Message m = Log.getInstance().error("char.accent.unknown", this);
+        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Accent character " + cs[0] + " is unknown and cannot be transformed into unicode.");
     }
 
@@ -218,9 +223,9 @@ public class CharNode extends Node {
     dom.add(start);
 
     TextNode node = new TextNode(this);
-    switch(innerText()) {
+    switch (innerText()) {
       case "s":
-        start.setAttribute("t", "long");        
+        start.setAttribute("t", "long");
         node.setText("\u017F");
         break;
       case "r":
@@ -242,38 +247,39 @@ public class CharNode extends Node {
       default:
         node.setText("\uFFFD");
         Message m = Log.getInstance().error("char.typographic.unknown", this);
+        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Typographic character " + text + " is unknown and cannot be transformed into unicode.");
     }
     dom.add(node);
-    
+
     EndNode end = new EndNode(this);
     end.setName("TYPEFORM");
     dom.add(end);
     return dom;
   }
-  
+
   private Fragment expandLigature() {
     Fragment dom = new Fragment();
-    
+
     StartNode start = new StartNode(this);
     start.setName("LIG");
     start.setAttribute("setting", text);
     dom.add(start);
-    
+
     TextNode node = new TextNode(this);
     node.setText(innerText());
     dom.add(this);
-    
+
     EndNode end = new EndNode(this);
     end.setName("LIG");
     dom.add(end);
-    
+
     return dom;
   }
-  
+
   private Fragment expandNested() throws IOException {
     Fragment dom = new Fragment();
-    
+
     StartNode start = new StartNode(this);
     start.setName("LIG");
     start.setAttribute("setting", text);
@@ -281,15 +287,15 @@ public class CharNode extends Node {
 
     DOM inner = new Builder(innerText()).getDOM();
     Iterator<Node> iterator = inner.iterator();
-    while(iterator.hasNext()) {
+    while (iterator.hasNext()) {
       Node node = iterator.next();
       dom.addAll(node.expanded());
     }
-    
+
     EndNode end = new EndNode(this);
     end.setName("LIG");
     dom.add(end);
-    
+
     return dom;
   }
 

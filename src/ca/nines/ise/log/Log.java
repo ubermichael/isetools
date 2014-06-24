@@ -22,7 +22,7 @@ public class Log {
   private final ArrayList<Message> messages = new ArrayList<>();
 
   private static final Log instance = new Log();
-
+  
   private Log() {
   }
 
@@ -49,7 +49,6 @@ public class Log {
 
   public Message error(String code, Node node) {
     Message m = error(code);
-    m.setComponent(this.getClass().getSimpleName());
     m.setSource(node.getSource());
     m.setColumnNumber(node.getColumn());
     m.setLineNumber(node.getLine());

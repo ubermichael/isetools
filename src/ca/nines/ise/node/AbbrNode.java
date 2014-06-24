@@ -45,6 +45,7 @@ public class AbbrNode extends Node {
     } else {
       if (!content.matches(shortAbbrPattern.pattern())) {
         Message msg = Log.getInstance().error("abbr.expand.syntax", this);
+        msg.setComponent(this.getClass().getSimpleName());
         msg.addNote("The syntax error occurs in " + text);
       }
       TextNode tn = new TextNode();

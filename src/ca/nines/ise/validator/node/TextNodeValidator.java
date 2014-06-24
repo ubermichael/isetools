@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.validator.node;
 
+import ca.nines.ise.log.Message;
 import ca.nines.ise.misc.ErrorCode;
 import ca.nines.ise.node.TextNode;
 import ca.nines.ise.schema.Schema;
@@ -26,10 +27,12 @@ public class TextNodeValidator extends NodeValidator<TextNode> {
   @Override
   public void validate(TextNode n) {
     if (n.getText().contains("#")) {
-      log.error("validator.text.depreciatedhash", n);
+      Message m = log.error("validator.text.depreciatedhash", n);
+      m.setComponent(this.getClass().getSimpleName());
     }
     if (n.getText().contains("\uFFFD")) {
-      log.error("validator.text.badunicode", n);
+      Message m = log.error("validator.text.badunicode", n);
+      m.setComponent(this.getClass().getSimpleName());
     }
   }
 
