@@ -18,14 +18,6 @@ import java.util.logging.Logger;
  */
 public class Message implements Comparable<Message> {
 
-  private String code = "(unknown)";
-  private String TLN = "(unknown)";
-  private String source = "(unknown)";
-  private String line = "";
-  private int lineNumber = 0;
-  private int columnNumber = 0;
-  private final ArrayList<String> notes = new ArrayList<>();
-
   private static final ErrorCodes errorCodes;
 
   static {
@@ -37,6 +29,14 @@ public class Message implements Comparable<Message> {
     }
     errorCodes = tmp;
   }
+  private String TLN = "(unknown)";
+  private String code = "(unknown)";
+  private int columnNumber = 0;
+  private String line = "";
+  private int lineNumber = 0;
+  private final ArrayList<String> notes = new ArrayList<>();
+
+  private String source = "(unknown)";
 
   public Message(String code) {
     if (code == null) {
@@ -46,20 +46,22 @@ public class Message implements Comparable<Message> {
     }
   }
 
+  /**
+   * @param note the note to add
+   */
+  public void addNote(String note) {
+    notes.add(note);
+  }
+
   @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
-    formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
-    formatter.format("  %s:%s%n", getSeverity(), getMessage());
-    formatter.format("  near TLN %s%n", TLN);
-    if (!line.equals("")) {
-      formatter.format("  %s%n", line);
+  public int compareTo(Message o) {
+    if( ! this.source.equals(o.source)) {
+      return this.source.compareTo(o.source);
     }
-    for (String note : notes) {
-      formatter.format("    * %s%n", note);
+    if (this.lineNumber != o.lineNumber) {
+      return this.lineNumber - o.lineNumber;
     }
-    return sb.toString();
+    return this.columnNumber - o.columnNumber;
   }
 
   /**
@@ -77,17 +79,71 @@ public class Message implements Comparable<Message> {
   }
 
   /**
-   * @return the TLN
+   * @return the column
    */
-  public String getTLN() {
-    return TLN;
+  public int getColumnNumber() {
+    return columnNumber;
   }
 
   /**
-   * @param TLN the TLN to set
+   * @param column the column to set
    */
-  public void setTLN(String TLN) {
-    this.TLN = TLN;
+  public void setColumnNumber(int column) {
+    this.columnNumber = column;
+  }
+
+  /**
+   * @return the line
+   */
+  public String getLine() {
+    return line;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  public void setLine(String line) {
+    this.line = line;
+  }
+
+  /**
+   * @return the line
+   */
+  public int getLineNumber() {
+    return lineNumber;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  public void setLineNumber(int line) {
+    this.lineNumber = line;
+  }
+
+  public String getMessage() {
+    if (errorCodes != null) {
+      return errorCodes.getMessage(code);
+    } else {
+      return "unknown";
+    }
+  }
+
+  /**
+   * @return the notes
+   */
+  public String[] getNotes() {
+    return notes.toArray(new String[notes.size()]);
+  }
+
+  /**
+   * @return the severity
+   */
+  public String getSeverity() {
+    if (errorCodes != null) {
+      return errorCodes.getSeverity(code);
+    } else {
+      return "unknown";
+    }
   }
 
   /**
@@ -105,85 +161,32 @@ public class Message implements Comparable<Message> {
   }
 
   /**
-   * @return the line
+   * @return the TLN
    */
-  public int getLineNumber() {
-    return lineNumber;
+  public String getTLN() {
+    return TLN;
   }
 
   /**
-   * @param line the line to set
+   * @param TLN the TLN to set
    */
-  public void setLineNumber(int line) {
-    this.lineNumber = line;
-  }
-
-  /**
-   * @return the column
-   */
-  public int getColumnNumber() {
-    return columnNumber;
-  }
-
-  /**
-   * @param column the column to set
-   */
-  public void setColumnNumber(int column) {
-    this.columnNumber = column;
-  }
-
-  /**
-   * @return the severity
-   */
-  public String getSeverity() {
-    if (errorCodes != null) {
-      return errorCodes.getSeverity(code);
-    } else {
-      return "unknown";
-    }
-  }
-
-  public String getMessage() {
-    if (errorCodes != null) {
-      return errorCodes.getMessage(code);
-    } else {
-      return "unknown";
-    }
-  }
-
-  /**
-   * @return the notes
-   */
-  public String[] getNotes() {
-    return (String[]) notes.toArray();
-  }
-
-  /**
-   * @param note the note to add
-   */
-  public void addNote(String note) {
-    notes.add(note);
+  public void setTLN(String TLN) {
+    this.TLN = TLN;
   }
 
   @Override
-  public int compareTo(Message o) {
-    if (this.lineNumber != o.lineNumber) {
-      return this.lineNumber - o.lineNumber;
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    Formatter formatter = new Formatter(sb);
+    formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
+    formatter.format("  %s:%s%n", getSeverity(), getMessage());
+    formatter.format("  near TLN %s%n", TLN);
+    if (!line.equals("")) {
+      formatter.format("  %s%n", line);
     }
-    return this.columnNumber - o.columnNumber;
-  }
-
-  /**
-   * @return the line
-   */
-  public String getLine() {
-    return line;
-  }
-
-  /**
-   * @param line the line to set
-   */
-  public void setLine(String line) {
-    this.line = line;
+    for (String note : notes) {
+      formatter.format("    * %s%n", note);
+    }
+    return sb.toString();
   }
 }

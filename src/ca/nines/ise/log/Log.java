@@ -43,7 +43,7 @@ public class Log {
    */
   public Message error(String code) {
     Message m = new Message(code);
-    messages.add(m);
+    this.add(m);
     return m;
   }
 
