@@ -95,7 +95,6 @@ public class DOMStream {
 
     while ((line = buffer.readLine()) != null) {
       line = Normalizer.normalize(line, Form.NFKC);
-      line = line.replaceAll("\\p{C}", "\uFFFD");
       lines.add(line);
       sb.append(line).append("\n");
     }

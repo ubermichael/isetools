@@ -117,6 +117,9 @@ public class CharNode extends Node {
       case "qp":
         node.setText("ȹ");
         break;
+      case "db":
+        node.setText("ȸ");
+        break;
       default:
         node.setText("�");
         Message m = Log.getInstance().error("char.digraph.unknown", this);
