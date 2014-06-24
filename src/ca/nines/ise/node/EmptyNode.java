@@ -15,7 +15,7 @@ public class EmptyNode extends TagNode {
     super();
   }
 
-  public EmptyNode(StartNode n) {
+  public EmptyNode(Node n) {
     super(n);
   }
 

@@ -36,12 +36,12 @@ public class TextNode extends Node {
 
   @Override
   public String plain() {
-    return getText();
+    return text;
   }
 
   @Override
   public String unicode() {
-    return getText();
+    return text;
   }
 
 }

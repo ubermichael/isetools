@@ -24,6 +24,10 @@ abstract public class TagNode extends Node {
     this.tagname = "";
     this.attributes = new LinkedHashMap<>();
   }
+  
+  public TagNode(Node n) {
+    super(n);
+  }
 
   public TagNode(TagNode n) {
     super(n);

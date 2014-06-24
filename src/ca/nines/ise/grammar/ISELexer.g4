@@ -26,7 +26,8 @@ CHAR_DIGRAPH
     | '{AE}'        // AE digraph               Æ   U+00C6
     | '{oe}'        // oe digraph               œ   U+0153
     | '{OE}'        // OE digraph               Œ   U+0152
-    | '{qp}'        // qp diagraph (quod/quoth) ȹ   U+0239
+    | '{qp}'        // qp digraph  (quod/quoth) ȹ   U+0239
+    | '{db}'        // db digraph               ȸ   U+0238
     )             
   ;
 
@@ -51,7 +52,7 @@ CHAR_ACCENT
 
 CHAR_TYPOGRAPHIC
   :
-    ( '{s}'         // long/medial s    ſ   U+0174
+    ( '{s}'         // long/medial s    ſ   U+017F
     | '{r}'         // lower rotunda r  ꝛ   U+A75B
     | '{R}'         // upper rotunda r  Ꝛ   U+A75A
     | '{w}'         // two v characters for a w. No unicode equivalent.

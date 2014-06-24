@@ -6,6 +6,7 @@
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
+import java.io.IOException;
 import java.util.Formatter;
 
 /**
@@ -43,7 +44,7 @@ abstract public class Node {
    * <p>
    * @return DOMFragment
    */
-  abstract public Fragment expanded();
+  abstract public Fragment expanded() throws IOException;
 
   /**
    * @return the asl
