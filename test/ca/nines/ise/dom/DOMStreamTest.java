@@ -31,6 +31,7 @@ public class DOMStreamTest {
   public void testUTF8NoBOM() throws IOException {
     URL url = this.getClass().getResource("/resources/data/utf8.txt");
     File f = new File(url.getFile());
+
     DOMStream ds = new DOMStream(f);
     String lines[] = ds.getLines();
     assertEquals(0, log.count());
