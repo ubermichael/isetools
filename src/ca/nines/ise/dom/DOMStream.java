@@ -100,7 +100,7 @@ public class DOMStream {
       sb.append(line).append("\n");
     }
 
-    content = sb.toString();
+    content = sb.toString().trim();
   }
 
   /**

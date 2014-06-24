@@ -15,6 +15,10 @@ public class EndNode extends TagNode {
     super();
   }
 
+  public EndNode(Node n) {
+    super(n);
+  }
+  
   public EndNode(String tagname) {
     super(tagname);
   }

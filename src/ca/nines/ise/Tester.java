@@ -19,11 +19,9 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new Builder("{c}{s}{ae}{ct}{{s}{s}h}").getDOM();
+      DOM dom = new Builder("{{s}{s}h}").getDOM();
       TextOutput out = new TextOutput(System.out);
       TextOutput logOut = new TextOutput(System.out);
-      out.print(dom);
-      out.print("expanded:\n");
       out.print(dom.expanded());
       logOut.print(log);
     } catch (Exception ex) {

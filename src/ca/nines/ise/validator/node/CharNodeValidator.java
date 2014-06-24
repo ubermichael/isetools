@@ -28,5 +28,5 @@ public class CharNodeValidator extends NodeValidator<CharNode> {
   public void validate(CharNode n) {
     // @todo.
   }
-
+  
 }

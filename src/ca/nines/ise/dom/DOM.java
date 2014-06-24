@@ -7,6 +7,7 @@ package ca.nines.ise.dom;
 
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TagNode;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class DOM extends ArrayList<Node> {
 
   private String source;
 
-  public DOM expanded() {
+  public DOM expanded() throws IOException {
     DOM dom = new DOM();
     Iterator<Node> iterator = this.iterator();
     while (iterator.hasNext()) {
