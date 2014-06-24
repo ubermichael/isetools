@@ -28,11 +28,9 @@ public class TextNodeValidator extends NodeValidator<TextNode> {
   public void validate(TextNode n) {
     if (n.getText().contains("#")) {
       Message m = log.error("validator.text.depreciatedhash", n);
-      m.setComponent(this.getClass().getSimpleName());
     }
     if (n.getText().contains("\uFFFD")) {
       Message m = log.error("validator.text.badunicode", n);
-      m.setComponent(this.getClass().getSimpleName());
     }
   }
 
