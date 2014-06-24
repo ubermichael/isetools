@@ -44,7 +44,6 @@ public class LexerErrorListener extends BaseErrorListener {
           RecognitionException e) {
 
     Message m = log.error("lexer.syntax");
-    m.setComponent(this.getClass().getSimpleName());
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
     m.setSource(source);

@@ -45,6 +45,22 @@ public class ErrorCodes {
     }
     return list.get("unknown");
   }
+  
+  public String getSeverity(String code) {
+    ErrorCode ec = list.get(code);
+    if(ec != null) {
+      return ec.getSeverity();
+    }
+    return "unknown";
+  }
+
+  public String getMessage(String code) {
+    ErrorCode ec = list.get(code);
+    if(ec != null) {
+      return ec.getMessage();
+    }
+    return "unknown";
+  }
 
   @Override
   public String toString() {

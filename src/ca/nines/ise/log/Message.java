@@ -7,6 +7,8 @@ package ca.nines.ise.log;
 
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Message captures all the information about a parse, validation, or other
@@ -17,14 +19,24 @@ import java.util.Formatter;
 public class Message implements Comparable<Message> {
 
   private String code = "(unknown)";
-  private String component = "(unknown)";
   private String TLN = "(unknown)";
   private String source = "(unknown)";
   private String line = "";
   private int lineNumber = 0;
   private int columnNumber = 0;
-  private char severity = 'U';
   private final ArrayList<String> notes = new ArrayList<>();
+
+  private static final ErrorCodes errorCodes;
+
+  static {
+    ErrorCodes tmp = null;
+    try {
+      tmp = new ErrorCodes();
+    } catch (Exception ex) {
+      Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    errorCodes = tmp;
+  }
 
   public Message(String code) {
     if (code == null) {
@@ -38,9 +50,12 @@ public class Message implements Comparable<Message> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
-    formatter.format("%s:%d:%d:%s:%s%n", source, lineNumber, columnNumber, code, component);
+    formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
+    formatter.format("  %s:%s%n", getSeverity(), getMessage());
     formatter.format("  near TLN %s%n", TLN);
-    formatter.format("  %s%n", line);
+    if (!line.equals("")) {
+      formatter.format("  %s%n", line);
+    }
     for (String note : notes) {
       formatter.format("    * %s%n", note);
     }
@@ -59,20 +74,6 @@ public class Message implements Comparable<Message> {
    */
   public void setCode(String code) {
     this.code = code;
-  }
-
-  /**
-   * @return the component
-   */
-  public String getComponent() {
-    return component;
-  }
-
-  /**
-   * @param component the component to set
-   */
-  public void setComponent(String component) {
-    this.component = component;
   }
 
   /**
@@ -134,15 +135,20 @@ public class Message implements Comparable<Message> {
   /**
    * @return the severity
    */
-  public char getSeverity() {
-    return severity;
+  public String getSeverity() {
+    if (errorCodes != null) {
+      return errorCodes.getSeverity(code);
+    } else {
+      return "unknown";
+    }
   }
 
-  /**
-   * @param severity the severity to set
-   */
-  public void setSeverity(char severity) {
-    this.severity = severity;
+  public String getMessage() {
+    if (errorCodes != null) {
+      return errorCodes.getMessage(code);
+    } else {
+      return "unknown";
+    }
   }
 
   /**

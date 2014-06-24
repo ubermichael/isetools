@@ -73,7 +73,6 @@ public class DOMStream {
     if (bom != null) {
       Message m = log.error("builder.bom");
       m.setSource(source);
-      m.setComponent(this.getClass().getSimpleName());
       m.addNote("The byte order mark was " + bom.getCharsetName());
       m.setLineNumber(0);
       m.setColumnNumber(0);
@@ -82,7 +81,6 @@ public class DOMStream {
     if (!encoding.equals("UTF-8")) {
       Message m = log.error("builder.notutf8");
       m.setSource(source);
-      m.setComponent(this.getClass().getSimpleName());
       m.addNote("The incorrect encoding is " + encoding);
       m.setLineNumber(0);
       m.setColumnNumber(0);

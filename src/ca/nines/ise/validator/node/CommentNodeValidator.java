@@ -31,18 +31,15 @@ public class CommentNodeValidator extends NodeValidator<CommentNode> {
     String text = n.getText();
     if (!text.startsWith("<!--")) {
       m = log.error("validator.comment.badstart", n);
-      m.setComponent(this.getClass().getSimpleName());
       m.addNote("The comment started with " + text.substring(0, 4));
     }
     if (!text.endsWith("-->")) {
       m = log.error("validator.comment.badend", n);
-      m.setComponent(this.getClass().getSimpleName());
       m.addNote("The comment ended with " + text.substring(text.length() - 3));
     }
     text = text.replaceAll("^(<!--)|(-->)$", "");
     if (text.contains("--")) {
       m = log.error("validator.comment.dashes", n);
-      m.setComponent(this.getClass().getSimpleName());
       m.addNote("after replace: " + text);
     }
   }

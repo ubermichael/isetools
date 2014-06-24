@@ -43,7 +43,6 @@ public class CharNode extends Node {
         return expandNested();
       default:
         Message m = Log.getInstance().error("char.type.unknown", this);
-        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Expansion of " + charType.name() + " characters is not supported.");
     }
     return new Fragment();
@@ -87,7 +86,6 @@ public class CharNode extends Node {
       default:
         node.setText("�");
         Message m = Log.getInstance().error("char.unicode.unknown", this);
-        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Character " + text + " cannot be turned into unicode.");
     }
     dom.add(node);
@@ -125,7 +123,6 @@ public class CharNode extends Node {
       default:
         node.setText("�");
         Message m = Log.getInstance().error("char.digraph.unknown", this);
-        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Character " + text + " cannot be turned into a digraph.");
     }
     dom.add(node);
@@ -157,7 +154,6 @@ public class CharNode extends Node {
         break;
       default:
         Message m = Log.getInstance().error("char.space.unknown", this);
-        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Space markup " + text + " cannot be transformed.");
     }
 
@@ -198,7 +194,6 @@ public class CharNode extends Node {
       default:
         str = "\uFFFD" + cs[1];
         Message m = Log.getInstance().error("char.accent.unknown", this);
-        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Accent character " + cs[0] + " is unknown and cannot be transformed into unicode.");
     }
 
@@ -247,7 +242,6 @@ public class CharNode extends Node {
       default:
         node.setText("\uFFFD");
         Message m = Log.getInstance().error("char.typographic.unknown", this);
-        m.setComponent(this.getClass().getSimpleName());
         m.addNote("Typographic character " + text + " is unknown and cannot be transformed into unicode.");
     }
     dom.add(node);
