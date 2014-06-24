@@ -57,12 +57,12 @@ abstract public class TagNode extends Node {
 
   @Override
   public String plain() {
-    return getText();
+    return "";
   }
 
   @Override
   public String unicode() {
-    return getText();
+    return "";
   }
 
   @Override
