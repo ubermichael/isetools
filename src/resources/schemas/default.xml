@@ -436,6 +436,9 @@
     </tag>
     <tag name="SECTION" depreciated="Use DIV with a name attrbute instead of SECTION." where="modern">
       <desc><![CDATA[Previously used as section divisions in essays and supplementary works.]]></desc>
+      <attribute name="n" type="string" optional="yes" renumber="no">
+        <desc>The section number or name.</desc>
+      </attribute>
     </tag>
     <tag name="SIG" where="primary">
       <desc><![CDATA[Page Signature (encloses the printed signature, and appears at the end of the page, where it will be displayed). Note that the signature itself may include other tags where necessary (if, for example, an italic letter is used). Examples: <SIG n="A2v"></SIG><BR> <SIG n="aaa1r"><LS>aaa</LS></SIG>]]></desc>

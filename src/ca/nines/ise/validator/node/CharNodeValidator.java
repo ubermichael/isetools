@@ -8,6 +8,9 @@ package ca.nines.ise.validator.node;
 import ca.nines.ise.misc.ErrorCode;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.schema.Schema;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,7 +29,11 @@ public class CharNodeValidator extends NodeValidator<CharNode> {
   })
   @Override
   public void validate(CharNode n) {
-    // @todo.
+    try {
+      n.expanded();
+    } catch (IOException ex) {
+      Logger.getLogger(CharNodeValidator.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }
   
 }
