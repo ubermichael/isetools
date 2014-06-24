@@ -29,7 +29,8 @@ public class TextNode extends Node {
   @Override
   public Fragment expanded() {
     Fragment f = new Fragment();
-    f.add(this);
+    TextNode node = new TextNode(this);
+    f.add(node);
     return f;
   }
 
