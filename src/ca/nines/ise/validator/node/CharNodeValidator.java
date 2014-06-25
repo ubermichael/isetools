@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  * Validate a character node.
  * 
  * Validations are performed by calling out to CharNode.expanded().
+ * 
+ * @see CharNode#expanded() 
  *
  * @author Michael Joyce <michael@negativespace.net>
  */

@@ -44,7 +44,7 @@ import org.xml.sax.SAXException;
  */
 public class DOMValidator {
 
-  private final HashMap<NodeType, NodeValidator> validators;
+  private final HashMap<NodeType, NodeValidator<? extends Node>> validators;
 
   /**
    * Construct a DOMValidator with the default schema.
@@ -80,6 +80,7 @@ public class DOMValidator {
    * @param dom
    * @throws Exception 
    */
+  @SuppressWarnings("unchecked")
   public void validate(DOM dom) throws Exception {
     Iterator<Node> i = dom.iterator();
     while (i.hasNext()) {

@@ -49,7 +49,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   @ErrorCode(code = {
     "validator.attribute.badstring"
   })
-  public void validate_attribute_string(T n, Attribute attr) {
+  public void validate_attribute_string(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     // @todo use StringUtils.isWhitespace instead. faster.
     if (value.matches("^\\s*$")) {
@@ -74,7 +74,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   @ErrorCode(code = {
     "validator.attribute.badnumber"
   })
-  public void validate_attribute_number(T n, Attribute attr) {
+  public void validate_attribute_number(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     if (!value.matches("^[+-]?\\d+(\\.\\d+)?$")) {
       Message m = log.error("validator.attribute.badnumber", n);
@@ -98,7 +98,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   @ErrorCode(code = {
     "validator.attribute.badlist"
   })
-  public void validate_attribute_list(T n, Attribute attr) {
+  public void validate_attribute_list(TagNode n, Attribute attr) {
     String values[] = n.getAttribute(attr.getName()).split(", ?");
     String[] options = attr.getOptions();
     for (String value : values) {
@@ -124,7 +124,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   @ErrorCode(code = {
     "validator.attribute.badselect"
   })
-  public void validate_attribute_select(T n, Attribute attr) {
+  public void validate_attribute_select(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     String[] options = attr.getOptions();
     if (!ArrayUtils.contains(options, value)) {
@@ -149,7 +149,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   @ErrorCode(code = {
     "validator.attribute.unknowntype"
   })
-  public void validate_attribute(T n, Attribute attr) {
+  public void validate_attribute(TagNode n, Attribute attr) {
     switch (attr.getType()) {
       case "string":
         validate_attribute_string(n, attr);
@@ -195,7 +195,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     "validator.attribute.nonempty",
     "validator.attribute.missing",
   })
-  public void validate_attributes(T n) {
+  public void validate_attributes(TagNode n) {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);
     Message m;
