@@ -9,9 +9,14 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
+import ca.nines.ise.schema.Attribute.AttributeType;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
-import org.apache.commons.lang3.ArrayUtils;
+import ca.nines.ise.validator.node.attribute.ListAttributeValidator;
+import ca.nines.ise.validator.node.attribute.NumberAttributeValidator;
+import ca.nines.ise.validator.node.attribute.SelectAttributeValidator;
+import ca.nines.ise.validator.node.attribute.StringAttributeValidator;
+import java.util.HashMap;
 
 /**
  * Abstract class to handle the commonalities in tag validations. Also provides
@@ -22,6 +27,15 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<T> {
 
+  private static final HashMap<AttributeType, AttributeValidator> validators = new HashMap<>();
+
+  static {
+    validators.put(AttributeType.LIST, new ListAttributeValidator());
+    validators.put(AttributeType.NUMBER, new NumberAttributeValidator());
+    validators.put(AttributeType.SELECT, new SelectAttributeValidator());
+    validators.put(AttributeType.STRING, new StringAttributeValidator());
+  }
+  
   /**
    * Construct a tag node validator.
    * <p>
@@ -32,106 +46,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   }
 
   @Override
-  abstract public void validate(T node);
-
-  /**
-   * Validate a string attribute.
-   * <p>
-   * Validations performed:
-   * <p>
-   * <ul>
-   * <li>The string must include at least one non-whitespace character.</li>
-   * </ul>
-   * <p>
-   * @param n    TagNode to validate
-   * @param attr attribute to validate against
-   */
-  @ErrorCode(code = {
-    "validator.attribute.badstring"
-  })
-  public void validate_attribute_string(TagNode n, Attribute attr) {
-    String value = n.getAttribute(attr.getName());
-    // @todo use StringUtils.isWhitespace instead. faster.
-    if (value.matches("^\\s*$")) {
-      Message m = log.error("validator.attribute.badstring", n);
-      m.addNote("Attribute " + attr.getName() + "=\"" + value + "\" only contains whitespace.");
-    }
-  }
-
-  /**
-   * Validate a number attribute.
-   * <p>
-   * Validations performed:
-   * <p>
-   * <ul>
-   * <li>The attribute must be a number, by matching against the regular
-   * expression {@code "^[+-]?\\d+(\\.\\d+)?$"}</li>
-   * </ul>
-   * <p>
-   * @param n    TagNode to validate
-   * @param attr attribute to validate against
-   */
-  @ErrorCode(code = {
-    "validator.attribute.badnumber"
-  })
-  public void validate_attribute_number(TagNode n, Attribute attr) {
-    String value = n.getAttribute(attr.getName());
-    if (!value.matches("^[+-]?\\d+(\\.\\d+)?$")) {
-      Message m = log.error("validator.attribute.badnumber", n);
-      m.addNote("Attribute " + attr.getName() + "=" + value + " does not look like a number.");
-    }
-  }
-
-  /**
-   * Validate a list attribute.
-   * <p>
-   * Validations performed:
-   * <p>
-   * <ul>
-   * <li>The attribute value is treated as a comma separated list, and each item
-   * in the list must be one of the allowed values.</li>
-   * </ul>
-   * <p>
-   * @param n    TagNode to validate
-   * @param attr attribute to validate against
-   */
-  @ErrorCode(code = {
-    "validator.attribute.badlist"
-  })
-  public void validate_attribute_list(TagNode n, Attribute attr) {
-    String values[] = n.getAttribute(attr.getName()).split(", ?");
-    String[] options = attr.getOptions();
-    for (String value : values) {
-      if (!ArrayUtils.contains(options, value)) {
-        Message m = log.error("validator.attribute.badlist", n);
-        m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
-      }
-    }
-  }
-
-  /**
-   * Validate a select attribute.
-   * <p>
-   * Validations performed:
-   * <p>
-   * <ul>
-   * <li>The attribute value must be one of the allowed values.</li>
-   * </ul>
-   * <p>
-   * @param n    TagNode to validate
-   * @param attr attribute to validate against
-   */
-  @ErrorCode(code = {
-    "validator.attribute.badselect"
-  })
-  public void validate_attribute_select(TagNode n, Attribute attr) {
-    String value = n.getAttribute(attr.getName());
-    String[] options = attr.getOptions();
-    if (!ArrayUtils.contains(options, value)) {
-      Message m = log.error("validator.attribute.badselect", n);
-      m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
-    }
-  }
+  abstract public void validate(T node) throws Exception;
 
   /**
    * Validate an attribute, by calling one of the validate_attribute_*
@@ -145,28 +60,18 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
    * <p>
    * @param n    TagNode to validate
    * @param attr attribute to validate against
+   * @throws java.lang.Exception
    */
   @ErrorCode(code = {
     "validator.attribute.unknowntype"
   })
-  public void validate_attribute(TagNode n, Attribute attr) {
-    switch (attr.getType()) {
-      case "string":
-        validate_attribute_string(n, attr);
-        break;
-      case "number":
-        validate_attribute_number(n, attr);
-        break;
-      case "list":
-        validate_attribute_list(n, attr);
-        break;
-      case "select":
-        validate_attribute_select(n, attr);
-        break;
-      default:
-        Message m = log.error("validator.attribute.unknowntype", n);
-        m.addNote("The unknown attribute is " + attr.getType() + " defined on " + n.getName());
+  public void validate_attribute(TagNode n, Attribute attr) throws Exception {
+    AttributeType at = attr.getType();
+    AttributeValidator v = TagNodeValidator.validators.get(attr.getType());
+    if(v == null) {     
+      throw new Exception("Unknown attribute type: " + at.name());
     }
+    v.validate(n, attr);
   }
 
   /**
@@ -195,7 +100,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     "validator.attribute.nonempty",
     "validator.attribute.missing",
   })
-  public void validate_attributes(TagNode n) {
+  public void validate_attributes(TagNode n) throws Exception {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);
     Message m;

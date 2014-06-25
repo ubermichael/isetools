@@ -46,7 +46,8 @@ abstract public class NodeValidator<T extends Node> {
    * Perform the text node validation, as described above.
    * 
    * @param n 
+   * @throws java.lang.Exception 
    */
-  abstract public void validate(T n);
+  abstract public void validate(T n) throws Exception;
 
 }

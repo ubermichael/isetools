@@ -8,7 +8,6 @@ package ca.nines.ise.validator.node;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.node.EmptyNode;
-import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
 
@@ -42,7 +41,7 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
     "validator.tag.depreciated"
   })
   @Override
-  public void validate(EmptyNode n) {
+  public void validate(EmptyNode n) throws Exception {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = log.error("validator.tag.unknown", n);

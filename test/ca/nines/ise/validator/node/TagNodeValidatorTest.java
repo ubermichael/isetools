@@ -97,7 +97,7 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
    * Test of validate_attributes method, of class TagNodeValidator.
    */
   @Test
-  public void testValidate_attributes() {
+  public void testValidate_attributes() throws Exception {
     TagNode n = new TagNodeImpl();
     TagNodeValidator instance = new TagNodeValidatorImpl(schema);
     instance.validate_attributes(n);
@@ -150,7 +150,7 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
     }
 
     @Override
-    public void validate(TagNode node) {
+    public void validate(TagNode node) throws Exception {
       validate_attributes(node);
     }
   }

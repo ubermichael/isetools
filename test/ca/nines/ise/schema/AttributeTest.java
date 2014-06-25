@@ -58,7 +58,7 @@ public class AttributeTest {
     Attribute a;
 
     a = new Attribute("<attribute type='string' />");
-    assertEquals("string", a.getType());
+    assertEquals("string", a.getTypeName());
   }
 
   /**

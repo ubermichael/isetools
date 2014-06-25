@@ -44,7 +44,7 @@ public class StartNodeValidator extends TagNodeValidator<StartNode> {
     "validator.tag.depreciated"
   })
   @Override
-  public void validate(StartNode n) {
+  public void validate(StartNode n) throws Exception {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = log.error("validator.tag.unknown", n);
