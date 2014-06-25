@@ -7,49 +7,50 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.node.EmptyNode;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author michael
  */
-public class EmptyNodeValidatorTest {
+public class EmptyNodeValidatorTest extends ValidatorTestBase {
   
-  public EmptyNodeValidatorTest() {
+  public EmptyNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    super();
   }
   
-  @BeforeClass
-  public static void setUpClass() {
-  }
-  
-  @AfterClass
-  public static void tearDownClass() {
-  }
-  
-  @Before
-  public void setUp() {
-  }
-  
-  @After
-  public void tearDown() {
-  }
-
   /**
    * Test of validate method, of class EmptyNodeValidator.
    */
   @Test
-  public void testValidate() {
-//    System.out.println("validate");
-//    EmptyNode n = null;
-//    EmptyNodeValidator instance = null;
-//    instance.validate(n);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
+  public void testValidate() throws Exception {
+    EmptyNode n = new EmptyNode();
+    EmptyNodeValidator validator = new EmptyNodeValidator(schema);
+
+    n.setName("EMPTY");
+    validator.validate(n);
+    checkLog(new String[]{});
+    
+    n.setName("OPT");
+    validator.validate(n);
+    checkLog(new String[]{});
+    
+    n.setName("NOATTR");
+    validator.validate(n);
+    checkLog(new String[]{"validator.tag.emptystart"});
+    
+    n.setName("FOO");
+    validator.validate(n);
+    checkLog(new String[]{"validator.tag.unknown"});
+    
+    n.setName("DEPTAG");
+    validator.validate(n);
+    checkLog(new String[]{"validator.tag.depreciated"});
+    
   }
   
 }

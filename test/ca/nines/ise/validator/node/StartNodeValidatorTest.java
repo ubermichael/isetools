@@ -7,49 +7,49 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.node.StartNode;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author michael
  */
-public class StartNodeValidatorTest {
+public class StartNodeValidatorTest extends ValidatorTestBase {
   
-  public StartNodeValidatorTest() {
-  }
-  
-  @BeforeClass
-  public static void setUpClass() {
-  }
-  
-  @AfterClass
-  public static void tearDownClass() {
-  }
-  
-  @Before
-  public void setUp() {
-  }
-  
-  @After
-  public void tearDown() {
+  public StartNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    super();
   }
 
   /**
    * Test of validate method, of class StartNodeValidator.
    */
   @Test
-  public void testValidate() {
-//    System.out.println("validate");
-//    StartNode n = null;
-//    StartNodeValidator instance = null;
-//    instance.validate(n);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
+  public void testValidate() throws Exception {
+    StartNode n = new StartNode();
+    StartNodeValidator validator = new StartNodeValidator(schema);
+
+    n.setName("EMPTY");
+    validator.validate(n);
+    checkLog(new String[]{"validator.tag.startempty"});
+    
+    n.setName("OPT");
+    validator.validate(n);
+    checkLog(new String[]{});
+    
+    n.setName("NOATTR");
+    validator.validate(n);
+    checkLog(new String[]{});
+    
+    n.setName("FOO");
+    validator.validate(n);
+    checkLog(new String[]{"validator.tag.unknown"});
+    
+    n.setName("DEPTAG");
+    validator.validate(n);
+    checkLog(new String[]{"validator.tag.depreciated"});
   }
   
 }
