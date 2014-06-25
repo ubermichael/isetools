@@ -12,19 +12,31 @@ import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
 
 /**
+ * Validate an end node.
+ * 
+ * Validations performed:
+ * 
+ * <ul>
+ * <li>The tag is defined in the schema.</li>
+ * <li>The tag is not required to be empty.</li>
+ * </ul>
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class EndNodeValidator extends TagNodeValidator<EndNode> {
 
+  /**
+   * Construct an end node validator.
+   * 
+   * @param schema The schema for validation.
+   */
   public EndNodeValidator(Schema schema) {
     super(schema);
   }
 
   @ErrorCode(code = {
-    "validator.comment.badstart",
-    "validator.comment.badend",
-    "validator.comment.dashes"
+    "validator.tag.unknown",
+    "validator.tag.endempty",
   })
   @Override
   public void validate(EndNode n) {
