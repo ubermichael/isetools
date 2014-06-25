@@ -11,14 +11,21 @@ import ca.nines.ise.log.Log;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -30,7 +37,7 @@ public class Main {
     Collection<File> fileList = null;
     Log log = Log.getInstance();
     Locale.setDefault(Locale.ENGLISH);
-    PrintStream out = null;
+    PrintStream out;
 
     try {
       out = new PrintStream(System.out, true, "UTF-8");
@@ -38,7 +45,6 @@ public class Main {
       DOMValidator validator = new DOMValidator(schema);
 
       if (args.length == 0) {
-        FileUtils fu = new FileUtils();
         File dir = new File("data/sgml");
         SuffixFileFilter sfx = new SuffixFileFilter(".txt");
         fileList = FileUtils.listFiles(dir, sfx, TrueFileFilter.INSTANCE);
@@ -57,8 +63,16 @@ public class Main {
           log.clear();
         }
       }
+    } catch (IOException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (ParserConfigurationException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SAXException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (XPathExpressionException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
     } catch (Exception ex) {
-      ex.printStackTrace(out);
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 }
