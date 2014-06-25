@@ -136,6 +136,26 @@ public class DOM extends ArrayList<Node> {
     }
   }
 
+  public String unicode() throws IOException {
+    StringBuilder sb = new StringBuilder();
+    Iterator<Node> iterator = iterator();
+    while (iterator.hasNext()) {
+      Node node = iterator.next();
+      sb.append(node.unicode());
+    }
+    return sb.toString();
+  }
+
+  public String plain() throws IOException {
+    StringBuilder sb = new StringBuilder();
+    Iterator<Node> iterator = iterator();
+    while (iterator.hasNext()) {
+      Node node = iterator.next();
+      sb.append(node.plain());
+    }
+    return sb.toString();
+  }
+
   /**
    * Create an return an iterator for the DOM.
    * <p>
