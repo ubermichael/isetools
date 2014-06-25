@@ -25,6 +25,20 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 /**
+ * DOMValidator validates all the nodes in a DOM against a 
+ * schema. All validation messages are saved in Log.
+ * 
+ * Usage example:
+ * 
+ * <pre>
+ * {@code
+ * DOM dom = new DOM();
+ * Schema schema = new Schema(); // optional
+ * DOMValidator validator = new DOMValidator(schema);
+ * validator.validate(dom);
+ * System.out.println(Log.getInstance());
+ * }
+ * </pre>
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
@@ -32,10 +46,23 @@ public class DOMValidator {
 
   private final HashMap<NodeType, NodeValidator> validators;
 
+  /**
+   * Construct a DOMValidator with the default schema.
+   * 
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @throws XPathExpressionException 
+   */
   public DOMValidator() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new Schema());
   }
 
+  /**
+   * Construct a DOMValidator with the given schema.
+   * 
+   * @param schema 
+   */
   public DOMValidator(Schema schema) {
     this.validators = new HashMap<>();
     validators.put(NodeType.ABBR, new AbbrNodeValidator(schema));
@@ -47,6 +74,12 @@ public class DOMValidator {
     validators.put(NodeType.TEXT, new TextNodeValidator(schema));
   }
 
+  /**
+   * Perform all the schema and node validations.
+   * 
+   * @param dom
+   * @throws Exception 
+   */
   @SuppressWarnings("unchecked")
   public void validate(DOM dom) throws Exception {
     Iterator<Node> i = dom.iterator();

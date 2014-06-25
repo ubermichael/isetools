@@ -38,6 +38,11 @@ public class Message implements Comparable<Message> {
 
   private String source = "(unknown)";
 
+  /**
+   * Construct a message object for the given message code.
+   * 
+   * @param code 
+   */
   public Message(String code) {
     if (code == null) {
       this.code = "(unknown)";

@@ -12,11 +12,27 @@ import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
 
 /**
+ * Validate a start node.
+ * 
+ * Validations performed:
+ * 
+ * <ul>
+ * <li>The tag must be defined in the schema.</li>
+ * <li>The tag is not required to be empty.</li>
+ * <li>The tag is not depreciated.</li>
+ * </ul>
  *
+ * Attribute validations are handled by TagNodeValidator.
+ * 
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class StartNodeValidator extends TagNodeValidator<StartNode> {
 
+  /**
+   * Construct a start node validator.
+   * 
+   * @param schema The schema for validation.
+   */
   public StartNodeValidator(Schema schema) {
     super(schema);
   }

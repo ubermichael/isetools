@@ -14,16 +14,35 @@ import ca.nines.ise.schema.Tag;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
+ * Abstract class to handle the commonalities in tag validations. Also provides
+ * attribute validation.
  *
  * @author Michael Joyce <michael@negativespace.net>
  * @param <T>
  */
 abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<T> {
 
+  /**
+   * Construct a tag node validator.
+   *
+   * @param schema The schema for validation.
+   */
   public TagNodeValidator(Schema schema) {
     super(schema);
   }
 
+  /**
+   * Validate a string attribute.
+   *
+   * Validations performed:
+   *
+   * <ul>
+   * <li>The string must include at least one non-whitespace character.</li>
+   * </ul>
+   *
+   * @param n TagNode to validate
+   * @param attr attribute to validate against
+   */
   @ErrorCode(code = {
     "validator.attribute.badstring"
   })
@@ -36,6 +55,19 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
+  /**
+   * Validate a number attribute.
+   *
+   * Validations performed:
+   *
+   * <ul>
+   * <li>The attribute must be a number, by matching against
+   * the regular expression {@code "^[+-]?\\d+(\\.\\d+)?$"}</li>
+   * </ul>
+   *
+   * @param n TagNode to validate
+   * @param attr attribute to validate against
+   */
   @ErrorCode(code = {
     "validator.attribute.badnumber"
   })
@@ -47,6 +79,19 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
+  /**
+   * Validate a list attribute.
+   *
+   * Validations performed:
+   *
+   * <ul>
+   * <li>The attribute value is treated as a comma separated list, and
+   * each item in the list must be one of the allowed values.</li>
+   * </ul>
+   *
+   * @param n TagNode to validate
+   * @param attr attribute to validate against
+   */
   @ErrorCode(code = {
     "validator.attribute.badlist"
   })
@@ -61,6 +106,18 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
+  /**
+   * Validate a select attribute.
+   * 
+   * Validations performed:
+   * 
+   * <ul>
+   * <li>The attribute value must be one of the allowed values.</li>
+   * </ul>
+   * 
+   * @param n TagNode to validate
+   * @param attr attribute to validate against
+   */
   @ErrorCode(code = {
     "validator.attribute.badselect"
   })
@@ -73,10 +130,24 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
+  /**
+   * Validate an attribute, by calling one of the 
+   * validate_attribute_* functions.
+   * 
+   * Validations performed:
+   * 
+   * <ul>
+   * <li>The attribute type (as defined in the schema) must
+   * be defined.</li>
+   * </ul>
+   * 
+   * @param n TagNode to validate
+   * @param attr attribute to validate against
+   */
   @ErrorCode(code = {
     "validator.attribute.unknowntype"
   })
-  public void validate_attribute_value(T n, Attribute attr) {
+  public void validate_attribute(T n, Attribute attr) {
     switch (attr.getType()) {
       case "string":
         validate_attribute_string(n, attr);
@@ -96,6 +167,22 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     }
   }
 
+  /**
+   * Validate all the attributes in a tag node.
+   * 
+   * Validations performed:
+   * 
+   * <ul>
+   * <li>Each attribute name must be defined for the tag.</li>
+   * <li>The attribute must not be depreciated.</li>
+   * <li>The attribute may be empty, if allowed by the schema.</li>
+   * </ul>
+   * 
+   * Additionally, each of the attributes defined as required for the tag
+   * must be present.
+   * 
+   * @param n TagNode to validate
+   */
   @ErrorCode(code = {
     "validator.attribute.unknown",
     "validator.attribute.depreciated",
@@ -130,7 +217,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
         m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
         continue;
       }
-      validate_attribute_value(n, attr);
+      validate_attribute(n, attr);
     }
 
     for (String attrName : tag.getAttributeNames()) {

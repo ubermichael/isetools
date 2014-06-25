@@ -11,11 +11,26 @@ import ca.nines.ise.node.CommentNode;
 import ca.nines.ise.schema.Schema;
 
 /**
+ * Validate a comment node.
+ * 
+ * Validations performed:
+ * 
+ * <ul>
+ * <li>Comments must start with {@code <!--}</li>
+ * <li>Comments must end with {@code -->}</li>
+ * <li>Comments must not contain {@code --} except at 
+ * the beginning and end.</li>
+ * </ul>
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class CommentNodeValidator extends NodeValidator<CommentNode> {
 
+  /**
+   * Construct a comment node validator.
+   * 
+   * @param schema The schema for validation. Unused in comment validation.
+   */
   public CommentNodeValidator(Schema schema) {
     super(schema);
   }

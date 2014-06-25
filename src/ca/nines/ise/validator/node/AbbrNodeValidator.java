@@ -11,13 +11,29 @@ import ca.nines.ise.node.AbbrNode;
 import ca.nines.ise.schema.Schema;
 
 /**
+ * Validate an abbreviation node.
+ * 
+ * Validations performed:
+ * 
+ * <ul>
+ * <li>All abbreviations are depreciated and generate a warning.</li>
+ * <li>Any abbreviation longer than ABBR_LENGTH generate an additional error.</li>
+ * </ul>
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
 
+  /**
+   * The maximum length of abbreviation markup.
+   */
   public final static int ABBR_LENGTH = 12;
 
+  /**
+   * Construct an Abbreviation node validator.
+   * 
+   * @param schema The schema for validation. Unused in abbreviation validation.
+   */
   public AbbrNodeValidator(Schema schema) {
     super(schema);
   }
