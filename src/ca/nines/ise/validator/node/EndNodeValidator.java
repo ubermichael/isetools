@@ -7,7 +7,9 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
+import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
 
@@ -23,7 +25,7 @@ import ca.nines.ise.schema.Tag;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class EndNodeValidator extends TagNodeValidator<EndNode> {
+public class EndNodeValidator extends TagNodeValidator<EmptyNode> {
 
   /**
    * Construct an end node validator.
@@ -39,7 +41,7 @@ public class EndNodeValidator extends TagNodeValidator<EndNode> {
     "validator.tag.endempty",
   })
   @Override
-  public void validate(EndNode n) {
+  public void validate(EmptyNode n) {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = log.error("validator.tag.unknown", n);
