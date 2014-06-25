@@ -46,11 +46,11 @@ public class CommentNodeValidator extends NodeValidator<CommentNode> {
     String text = n.getText();
     if (!text.startsWith("<!--")) {
       m = log.error("validator.comment.badstart", n);
-      m.addNote("The comment started with " + text.substring(0, 4));
+      m.addNote("The comment started with " + text.substring(0, Math.min(text.length(), 4)));
     }
     if (!text.endsWith("-->")) {
       m = log.error("validator.comment.badend", n);
-      m.addNote("The comment ended with " + text.substring(text.length() - 3));
+      m.addNote("The comment ended with " + text.substring(Math.max(0, text.length() - 3)));
     }
     text = text.replaceAll("^(<!--)|(-->)$", "");
     if (text.contains("--")) {
