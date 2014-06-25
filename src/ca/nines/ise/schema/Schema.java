@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.schema;
 
-import ca.nines.ise.util.XMLReader;
+import ca.nines.ise.util.XMLResourceReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,22 +25,22 @@ public class Schema {
   private final String source;
 
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new File(Schema.class.getResource("/resources/schemas/default.xml").getFile()));
+    this(new File("/resources/schemas/default.xml"));
   }
 
   public Schema(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-    this(new XMLReader(in));
+    this(new XMLResourceReader(in));
   }
 
   public Schema(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new XMLReader(in));
+    this(new XMLResourceReader(in));
   }
 
   public Schema(Node in) throws XPathExpressionException, ParserConfigurationException {
-    this(new XMLReader(in));
+    this(new XMLResourceReader(in));
   }
 
-  public Schema(XMLReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
+  public Schema(XMLResourceReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
     tags = new HashMap<>();
     source = xmlIn.getSource();
     for (Node n : xmlIn.xpathList("//tag")) {

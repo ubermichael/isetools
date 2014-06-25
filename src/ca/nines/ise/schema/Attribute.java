@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.schema;
 
-import ca.nines.ise.util.XMLReader;
+import ca.nines.ise.util.XMLResourceReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class Attribute implements Comparable<Attribute> {
   private ArrayList<String> options = null;
 
   public Attribute(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-    XMLReader xmlIn = new XMLReader(in);
+    XMLResourceReader xmlIn = new XMLResourceReader(in);
     name = xmlIn.xpathString("@name");
     type = xmlIn.xpathString("@type");
     optional = "yes".equals(xmlIn.xpathString("@optional"));
@@ -49,10 +49,10 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   public Attribute(Node in) throws XPathExpressionException, ParserConfigurationException {
-    this(in, new XMLReader(in));
+    this(in, new XMLResourceReader(in));
   }
 
-  public Attribute(Node in, XMLReader xmlIn) throws XPathExpressionException {
+  public Attribute(Node in, XMLResourceReader xmlIn) throws XPathExpressionException {
     name = xmlIn.xpathString("@name", in);
     type = xmlIn.xpathString("@type", in);
     optional = "yes".equals(xmlIn.xpathString("@optional", in));

@@ -24,8 +24,7 @@ public class ErrorCodesTest {
 
   @Test
   public void testGetErrorCodes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    URL url = this.getClass().getResource("/resources/data/test-errors.xml");
-    File f = new File(url.getFile());
+    File f = new File("/resources/data/test-errors.xml");
 
     errorCodes = new ErrorCodes(f);    
     ErrorCode[] codes = errorCodes.getErrorCodes();
@@ -42,8 +41,7 @@ public class ErrorCodesTest {
    */
   @Test
   public void testGetErrorCode() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    URL url = this.getClass().getResource("/resources/data/test-errors.xml");
-    File f = new File(url.getFile());
+    File f = new File("/resources/data/test-errors.xml");
 
     errorCodes = new ErrorCodes(f);    
     assertEquals("test.error", errorCodes.getErrorCode("test.error").getCode());
@@ -57,8 +55,7 @@ public class ErrorCodesTest {
    */
   @Test
   public void testGetSeverity() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    URL url = this.getClass().getResource("/resources/data/test-errors.xml");
-    File f = new File(url.getFile());
+    File f = new File("/resources/data/test-errors.xml");
 
     errorCodes = new ErrorCodes(f);    
     assertEquals("error", errorCodes.getSeverity("test.error"));
@@ -72,8 +69,7 @@ public class ErrorCodesTest {
    */
   @Test
   public void testGetMessage() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    URL url = this.getClass().getResource("/resources/data/test-errors.xml");
-    File f = new File(url.getFile());
+    File f = new File("/resources/data/test-errors.xml");
 
     errorCodes = new ErrorCodes(f);    
     assertEquals("error code", errorCodes.getMessage("test.error"));

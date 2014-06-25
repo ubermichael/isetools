@@ -26,8 +26,7 @@ abstract public class ValidatorTestBase {
   protected final Log log;
   
   public ValidatorTestBase() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    URL url = this.getClass().getResource("/resources/data/test-schema.xml");
-    File f = new File(url.getFile());
+    File f = new File("/resources/data/test-schema.xml");
     schema = new Schema(f);
     log = Log.getInstance();
   }

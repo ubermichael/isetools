@@ -6,7 +6,6 @@
 package ca.nines.ise.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,17 +19,20 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Thin wrapper around W3C Document and XPath APIs. Because they're a PITA.
+ * Thin wrapper around W3C Document and XPath APIs. Because they're a PITA. This
+ * class targets resources stored in JARs.
+ * <p>
+ * Warning: This class is not appropriate for reading XML files from the file
+ * system. It is intended to read files from inside JARs.
  * <p>
  * @author michael
  */
-public class XMLReader {
+public class XMLResourceReader {
 
   private final Node root;
   private final DocumentBuilderFactory factory;
@@ -39,18 +41,17 @@ public class XMLReader {
   private final XPath xpath;
   private String source;
 
-  public XMLReader(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public XMLResourceReader(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(IOUtils.toInputStream(in, "UTF-8"));
     source = "#STRING";
   }
 
-  public XMLReader(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new FileInputStream(in));
+  public XMLResourceReader(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    this(XMLResourceReader.class.getResourceAsStream(in.getCanonicalPath()));
     source = in.getCanonicalPath();
-    
   }
 
-  public XMLReader(InputStream stream) throws SAXException, IOException, XPathExpressionException, ParserConfigurationException {
+  public XMLResourceReader(InputStream stream) throws SAXException, IOException, XPathExpressionException, ParserConfigurationException {
     factory = DocumentBuilderFactory.newInstance();
     builder = factory.newDocumentBuilder();
     xpfactory = XPathFactory.newInstance();
@@ -62,7 +63,7 @@ public class XMLReader {
     root = (Node) expr.evaluate(doc, XPathConstants.NODE);
   }
 
-  public XMLReader(Node in) throws ParserConfigurationException {
+  public XMLResourceReader(Node in) throws ParserConfigurationException {
     factory = null;
     builder = null;
     xpfactory = XPathFactory.newInstance();
