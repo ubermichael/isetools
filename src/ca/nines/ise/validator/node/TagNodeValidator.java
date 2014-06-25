@@ -31,6 +31,9 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     super(schema);
   }
 
+  @Override
+  abstract public void validate(T node);
+  
   /**
    * Validate a string attribute.
    *

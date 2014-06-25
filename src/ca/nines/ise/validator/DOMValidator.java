@@ -80,7 +80,6 @@ public class DOMValidator {
    * @param dom
    * @throws Exception 
    */
-  @SuppressWarnings("unchecked")
   public void validate(DOM dom) throws Exception {
     Iterator<Node> i = dom.iterator();
     while (i.hasNext()) {
