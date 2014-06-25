@@ -5,6 +5,13 @@
  */
 package ca.nines.ise.dom;
 
+import ca.nines.ise.node.chr.AccentCharNode;
+import ca.nines.ise.node.chr.UnicodeCharNode;
+import ca.nines.ise.node.chr.LigatureCharNode;
+import ca.nines.ise.node.chr.TypographicCharNode;
+import ca.nines.ise.node.chr.DigraphCharNode;
+import ca.nines.ise.node.chr.NestedCharNode;
+import ca.nines.ise.node.chr.SpaceCharNode;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.EmptyNode;
