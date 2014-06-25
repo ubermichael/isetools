@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.log;
 
-import ca.nines.ise.util.XMLReader;
+import ca.nines.ise.util.XMLResourceReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,18 +24,18 @@ public class ErrorCodes {
   private final HashMap<String, ErrorCode> list;
 
   public ErrorCodes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new File(ErrorCodes.class.getResource("/resources/data/errors.xml").getFile()));    
+    this(new File("/resources/data/errors.xml"));    
   }
 
   public ErrorCodes(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new XMLReader(in));
+    this(new XMLResourceReader(in));
   }
 
   public ErrorCodes(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new XMLReader(in));
+    this(new XMLResourceReader(in));
   }
 
-  public ErrorCodes(XMLReader xmlIn) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public ErrorCodes(XMLResourceReader xmlIn) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     list = new HashMap<>();
     for (Node n : xmlIn.xpathList("/messages/errorCodes/message")) {
       String code = xmlIn.xpathString("@code", n).toLowerCase();

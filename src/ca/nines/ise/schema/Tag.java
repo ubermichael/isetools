@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.schema;
 
-import ca.nines.ise.util.XMLReader;
+import ca.nines.ise.util.XMLResourceReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -31,7 +31,7 @@ public class Tag implements Comparable<Tag> {
   private HashMap<String, Attribute> attributes;
 
   public Tag(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    XMLReader xmlIn = new XMLReader(in);
+    XMLResourceReader xmlIn = new XMLResourceReader(in);
     name = xmlIn.xpathString("@name");
     depreciated = xmlIn.xpathString("@depreciated");
     where = xmlIn.xpathString("@where");
@@ -46,10 +46,10 @@ public class Tag implements Comparable<Tag> {
   }
 
   public Tag(Node in) throws XPathExpressionException, ParserConfigurationException {
-    this(in, new XMLReader(in));
+    this(in, new XMLResourceReader(in));
   }
 
-  public Tag(Node in, XMLReader xmlIn) throws XPathExpressionException {
+  public Tag(Node in, XMLResourceReader xmlIn) throws XPathExpressionException {
     name = xmlIn.xpathString("@name", in);
     depreciated = xmlIn.xpathString("@depreciated", in);
     where = xmlIn.xpathString("@where", in);

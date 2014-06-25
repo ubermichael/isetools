@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.schema;
 
-import ca.nines.ise.util.XMLReader;
+import ca.nines.ise.util.XMLResourceReader;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -35,7 +35,7 @@ public class AttributeTest {
     a = new Attribute("<attribute name='foo' />");
     assertEquals("foo", a.getName());
 
-    XMLReader xmlIn = new XMLReader("<tag><attribute name='foo'/></tag>");
+    XMLResourceReader xmlIn = new XMLResourceReader("<tag><attribute name='foo'/></tag>");
     Node n = xmlIn.xpathNode("/tag/attribute");
     a = new Attribute(n);
     assertEquals("foo", a.getName());
