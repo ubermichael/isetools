@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.validator.node;
 
-import ca.nines.ise.misc.ErrorCode;
+import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.schema.Schema;
 import java.io.IOException;
