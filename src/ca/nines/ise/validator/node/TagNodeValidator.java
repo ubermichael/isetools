@@ -16,7 +16,7 @@ import org.apache.commons.lang3.ArrayUtils;
 /**
  * Abstract class to handle the commonalities in tag validations. Also provides
  * attribute validation.
- *
+ * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  * @param <T>
  */
@@ -24,7 +24,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
 
   /**
    * Construct a tag node validator.
-   *
+   * <p>
    * @param schema The schema for validation.
    */
   public TagNodeValidator(Schema schema) {
@@ -33,17 +33,17 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
 
   @Override
   abstract public void validate(T node);
-  
+
   /**
    * Validate a string attribute.
-   *
+   * <p>
    * Validations performed:
-   *
+   * <p>
    * <ul>
    * <li>The string must include at least one non-whitespace character.</li>
    * </ul>
-   *
-   * @param n TagNode to validate
+   * <p>
+   * @param n    TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
@@ -60,15 +60,15 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
 
   /**
    * Validate a number attribute.
-   *
+   * <p>
    * Validations performed:
-   *
+   * <p>
    * <ul>
-   * <li>The attribute must be a number, by matching against
-   * the regular expression {@code "^[+-]?\\d+(\\.\\d+)?$"}</li>
+   * <li>The attribute must be a number, by matching against the regular
+   * expression {@code "^[+-]?\\d+(\\.\\d+)?$"}</li>
    * </ul>
-   *
-   * @param n TagNode to validate
+   * <p>
+   * @param n    TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
@@ -84,15 +84,15 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
 
   /**
    * Validate a list attribute.
-   *
+   * <p>
    * Validations performed:
-   *
+   * <p>
    * <ul>
-   * <li>The attribute value is treated as a comma separated list, and
-   * each item in the list must be one of the allowed values.</li>
+   * <li>The attribute value is treated as a comma separated list, and each item
+   * in the list must be one of the allowed values.</li>
    * </ul>
-   *
-   * @param n TagNode to validate
+   * <p>
+   * @param n    TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
@@ -111,14 +111,14 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
 
   /**
    * Validate a select attribute.
-   * 
+   * <p>
    * Validations performed:
-   * 
+   * <p>
    * <ul>
    * <li>The attribute value must be one of the allowed values.</li>
    * </ul>
-   * 
-   * @param n TagNode to validate
+   * <p>
+   * @param n    TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
@@ -134,17 +134,16 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   }
 
   /**
-   * Validate an attribute, by calling one of the 
-   * validate_attribute_* functions.
-   * 
+   * Validate an attribute, by calling one of the validate_attribute_*
+   * functions.
+   * <p>
    * Validations performed:
-   * 
+   * <p>
    * <ul>
-   * <li>The attribute type (as defined in the schema) must
-   * be defined.</li>
+   * <li>The attribute type (as defined in the schema) must be defined.</li>
    * </ul>
-   * 
-   * @param n TagNode to validate
+   * <p>
+   * @param n    TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
@@ -172,29 +171,38 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
 
   /**
    * Validate all the attributes in a tag node.
-   * 
+   * <p>
    * Validations performed:
-   * 
+   * <p>
    * <ul>
    * <li>Each attribute name must be defined for the tag.</li>
    * <li>The attribute must not be depreciated.</li>
    * <li>The attribute may be empty, if allowed by the schema.</li>
    * </ul>
-   * 
-   * Additionally, each of the attributes defined as required for the tag
-   * must be present.
-   * 
+   * <p>
+   * Additionally, each of the attributes defined as required for the tag must
+   * be present.
+   * <p>
+   * Warning: validate_attributes will silently ignore nodes which do not have a
+   * definition in the schema. It is the responsibility of calling classes to
+   * check that the schema contains a definition or the node.
+   * <p>
    * @param n TagNode to validate
    */
   @ErrorCode(code = {
     "validator.attribute.unknown",
     "validator.attribute.depreciated",
-    "validator.attribute.nonempty"
+    "validator.attribute.nonempty",
+    "validator.attribute.missing",
   })
   public void validate_attributes(T n) {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);
     Message m;
+
+    if (tag == null) {
+      return;
+    }
 
     // validate the attributes found on the tag in the SGMLish.
     for (String name : n.getAttributeNames()) {
@@ -222,7 +230,6 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
       }
       validate_attribute(n, attr);
     }
-
     for (String attrName : tag.getAttributeNames()) {
       Attribute attr = tag.getAttribute(attrName);
       if (attr.isOptional()) {
