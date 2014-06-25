@@ -7,7 +7,7 @@ package ca.nines.ise.dom;
 
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.misc.ErrorCode;
+import ca.nines.ise.annotation.ErrorCode;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
