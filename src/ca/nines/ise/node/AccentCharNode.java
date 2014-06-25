@@ -8,7 +8,6 @@ package ca.nines.ise.node;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import java.io.IOException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
