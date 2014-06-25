@@ -146,8 +146,9 @@ abstract public class Node {
    * and chars are converted into plain text.
    * <p>
    * @return String
+   * @throws java.io.IOException
    */
-  public abstract String plain();
+  public abstract String plain() throws IOException;
 
   /**
    * Convert a node to a string, mostly for debugging purposes.
@@ -174,8 +175,9 @@ abstract public class Node {
    * chars are converted into their unicode equivalents
    * <p>
    * @return String
+   * @throws java.io.IOException
    */
-  public abstract String unicode();
+  public abstract String unicode() throws IOException;
 
   public enum NodeType {
 

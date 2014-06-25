@@ -5,6 +5,9 @@
  */
 package ca.nines.ise.dom;
 
+import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.EndNode;
+import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.grammar.ISELexer;
 import ca.nines.ise.grammar.ISEParser;
 import ca.nines.ise.grammar.ISEParser.*;
@@ -12,7 +15,6 @@ import ca.nines.ise.grammar.ISEParser.*;
 import ca.nines.ise.grammar.ISEParserBaseListener;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.*;
-import ca.nines.ise.node.CharNode.CharType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,7 +60,6 @@ public class Builder extends ISEParserBaseListener {
   private final ANTLRInputStream ais;
   private String currentAttrName;
 
-  private CharNode currentChar;
   private TagNode currentTag;
   private final DOM dom = new DOM();
   private TokenStream tokens;
@@ -128,49 +129,44 @@ public class Builder extends ISEParserBaseListener {
 
   @Override
   public void enterCharAccent(CharAccentContext ctx) {
-    currentChar.setType(CharType.ACCENT);
+    AccentCharNode n = (AccentCharNode) setupNode(new AccentCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
   public void enterCharComplexLigature(CharComplexLigatureContext ctx) {
-    currentChar.setType(CharType.NESTED);
+    NestedCharNode n = (NestedCharNode) setupNode(new NestedCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
   public void enterCharDigraph(CharDigraphContext ctx) {
-    currentChar.setType(CharType.DIGRAPH);
+    DigraphCharNode n = (DigraphCharNode) setupNode(new DigraphCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
   public void enterCharSimpleLigature(CharSimpleLigatureContext ctx) {
-    currentChar.setType(CharType.LIGATURE);
+    LigatureCharNode n = (LigatureCharNode) setupNode(new LigatureCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
   public void enterCharSpace(CharSpaceContext ctx) {
-    currentChar.setType(CharType.SPACE);
+    SpaceCharNode n = (SpaceCharNode) setupNode(new SpaceCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
   public void enterCharTypographic(CharTypographicContext ctx) {
-    currentChar.setType(CharType.TYPOGRAPHIC);
+    TypographicCharNode n = (TypographicCharNode) setupNode(new TypographicCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
   public void enterCharUnicode(CharUnicodeContext ctx) {
-    currentChar.setType(CharType.UNICODE);
-  }
-
-  @Override
-  public void enterCharacter(CharacterContext ctx) {
-    CharNode n = (CharNode) setupNode(new CharNode(), ctx);
-    this.currentChar = n;
-  }
-
-  @Override
-  public void exitCharacter(CharacterContext ctx) {
-    dom.add(currentChar);
-    currentChar = null;
+    UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
+    dom.add(n);
   }
 
   @Override
