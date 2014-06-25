@@ -19,6 +19,11 @@ import ca.nines.ise.schema.Schema;
  * <li>All abbreviations are depreciated and generate a warning.</li>
  * <li>Any abbreviation longer than ABBR_LENGTH generate an additional error.</li>
  * </ul>
+ * 
+ * Additionally, the validator will attempt to expand the abbreviation, which may
+ * cause validation errors.
+ * 
+ * @see AbbrNode#expanded() 
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
@@ -39,7 +44,8 @@ public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
   }
 
   @ErrorCode(code = {
-    "validator.abbr.depreciated"
+    "validator.abbr.depreciated",
+    "validator.abbr.long"
   })
   @Override
   public void validate(AbbrNode n) {
