@@ -87,6 +87,10 @@ abstract public class TagNode extends Node {
     return sb.toString();
   }
 
+  public void clearAttributes() {
+    attributes.clear();
+  }
+  
   public String getAttribute(String name) {
     return (String) attributes.get(name.toLowerCase());
   }
