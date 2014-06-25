@@ -10,7 +10,6 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.output.Output;
 import ca.nines.ise.output.TextOutput;
-import ca.nines.ise.output.UnicodeOutput;
 
 /**
  *
@@ -24,10 +23,10 @@ public class Tester {
       DOM dom = new Builder("{{s}{s}h}").getDOM();
       Output domOut = new TextOutput(System.out);
       TextOutput logOut = new TextOutput(System.out);
-      
+
       domOut.print(dom);
       logOut.print(log);
-
+      
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);

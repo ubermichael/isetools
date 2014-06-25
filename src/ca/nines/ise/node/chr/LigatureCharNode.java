@@ -3,30 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.node;
+package ca.nines.ise.node.chr;
 
-import ca.nines.ise.dom.Builder;
-import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
-import java.io.IOException;
-import java.util.Iterator;
+import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.EndNode;
+import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TextNode;
 
 /**
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class NestedCharNode extends CharNode {
+public class LigatureCharNode extends CharNode {
 
   /**
    * @return the charType
    */
   @Override
   public CharType getCharType() {
-    return CharType.NESTED;
+    return CharType.LIGATURE;
   }
 
   @Override
-  public Fragment expanded() throws IOException {
+  public Fragment expanded() {
     Fragment dom = new Fragment();
 
     StartNode start = new StartNode(this);
@@ -34,12 +34,9 @@ public class NestedCharNode extends CharNode {
     start.setAttribute("setting", text);
     dom.add(start);
 
-    DOM inner = new Builder(innerText()).getDOM();
-    Iterator<Node> iterator = inner.iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      dom.addAll(node.expanded());
-    }
+    TextNode node = new TextNode(this);
+    node.setText(innerText());
+    dom.add(this);
 
     EndNode end = new EndNode(this);
     end.setName("LIG");
@@ -47,4 +44,5 @@ public class NestedCharNode extends CharNode {
 
     return dom;
   }
+
 }

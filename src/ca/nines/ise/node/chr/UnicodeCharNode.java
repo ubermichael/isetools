@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.node;
+package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
+import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.TextNode;
 
 /**
  *
