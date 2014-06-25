@@ -21,35 +21,35 @@ import java.util.logging.Logger;
  *
  * @author michael
  */
-public class TextOutput extends Output {
+public class UnicodeOutput extends Output {
 
-  public TextOutput() throws UnsupportedEncodingException {
+  public UnicodeOutput() throws UnsupportedEncodingException {
     super();
   }
 
-  public TextOutput(File file) throws FileNotFoundException, UnsupportedEncodingException {
+  public UnicodeOutput(File file) throws FileNotFoundException, UnsupportedEncodingException {
     super(file);
   }
 
-  public TextOutput(OutputStream out) throws UnsupportedEncodingException {
+  public UnicodeOutput(OutputStream out) throws UnsupportedEncodingException {
     super(out);
   }
 
   @Override
   public void print(DOM dom) {
     try {
-      out.print(dom.plain());
+      out.print(dom.unicode());
     } catch (IOException ex) {
-      Logger.getLogger(TextOutput.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(UnicodeOutput.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
   @Override
   public void print(Node n) {
     try {
-      out.print(n.plain());
+      out.print(n.unicode());
     } catch (IOException ex) {
-      Logger.getLogger(TextOutput.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(UnicodeOutput.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 

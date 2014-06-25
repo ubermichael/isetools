@@ -8,7 +8,9 @@ package ca.nines.ise;
 import ca.nines.ise.dom.Builder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.output.Output;
 import ca.nines.ise.output.TextOutput;
+import ca.nines.ise.output.UnicodeOutput;
 
 /**
  *
@@ -20,10 +22,12 @@ public class Tester {
     Log log = Log.getInstance();
     try {
       DOM dom = new Builder("{{s}{s}h}").getDOM();
-      TextOutput out = new TextOutput(System.out);
+      Output domOut = new TextOutput(System.out);
       TextOutput logOut = new TextOutput(System.out);
-      out.print(dom.expanded());
+      
+      domOut.print(dom);
       logOut.print(log);
+
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);
