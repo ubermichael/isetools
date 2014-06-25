@@ -3,8 +3,6 @@
 
 *.class
 *.log
-*.rng
-*.properties
 
 # directories
 /build
