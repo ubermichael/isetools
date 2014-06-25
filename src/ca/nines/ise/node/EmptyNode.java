@@ -5,9 +5,6 @@
  */
 package ca.nines.ise.node;
 
-import ca.nines.ise.node.Node;
-import ca.nines.ise.node.TagNode;
-
 /**
  *
  * @author Michael Joyce <michael@negativespace.net>
