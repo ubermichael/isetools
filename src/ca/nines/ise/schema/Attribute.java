@@ -90,7 +90,17 @@ public class Attribute implements Comparable<Attribute> {
   /**
    * @return the type
    */
-  public String getType() {
+  public AttributeType getType() {
+    switch(type) {
+      case "list": return AttributeType.LIST;
+      case "number": return AttributeType.NUMBER;
+      case "select": return AttributeType.SELECT;
+      case "string": return AttributeType.STRING;
+      default: return null;
+    }
+  }
+  
+  public String getTypeName() {
     return type;
   }
 
@@ -158,4 +168,11 @@ public class Attribute implements Comparable<Attribute> {
     return this.name.toLowerCase().compareTo(a.name.toLowerCase());
   }
 
+  public enum AttributeType {
+    STRING,
+    LIST,
+    SELECT,
+    NUMBER,
+  }
+  
 }
