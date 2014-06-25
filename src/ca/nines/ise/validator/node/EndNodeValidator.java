@@ -20,6 +20,8 @@ import ca.nines.ise.schema.Tag;
  * <li>The tag is defined in the schema.</li>
  * <li>The tag is not required to be empty.</li>
  * </ul>
+ * 
+ * WARNING: Depreciated end tags are not reported.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */

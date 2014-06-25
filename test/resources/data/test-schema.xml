@@ -29,5 +29,14 @@
         <desc>depreciated attribute</desc>
       </attribute>
     </tag>
+    <tag name="EMPTY" empty="yes" where="all">
+      <desc>A tag required to be empty.</desc>
+    </tag>
+    <tag name="OPT" empty="optional" where="all">
+      <desc>A tag allowed to be empty.</desc>
+    </tag>
+    <tag name="DEPTAG" empty="optional" depreciated="no more using." where="all">
+      <desc>A depreciated tag.</desc>
+    </tag>
   </tags>
 </schema>
