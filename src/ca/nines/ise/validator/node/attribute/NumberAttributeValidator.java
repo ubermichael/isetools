@@ -30,6 +30,9 @@ public class NumberAttributeValidator extends AttributeValidator {
    * expression {@code "^[+-]?\\d+(\\.\\d+)?$"}</li>
    * </ul>
    * <p>
+   * Warning: decimal numbers between -1 and 1 require a leading zero: 0.2 is
+   * OK, but .2 is not.
+   * <p>
    * @param n    TagNode to validate
    * @param attr attribute to validate against
    */

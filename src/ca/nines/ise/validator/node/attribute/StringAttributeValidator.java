@@ -10,6 +10,7 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Validate an string attribute value.
@@ -36,8 +37,7 @@ public class StringAttributeValidator extends AttributeValidator {
   @Override
   public void validate(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
-    // @todo use StringUtils.isWhitespace instead. faster.
-    if (value.matches("^\\s*$")) {
+    if (StringUtils.isWhitespace(value)) {
       Message m = log.error("validator.attribute.badstring", n);
       m.addNote("Attribute " + attr.getName() + "=\"" + value + "\" only contains whitespace.");
     }
