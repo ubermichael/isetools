@@ -23,78 +23,10 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
     super();
   }
 
-//  /**
-//   * Test of validate_attribute_string method, of class TagNodeValidator.
-//   */
-//  @Test
-//  public void testValidate_attribute_string() {
-//    System.out.println("validate_attribute_string");
-//    TagNode n = null;
-//    Attribute attr = null;
-//    TagNodeValidator instance = null;
-//    instance.validate_attribute_string(n, attr);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
-//
-//  /**
-//   * Test of validate_attribute_number method, of class TagNodeValidator.
-//   */
-//  @Test
-//  public void testValidate_attribute_number() {
-//    System.out.println("validate_attribute_number");
-//    TagNode n = null;
-//    Attribute attr = null;
-//    TagNodeValidator instance = null;
-//    instance.validate_attribute_number(n, attr);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
-//
-//  /**
-//   * Test of validate_attribute_list method, of class TagNodeValidator.
-//   */
-//  @Test
-//  public void testValidate_attribute_list() {
-//    System.out.println("validate_attribute_list");
-//    TagNode n = null;
-//    Attribute attr = null;
-//    TagNodeValidator instance = null;
-//    instance.validate_attribute_list(n, attr);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
-//
-//  /**
-//   * Test of validate_attribute_select method, of class TagNodeValidator.
-//   */
-//  @Test
-//  public void testValidate_attribute_select() {
-//    System.out.println("validate_attribute_select");
-//    TagNode n = null;
-//    Attribute attr = null;
-//    TagNodeValidator instance = null;
-//    instance.validate_attribute_select(n, attr);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
-
   /**
-   * Test of validate_attribute_value method, of class TagNodeValidator.
-   */
-//  @Test
-//  public void testValidate_attribute() {
-//    System.out.println("validate_attribute_value");
-//    TagNode n = null;
-//    Attribute attr = null;
-//    TagNodeValidator instance = null;
-//    instance.validate_attribute(n, attr);
-//    // TODO review the generated test code and remove the default call to fail.
-//    fail("The test case is a prototype.");
-//  }
-
-  /**
-   * Test of validate_attributes method, of class TagNodeValidator.
+   * Test of validate_attributes method, of class TagNodeValidator. Tests
+   * attributes present on a node, but doesn't test the attribute value matches
+   * the type, etc.
    */
   @Test
   public void testValidate_attributes() throws Exception {
@@ -135,7 +67,7 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
     n.setAttribute("b", "3");
     instance.validate_attributes(n);
     checkLog(new String[]{});
-    
+
     n.setName("DEPAT");
     n.clearAttributes();
     n.setAttribute("foo", "yes");
@@ -143,25 +75,5 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
     checkLog(new String[]{"validator.attribute.depreciated"});
   }
 
-  public class TagNodeValidatorImpl extends TagNodeValidator {
-
-    public TagNodeValidatorImpl(Schema schema) {
-      super(schema);
-    }
-
-    @Override
-    public void validate(TagNode node) throws Exception {
-      validate_attributes(node);
-    }
-  }
-  
-  public class TagNodeImpl extends TagNode {
-
-    @Override
-    public NodeType type() {
-      return null;
-    }
-    
-  }
 
 }
