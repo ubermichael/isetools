@@ -16,10 +16,10 @@
     </tag>
     <tag name="TWOATTRS" where="all">
       <desc>tag with two attributes</desc>
-      <attribute name="n" type="string" renumber="yes">
+      <attribute name="n" type="string" renumber="no">
         <desc>one string attribute</desc>
       </attribute>
-      <attribute name="b" type="string" renumber="yes">
+      <attribute name="b" type="string" renumber="no">
         <desc>one more string attribute.</desc>
       </attribute>
     </tag>
@@ -38,5 +38,29 @@
     <tag name="DEPTAG" empty="optional" depreciated="no more using." where="all">
       <desc>A depreciated tag.</desc>
     </tag>
+    <tag name="SEL" empty="optionl" where="all">
+      <desc>A tag with a select attribute.</desc>
+      <attribute name="opt" type="select">
+        <desc>A select attribute for testing.</desc>
+        <option>thyme</option>
+        <option>rosemary</option>
+        <option>mint</option>
+        <option>savory</option>
+        <option>sage</option>
+        <option>basil</option>
+      </attribute>
+    </tag>
+    <tag name="LIST" empty="optionl" where="all">
+      <desc>A tag with a list attribute.</desc>
+      <attribute name="items" type="list">
+        <desc>A list attribute for testing.</desc>
+        <option>earth</option>
+        <option>air</option>
+        <option>wind</option>
+        <option>fire</option>
+        <option>smiles</option>
+        <option>basil</option>
+      </attribute>
+    </tag>    
   </tags>
 </schema>
