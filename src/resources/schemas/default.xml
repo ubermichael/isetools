@@ -24,7 +24,12 @@
     <location id="quarto">old spelling quarto</location>
     <location id="unknown">a location for this tag has not been specified yet.</location>
   </locations>
-    
+  <attrTypes>
+    <type id="string">The attribute is a non-empty string.</type>
+    <type id="number">The attribute is number.</type>
+    <type id="list">The attribute contains one more more comma separated items from a list.</type>
+    <type id="select">The attribute contains one item from a list.</type>
+  </attrTypes>  
   <tags>
     <tag name="ABBR" where="oldspelling">
       <desc><![CDATA[Used to expand old-spelling contractions, e.g. <ABBR expan="the">y<SUP>e</SUP></ABBR>]]></desc>

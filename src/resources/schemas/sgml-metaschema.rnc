@@ -10,6 +10,12 @@ start =
         text
       }+
     },
+    element attrTypes {
+      element type {
+        attribute id { xsd:ID },
+        text
+      }+
+    },
     element tags {
       element tag {
         attribute name { xsd:NCName },
@@ -19,7 +25,7 @@ start =
         desc,
         element attribute {
           attribute name { xsd:NCName },
-          attribute type { xsd:NCName },
+          attribute type { xsd:IDREF },
           attribute default { text }?,
           attribute depreciated { text }?,
           attribute empty { "yes" | "no" }?,
