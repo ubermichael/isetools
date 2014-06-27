@@ -33,7 +33,7 @@ public class DigraphCharNode extends CharNode {
 
     StartNode start = new StartNode(this);
     start.setName("DIGRAPH");
-    start.setAttribute("setting", innerText());
+    start.setAttribute("setting", text);
     dom.add(start);
 
     TextNode node = new TextNode(this);

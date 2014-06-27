@@ -6,11 +6,11 @@
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
-import ca.nines.ise.node.CharNode;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import ca.nines.ise.node.Node;
+import ca.nines.ise.node.StartNode;
+import ca.nines.ise.validator.node.TestBase;
+import java.text.Normalizer;
+import java.util.Iterator;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,53 +18,33 @@ import static org.junit.Assert.*;
  *
  * @author michael
  */
-public class DigraphCharNodeTest {
-
-  public DigraphCharNodeTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() {
-  }
-
-  @AfterClass
-  public static void tearDownClass() {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of getCharType method, of class DigraphCharNode.
-   */
-  @Test
-  public void testGetCharType() {
-    System.out.println("getCharType");
-    DigraphCharNode instance = new DigraphCharNode();
-    CharNode.CharType expResult = null;
-    CharNode.CharType result = instance.getCharType();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
+public class DigraphCharNodeTest extends TestBase {
 
   /**
    * Test of expanded method, of class DigraphCharNode.
    */
   @Test
   public void testExpanded() {
-    System.out.println("expanded");
     DigraphCharNode instance = new DigraphCharNode();
-    Fragment expResult = null;
-    Fragment result = instance.expanded();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+    instance.setText("{ae}");
+    Fragment dom = instance.expanded();
+    Iterator<Node> iterator = dom.iterator();
+    Node n;
+    
+    assertEquals(3, dom.size());
+    n = iterator.next();
+    assertEquals("START", n.type().name());
+    assertEquals("DIGRAPH", n.getName());
+    assertEquals("{ae}", ((StartNode)n).getAttribute("setting"));
+    
+    n = iterator.next();
+    assertEquals("TEXT", n.type().name());
+    assertEquals(Normalizer.normalize("æ", Normalizer.Form.NFC), n.getText());
+    
+    n = iterator.next();
+    assertEquals("END", n.type().name());
+    assertEquals("DIGRAPH", n.getName());
+    checkLog();
   }
 
 }
