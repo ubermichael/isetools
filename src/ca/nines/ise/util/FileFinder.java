@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.util;
 
 import java.io.File;
@@ -24,31 +23,31 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 public class FileFinder extends DirectoryWalker {
 
   FileFilter filter;
-  
+
   @Override
   protected boolean handleDirectory(File directory, int depth, Collection results) throws IOException {
     return HiddenFileFilter.VISIBLE.accept(directory);
   }
-  
+
   @Override
   protected void handleFile(File file, int depth, Collection results) throws IOException {
-    if(filter.accept(file)) {
+    if (filter.accept(file)) {
       results.add(file);
     }
   }
-  
+
   public ArrayList find(File startDirectory, String wildcard) throws IOException {
     ArrayList<File> files = new ArrayList<>();
     filter = new WildcardFileFilter(wildcard);
     walk(startDirectory, files);
     return files;
   }
-  
+
   public ArrayList<File> find(File startDirectory, Pattern matcher) throws IOException {
     ArrayList<File> files = new ArrayList<>();
     filter = new RegexFileFilter(matcher);
     walk(startDirectory, files);
     return files;
   }
-  
+
 }

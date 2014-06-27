@@ -14,15 +14,15 @@ import ca.nines.ise.schema.Schema;
  * TextNodeValidator performs validations on pure text nodes. In particular,
  * text nodes cannot contain the octothorpe. This validator also creates an
  * error for bad unicode characters (\uFFFD).
- * 
+ * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TextNodeValidator extends NodeValidator<TextNode> {
 
   /**
-   * Construct a TextNodeValidator. The schema parameter
-   * is only necessary because of the parent class.
-   * 
+   * Construct a TextNodeValidator. The schema parameter is only necessary
+   * because of the parent class.
+   * <p>
    * @param schema The schema for validation.
    */
   public TextNodeValidator(Schema schema) {

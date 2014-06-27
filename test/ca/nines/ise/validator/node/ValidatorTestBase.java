@@ -22,10 +22,10 @@ import org.xml.sax.SAXException;
 abstract public class ValidatorTestBase extends TestBase {
 
   protected final Schema schema;
-  
+
   public ValidatorTestBase() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File f = new File("/resources/data/test-schema.xml");
     schema = new Schema(f);
   }
-  
+
 }

@@ -18,7 +18,7 @@ import org.apache.commons.cli.ParseException;
  * @author michael
  */
 public class Validate extends Command {
-  
+
   static {
     Command.commandList.put("validate", Command.class);
   }
@@ -26,13 +26,13 @@ public class Validate extends Command {
   public String description() {
     return "Validate an ISE SGMLish file";
   }
-  
+
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("l", false, "Set error messages to file");
     return opts;
   }
-  
+
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
     CommandLineParser parser = new BasicParser();
@@ -43,12 +43,12 @@ public class Validate extends Command {
   public void execute(String[] args) throws ParseException {
     Options opts = getOptions();
     CommandLine cmd = getCommandLine(opts, args);
-    
-    if(cmd.hasOption("l")) {
+
+    if (cmd.hasOption("l")) {
       System.out.println("found an L.");
     }
   }
-  
+
   public static void main(String[] args) throws ParseException {
     Validate v = new Validate();
     v.execute(args);

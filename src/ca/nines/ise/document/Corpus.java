@@ -37,10 +37,10 @@ public class Corpus {
         continue;
       }
       Work w = new Work(d);
-      for(File edition : editions) {
+      for (File edition : editions) {
         w.addEdition(edition);
       }
-      works.put(d.getName(), w);      
+      works.put(d.getName(), w);
     }
   }
 

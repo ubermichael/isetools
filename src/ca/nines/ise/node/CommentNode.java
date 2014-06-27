@@ -17,7 +17,7 @@ public class CommentNode extends Node {
     super();
   }
 
-  public CommentNode(CommentNode node) {
+  public CommentNode(Node node) {
     super(node);
   }
 

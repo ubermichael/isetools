@@ -75,5 +75,4 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
     checkLog(new String[]{"validator.attribute.depreciated"});
   }
 
-
 }

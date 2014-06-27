@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node.lemma;
 
 import org.junit.After;
@@ -18,22 +17,22 @@ import static org.junit.Assert.*;
  * @author michael
  */
 public class LemmaTest {
-  
+
   public LemmaTest() {
   }
-  
+
   @BeforeClass
   public static void setUpClass() {
   }
-  
+
   @AfterClass
   public static void tearDownClass() {
   }
-  
+
   @Before
   public void setUp() {
   }
-  
+
   @After
   public void tearDown() {
   }
@@ -43,5 +42,5 @@ public class LemmaTest {
     // TODO review the generated test code and remove the default call to fail.
     fail("The test case is a prototype.");
   }
-  
+
 }

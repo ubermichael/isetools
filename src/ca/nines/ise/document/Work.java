@@ -24,7 +24,7 @@ public class Work implements Comparable<Work> {
   private String playCode;
   private final HashMap<String, File> editions;
 
-  public Work(File dir) throws IOException {    
+  public Work(File dir) throws IOException {
     this.editions = new HashMap<>();
     path = dir.getCanonicalPath();
     playCode = dir.getName();
@@ -38,9 +38,9 @@ public class Work implements Comparable<Work> {
   public void addEdition(File f) {
     Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
     Matcher m = p.matcher(f.getName());
-    if(m.find()) {
+    if (m.find()) {
       editions.put(m.group(1), f);
-    } 
+    }
   }
 
   public String[] getEditions() {
@@ -48,12 +48,12 @@ public class Work implements Comparable<Work> {
     Arrays.sort(list);
     return list;
   }
-  
+
   public Edition getEdition(String code) throws IOException {
     File filePath = editions.get(code);
     return new Edition(filePath);
   }
-  
+
   /**
    * @return the path
    */
@@ -86,7 +86,7 @@ public class Work implements Comparable<Work> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(playCode).append("\n");
-    for(String s : getEditions()) {
+    for (String s : getEditions()) {
       Edition edition;
       try {
         edition = new Edition(editions.get(s));

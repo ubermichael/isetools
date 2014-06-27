@@ -40,8 +40,8 @@ public class Message implements Comparable<Message> {
 
   /**
    * Construct a message object for the given message code.
-   * 
-   * @param code 
+   * <p>
+   * @param code
    */
   public Message(String code) {
     if (code == null) {
@@ -60,7 +60,7 @@ public class Message implements Comparable<Message> {
 
   @Override
   public int compareTo(Message o) {
-    if( ! this.source.equals(o.source)) {
+    if (!this.source.equals(o.source)) {
       return this.source.compareTo(o.source);
     }
     if (this.lineNumber != o.lineNumber) {

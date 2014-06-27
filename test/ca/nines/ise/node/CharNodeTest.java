@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
@@ -20,22 +19,22 @@ import static org.junit.Assert.*;
  * @author michael
  */
 public class CharNodeTest {
-  
+
   public CharNodeTest() {
   }
-  
+
   @BeforeClass
   public static void setUpClass() {
   }
-  
+
   @AfterClass
   public static void tearDownClass() {
   }
-  
+
   @Before
   public void setUp() {
   }
-  
+
   @After
   public void tearDown() {
   }
@@ -150,5 +149,5 @@ public class CharNodeTest {
       return null;
     }
   }
-  
+
 }

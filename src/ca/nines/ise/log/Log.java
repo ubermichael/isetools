@@ -22,7 +22,7 @@ public class Log {
   private final ArrayList<Message> messages = new ArrayList<>();
 
   private static final Log instance = new Log();
-  
+
   private Log() {
   }
 

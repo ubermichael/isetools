@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.node.TagNode;
@@ -21,11 +20,11 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class ListAttributeValidatorTest extends ValidatorTestBase {
-  
+
   public ListAttributeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super();
   }
-  
+
   /**
    * Test of validate method, of class ListAttributeValidator.
    */
@@ -33,9 +32,9 @@ public class ListAttributeValidatorTest extends ValidatorTestBase {
   public void testValidate() {
     TagNode n = new TagNodeImpl();
     n.setName("LIST");
-    Attribute attr = schema.getTag(n.getName()).getAttribute("items");    
-    ListAttributeValidator instance = new ListAttributeValidator();    
-    
+    Attribute attr = schema.getTag(n.getName()).getAttribute("items");
+    ListAttributeValidator instance = new ListAttributeValidator();
+
     n.setAttribute("items", "earth");
     instance.validate(n, attr);
     checkLog(new String[]{});
@@ -64,5 +63,5 @@ public class ListAttributeValidatorTest extends ValidatorTestBase {
     instance.validate(n, attr);
     checkLog(new String[]{"validator.attribute.badlist"});
   }
-  
+
 }

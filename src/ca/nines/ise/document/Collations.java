@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.document;
 
 import ca.nines.ise.node.lemma.Coll;
@@ -13,5 +12,5 @@ import ca.nines.ise.node.lemma.Coll;
  * @author michael
  */
 public class Collations extends Apparatus<Coll> {
-  
+
 }

@@ -100,11 +100,11 @@ public class DOM extends ArrayList<Node> {
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
- sets the setTLN and ASL properties of each node in the DOM.
- <p>
- If you change the DOM by adding or removing nodes, or if you change the
- act, scene, line, or setTLN numbering in the DOM you should call this
- function.
+   * sets the setTLN and ASL properties of each node in the DOM.
+   * <p>
+   * If you change the DOM by adding or removing nodes, or if you change the
+   * act, scene, line, or setTLN numbering in the DOM you should call this
+   * function.
    */
   public void index() {
     Iterator<Node> i = this.iterator();

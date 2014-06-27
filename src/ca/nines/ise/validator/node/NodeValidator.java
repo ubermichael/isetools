@@ -10,31 +10,29 @@ import ca.nines.ise.node.Node;
 import ca.nines.ise.schema.Schema;
 
 /**
- * NodeValidator is defines all the functionality
- * for the individual node validators. Each node validator
- * is responsible for validating a single node, via the 
- * validate() method.
- *
+ * NodeValidator is defines all the functionality for the individual node
+ * validators. Each node validator is responsible for validating a single node,
+ * via the validate() method.
+ * <p>
  * @author michael
  * @param <T> extends Node
  */
 abstract public class NodeValidator<T extends Node> {
 
   /**
-   * The schema to validate against. Not used by all 
-   * node validators.
+   * The schema to validate against. Not used by all node validators.
    */
   protected final Schema schema;
-  
+
   /**
    * The log to store the validation messages.
    */
   protected final Log log;
 
   /**
-   * Construct a node validator. Should be called as
-   * {@code super(schema) } in constructors.
-   * 
+   * Construct a node validator. Should be called as {@code super(schema) } in
+   * constructors.
+   * <p>
    * @param schema The schema for validation.
    */
   public NodeValidator(Schema schema) {
@@ -44,9 +42,9 @@ abstract public class NodeValidator<T extends Node> {
 
   /**
    * Perform the text node validation, as described above.
-   * 
-   * @param n 
-   * @throws java.lang.Exception 
+   * <p>
+   * @param n <p>
+   * @throws java.lang.Exception
    */
   abstract public void validate(T n) throws Exception;
 
