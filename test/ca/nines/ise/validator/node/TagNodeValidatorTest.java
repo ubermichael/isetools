@@ -5,8 +5,8 @@
  */
 package ca.nines.ise.validator.node;
 
+import ca.nines.ise.node.TagNodeImpl;
 import ca.nines.ise.node.TagNode;
-import ca.nines.ise.schema.Schema;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;

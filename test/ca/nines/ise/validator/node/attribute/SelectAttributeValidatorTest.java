@@ -7,7 +7,7 @@ package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
-import ca.nines.ise.validator.node.TagNodeImpl;
+import ca.nines.ise.node.TagNodeImpl;
 import ca.nines.ise.validator.node.ValidatorTestBase;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
