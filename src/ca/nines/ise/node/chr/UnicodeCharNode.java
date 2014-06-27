@@ -18,6 +18,7 @@ public class UnicodeCharNode extends CharNode {
   private static final HashMap<String, String> charMap = new HashMap<>();
   static {
     charMap.put("{s}", "\u017F");
+    charMap.put("{P}", "\u00B6");
     charMap.put("{r}", "\uA75B");
     charMap.put("{R}", "\uA75A");
     charMap.put("{c}", "\u00e7");
