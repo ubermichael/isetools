@@ -25,11 +25,13 @@ public class SpaceCharNode extends CharNode {
     return CharType.SPACE;
   }
 
+  // doesn't make sense to use wrap() here.
   @Override
   public Fragment expanded() {
     Fragment dom = new Fragment();
     EmptyNode node = new EmptyNode(this);
-
+    node.setAttribute("setting", text);
+    
     switch (innerText()) {
       case " ":
         node.setName("SPACE");

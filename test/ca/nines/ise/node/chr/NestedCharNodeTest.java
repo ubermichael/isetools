@@ -7,10 +7,7 @@ package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import ca.nines.ise.validator.node.TestBase;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,40 +15,7 @@ import static org.junit.Assert.*;
  *
  * @author michael
  */
-public class NestedCharNodeTest {
-
-  public NestedCharNodeTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() {
-  }
-
-  @AfterClass
-  public static void tearDownClass() {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of getCharType method, of class NestedCharNode.
-   */
-  @Test
-  public void testGetCharType() {
-    System.out.println("getCharType");
-    NestedCharNode instance = new NestedCharNode();
-    CharNode.CharType expResult = null;
-    CharNode.CharType result = instance.getCharType();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
+public class NestedCharNodeTest extends TestBase {
 
   /**
    * Test of expanded method, of class NestedCharNode.
