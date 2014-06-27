@@ -13,7 +13,10 @@ ABBREVIATION : '|' ~'|'* '|' ;
 
 CHAR_UNICODE 
   : 
-    ( '{c}'       // lower c with cedilla ç     U+00E7
+    ( '{s}'       // long/medial s        ſ     U+017F
+    | '{r}'       // lower rotunda r      ꝛ     U+A75B
+    | '{R}'       // upper rotunda r      Ꝛ     U+A75A
+    | '{c}'       // lower c with cedilla ç     U+00E7
     | '{C}'       // upper c with cedilla Ç     U+00C7
     | '{th}'      // lower thorn          þ     U+00FE
     | '{TH}'      // upper thorn          Þ     U+00DE  
@@ -52,10 +55,7 @@ CHAR_ACCENT
 
 CHAR_TYPOGRAPHIC
   :
-    ( '{s}'         // long/medial s    ſ   U+017F
-    | '{r}'         // lower rotunda r  ꝛ   U+A75B
-    | '{R}'         // upper rotunda r  Ꝛ   U+A75A
-    | '{w}'         // two v characters for a w. No unicode equivalent.
+    ( '{w}'         // two v characters for a w. No unicode equivalent.
     | '{W}'         // two V characters for a W. No unicode equivalent.
     )
   ;
