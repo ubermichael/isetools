@@ -84,20 +84,4 @@ public class TagNodeTest extends TestBase {
     assertEquals("a", duplicate.getAttribute("foo"));
   }
 
-  public class TagNodeImpl extends TagNode {
-
-    private TagNodeImpl() {
-      super();
-    }
-
-    private TagNodeImpl(TagNode original) {
-      super(original);
-    }
-
-    @Override
-    public NodeType type() {
-      throw new UnsupportedOperationException("Not supported yet."); // don't care.
-    }
-  }
-
 }
