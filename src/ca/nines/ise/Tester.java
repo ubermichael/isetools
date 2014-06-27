@@ -5,11 +5,11 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.dom.Builder;
-import ca.nines.ise.dom.DOM;
+import ca.nines.ise.document.Corpus;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.output.Output;
-import ca.nines.ise.output.TextOutput;
+import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -20,13 +20,20 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new Builder("{{s}{s}h}").getDOM();
-      Output domOut = new TextOutput(System.out);
-      TextOutput logOut = new TextOutput(System.out);
-
-      domOut.print(dom);
-      logOut.print(log);
       
+      String s = "1HW_F1.txt";
+      Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
+      Matcher m = p.matcher(s);
+      if(m.find()) {
+        System.out.println("matched: " + m.group(1));
+      } else {
+        System.out.println("no match.");
+      }
+             
+      
+      
+      Corpus c = new Corpus(new File("data/sgml"));
+      System.out.println(c);
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);
