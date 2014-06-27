@@ -47,7 +47,7 @@ public class ParserErrorListener extends BaseErrorListener {
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
     m.setSource(source);
-    m.addNote(msg);
+    m.addNote(msg.substring(0, Math.min(64, msg.length())));
   }
 
   /**
