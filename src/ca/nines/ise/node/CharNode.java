@@ -75,7 +75,7 @@ abstract public class CharNode extends Node {
     node.setAttribute("setting", this.text);
     dom.add(node);
 
-    dom.addAll(dom);
+    dom.addAll(fragment);
 
     node = new EndNode(this);
     node.setName(tagName);
