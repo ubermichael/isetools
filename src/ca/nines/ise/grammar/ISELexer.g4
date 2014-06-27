@@ -14,6 +14,7 @@ ABBREVIATION : '|' ~'|'* '|' ;
 CHAR_UNICODE 
   : 
     ( '{s}'       // long/medial s        ſ     U+017F
+    | '{P}'       // pilcrow              ¶     U+00B6
     | '{r}'       // lower rotunda r      ꝛ     U+A75B
     | '{R}'       // upper rotunda r      Ꝛ     U+A75A
     | '{c}'       // lower c with cedilla ç     U+00E7
@@ -65,7 +66,7 @@ CHAR_SIMPLE_LIGATURE
   ;
 
 CHAR_COMPLEX_LIGATURE
-  : '{' ( [a-zA-Z] | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
+  : '{' ( [a-zA-Z] | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC ) ( [a-zA-Z] | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
   ;
 
 // beginning of tags.
