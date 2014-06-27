@@ -46,27 +46,27 @@ public class AccentCharNode extends CharNode {
         str = cs[1] + "\u0302";
         break;
       case '"':
-        str = cs[1] + "\u0302";
+        str = cs[1] + "\u0308";
         break;
       case '\'':
-        str = cs[1] + "\u0302";
+        str = cs[1] + "\u0301";
         break;
       case '`':
-        str = cs[1] + "\u0302";
+        str = cs[1] + "\u0300";
         break;
       case '_':
-        str = cs[1] + "\u0302";
+        str = cs[1] + "\u0304";
         break;
       case '~':
-        str = cs[1] + "\u0302";
+        str = cs[1] + "\u0303";
         break;
       default:
-        str = "\uFFFD" + cs[1];
+        str = cs[1] + "\uFFFD";
         Message m = Log.getInstance().error("char.accent.unknown", this);
         m.addNote("Accent character " + cs[0] + " is unknown and cannot be transformed into unicode.");
     }
 
-    Normalizer.normalize(str, Form.NFC);
+    str = Normalizer.normalize(str, Form.NFC);
     TextNode node = new TextNode(this);
     node.setText(str);
     dom.add(node);
