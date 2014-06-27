@@ -7,6 +7,8 @@ package ca.nines.ise;
 
 import ca.nines.ise.document.Corpus;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.chr.NestedCharNode;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,18 +22,29 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-
-      String s = "1HW_F1.txt";
-      Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
-      Matcher m = p.matcher(s);
-      if (m.find()) {
-        System.out.println("matched: " + m.group(1));
-      } else {
-        System.out.println("no match.");
+      String Chars[] = {
+        "{e{s}h}",
+        "{{s}f}",
+        "{{'e}e}",
+        "{{s}p}",
+        "{{s}b}",
+        "{{s}c}",
+        "{{s}sl}",
+        "{{s}s}",
+        "{{s}t}",
+        "{{s}l}",
+        "{{s}{s}}",
+        "{{s}h}",
+        "{{s}i}",
+        "{{s}{s}i}",
+        "{{s}{s}l}"
+      };
+      for(String c : Chars) {
+        CharNode chr = new NestedCharNode();
+        chr.setText(c);
+        System.out.println(c);
+        System.out.println(chr.expanded());
       }
-
-      Corpus c = new Corpus(new File("data/sgml"));
-      System.out.println(c);
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);

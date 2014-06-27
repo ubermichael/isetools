@@ -36,7 +36,7 @@ public class NestedCharNode extends CharNode {
     while (iterator.hasNext()) {
       Node node = iterator.next();
       dom.addAll(node.expanded());
-    }    
+    }
 
     return wrap("LIG", dom);
   }
