@@ -52,7 +52,7 @@ public class Log {
     m.setSource(node.getSource());
     m.setColumnNumber(node.getColumn());
     m.setLineNumber(node.getLine());
-    m.setTLN(node.getTln());
+    m.setTLN(node.getTLN());
     return m;
   }
 

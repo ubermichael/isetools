@@ -131,7 +131,7 @@ public class DOM extends ArrayList<Node> {
           index.put(tln, n);
           break;
       }
-      n.setTln(tln);
+      n.TLN(tln);
       n.setAsl(act + "." + scene + "." + line);
     }
   }

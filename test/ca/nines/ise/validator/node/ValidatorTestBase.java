@@ -9,7 +9,6 @@ import ca.nines.ise.log.Log;
 import ca.nines.ise.schema.Schema;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.junit.Before;
@@ -20,31 +19,13 @@ import org.xml.sax.SAXException;
  *
  * @author michael
  */
-abstract public class ValidatorTestBase {
+abstract public class ValidatorTestBase extends TestBase {
 
   protected final Schema schema;
-  protected final Log log;
   
   public ValidatorTestBase() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File f = new File("/resources/data/test-schema.xml");
     schema = new Schema(f);
-    log = Log.getInstance();
-  }
-
-  @Before
-  public void setUp() {
-    log.clear();
-  }
-
-  public void checkLog(String[] codes) {
-    if(codes.length != log.count()) {
-      System.out.println(log);
-    }
-    assertEquals(codes.length, log.count());
-    for(int i = 0; i < log.count(); i++) {
-      assertEquals(codes[i], log.get(i).getCode());
-    }
-    log.clear();
   }
   
 }

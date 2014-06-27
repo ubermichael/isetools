@@ -124,20 +124,23 @@ abstract public class Node {
    * @param text the text to set
    */
   public void setText(String text) {
+    this._plain = null;
+    this._expanded = null;
+    this._unicode = null;
     this.text = text;
   }
 
   /**
    * @return the tln
    */
-  public String getTln() {
+  public String getTLN() {
     return tln;
   }
 
   /**
    * @param tln the tln to set
    */
-  public void setTln(String tln) {
+  public void TLN(String tln) {
     this.tln = tln;
   }
 
