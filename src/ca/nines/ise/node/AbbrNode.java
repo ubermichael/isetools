@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public class AbbrNode extends Node {
 
-  @ErrorCode(code={
+  @ErrorCode(code = {
     "abbr.expand.syntax"
   })
   @Override

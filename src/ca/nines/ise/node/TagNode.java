@@ -6,6 +6,7 @@
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
+import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -16,15 +17,15 @@ import java.util.LinkedHashMap;
  */
 abstract public class TagNode extends Node {
 
-  private LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
-  private String tagname;
+  protected LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
+  protected String tagname;
 
   public TagNode() {
     super();
     this.tagname = "";
     this.attributes = new LinkedHashMap<>();
   }
-  
+
   public TagNode(Node n) {
     super(n);
   }
@@ -90,7 +91,7 @@ abstract public class TagNode extends Node {
   public void clearAttributes() {
     attributes.clear();
   }
-  
+
   public String getAttribute(String name) {
     return (String) attributes.get(name.toLowerCase());
   }
@@ -99,8 +100,13 @@ abstract public class TagNode extends Node {
     attributes.put(name.toLowerCase(), value);
   }
 
+  public void deleteAttribute(String name) {
+    attributes.remove(name);
+  }
+
   public String[] getAttributeNames() {
     String[] names = attributes.keySet().toArray(new String[attributes.size()]);
+    Arrays.sort(names);
     return names;
   }
 

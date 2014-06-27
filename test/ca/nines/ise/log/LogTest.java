@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.node.TextNode;
@@ -15,7 +14,7 @@ import static org.junit.Assert.*;
  * @author michael
  */
 public class LogTest {
-  
+
   /**
    * Test of getInstance method, of class Log.
    */
@@ -58,7 +57,7 @@ public class LogTest {
     node.setTLN("33.2");
     node.setSource("FOO");
     node.setText("abc");
-    
+
     Message m = log.error("", node);
     assertEquals(1, log.count());
     assertEquals(32, m.getLineNumber());
@@ -100,7 +99,7 @@ public class LogTest {
     m = log.messages();
     assertNotNull(m);
     assertEquals(1, m.length);
-}
+  }
 
   /**
    * Test of count method, of class Log.
@@ -114,5 +113,5 @@ public class LogTest {
     assertEquals(1, log.count());
     log.clear();
   }
-  
+
 }

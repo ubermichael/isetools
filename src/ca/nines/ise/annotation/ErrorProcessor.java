@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.annotation;
 
 import java.util.Set;
@@ -27,18 +26,18 @@ public class ErrorProcessor extends AbstractProcessor {
 
   @Override
   public SourceVersion getSupportedSourceVersion() {
-    return SourceVersion.latestSupported();    
+    return SourceVersion.latestSupported();
   }
-  
+
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     Messager messager = processingEnv.getMessager();
-    for(TypeElement typeElement : annotations) {
-      for(Element element : roundEnv.getElementsAnnotatedWith(typeElement)) {
+    for (TypeElement typeElement : annotations) {
+      for (Element element : roundEnv.getElementsAnnotatedWith(typeElement)) {
         messager.printMessage(Diagnostic.Kind.NOTE, "ErrorCode: " + element.toString());
       }
     }
     return true;
   }
-  
+
 }

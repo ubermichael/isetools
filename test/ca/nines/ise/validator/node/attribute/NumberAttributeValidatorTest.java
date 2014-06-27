@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.node.TagNode;
@@ -21,9 +20,9 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class NumberAttributeValidatorTest extends ValidatorTestBase {
-  
+
   public NumberAttributeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    super();    
+    super();
   }
 
   /**
@@ -34,14 +33,14 @@ public class NumberAttributeValidatorTest extends ValidatorTestBase {
     TagNode n = new TagNodeImpl();
     Attribute attr;
     NumberAttributeValidator validator = new NumberAttributeValidator();
-    
+
     n.setName("ONEATTR");
     attr = schema.getTag(n.getName()).getAttribute("n");
 
     n.setAttribute("n", "5");
     validator.validate(n, attr);
     checkLog(new String[]{});
-    
+
     n.setAttribute("n", "5.5");
     validator.validate(n, attr);
     checkLog(new String[]{});
@@ -53,14 +52,14 @@ public class NumberAttributeValidatorTest extends ValidatorTestBase {
     n.setAttribute("n", "-5.533");
     validator.validate(n, attr);
     checkLog(new String[]{});
-    
+
     n.setAttribute("n", "-.533");
     validator.validate(n, attr);
     checkLog(new String[]{"validator.attribute.badnumber"});
-    
+
     n.setAttribute("n", "Where's my elephant?");
     validator.validate(n, attr);
     checkLog(new String[]{"validator.attribute.badnumber"});
   }
-  
+
 }

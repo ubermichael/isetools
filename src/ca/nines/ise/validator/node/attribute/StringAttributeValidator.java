@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class StringAttributeValidator extends AttributeValidator {
-  
+
   /**
    * Validate a string attribute.
    * <p>

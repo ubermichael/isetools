@@ -26,7 +26,7 @@ public class ErrorCodesTest {
   public void testGetErrorCodes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File f = new File("/resources/data/test-errors.xml");
 
-    errorCodes = new ErrorCodes(f);    
+    errorCodes = new ErrorCodes(f);
     ErrorCode[] codes = errorCodes.getErrorCodes();
     assertNotNull(codes);
     assertEquals(4, codes.length);
@@ -43,7 +43,7 @@ public class ErrorCodesTest {
   public void testGetErrorCode() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File f = new File("/resources/data/test-errors.xml");
 
-    errorCodes = new ErrorCodes(f);    
+    errorCodes = new ErrorCodes(f);
     assertEquals("test.error", errorCodes.getErrorCode("test.error").getCode());
     assertEquals("test.fatal", errorCodes.getErrorCode("test.fatal").getCode());
     assertEquals("test.unknown", errorCodes.getErrorCode("test.unknown").getCode());
@@ -57,7 +57,7 @@ public class ErrorCodesTest {
   public void testGetSeverity() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File f = new File("/resources/data/test-errors.xml");
 
-    errorCodes = new ErrorCodes(f);    
+    errorCodes = new ErrorCodes(f);
     assertEquals("error", errorCodes.getSeverity("test.error"));
     assertEquals("fatal", errorCodes.getSeverity("test.fatal"));
     assertEquals("unknown", errorCodes.getSeverity("test.unknown"));
@@ -71,7 +71,7 @@ public class ErrorCodesTest {
   public void testGetMessage() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File f = new File("/resources/data/test-errors.xml");
 
-    errorCodes = new ErrorCodes(f);    
+    errorCodes = new ErrorCodes(f);
     assertEquals("error code", errorCodes.getMessage("test.error"));
     assertEquals("fatal code", errorCodes.getMessage("test.fatal"));
     assertEquals("unknown code", errorCodes.getMessage("test.unknown"));

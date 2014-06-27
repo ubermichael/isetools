@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.node.StartNode;
@@ -18,7 +17,7 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class StartNodeValidatorTest extends ValidatorTestBase {
-  
+
   public StartNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super();
   }
@@ -34,22 +33,22 @@ public class StartNodeValidatorTest extends ValidatorTestBase {
     n.setName("EMPTY");
     validator.validate(n);
     checkLog(new String[]{"validator.tag.startempty"});
-    
+
     n.setName("OPT");
     validator.validate(n);
     checkLog(new String[]{});
-    
+
     n.setName("NOATTR");
     validator.validate(n);
     checkLog(new String[]{});
-    
+
     n.setName("FOO");
     validator.validate(n);
     checkLog(new String[]{"validator.tag.unknown"});
-    
+
     n.setName("DEPTAG");
     validator.validate(n);
     checkLog(new String[]{"validator.tag.depreciated"});
   }
-  
+
 }

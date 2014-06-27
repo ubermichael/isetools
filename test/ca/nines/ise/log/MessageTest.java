@@ -46,27 +46,27 @@ public class MessageTest {
   public void testCompareTo() {
     Message a = new Message("");
     Message b = new Message("");
-    
+
     a.setSource("foo");
     b.setSource("bar");
     assertTrue(0 < a.compareTo(b));
     assertEquals(0, a.compareTo(a));
-    assertTrue(b.compareTo(a) < 0);    
+    assertTrue(b.compareTo(a) < 0);
 
     a.setSource("foo");
-    b.setSource("foo");    
+    b.setSource("foo");
     a.setLineNumber(2);
     b.setLineNumber(1);
     assertTrue(0 < a.compareTo(b));
     assertEquals(0, a.compareTo(a));
-    assertTrue(b.compareTo(a) < 0);    
-    
+    assertTrue(b.compareTo(a) < 0);
+
     a.setLineNumber(2);
     a.setColumnNumber(3);
     b.setLineNumber(2);
     b.setColumnNumber(1);
     assertTrue(0 < a.compareTo(b));
     assertEquals(0, a.compareTo(a));
-    assertTrue(b.compareTo(a) < 0);    
+    assertTrue(b.compareTo(a) < 0);
   }
 }

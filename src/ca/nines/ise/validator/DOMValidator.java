@@ -25,13 +25,13 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 /**
- * DOMValidator validates all the nodes in a DOM against a 
- * schema. All validation messages are saved in Log.
- * 
+ * DOMValidator validates all the nodes in a DOM against a schema. All
+ * validation messages are saved in Log.
+ * <p>
  * Usage example:
- * 
- * <pre>
- * {@code
+ * <p>
+ * <
+ * pre>  {@code
  * DOM dom = new DOM();
  * Schema schema = new Schema(); // optional
  * DOMValidator validator = new DOMValidator(schema);
@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
  * System.out.println(Log.getInstance());
  * }
  * </pre>
- *
+ * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class DOMValidator {
@@ -48,11 +48,11 @@ public class DOMValidator {
 
   /**
    * Construct a DOMValidator with the default schema.
-   * 
+   * <p>
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
-   * @throws XPathExpressionException 
+   * @throws XPathExpressionException
    */
   public DOMValidator() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new Schema());
@@ -60,8 +60,8 @@ public class DOMValidator {
 
   /**
    * Construct a DOMValidator with the given schema.
-   * 
-   * @param schema 
+   * <p>
+   * @param schema
    */
   public DOMValidator(Schema schema) {
     this.validators = new HashMap<>();
@@ -76,9 +76,9 @@ public class DOMValidator {
 
   /**
    * Perform all the schema and node validations.
-   * 
-   * @param dom
-   * @throws Exception 
+   * <p>
+   * @param dom <p>
+   * @throws Exception
    */
   @SuppressWarnings("unchecked")
   public void validate(DOM dom) throws Exception {

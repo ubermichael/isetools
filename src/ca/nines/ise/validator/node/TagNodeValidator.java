@@ -35,7 +35,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     validators.put(AttributeType.SELECT, new SelectAttributeValidator());
     validators.put(AttributeType.STRING, new StringAttributeValidator());
   }
-  
+
   /**
    * Construct a tag node validator.
    * <p>
@@ -60,6 +60,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
    * <p>
    * @param n    TagNode to validate
    * @param attr attribute to validate against
+   * <p>
    * @throws java.lang.Exception
    */
   @ErrorCode(code = {
@@ -68,7 +69,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
   public void validate_attribute(TagNode n, Attribute attr) throws Exception {
     AttributeType at = attr.getType();
     AttributeValidator v = TagNodeValidator.validators.get(attr.getType());
-    if(v == null) {     
+    if (v == null) {
       throw new Exception("Unknown attribute type: " + at.name());
     }
     v.validate(n, attr);
@@ -98,8 +99,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     "validator.attribute.unknown",
     "validator.attribute.depreciated",
     "validator.attribute.nonempty",
-    "validator.attribute.missing",
-  })
+    "validator.attribute.missing",})
   public void validate_attributes(TagNode n) throws Exception {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);

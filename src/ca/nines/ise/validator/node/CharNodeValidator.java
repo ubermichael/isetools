@@ -13,18 +13,18 @@ import java.util.logging.Logger;
 
 /**
  * Validate a character node.
- * 
+ * <p>
  * Validations are performed by calling out to CharNode.expanded().
- * 
- * @see CharNode#expanded() 
- *
+ * <p>
+ * @see CharNode#expanded()
+ * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class CharNodeValidator extends NodeValidator<CharNode> {
 
   /**
    * Construct a character validator.
-   * 
+   * <p>
    * @param schema The schema for validation. Unused in character validation.
    */
   public CharNodeValidator(Schema schema) {
@@ -39,5 +39,5 @@ public class CharNodeValidator extends NodeValidator<CharNode> {
       Logger.getLogger(CharNodeValidator.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
-  
+
 }

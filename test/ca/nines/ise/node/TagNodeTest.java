@@ -3,137 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ca.nines.ise.node;
 
-import ca.nines.ise.dom.Fragment;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import ca.nines.ise.validator.node.TestBase;
+import java.util.Arrays;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *
  * @author michael
  */
-public class TagNodeTest {
-  
-  public TagNodeTest() {
-  }
-  
-  @BeforeClass
-  public static void setUpClass() {
-  }
-  
-  @AfterClass
-  public static void tearDownClass() {
-  }
-  
-  @Before
-  public void setUp() {
-  }
-  
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of setName method, of class TagNode.
-   */
-  @Test
-  public void testSetName() {
-    System.out.println("setName");
-    String name = "";
-    TagNode instance = new TagNodeImpl();
-    String expResult = "";
-    String result = instance.setName(name);
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of getName method, of class TagNode.
-   */
-  @Test
-  public void testGetName() {
-    System.out.println("getName");
-    TagNode instance = new TagNodeImpl();
-    String expResult = "";
-    String result = instance.getName();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of expanded method, of class TagNode.
-   */
-  @Test
-  public void testExpanded() {
-    System.out.println("expanded");
-    TagNode instance = new TagNodeImpl();
-    Fragment expResult = null;
-    Fragment result = instance.expanded();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of plain method, of class TagNode.
-   */
-  @Test
-  public void testPlain() {
-    System.out.println("plain");
-    TagNode instance = new TagNodeImpl();
-    String expResult = "";
-    String result = instance.plain();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of unicode method, of class TagNode.
-   */
-  @Test
-  public void testUnicode() {
-    System.out.println("unicode");
-    TagNode instance = new TagNodeImpl();
-    String expResult = "";
-    String result = instance.unicode();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of toString method, of class TagNode.
-   */
-  @Test
-  public void testToString() {
-    System.out.println("toString");
-    TagNode instance = new TagNodeImpl();
-    String expResult = "";
-    String result = instance.toString();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
-  }
+public class TagNodeTest extends TestBase {
 
   /**
    * Test of clearAttributes method, of class TagNode.
    */
   @Test
   public void testClearAttributes() {
-    System.out.println("clearAttributes");
     TagNode instance = new TagNodeImpl();
+    instance.setAttribute("foo", "bar");
     instance.clearAttributes();
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+    assertArrayEquals(new String[]{}, instance.getAttributeNames());
   }
 
   /**
@@ -141,14 +32,11 @@ public class TagNodeTest {
    */
   @Test
   public void testGetAttribute() {
-    System.out.println("getAttribute");
-    String name = "";
     TagNode instance = new TagNodeImpl();
-    String expResult = "";
-    String result = instance.getAttribute(name);
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+    instance.setAttribute("foo", "bar");
+    assertEquals("bar", instance.getAttribute("foo"));
+    assertEquals("bar", instance.getAttribute("FOO"));
+    assertEquals(null, instance.getAttribute("f"));
   }
 
   /**
@@ -156,13 +44,12 @@ public class TagNodeTest {
    */
   @Test
   public void testSetAttribute() {
-    System.out.println("setAttribute");
-    String name = "";
-    String value = "";
     TagNode instance = new TagNodeImpl();
-    instance.setAttribute(name, value);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+    instance.setAttribute("foo", "bar");
+    assertEquals("bar", instance.getAttribute("foo"));
+    instance.setAttribute("FOO", "chicanery");
+    assertEquals("chicanery", instance.getAttribute("FOO"));
+    assertEquals("chicanery", instance.getAttribute("foo"));
   }
 
   /**
@@ -170,21 +57,47 @@ public class TagNodeTest {
    */
   @Test
   public void testGetAttributeNames() {
-    System.out.println("getAttributeNames");
+    String names[] = {"foo", "a", "yes"};
     TagNode instance = new TagNodeImpl();
-    String[] expResult = null;
-    String[] result = instance.getAttributeNames();
-    assertArrayEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+    for (String n : names) {
+      instance.setAttribute(n, "a");
+    }
+    Arrays.sort(names);
+    assertArrayEquals(names, instance.getAttributeNames());
+  }
+
+  /**
+   * Test of getAttributeNames method, of class TagNode.
+   */
+  @Test
+  public void testCopyAttributes() {
+    String names[] = {"foo", "a", "yes"};
+    TagNode original = new TagNodeImpl();
+    for (String n : names) {
+      original.setAttribute(n, "a");
+    }
+    TagNode duplicate = new TagNodeImpl(original);
+    Arrays.sort(names);
+    assertArrayEquals(names, duplicate.getAttributeNames());
+
+    original.setAttribute("foo", "b");
+    assertEquals("a", duplicate.getAttribute("foo"));
   }
 
   public class TagNodeImpl extends TagNode {
 
+    private TagNodeImpl() {
+      super();
+    }
+
+    private TagNodeImpl(TagNode original) {
+      super(original);
+    }
+
     @Override
     public NodeType type() {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      throw new UnsupportedOperationException("Not supported yet."); // don't care.
     }
   }
-  
+
 }

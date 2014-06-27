@@ -18,7 +18,7 @@ public class EndNode extends TagNode {
   public EndNode(Node n) {
     super(n);
   }
-  
+
   public EndNode(String tagname) {
     super(tagname);
   }

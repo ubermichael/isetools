@@ -96,7 +96,7 @@ abstract public class Node {
    */
   public String getName() {
     return "#" + this.type().toString();
-            
+
   }
 
   /**
@@ -149,6 +149,7 @@ abstract public class Node {
    * and chars are converted into plain text.
    * <p>
    * @return String
+   * <p>
    * @throws java.io.IOException
    */
   public abstract String plain() throws IOException;
@@ -178,6 +179,7 @@ abstract public class Node {
    * chars are converted into their unicode equivalents
    * <p>
    * @return String
+   * <p>
    * @throws java.io.IOException
    */
   public abstract String unicode() throws IOException;

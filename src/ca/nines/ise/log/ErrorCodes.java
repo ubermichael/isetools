@@ -24,7 +24,7 @@ public class ErrorCodes {
   private final HashMap<String, ErrorCode> list;
 
   public ErrorCodes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new File("/resources/data/errors.xml"));    
+    this(new File("/resources/data/errors.xml"));
   }
 
   public ErrorCodes(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {

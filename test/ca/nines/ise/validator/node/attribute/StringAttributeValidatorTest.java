@@ -34,7 +34,7 @@ public class StringAttributeValidatorTest extends ValidatorTestBase {
     Attribute attr;
     StringAttributeValidator validator = new StringAttributeValidator();
     n.setName("TWOATTRS");
-    
+
     n.setAttribute("n", "foo");
     attr = schema.getTag(n.getName()).getAttribute("n");
 
