@@ -6,12 +6,9 @@
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
-import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
 import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.EndNode;
-import ca.nines.ise.node.StartNode;
-import ca.nines.ise.node.TextNode;
+import ca.nines.ise.node.TagNode;
+import java.util.HashMap;
 
 /**
  *
@@ -19,6 +16,12 @@ import ca.nines.ise.node.TextNode;
  */
 public class TypographicCharNode extends CharNode {
 
+  private static final HashMap<String, String> charMap = new HashMap<>();
+  static {
+    charMap.put("{w}", "vv");
+    charMap.put("{W}", "VV");
+  }
+  
   /**
    * @return the charType
    */
@@ -28,46 +31,9 @@ public class TypographicCharNode extends CharNode {
   }
 
   @Override
-  public Fragment expanded() {
-    Fragment dom = new Fragment();
-
-    StartNode start = new StartNode(this);
-    start.setName("TYPEFORM");
-    start.setAttribute("setting", text);
-    dom.add(start);
-
-    TextNode node = new TextNode(this);
-    switch (innerText()) {
-      case "s":
-        start.setAttribute("t", "long");
-        node.setText("\u017F");
-        break;
-      case "r":
-        start.setAttribute("t", "long");
-        node.setText("\uA75B");
-        break;
-      case "R":
-        start.setAttribute("t", "long");
-        node.setText("\uA75A");
-        break;
-      case "w":
-        start.setAttribute("t", "w");
-        node.setText("vv");
-        break;
-      case "W":
-        start.setAttribute("t", "W");
-        node.setText("ww");
-        break;
-      default:
-        node.setText("\uFFFD");
-        Message m = Log.getInstance().error("char.typographic.unknown", this);
-        m.addNote("Typographic character " + text + " is unknown and cannot be transformed into unicode.");
-    }
-    dom.add(node);
-
-    EndNode end = new EndNode(this);
-    end.setName("TYPEFORM");
-    dom.add(end);
+  public Fragment expanded() {    
+    Fragment dom = wrap("TYPEFORM", charMap.get(text));
+    ((TagNode)dom.get(0)).setAttribute("t", this.innerText());
     return dom;
   }
 

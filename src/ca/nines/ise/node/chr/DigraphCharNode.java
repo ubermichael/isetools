@@ -6,12 +6,8 @@
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
-import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
 import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.EndNode;
-import ca.nines.ise.node.StartNode;
-import ca.nines.ise.node.TextNode;
+import java.util.HashMap;
 
 /**
  *
@@ -19,6 +15,16 @@ import ca.nines.ise.node.TextNode;
  */
 public class DigraphCharNode extends CharNode {
 
+  private static final HashMap<String, String> charMap = new HashMap<>();
+  static {
+    charMap.put("{ae}", "\u00e6");
+    charMap.put("{AE}", "\u00c6");
+    charMap.put("{oe}", "\u0153");
+    charMap.put("{OE}", "\u0152");
+    charMap.put("{qp}", "\u0239");
+    charMap.put("{db}", "\u0238");
+  }
+  
   /**
    * @return the charType
    */
@@ -29,44 +35,6 @@ public class DigraphCharNode extends CharNode {
 
   @Override
   public Fragment expanded() {
-    Fragment dom = new Fragment();
-
-    StartNode start = new StartNode(this);
-    start.setName("DIGRAPH");
-    start.setAttribute("setting", text);
-    dom.add(start);
-
-    TextNode node = new TextNode(this);
-    switch (innerText()) {
-      case "ae":
-        node.setText("æ");
-        break;
-      case "AE":
-        node.setText("Æ");
-        break;
-      case "oe":
-        node.setText("œ");
-        break;
-      case "OE":
-        node.setText("Œ");
-        break;
-      case "qp":
-        node.setText("ȹ");
-        break;
-      case "db":
-        node.setText("ȸ");
-        break;
-      default:
-        node.setText("�");
-        Message m = Log.getInstance().error("char.digraph.unknown", this);
-        m.addNote("Character " + text + " cannot be turned into a digraph.");
-    }
-    dom.add(node);
-
-    EndNode end = new EndNode(this);
-    end.setName("DIGRAPH");
-    dom.add(end);
-
-    return dom;
+    return wrap("DIGRAPH", charMap.get(text));
   }
 }

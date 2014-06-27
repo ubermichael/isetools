@@ -6,10 +6,8 @@
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
-import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
 import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.TextNode;
+import java.util.HashMap;
 
 /**
  *
@@ -17,6 +15,17 @@ import ca.nines.ise.node.TextNode;
  */
 public class UnicodeCharNode extends CharNode {
 
+  private static final HashMap<String, String> charMap = new HashMap<>();
+  static {
+    charMap.put("{s}", "\u017F");
+    charMap.put("{r}", "\uA75B");
+    charMap.put("{R}", "\uA75A");
+    charMap.put("{c}", "\u00e7");
+    charMap.put("{C}", "\u00c7");
+    charMap.put("{th}", "\u00fe");
+    charMap.put("{TH}", "\u00de");
+  }
+  
   /**
    * @return the charType
    */
@@ -27,29 +36,7 @@ public class UnicodeCharNode extends CharNode {
 
   @Override
   public Fragment expanded() {
-    Fragment dom = new Fragment();
-    TextNode node = new TextNode(this);
-
-    switch (innerText()) {
-      case "c":
-        node.setText("ç");
-        break;
-      case "C":
-        node.setText("Ç");
-        break;
-      case "th":
-        node.setText("þ");
-        break;
-      case "TH":
-        node.setText("Þ");
-        break;
-      default:
-        node.setText("�");
-        Message m = Log.getInstance().error("char.unicode.unknown", this);
-        m.addNote("Character " + text + " cannot be turned into unicode.");
-    }
-    dom.add(node);
-    return dom;
+    return wrap("UNICODE", charMap.get(text));
   }
 
 }
