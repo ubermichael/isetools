@@ -55,7 +55,7 @@ public class LogTest {
     TextNode node = new TextNode();
     node.setLine(32);
     node.setColumn(3);
-    node.setTln("33.2");
+    node.TLN("33.2");
     node.setSource("FOO");
     node.setText("abc");
     

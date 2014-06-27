@@ -32,30 +32,37 @@ public class AbbrNode extends Node {
     Pattern longAbbrPattern = Pattern.compile("^([a-zA-Z])\\^([a-zA-Z])$");
     Pattern shortAbbrPattern = Pattern.compile("^([a-zA-Z]+)$");
     Fragment fragment = new Fragment();
-    StartNode start = new StartNode("ABBR");
+    TagNode node = new StartNode(this);
+    node.setName("ABBR");
 
-    start.setAttribute("expan", "xxxxx");
-    fragment.add(start);
+    node.setAttribute("expan", "xxxxx");
+    fragment.add(node);
     Matcher m = longAbbrPattern.matcher(content);
     if (m.find()) {
-      TextNode textNode = new TextNode();
+      TextNode textNode = new TextNode(this);
       textNode.setText(m.group(1));
       fragment.add(textNode);
-      fragment.add(new StartNode("SUP"));
-      textNode = new TextNode();
+      node = new StartNode(this);
+      node.setName("SUP");
+      fragment.add(node);
+      textNode = new TextNode(this);
       textNode.setText(m.group(2));
       fragment.add(textNode);
-      fragment.add(new EndNode("SUP"));
+      node = new EndNode(this);
+      node.setName("SUP");
+      fragment.add(node);
     } else {
       if (!content.matches(shortAbbrPattern.pattern())) {
         Message msg = Log.getInstance().error("abbr.expand.syntax", this);
         msg.addNote("The syntax error occurs in " + text);
       }
-      TextNode tn = new TextNode();
+      TextNode tn = new TextNode(this);
       tn.setText(content);
       fragment.add(tn);
     }
-    fragment.add(new EndNode("ABBR"));
+    node = new EndNode(this);
+    node.setName("ABBR");
+    fragment.add(node);
 
     this._expanded = fragment;
 
