@@ -140,7 +140,7 @@ abstract public class Node {
   /**
    * @param tln the tln to set
    */
-  public void TLN(String tln) {
+  public void setTLN(String tln) {
     this.tln = tln;
   }
 

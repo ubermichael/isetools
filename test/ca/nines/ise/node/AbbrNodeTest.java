@@ -29,7 +29,7 @@ public class AbbrNodeTest extends TestBase {
     abbr.setAsl("3.2.1");
     abbr.setColumn(42);
     abbr.setLine(420);
-    abbr.TLN("11.3");
+    abbr.setTLN("11.3");
             
     Fragment result = abbr.expanded();
     Iterator<Node> iterator = result.iterator();
@@ -101,7 +101,7 @@ public class AbbrNodeTest extends TestBase {
     abbr.setAsl("3.2.1");
     abbr.setColumn(42);
     abbr.setLine(420);
-    abbr.TLN("11.3");
+    abbr.setTLN("11.3");
 
     Fragment result = abbr.expanded();
     Iterator<Node> iterator = result.iterator();
