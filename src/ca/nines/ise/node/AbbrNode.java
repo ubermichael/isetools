@@ -37,7 +37,7 @@ public class AbbrNode extends Node {
     start.setAttribute("expan", "xxxxx");
     fragment.add(start);
     Matcher m = longAbbrPattern.matcher(content);
-    if (m.matches()) {
+    if (m.find()) {
       TextNode textNode = new TextNode();
       textNode.setText(m.group(1));
       fragment.add(textNode);
