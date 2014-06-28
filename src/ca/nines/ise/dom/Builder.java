@@ -228,19 +228,18 @@ public class Builder extends ISEParserBaseListener {
    * @return the DOM built by parsing the string or file.
    */
   public DOM getDOM() {
-    LexerErrorListener lexListener = new LexerErrorListener();
-    lexListener.setSource(dom.getSource());
+    ParserErrorListener parserListener = new ParserErrorListener(dom.getLines());
+    parserListener.setSource(dom.getSource());
     ISELexer lexer = new ISELexer(ais);
     lexer.removeErrorListeners();
-    lexer.addErrorListener(lexListener);
+    lexer.addErrorListener(parserListener);
 
     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
-    ParserErrorListener parseListener = new ParserErrorListener();
-    parseListener.setSource(dom.getSource());
+    parserListener.setSource(dom.getSource());
     ISEParser parser = new ISEParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(parseListener);
+    parser.addErrorListener(parserListener);
 
     ParseTreeWalker ptw = new ParseTreeWalker();
     tokens = parser.getTokenStream();

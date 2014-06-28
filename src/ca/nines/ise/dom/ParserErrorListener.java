@@ -20,6 +20,11 @@ public class ParserErrorListener extends BaseErrorListener {
 
   private String source = "";
   private final Log log = Log.getInstance();
+  private final String lines[];
+  
+  ParserErrorListener(String[] lines) {
+    this.lines = lines;
+  }
 
   /**
    * Called automatically when the parser encounters an error.
@@ -43,10 +48,11 @@ public class ParserErrorListener extends BaseErrorListener {
           String msg,
           RecognitionException e) {
 
-    Message m = log.error("parser.grammar");
+    Message m = log.error("lexer.syntax");
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
     m.setSource(source);
+    m.setLine(lines[line-1]);
     m.addNote(msg.substring(0, Math.min(64, msg.length())));
   }
 
