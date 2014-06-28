@@ -60,6 +60,10 @@ public class DOM extends ArrayList<Node> {
 
     return lines[n];
   }
+  
+  public String[] getLines() {
+    return lines;
+  }
 
   /**
    * Store the lines of text used to create the DOM.
