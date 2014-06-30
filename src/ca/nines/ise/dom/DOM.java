@@ -183,13 +183,12 @@ public class DOM extends ArrayList<Node> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
 
     Iterator<Node> i = this.iterator();
 
     while (i.hasNext()) {
       Node n = i.next();
-      formatter.format("%s:%s%n", this.getSource(), n);
+      sb.append(n).append("\n");
     }
 
     return sb.toString();
