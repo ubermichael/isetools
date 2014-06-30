@@ -6,6 +6,7 @@
 package ca.nines.ise.document;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,14 +21,14 @@ import java.util.regex.Pattern;
  */
 public class Work implements Comparable<Work> {
 
-  private String path;
+  private File root;
   private String playCode;
-  private final HashMap<String, File> editions;
+  private final HashMap<String, Edition> editions;
 
-  public Work(File dir) throws IOException {
+  public Work(File root) throws IOException {
     this.editions = new HashMap<>();
-    path = dir.getCanonicalPath();
-    playCode = dir.getName();
+    this.root = root;
+    this.playCode = root.getName();
   }
 
   @Override
@@ -35,37 +36,53 @@ public class Work implements Comparable<Work> {
     return playCode.toLowerCase().compareTo(o.playCode.toLowerCase());
   }
 
-  public void addEdition(File f) {
+  public void addEdition(File f) throws IOException {
     Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
     Matcher m = p.matcher(f.getName());
     if (m.find()) {
-      editions.put(m.group(1), f);
+      editions.put(m.group(1), new Edition(f));
     }
   }
 
-  public String[] getEditions() {
-    String list[] = editions.keySet().toArray(new String[editions.size()]);
-    Arrays.sort(list);
-    return list;
+  public Edition[] getEditions() throws IOException {
+
+    File files[] = root.listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.matches("^[a-zA-Z0-9]+_[a-zA-Z0-9]+\\.txt$");
+      }
+    });
+
+    if (files.length == 0) {
+      return new Edition[0];
+    }
+
+    Pattern p = Pattern.compile("[a-zA-Z0-9]+_([a-zA-Z0-9]+)\\.txt");
+    for (File f : files) {
+      addEdition(f);
+    }
+    Edition e[] = editions.values().toArray(new Edition[editions.size()]);
+    Arrays.sort(e);
+    return e;
   }
 
-  public Edition getEdition(String code) throws IOException {
-    File filePath = editions.get(code);
-    return new Edition(filePath);
+  public String[] listEditions() {
+    return null;
+  }
+
+  public Edition getEdition(String code) {
+    return editions.get(code);
+  }
+
+  public boolean hasTitlePage() throws IOException {
+    return root.getCanonicalPath().contains("withTitlePage");
   }
 
   /**
-   * @return the path
+   * @return the root
    */
-  public String getPath() {
-    return path;
-  }
-
-  /**
-   * @param path the path to set
-   */
-  public void setPath(String path) {
-    this.path = path;
+  public String getPath() throws IOException {
+    return root.getCanonicalPath();
   }
 
   /**
@@ -86,14 +103,12 @@ public class Work implements Comparable<Work> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(playCode).append("\n");
-    for (String s : getEditions()) {
-      Edition edition;
-      try {
-        edition = new Edition(editions.get(s));
+    try {
+      for (Edition edition : getEditions()) {
         sb.append(edition);
-      } catch (IOException ex) {
-        Logger.getLogger(Work.class.getName()).log(Level.SEVERE, null, ex);
       }
+    } catch (IOException ex) {
+      Logger.getLogger(Work.class.getName()).log(Level.SEVERE, null, ex);
     }
     return sb.toString();
   }

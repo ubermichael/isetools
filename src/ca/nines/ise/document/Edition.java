@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  *
  * @author michael
  */
-public class Edition {
+public class Edition implements Comparable<Edition> {
 
   private final String parentDir;
   private final String fileName;
@@ -37,6 +37,11 @@ public class Edition {
       playCode = "";
       editionCode = "";
     }
+  }
+
+  @Override
+  public int compareTo(Edition o) {
+    return editionCode.toLowerCase().compareTo(o.editionCode.toLowerCase());
   }
 
   public boolean hasCollations() throws IOException {
