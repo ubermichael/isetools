@@ -6,10 +6,25 @@
 package ca.nines.ise.document;
 
 import ca.nines.ise.node.lemma.Note;
+import java.io.File;
 
 /**
  *
  * @author michael
  */
 public class Annotations extends Apparatus<Note> {
+
+  Annotations(File collationsFile) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public String nodeXpath() {
+    return "/annotations";
+  }
+
+  @Override
+  public String rootXPath() {
+    return "note";
+  }
 }
