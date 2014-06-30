@@ -20,17 +20,17 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
  *
  * @author michael
  */
-public class FileFinder extends DirectoryWalker {
+public class FileFinder extends DirectoryWalker<File> {
 
   FileFilter filter;
 
   @Override
-  protected boolean handleDirectory(File directory, int depth, Collection results) throws IOException {
+  protected boolean handleDirectory(File directory, int depth, Collection<File> results) throws IOException {
     return HiddenFileFilter.VISIBLE.accept(directory);
   }
 
   @Override
-  protected void handleFile(File file, int depth, Collection results) throws IOException {
+  protected void handleFile(File file, int depth, Collection<File> results) throws IOException {
     if (filter.accept(file)) {
       results.add(file);
     }
