@@ -6,6 +6,7 @@
 package ca.nines.ise.document;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -70,8 +71,17 @@ public class Work implements Comparable<Work> {
     return null;
   }
 
-  public Edition getEdition(String code) {
-    return editions.get(code);
+  public Edition getEdition(String code) throws IOException {
+    if(editions.containsKey(code)) {
+      return editions.get(code);
+    }
+    String editionPath = playCode + "_" + code + ".txt";
+    String path = root.getCanonicalPath() + "/" + editionPath;
+    File file = new File(path);
+    if(file.exists()) {
+      return new Edition(file);
+    }
+    throw new FileNotFoundException("Cannot find " + editionPath + " in " + root.getCanonicalPath());
   }
 
   public boolean hasTitlePage() throws IOException {
