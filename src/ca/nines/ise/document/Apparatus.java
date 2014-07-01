@@ -17,6 +17,8 @@ import org.xml.sax.SAXException;
 
 /**
  *
+ * @todo should this class just extend ArrayList<T> ?
+ * <p>
  * @author michael
  * @param <T>
  */
@@ -24,12 +26,12 @@ abstract public class Apparatus<T extends Lemma> {
 
   private final ArrayList<T> lemmas;
   private final String source;
-  
+
   public Apparatus() {
     lemmas = new ArrayList<>();
     source = "";
   }
-  
+
   public Apparatus(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new XMLFileReader(in));
   }
@@ -37,17 +39,26 @@ abstract public class Apparatus<T extends Lemma> {
   public Apparatus(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new XMLFileReader(in));
   }
-  
-  public Apparatus(Node in) throws ParserConfigurationException {
+
+  public Apparatus(Node in) throws ParserConfigurationException, XPathExpressionException {
     this(new XMLFileReader(in));
   }
-  
-  public Apparatus(XMLFileReader in) {
+
+  public Apparatus(XMLFileReader in) throws XPathExpressionException {
     lemmas = new ArrayList<>();
-    source = in.getSource();    
+    source = in.getSource();
+    Node root = in.xpathNode(rootXPath());
+    Node nodes[] = in.xpathList(nodeXPath(), root);
+    for (Node n : nodes) {
+      T lemma;
+      lemma = buildLemma(in, n);
+      lemmas.add(lemma);
+    }
   }
-  
+
   public abstract String rootXPath();
-  
-  public abstract String nodeXpath();
+
+  public abstract String nodeXPath();
+
+  public abstract T buildLemma(XMLFileReader in, Node n);
 }
