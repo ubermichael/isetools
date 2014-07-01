@@ -8,3 +8,6 @@
 /build
 /data
 /dist
+
+# netbeans stuff that shouldn't be in
+nbproject/private
