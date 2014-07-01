@@ -6,7 +6,9 @@
 package ca.nines.ise;
 
 import ca.nines.ise.document.Corpus;
+import ca.nines.ise.document.Edition;
 import ca.nines.ise.document.Work;
+import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 
 /**
@@ -20,7 +22,9 @@ public class Tester {
     try {
       Corpus corpus = new Corpus();
       Work w = corpus.getWork("Oth");
-      System.out.println(w);
+      Edition e = w.getEdition("M");
+      DOM d = e.getDOM();
+      System.out.println(d);
     } catch (Exception ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);

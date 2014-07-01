@@ -6,25 +6,53 @@
 package ca.nines.ise.document;
 
 import ca.nines.ise.node.lemma.Note;
+import ca.nines.ise.util.XMLFileReader;
 import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author michael
  */
-public class Annotations extends Apparatus<Note> {
+public class Annotations  extends Apparatus<Note> {
 
-  Annotations(File collationsFile) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public Annotations() {
+    super();
+  }
+  
+  public Annotations(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    super(in);
+  }
+  
+  public Annotations(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    super(in);
+  }
+  
+  public Annotations(Node in) throws ParserConfigurationException, XPathExpressionException {
+    super(in);
+  }
+  
+  public Annotations(XMLFileReader in) throws XPathExpressionException {
+    super(in);
   }
 
   @Override
-  public String nodeXpath() {
+  public String nodeXPath() {
     return "/annotations";
   }
 
   @Override
   public String rootXPath() {
     return "note";
+  }
+  
+  @Override
+  public Note buildLemma(XMLFileReader in, Node n) {
+    return null;
+    
   }
 }

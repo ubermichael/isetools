@@ -14,6 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -49,23 +52,22 @@ public class Edition implements Comparable<Edition> {
     File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
     return annotationsFile.exists();
   }
-  
-  public Collations getCollations() {
+
+  public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File collationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
     return new Collations(collationsFile);
   }
-    
 
   public boolean hasAnnotations() {
     File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
     return annotationsFile.exists();
   }
 
-  public Annotations getAnnotations() {
+  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     File collationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
     return new Annotations(collationsFile);
   }
-    
+
   public DOM getDOM() throws IOException {
     return new Builder(file).getDOM();
   }
