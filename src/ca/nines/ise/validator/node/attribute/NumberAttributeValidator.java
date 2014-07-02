@@ -16,7 +16,6 @@ import ca.nines.ise.schema.Attribute;
  * attribute validation.
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
- * @param <T>
  */
 public class NumberAttributeValidator extends AttributeValidator {
 
