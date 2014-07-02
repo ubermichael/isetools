@@ -6,13 +6,32 @@
 package ca.nines.ise.cmd;
 
 import java.util.HashMap;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  *
  * @author michael
  */
-public class Command {
+abstract public class Command {
 
   protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();
 
-}
+  abstract public String description();
+  
+  abstract public Options getOptions();
+
+  abstract public void execute(CommandLine cmd);
+  
+  public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
+    CommandLine cmd;
+    CommandLineParser parser = new BasicParser();
+    cmd = parser.parse(opts, args);
+    return cmd;
+  }
+
+}  
+  
