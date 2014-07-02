@@ -12,28 +12,22 @@ import org.apache.commons.cli.Options;
  *
  * @author michael
  */
-public class Validate extends Command {
+public class Error extends Command {
 
   @Override
   public String description() {
-    return "Validate an ISE SGMLish file";
+    return "Command error.";
   }
 
   @Override
   public Options getOptions() {
-    Options opts = new Options();
-    opts.addOption("l", false, "Send error messages to file");
+    Options opts = new Options();    
     return opts;
-  }
+  }  
 
   @Override
-  public void execute(CommandLine cmd) {
+  public void execute(CommandLine cmd) {    
+    System.out.println("Error");
     
-    System.out.println("validate.");
-    
-    if (cmd.hasOption("l")) {
-      System.out.println("found an L.");
-    }
   }
-
 }
