@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  * Usage example:
  * <p>
  * <
- * pre>  {@code
+ * pre> null {@code
  * DOM dom = new DOM();
  * Schema schema = new Schema(); // optional
  * DOMValidator validator = new DOMValidator(schema);
@@ -80,12 +80,14 @@ public class DOMValidator {
    * @param dom <p>
    * @throws Exception
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void validate(DOM dom) throws Exception {
+    NodeValidator validator;
+    Node n;
     Iterator<Node> i = dom.iterator();
     while (i.hasNext()) {
-      Node n = i.next();
-      NodeValidator validator = validators.get(n.type());
+      n = i.next();
+      validator = validators.get(n.type());
       if (validator == null) {
         throw new Exception("Unknown node type: " + n.type());
       }
