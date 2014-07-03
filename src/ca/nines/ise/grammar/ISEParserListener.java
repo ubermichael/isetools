@@ -20,15 +20,15 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitEndTag(@NotNull ISEParser.EndTagContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#charComplexLigature}.
+	 * Enter a parse tree produced by {@link ISEParser#charNested}.
 	 * @param ctx the parse tree
 	 */
-	void enterCharComplexLigature(@NotNull ISEParser.CharComplexLigatureContext ctx);
+	void enterCharNested(@NotNull ISEParser.CharNestedContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ISEParser#charComplexLigature}.
+	 * Exit a parse tree produced by {@link ISEParser#charNested}.
 	 * @param ctx the parse tree
 	 */
-	void exitCharComplexLigature(@NotNull ISEParser.CharComplexLigatureContext ctx);
+	void exitCharNested(@NotNull ISEParser.CharNestedContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#startTag}.
@@ -130,17 +130,6 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitAbbr(@NotNull ISEParser.AbbrContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#charSimpleLigature}.
-	 * @param ctx the parse tree
-	 */
-	void enterCharSimpleLigature(@NotNull ISEParser.CharSimpleLigatureContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ISEParser#charSimpleLigature}.
-	 * @param ctx the parse tree
-	 */
-	void exitCharSimpleLigature(@NotNull ISEParser.CharSimpleLigatureContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link ISEParser#charUnicode}.
 	 * @param ctx the parse tree
 	 */
@@ -227,6 +216,17 @@ public interface ISEParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTagName(@NotNull ISEParser.TagNameContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charLigature}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharLigature(@NotNull ISEParser.CharLigatureContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charLigature}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharLigature(@NotNull ISEParser.CharLigatureContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#comment}.
