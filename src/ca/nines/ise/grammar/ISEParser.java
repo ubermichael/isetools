@@ -17,24 +17,24 @@ public class ISEParser extends Parser {
 	public static final int
 		TAG_NAME=17, TAG_EQ=16, CHAR_TYPOGRAPHIC=8, TAG_END=13, COMMENT_GOOD=1, 
 		CHAR_SPACE=6, TAG_SLASH=15, ABBREVIATION=3, TAG_START=11, TAG_WS=18, ATTRIBUTE=20, 
-		CHAR_COMPLEX_LIGATURE=10, COMMENT_BAD=2, TAG_SLASH_END=14, CHAR_UNICODE=4, 
-		ATTRIBUTE_VALUE=19, CHAR_SIMPLE_LIGATURE=9, TEXT=12, CHAR_DIGRAPH=5, CHAR_ACCENT=7;
+		CHAR_LIGATURE=9, COMMENT_BAD=2, CHAR_NESTED=10, TAG_SLASH_END=14, CHAR_UNICODE=4, 
+		ATTRIBUTE_VALUE=19, TEXT=12, CHAR_DIGRAPH=5, CHAR_ACCENT=7;
 	public static final String[] tokenNames = {
 		"<INVALID>", "COMMENT_GOOD", "COMMENT_BAD", "ABBREVIATION", "CHAR_UNICODE", 
-		"CHAR_DIGRAPH", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_TYPOGRAPHIC", "CHAR_SIMPLE_LIGATURE", 
-		"CHAR_COMPLEX_LIGATURE", "'<'", "TEXT", "'>'", "'/>'", "'/'", "'='", "TAG_NAME", 
+		"CHAR_DIGRAPH", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_TYPOGRAPHIC", "CHAR_LIGATURE", 
+		"CHAR_NESTED", "'<'", "TEXT", "'>'", "'/>'", "'/'", "'='", "TAG_NAME", 
 		"TAG_WS", "ATTRIBUTE_VALUE", "ATTRIBUTE"
 	};
 	public static final int
 		RULE_document = 0, RULE_element = 1, RULE_abbr = 2, RULE_comment = 3, 
 		RULE_charUnicode = 4, RULE_charDigraph = 5, RULE_charSpace = 6, RULE_charAccent = 7, 
-		RULE_charTypographic = 8, RULE_charSimpleLigature = 9, RULE_charComplexLigature = 10, 
+		RULE_charTypographic = 8, RULE_charLigature = 9, RULE_charNested = 10, 
 		RULE_character = 11, RULE_attribute = 12, RULE_attributeName = 13, RULE_attributeValue = 14, 
 		RULE_emptyTag = 15, RULE_endTag = 16, RULE_startTag = 17, RULE_tag = 18, 
 		RULE_tagName = 19, RULE_content = 20;
 	public static final String[] ruleNames = {
 		"document", "element", "abbr", "comment", "charUnicode", "charDigraph", 
-		"charSpace", "charAccent", "charTypographic", "charSimpleLigature", "charComplexLigature", 
+		"charSpace", "charAccent", "charTypographic", "charLigature", "charNested", 
 		"character", "attribute", "attributeName", "attributeValue", "emptyTag", 
 		"endTag", "startTag", "tag", "tagName", "content"
 	};
@@ -98,7 +98,7 @@ public class ISEParser extends Parser {
 				setState(45); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT_GOOD) | (1L << COMMENT_BAD) | (1L << ABBREVIATION) | (1L << CHAR_UNICODE) | (1L << CHAR_DIGRAPH) | (1L << CHAR_SPACE) | (1L << CHAR_ACCENT) | (1L << CHAR_TYPOGRAPHIC) | (1L << CHAR_SIMPLE_LIGATURE) | (1L << CHAR_COMPLEX_LIGATURE) | (1L << TAG_START) | (1L << TEXT))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMMENT_GOOD) | (1L << COMMENT_BAD) | (1L << ABBREVIATION) | (1L << CHAR_UNICODE) | (1L << CHAR_DIGRAPH) | (1L << CHAR_SPACE) | (1L << CHAR_ACCENT) | (1L << CHAR_TYPOGRAPHIC) | (1L << CHAR_LIGATURE) | (1L << CHAR_NESTED) | (1L << TAG_START) | (1L << TEXT))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -166,8 +166,8 @@ public class ISEParser extends Parser {
 			case CHAR_SPACE:
 			case CHAR_ACCENT:
 			case CHAR_TYPOGRAPHIC:
-			case CHAR_SIMPLE_LIGATURE:
-			case CHAR_COMPLEX_LIGATURE:
+			case CHAR_LIGATURE:
+			case CHAR_NESTED:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(49); character();
@@ -459,29 +459,29 @@ public class ISEParser extends Parser {
 		return _localctx;
 	}
 
-	public static class CharSimpleLigatureContext extends ParserRuleContext {
-		public TerminalNode CHAR_SIMPLE_LIGATURE() { return getToken(ISEParser.CHAR_SIMPLE_LIGATURE, 0); }
-		public CharSimpleLigatureContext(ParserRuleContext parent, int invokingState) {
+	public static class CharLigatureContext extends ParserRuleContext {
+		public TerminalNode CHAR_LIGATURE() { return getToken(ISEParser.CHAR_LIGATURE, 0); }
+		public CharLigatureContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_charSimpleLigature; }
+		@Override public int getRuleIndex() { return RULE_charLigature; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterCharSimpleLigature(this);
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterCharLigature(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitCharSimpleLigature(this);
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitCharLigature(this);
 		}
 	}
 
-	public final CharSimpleLigatureContext charSimpleLigature() throws RecognitionException {
-		CharSimpleLigatureContext _localctx = new CharSimpleLigatureContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_charSimpleLigature);
+	public final CharLigatureContext charLigature() throws RecognitionException {
+		CharLigatureContext _localctx = new CharLigatureContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_charLigature);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68); match(CHAR_SIMPLE_LIGATURE);
+			setState(68); match(CHAR_LIGATURE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -495,29 +495,29 @@ public class ISEParser extends Parser {
 		return _localctx;
 	}
 
-	public static class CharComplexLigatureContext extends ParserRuleContext {
-		public TerminalNode CHAR_COMPLEX_LIGATURE() { return getToken(ISEParser.CHAR_COMPLEX_LIGATURE, 0); }
-		public CharComplexLigatureContext(ParserRuleContext parent, int invokingState) {
+	public static class CharNestedContext extends ParserRuleContext {
+		public TerminalNode CHAR_NESTED() { return getToken(ISEParser.CHAR_NESTED, 0); }
+		public CharNestedContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_charComplexLigature; }
+		@Override public int getRuleIndex() { return RULE_charNested; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterCharComplexLigature(this);
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).enterCharNested(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitCharComplexLigature(this);
+			if ( listener instanceof ISEParserListener ) ((ISEParserListener)listener).exitCharNested(this);
 		}
 	}
 
-	public final CharComplexLigatureContext charComplexLigature() throws RecognitionException {
-		CharComplexLigatureContext _localctx = new CharComplexLigatureContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_charComplexLigature);
+	public final CharNestedContext charNested() throws RecognitionException {
+		CharNestedContext _localctx = new CharNestedContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_charNested);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70); match(CHAR_COMPLEX_LIGATURE);
+			setState(70); match(CHAR_NESTED);
 			}
 		}
 		catch (RecognitionException re) {
@@ -532,14 +532,14 @@ public class ISEParser extends Parser {
 	}
 
 	public static class CharacterContext extends ParserRuleContext {
-		public CharSimpleLigatureContext charSimpleLigature() {
-			return getRuleContext(CharSimpleLigatureContext.class,0);
-		}
 		public CharTypographicContext charTypographic() {
 			return getRuleContext(CharTypographicContext.class,0);
 		}
-		public CharComplexLigatureContext charComplexLigature() {
-			return getRuleContext(CharComplexLigatureContext.class,0);
+		public CharNestedContext charNested() {
+			return getRuleContext(CharNestedContext.class,0);
+		}
+		public CharLigatureContext charLigature() {
+			return getRuleContext(CharLigatureContext.class,0);
 		}
 		public CharAccentContext charAccent() {
 			return getRuleContext(CharAccentContext.class,0);
@@ -573,10 +573,10 @@ public class ISEParser extends Parser {
 		try {
 			setState(79);
 			switch (_input.LA(1)) {
-			case CHAR_UNICODE:
+			case CHAR_ACCENT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(72); charUnicode();
+				setState(72); charAccent();
 				}
 				break;
 			case CHAR_DIGRAPH:
@@ -585,34 +585,34 @@ public class ISEParser extends Parser {
 				setState(73); charDigraph();
 				}
 				break;
-			case CHAR_SPACE:
+			case CHAR_LIGATURE:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(74); charSpace();
+				setState(74); charLigature();
 				}
 				break;
-			case CHAR_ACCENT:
+			case CHAR_NESTED:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(75); charAccent();
+				setState(75); charNested();
+				}
+				break;
+			case CHAR_SPACE:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(76); charSpace();
 				}
 				break;
 			case CHAR_TYPOGRAPHIC:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(76); charTypographic();
-				}
-				break;
-			case CHAR_SIMPLE_LIGATURE:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(77); charSimpleLigature();
+				setState(77); charTypographic();
 				}
 				break;
-			case CHAR_COMPLEX_LIGATURE:
+			case CHAR_UNICODE:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(78); charComplexLigature();
+				setState(78); charUnicode();
 				}
 				break;
 			default:
@@ -1081,17 +1081,17 @@ public class ISEParser extends Parser {
 		"\3\2\2\2\66\63\3\2\2\2\66\64\3\2\2\2\66\65\3\2\2\2\67\5\3\2\2\289\7\5"+
 		"\2\29\7\3\2\2\2:;\t\2\2\2;\t\3\2\2\2<=\7\6\2\2=\13\3\2\2\2>?\7\7\2\2?"+
 		"\r\3\2\2\2@A\7\b\2\2A\17\3\2\2\2BC\7\t\2\2C\21\3\2\2\2DE\7\n\2\2E\23\3"+
-		"\2\2\2FG\7\13\2\2G\25\3\2\2\2HI\7\f\2\2I\27\3\2\2\2JR\5\n\6\2KR\5\f\7"+
-		"\2LR\5\16\b\2MR\5\20\t\2NR\5\22\n\2OR\5\24\13\2PR\5\26\f\2QJ\3\2\2\2Q"+
-		"K\3\2\2\2QL\3\2\2\2QM\3\2\2\2QN\3\2\2\2QO\3\2\2\2QP\3\2\2\2R\31\3\2\2"+
-		"\2ST\5\34\17\2TU\7\22\2\2UV\5\36\20\2VY\3\2\2\2WY\5\34\17\2XS\3\2\2\2"+
-		"XW\3\2\2\2Y\33\3\2\2\2Z[\7\23\2\2[\35\3\2\2\2\\]\7\25\2\2]\37\3\2\2\2"+
-		"^_\7\r\2\2_c\5(\25\2`b\5\32\16\2a`\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2"+
-		"\2df\3\2\2\2ec\3\2\2\2fg\7\20\2\2g!\3\2\2\2hi\7\r\2\2ij\7\21\2\2jk\5("+
-		"\25\2kl\7\17\2\2l#\3\2\2\2mn\7\r\2\2nr\5(\25\2oq\5\32\16\2po\3\2\2\2q"+
-		"t\3\2\2\2rp\3\2\2\2rs\3\2\2\2su\3\2\2\2tr\3\2\2\2uv\7\17\2\2v%\3\2\2\2"+
-		"w{\5 \21\2x{\5\"\22\2y{\5$\23\2zw\3\2\2\2zx\3\2\2\2zy\3\2\2\2{\'\3\2\2"+
-		"\2|}\7\23\2\2})\3\2\2\2~\177\7\16\2\2\177+\3\2\2\2\t/\66QXcrz";
+		"\2\2\2FG\7\13\2\2G\25\3\2\2\2HI\7\f\2\2I\27\3\2\2\2JR\5\20\t\2KR\5\f\7"+
+		"\2LR\5\24\13\2MR\5\26\f\2NR\5\16\b\2OR\5\22\n\2PR\5\n\6\2QJ\3\2\2\2QK"+
+		"\3\2\2\2QL\3\2\2\2QM\3\2\2\2QN\3\2\2\2QO\3\2\2\2QP\3\2\2\2R\31\3\2\2\2"+
+		"ST\5\34\17\2TU\7\22\2\2UV\5\36\20\2VY\3\2\2\2WY\5\34\17\2XS\3\2\2\2XW"+
+		"\3\2\2\2Y\33\3\2\2\2Z[\7\23\2\2[\35\3\2\2\2\\]\7\25\2\2]\37\3\2\2\2^_"+
+		"\7\r\2\2_c\5(\25\2`b\5\32\16\2a`\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2"+
+		"df\3\2\2\2ec\3\2\2\2fg\7\20\2\2g!\3\2\2\2hi\7\r\2\2ij\7\21\2\2jk\5(\25"+
+		"\2kl\7\17\2\2l#\3\2\2\2mn\7\r\2\2nr\5(\25\2oq\5\32\16\2po\3\2\2\2qt\3"+
+		"\2\2\2rp\3\2\2\2rs\3\2\2\2su\3\2\2\2tr\3\2\2\2uv\7\17\2\2v%\3\2\2\2w{"+
+		"\5 \21\2x{\5\"\22\2y{\5$\23\2zw\3\2\2\2zx\3\2\2\2zy\3\2\2\2{\'\3\2\2\2"+
+		"|}\7\23\2\2})\3\2\2\2~\177\7\16\2\2\177+\3\2\2\2\t/\66QXcrz";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
