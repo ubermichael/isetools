@@ -30,13 +30,13 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharComplexLigature(@NotNull ISEParser.CharComplexLigatureContext ctx) { }
+	@Override public void enterCharNested(@NotNull ISEParser.CharNestedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCharComplexLigature(@NotNull ISEParser.CharComplexLigatureContext ctx) { }
+	@Override public void exitCharNested(@NotNull ISEParser.CharNestedContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -160,19 +160,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharSimpleLigature(@NotNull ISEParser.CharSimpleLigatureContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCharSimpleLigature(@NotNull ISEParser.CharSimpleLigatureContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -271,6 +258,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTagName(@NotNull ISEParser.TagNameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCharLigature(@NotNull ISEParser.CharLigatureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCharLigature(@NotNull ISEParser.CharLigatureContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

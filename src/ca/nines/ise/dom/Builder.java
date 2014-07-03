@@ -141,7 +141,7 @@ public class Builder extends ISEParserBaseListener {
   }
 
   @Override
-  public void enterCharComplexLigature(CharComplexLigatureContext ctx) {
+  public void enterCharNested(CharNestedContext ctx) {
     NestedCharNode n = (NestedCharNode) setupNode(new NestedCharNode(), ctx);
     dom.add(n);
   }
@@ -153,7 +153,7 @@ public class Builder extends ISEParserBaseListener {
   }
 
   @Override
-  public void enterCharSimpleLigature(CharSimpleLigatureContext ctx) {
+  public void enterCharLigature(CharLigatureContext ctx) {
     LigatureCharNode n = (LigatureCharNode) setupNode(new LigatureCharNode(), ctx);
     dom.add(n);
   }
