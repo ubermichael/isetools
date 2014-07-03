@@ -49,22 +49,22 @@ charTypographic
   : CHAR_TYPOGRAPHIC 
   ;
 
-charSimpleLigature
-  : CHAR_SIMPLE_LIGATURE
+charLigature
+  : CHAR_LIGATURE
   ;
 
-charComplexLigature
-  : CHAR_COMPLEX_LIGATURE
+charNested
+  : CHAR_NESTED
   ;
 
 character
-  : charUnicode 
+  : charAccent
   | charDigraph 
+  | charLigature
+  | charNested
   | charSpace
-  | charAccent
   | charTypographic
-  | charSimpleLigature
-  | charComplexLigature  
+  | charUnicode 
   ;
 
 // attributes before tags
