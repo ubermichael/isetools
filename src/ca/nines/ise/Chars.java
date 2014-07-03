@@ -68,9 +68,9 @@ public class Chars {
         types.put(type, new HashMap<String, Integer>());
       }
       
-      Iterator fi = fileList.iterator();
+      Iterator<File> fi = fileList.iterator();
       while (fi.hasNext()) {
-        File in = (File) fi.next();
+        File in = fi.next();
         DOM dom = new Builder(in).getDOM();
         Iterator<Node> i = dom.iterator();
         while (i.hasNext()) {

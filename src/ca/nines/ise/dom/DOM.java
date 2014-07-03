@@ -9,7 +9,6 @@ import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TagNode;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -23,6 +22,8 @@ import java.util.Iterator;
  */
 public class DOM extends ArrayList<Node> {
 
+  private static final long serialVersionUID = 6873891220450087299L;
+  
   private HashMap<String, Node> index = null;
   private String[] lines;
 
