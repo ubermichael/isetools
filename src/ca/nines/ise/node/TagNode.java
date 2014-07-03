@@ -75,10 +75,10 @@ abstract public class TagNode extends Node {
     StringBuilder sb = new StringBuilder(super.toString());
     Formatter formatter = new Formatter(sb);
     formatter.format(":%s(", tagname);
-    Iterator i = attributes.keySet().iterator();
+    Iterator<String> i = attributes.keySet().iterator();
 
     while (i.hasNext()) {
-      String name = (String) i.next();
+      String name = i.next();
       formatter.format("@%s=%s", name, attributes.get(name));
       if (i.hasNext()) {
         sb.append(", ");
@@ -93,7 +93,7 @@ abstract public class TagNode extends Node {
   }
 
   public String getAttribute(String name) {
-    return (String) attributes.get(name.toLowerCase());
+    return attributes.get(name.toLowerCase());
   }
 
   public void setAttribute(String name, String value) {

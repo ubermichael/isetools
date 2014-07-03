@@ -36,7 +36,7 @@ public class FileFinder extends DirectoryWalker<File> {
     }
   }
 
-  public ArrayList find(File startDirectory, String wildcard) throws IOException {
+  public ArrayList<File> find(File startDirectory, String wildcard) throws IOException {
     ArrayList<File> files = new ArrayList<>();
     filter = new WildcardFileFilter(wildcard);
     walk(startDirectory, files);
