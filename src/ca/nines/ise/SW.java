@@ -26,9 +26,9 @@ public class SW {
     if (options.length == 0) {
       return "";
     }
-    Iterator i = Arrays.asList(options).iterator();
+    Iterator<String> i = Arrays.asList(options).iterator();
     while (i.hasNext()) {
-      String s = (String) i.next();
+      String s = i.next();
       sb.append(s);
       if (i.hasNext()) {
         sb.append(", ");
