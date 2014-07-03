@@ -59,9 +59,9 @@ public class Abbrs {
 
       HashMap<String, Integer> m = new HashMap<>();
 
-      Iterator fi = fileList.iterator();
+      Iterator<File> fi = fileList.iterator();
       while (fi.hasNext()) {
-        File in = (File) fi.next();
+        File in = fi.next();
         DOM dom = new Builder(in).getDOM();
         tv.validate(dom);
         Iterator<Node> i = dom.iterator();
@@ -69,7 +69,7 @@ public class Abbrs {
           Node n = i.next();
           if (n.type() == Node.NodeType.ABBR) {
             if (n.getText().length() < 12) {
-              Integer c = (Integer) m.get(n.getText());
+              Integer c = m.get(n.getText());
               if (c == null) {
                 c = new Integer(1);
               } else {
