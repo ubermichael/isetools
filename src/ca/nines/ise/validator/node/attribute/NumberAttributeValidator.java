@@ -5,11 +5,11 @@
  */
 package ca.nines.ise.validator.node.attribute;
 
-import ca.nines.ise.validator.node.*;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
+import ca.nines.ise.validator.node.AttributeValidator;
 
 /**
  * Abstract class to handle the commonalities in tag validations. Also provides
