@@ -20,7 +20,7 @@ public class Tester {
     Log log = Log.getInstance();
     try {
       CharNode c = new CodePointChar();
-      c.setText("{\\uAC7E}");
+      c.setText("{\\u151}");
       System.out.println(c.expanded());
     } catch (IOException ex) {
       System.err.println(ex.getMessage());
