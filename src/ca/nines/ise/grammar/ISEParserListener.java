@@ -130,17 +130,6 @@ public interface ISEParserListener extends ParseTreeListener {
 	void exitAbbr(@NotNull ISEParser.AbbrContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link ISEParser#charUnicode}.
-	 * @param ctx the parse tree
-	 */
-	void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ISEParser#charUnicode}.
-	 * @param ctx the parse tree
-	 */
-	void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link ISEParser#character}.
 	 * @param ctx the parse tree
 	 */
@@ -150,6 +139,17 @@ public interface ISEParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCharacter(@NotNull ISEParser.CharacterContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charUnicode}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charUnicode}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#content}.
@@ -172,6 +172,17 @@ public interface ISEParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAttributeName(@NotNull ISEParser.AttributeNameContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link ISEParser#charCodePoint}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharCodePoint(@NotNull ISEParser.CharCodePointContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ISEParser#charCodePoint}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharCodePoint(@NotNull ISEParser.CharCodePointContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link ISEParser#emptyTag}.
