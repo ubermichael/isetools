@@ -14,17 +14,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 
 /**
  *
@@ -47,7 +41,7 @@ public class Syntax extends Command {
   @Override
   public void execute(CommandLine cmd) {
     try {
-      Collection<File> fileList = new ArrayList<>();
+      File[] files;
 
       Log log = Log.getInstance();
       Locale.setDefault(Locale.ENGLISH);
@@ -57,26 +51,13 @@ public class Syntax extends Command {
         out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
       }
 
-      List<String> argList = cmd.getArgList();
-      argList = argList.subList(1, argList.size());
-
-      if (argList.isEmpty()) {
-        File dir = new File("input");
-        SuffixFileFilter sfx = new SuffixFileFilter(".txt");
-        fileList = FileUtils.listFiles(dir, sfx, TrueFileFilter.INSTANCE);
-      } else {
-        for (String name : argList) {
-          fileList.add(new File(name));
-        }
-      }
-      if (fileList != null) {
-        out.println("Found " + fileList.size() + " files to check.");
-        for (File in : fileList) {
-          DOM dom = new Builder(in).getDOM();
-          if (log.count() > 0) {
-            out.println(log);
-            log.clear();
-          }
+      files = getFilePaths(cmd);
+      out.println("Found " + files.length + " files to check.");
+      for (File file : files) {
+        DOM dom = new Builder(file).getDOM();
+        if (log.count() > 0) {
+          out.println(log);
+          log.clear();
         }
       }
 
