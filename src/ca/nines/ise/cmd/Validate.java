@@ -68,7 +68,7 @@ public class Validate extends Command {
       argList = argList.subList(1, argList.size());
       
       if (argList.isEmpty()) {
-        File dir = new File("data/sgml");
+        File dir = new File("input");
         SuffixFileFilter sfx = new SuffixFileFilter(".txt");
         fileList = FileUtils.listFiles(dir, sfx, TrueFileFilter.INSTANCE);
       } else {
