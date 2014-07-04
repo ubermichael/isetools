@@ -8,38 +8,35 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.Builder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.node.Node;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.util.Formatter;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.xml.sax.SAXException;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <michael@negativespace.net>
  */
-public class Validate extends Command {
+public class Abbrs extends Command {
 
   @Override
   public String description() {
-    return "Validate one or more ISE SGML documents.";
+    return "Report depreciated abbreviations used in one or more ISE SGMLdocuments.";
   }
 
   @Override
   public Options getOptions() {
     Options opts = new Options();
-    opts.addOption("l", true, "Send error messages to log file");
+    opts.addOption("l", true, "Send output to log file");
     return opts;
   }
 
@@ -59,33 +56,29 @@ public class Validate extends Command {
       }
 
       files = getFilePaths(cmd);
+      Formatter formatter = new Formatter(out);
+
       if (files != null) {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
           DOM dom = new Builder(in).getDOM();
-          validator.validate(dom);
-          if (log.count() > 0) {
-            out.println(log);
-            log.clear();
+          dom.index();
+          Iterator<Node> iterator = dom.iterator();
+          while (iterator.hasNext()) {
+            Node n = iterator.next();
+            if (n.type() == Node.NodeType.ABBR) {
+              formatter.format("%s:%d:%d%n", n.getSource(), n.getLine(), n.getColumn());
+              formatter.format("  near TLN %s%n", n.getTLN());
+              formatter.format("  %s%n", n.getText().substring(0, Math.min(64, n.getText().length())));
+              formatter.format("  %s%n", dom.getLine(n.getLine() - 1));
+              formatter.format("%n");
+            }
           }
-          log.clear();
         }
       }
-
-    } catch (UnsupportedEncodingException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (FileNotFoundException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ParserConfigurationException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (SAXException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (XPathExpressionException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     } catch (Exception ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(Abbrs.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
+
 }
