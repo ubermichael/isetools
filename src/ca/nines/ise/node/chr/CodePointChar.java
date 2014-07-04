@@ -6,6 +6,8 @@
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
+import ca.nines.ise.log.Log;
+import ca.nines.ise.log.Message;
 import ca.nines.ise.node.CharNode;
 import java.text.Normalizer;
 import java.util.regex.Matcher;
@@ -18,7 +20,7 @@ import java.util.regex.Pattern;
 public class CodePointChar extends CharNode {
 
   Pattern p = Pattern.compile("\\\\u(\\p{XDigit}+)");
-  
+
   /**
    * @return the charType
    */
@@ -30,15 +32,20 @@ public class CodePointChar extends CharNode {
   @Override
   public Fragment expanded() {
     Matcher m = p.matcher(innerText());
-    if(m.matches()) {
-      String hex = m.group(1);
-      int codePoint = Integer.parseInt(hex, 16);
-      char[] c = Character.toChars(codePoint);
-      String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
-      return wrap("CODEPOINT", str);
+    try {
+      if (m.matches()) {
+        String hex = m.group(1);
+        int codePoint = Integer.parseInt(hex, 16);
+        char[] c = Character.toChars(codePoint);
+        String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
+        return wrap("CODEPOINT", str);
+      }
+    } catch (IllegalArgumentException e) {
+      Message message = Log.getInstance().error("char.codepoint.unknown");
+      message.addNote("Cannot parse " + innerText() + " as a hexidecimal code point.");
     }
-    
-    return wrap("CODEPOINT", (String)null);
+
+    return wrap("CODEPOINT", (String) null);
   }
 
 }
