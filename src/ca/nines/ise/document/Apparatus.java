@@ -10,6 +10,7 @@ import ca.nines.ise.util.XMLFileReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
@@ -22,13 +23,11 @@ import org.xml.sax.SAXException;
  * @author michael
  * @param <T>
  */
-abstract public class Apparatus<T extends Lemma> {
+abstract public class Apparatus<T extends Lemma> extends ArrayList<T> {
 
-  private final ArrayList<T> lemmas;
   private final String source;
 
   public Apparatus() {
-    lemmas = new ArrayList<>();
     source = "";
   }
 
@@ -45,14 +44,13 @@ abstract public class Apparatus<T extends Lemma> {
   }
 
   public Apparatus(XMLFileReader in) throws XPathExpressionException {
-    lemmas = new ArrayList<>();
     source = in.getSource();
     Node root = in.xpathNode(rootXPath());
     Node nodes[] = in.xpathList(nodeXPath(), root);
     for (Node n : nodes) {
       T lemma;
       lemma = buildLemma(in, n);
-      lemmas.add(lemma);
+      add(lemma);
     }
   }
 
@@ -61,4 +59,9 @@ abstract public class Apparatus<T extends Lemma> {
   public abstract String nodeXPath();
 
   public abstract T buildLemma(XMLFileReader in, Node n);
+  
+  @Override
+  public Iterator<T> iterator() {
+    return super.iterator();
+  }
 }
