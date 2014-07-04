@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.cmd;
+package ca.nines.ise;
 
-import java.util.HashMap;
+import ca.nines.ise.cmd.Command;
+import ca.nines.ise.cmd.Error;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
@@ -43,21 +44,18 @@ public class Executor {
 
     if (args.length != 0) {
       commandName = args[0];
-      System.arraycopy(args, 0, args, 1, args.length - 1);
     }
-    String commandPkg = "ca.nines.ise.cmd." + commandName.substring(0,1).toUpperCase() + commandName.substring(1);
+    String commandPkg = "ca.nines.ise.cmd." + commandName.substring(0, 1).toUpperCase() + commandName.substring(1);
+    cmd = new Error();
+
     try {
       cmd = (Command) Class.forName(commandPkg).newInstance();
     } catch (ClassNotFoundException e) {
-      System.err.println("Cannot find command " + commandName);
-      System.err.println("Should be " + commandPkg);
-      cmd = new Error();
+      System.err.println("Cannot find command " + commandName + " in " + commandPkg);
     } catch (InstantiationException e) {
       System.err.println("Cannot instantiate command " + commandName);
-      cmd = new Error();
     } catch (IllegalAccessException e) {
       System.err.println("Cannot access command " + commandName);
-      cmd = new Error();
     }
 
     opts = cmd.getOptions();
@@ -65,7 +63,7 @@ public class Executor {
     try {
       cmdline = cmd.getCommandLine(opts, args);
     } catch (ParseException ex) {
-      Logger.getLogger(Executor.class.getName()).log(Level.SEVERE, null, ex);
+      System.err.println(ex.getMessage());
     }
 
     if (cmdline == null) {
