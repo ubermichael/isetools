@@ -24,6 +24,10 @@ CHAR_UNICODE
     ) 
   ;
 
+CHAR_CODEPOINT
+  : '{\\u' [0-9a-fA-F]+ '}'
+  ;
+
 CHAR_DIGRAPH 
   :           
     ( '{ae}'        // ae digraph               æ   U+00E6

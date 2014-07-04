@@ -175,6 +175,12 @@ public class Builder extends ISEParserBaseListener {
     UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
     dom.add(n);
   }
+  
+  @Override
+  public void enterCharCodePoint(CharCodePointContext ctx) {
+    UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
+    dom.add(n);
+  }  
 
   @Override
   public void enterComment(CommentContext ctx) {

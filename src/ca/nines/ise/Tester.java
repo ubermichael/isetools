@@ -5,11 +5,10 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.document.Corpus;
-import ca.nines.ise.document.Edition;
-import ca.nines.ise.document.Work;
-import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.chr.CodePointChar;
+import java.io.IOException;
 
 /**
  *
@@ -20,12 +19,10 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      Corpus corpus = new Corpus();
-      Work w = corpus.getWork("Oth");
-      Edition e = w.getEdition("M");
-      DOM d = e.getDOM();
-      System.out.println(d);
-    } catch (Exception ex) {
+      CharNode c = new CodePointChar();
+      c.setText("{\\uAC7E}");
+      System.out.println(c.expanded());
+    } catch (IOException ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);
     }

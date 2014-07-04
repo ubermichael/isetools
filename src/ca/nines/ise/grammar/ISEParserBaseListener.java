@@ -160,19 +160,6 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCharacter(@NotNull ISEParser.CharacterContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -180,6 +167,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCharacter(@NotNull ISEParser.CharacterContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCharUnicode(@NotNull ISEParser.CharUnicodeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -206,6 +206,19 @@ public class ISEParserBaseListener implements ISEParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAttributeName(@NotNull ISEParser.AttributeNameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCharCodePoint(@NotNull ISEParser.CharCodePointContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCharCodePoint(@NotNull ISEParser.CharCodePointContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
