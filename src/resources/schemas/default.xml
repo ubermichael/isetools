@@ -60,7 +60,7 @@
       <desc><![CDATA[Black Letter (not to be confused with BL, previously the indication of a blank line).]]></desc>
     </tag>
     <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE" where="oldspelling">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[Previously used to denote a quoted piece of text (e.g. letter).></desc>
     </tag>
     <tag name="BR" empty="yes" where="apparatus">
       <desc><![CDATA[Forces a line break where no other option is available. To be used with caution.]]></desc>
@@ -379,11 +379,6 @@
       <desc><![CDATA[]]></desc>
       <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
-      </attribute>
-      <attribute name="type" type="select">
-        <desc><![CDATA[]]></desc>
-        <option>prose</option>
-        <option>verse</option>
       </attribute>
     </tag>
     <tag name="R" where="primary">
