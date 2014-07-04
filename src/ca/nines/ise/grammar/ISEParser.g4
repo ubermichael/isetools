@@ -33,6 +33,10 @@ charUnicode
   : CHAR_UNICODE 
   ;
 
+charCodePoint
+  : CHAR_CODEPOINT
+  ;
+
 charDigraph 
   : CHAR_DIGRAPH 
   ;
