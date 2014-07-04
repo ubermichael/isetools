@@ -22,13 +22,13 @@ public class NestedCharNodeTest extends TestBase {
    */
   @Test
   public void testExpanded() throws Exception {
-    System.out.println("expanded");
-    NestedCharNode instance = new NestedCharNode();
-    Fragment expResult = null;
-    Fragment result = instance.expanded();
-    assertEquals(expResult, result);
-    // TODO review the generated test code and remove the default call to fail.
-    fail("The test case is a prototype.");
+//    System.out.println("expanded");
+//    NestedCharNode instance = new NestedCharNode();
+//    Fragment expResult = null;
+//    Fragment result = instance.expanded();
+//    assertEquals(expResult, result);
+//    // TODO review the generated test code and remove the default call to fail.
+//    fail("The test case is a prototype.");
   }
 
 }
