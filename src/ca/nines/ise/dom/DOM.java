@@ -20,15 +20,28 @@ import java.util.Iterator;
  * DOM also stores all of the text used to create the DOM, so it can be accessed
  * later.
  */
-public class DOM extends ArrayList<Node> {
+public class DOM {
 
-  private static final long serialVersionUID = 6873891220450087299L;
-  
-  private HashMap<String, Node> index = null;
+  private final HashMap<String, Node> index;
   private String[] lines;
+
+  private final ArrayList<Node> nodes;
 
   private String source;
 
+  public DOM() {
+    nodes = new ArrayList<>();
+    index = new HashMap<>();
+  }
+  
+  public void add(Node n) {
+    nodes.add(n);
+  }
+  
+  public void addAll(DOM dom) {
+    nodes.addAll(dom.nodes);
+  }
+  
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
     Iterator<Node> iterator = this.iterator();
@@ -39,6 +52,10 @@ public class DOM extends ArrayList<Node> {
     return dom;
   }
 
+  public Node get(int i) {
+    return nodes.get(i);
+  }
+  
   /**
    * Get the nth line of text which was parsed to create the DOM. Note that the
    * lines are stored in a zero-based array. Line numbers in nodes are
@@ -67,21 +84,21 @@ public class DOM extends ArrayList<Node> {
   }
 
   /**
-   * Store the lines of text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String lines) {
-    this.lines = lines.split("\n");
-  }
-
-  /**
    * Store the text used to create the DOM.
    * <p>
    * @param lines The data used to create the DOM.
    */
   public void setLines(String[] lines) {
     this.lines = lines;
+  }
+
+  /**
+   * Store the lines of text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String lines) {
+    this.lines = lines.split("\n");
   }
 
   /**
@@ -93,14 +110,9 @@ public class DOM extends ArrayList<Node> {
   public String getSource() {
     return source;
   }
-
-  /**
-   * Set the source for the DOM, either "#STRING" or the absolute file path.
-   * <p>
-   * @param source
-   */
-  protected void setSource(String source) {
-    this.source = source;
+  
+  public boolean hasIndex() {
+    return index.size() > 0;
   }
 
   /**
@@ -113,7 +125,7 @@ public class DOM extends ArrayList<Node> {
    */
   public void index() {
     Iterator<Node> i = this.iterator();
-    index = new HashMap<>();
+    index.clear();
     String act = "0";
     String scene = "0";
     String line = "0";
@@ -141,14 +153,13 @@ public class DOM extends ArrayList<Node> {
     }
   }
 
-  public String unicode() throws IOException {
-    StringBuilder sb = new StringBuilder();
-    Iterator<Node> iterator = iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      sb.append(node.unicode());
-    }
-    return sb.toString();
+  /**
+   * Create an return an iterator for the DOM.
+   * <p>
+   * @return an return an iterator for the DOM.
+   */
+  public Iterator<Node> iterator() {
+    return nodes.iterator();
   }
 
   public String plain() throws IOException {
@@ -159,16 +170,6 @@ public class DOM extends ArrayList<Node> {
       sb.append(node.plain());
     }
     return sb.toString();
-  }
-
-  /**
-   * Create an return an iterator for the DOM.
-   * <p>
-   * @return an return an iterator for the DOM.
-   */
-  @Override
-  public Iterator<Node> iterator() {
-    return super.iterator();
   }
 
   /**
@@ -191,8 +192,31 @@ public class DOM extends ArrayList<Node> {
       Node n = i.next();
       sb.append(n).append("\n");
     }
-
+    
     return sb.toString();
   }
+
+  public String unicode() throws IOException {
+    StringBuilder sb = new StringBuilder();
+    Iterator<Node> iterator = iterator();
+    while (iterator.hasNext()) {
+      Node node = iterator.next();
+      sb.append(node.unicode());
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Set the source for the DOM, either "#STRING" or the absolute file path.
+   * <p>
+   * @param source
+   */
+  protected void setSource(String source) {
+    this.source = source;
+  }
+
+    public int size() {
+      return nodes.size();
+    }
 
 }
