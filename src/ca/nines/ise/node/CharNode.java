@@ -97,6 +97,7 @@ abstract public class CharNode extends Node {
   public enum CharType {
 
     ACCENT,
+    CODEPOINT,
     DIGRAPH,
     LIGATURE,
     SPACE,
