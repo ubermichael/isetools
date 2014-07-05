@@ -6,6 +6,7 @@
 package ca.nines.ise.cmd;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,6 +15,7 @@ import java.util.List;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
@@ -58,9 +60,23 @@ abstract public class Command {
     File[] files = fileList.toArray(new File[fileList.size()]);
     Arrays.sort(files);
     return files;
+  }
 
+  public String[] getArgList(CommandLine cmd) {
+    List<String> argList = cmd.getArgList();
+    argList = argList.subList(1, argList.size());
+    return argList.toArray(new String[argList.size()]);
+  }
+
+  public void help() {
+    HelpFormatter formatter = new HelpFormatter();
+    System.out.println(description());
+    formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage(), getOptions());
   }
 
   public abstract Options getOptions();
 
+  public String getUsage() {
+    return "[options] [files]";
+  }
 }

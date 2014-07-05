@@ -12,3 +12,4 @@
 # netbeans stuff that shouldn't be in
 nbproject/private
 input
+install

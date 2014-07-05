@@ -43,6 +43,7 @@ public class Main {
     }
 
     opts = cmd.getOptions();
+    opts.addOption("h", false, "Show command options");
     cmdline = null;
     try {
       cmdline = cmd.getCommandLine(opts, args);
@@ -52,24 +53,14 @@ public class Main {
 
     if (cmdline == null) {
       System.exit(-1);
+      return;
+    }
+    
+    if(cmdline.hasOption("h")) {
+      cmd.help();
+      return;
     }
 
     cmd.execute(cmdline);
-  }
-
-  public Command getCommand(String commandName) {
-    String className = "ca.nines.ise.cmd." + commandName.substring(0, 1).toUpperCase() + commandName.substring(1);
-    Command cmd;
-    
-    try {
-      cmd = (Command) Class.forName(commandName).newInstance();
-    } catch (ClassNotFoundException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return null;
   }
 }

@@ -24,7 +24,7 @@ public class Work implements Comparable<Work> {
 
   private final HashMap<String, Edition> editions;
   private String playCode;
-  private File root;
+  private final File root;
 
   public Work(File root) throws IOException {
     this.editions = new HashMap<>();
@@ -32,15 +32,15 @@ public class Work implements Comparable<Work> {
     this.playCode = root.getName();
   }
 
-    public void addEdition(File f) throws IOException {
-      Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
-      Matcher m = p.matcher(f.getName());
-      if (m.find()) {
-        editions.put(m.group(1), new Edition(f));
-      }
+  public void addEdition(File f) throws IOException {
+    Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
+    Matcher m = p.matcher(f.getName());
+    if (m.find()) {
+      editions.put(m.group(1), new Edition(f));
     }
+  }
 
-    @Override
+  @Override
   public int compareTo(Work o) {
     return playCode.toLowerCase().compareTo(o.playCode.toLowerCase());
   }

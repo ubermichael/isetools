@@ -21,13 +21,10 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author michael
  */
 public class Corpus {
+
   private final File root;
 
   private final HashMap<String, Work> works = new HashMap<>();
-
-  public Corpus() throws IOException {
-    this(Config.getInstance().getSourceDir());
-  }
 
   public Corpus(String root) throws IOException {
     this(new File(root));
