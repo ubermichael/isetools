@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class Coll extends Lemma {
+
   public Coll(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }

@@ -6,7 +6,6 @@
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.XMLFileReader;
-import ca.nines.ise.util.XMLReader;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;

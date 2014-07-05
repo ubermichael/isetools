@@ -35,7 +35,6 @@ public class Message implements Comparable<Message> {
   private String line = "";
   private int lineNumber = 0;
   private final ArrayList<String> notes = new ArrayList<>();
-
   private String source = "(unknown)";
 
   /**
