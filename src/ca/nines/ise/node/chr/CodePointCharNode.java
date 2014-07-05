@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class CodePointChar extends CharNode {
+public class CodePointCharNode extends CharNode {
 
   Pattern p = Pattern.compile("\\\\u(\\p{XDigit}+)");
 
@@ -41,7 +41,7 @@ public class CodePointChar extends CharNode {
         return wrap("CODEPOINT", str);
       }
     } catch (IllegalArgumentException e) {
-      Message message = Log.getInstance().error("char.codepoint.unknown");
+      Message message = Log.getInstance().error("char.codepoint.unknown", this);
       message.addNote("Cannot parse " + innerText() + " as a hexidecimal code point.");
     }
 
