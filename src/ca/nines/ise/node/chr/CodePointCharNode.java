@@ -26,7 +26,7 @@ public class CodePointCharNode extends CharNode {
    */
   @Override
   public CharType getCharType() {
-    return CharType.UNICODE;
+    return CharType.CODEPOINT;
   }
 
   @Override

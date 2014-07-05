@@ -7,7 +7,7 @@ package ca.nines.ise;
 
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.chr.CodePointChar;
+import ca.nines.ise.node.chr.CodePointCharNode;
 import java.io.IOException;
 
 /**
@@ -19,7 +19,7 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      CharNode c = new CodePointChar();
+      CharNode c = new CodePointCharNode();
       c.setText("{\\u151}");
       System.out.println(c.expanded());
     } catch (IOException ex) {

@@ -42,5 +42,89 @@ abstract public class Lemma {
   public Lemma(XMLFileReader in) throws XPathExpressionException {
   }
 
+  /**
+   * @return the lem
+   */
+  public String getLem() {
+    return lem;
+  }
+
+  /**
+   * @param lem the lem to set
+   */
+  public void setLem(String lem) {
+    this.lem = lem;
+  }
+
+  /**
+   * @return the lineNumber
+   */
+  public String getLineNumber() {
+    return lineNumber;
+  }
+
+  /**
+   * @param lineNumber the lineNumber to set
+   */
+  public void setLineNumber(String lineNumber) {
+    this.lineNumber = lineNumber;
+  }
+
+  /**
+   * @return the node
+   */
+  public String getNode() {
+    return node;
+  }
+
+  /**
+   * @param node the node to set
+   */
+  public void setNode(String node) {
+    this.node = node;
+  }
+
+  /**
+   * @return the source
+   */
+  public String getSource() {
+    return source;
+  }
+
+  /**
+   * @param source the source to set
+   */
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  /**
+   * @return the tln
+   */
+  public String getTln() {
+    return tln;
+  }
+
+  /**
+   * @param tln the tln to set
+   */
+  public void setTln(String tln) {
+    this.tln = tln;
+  }
+
+  /**
+   * @return the xml
+   */
+  public String getXml() {
+    return xml;
+  }
+
+  /**
+   * @param xml the xml to set
+   */
+  public void setXml(String xml) {
+    this.xml = xml;
+  }
+
   
 }
