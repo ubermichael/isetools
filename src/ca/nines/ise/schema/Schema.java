@@ -20,9 +20,9 @@ import org.xml.sax.SAXException;
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Schema {
+  private final String source;
 
   private final HashMap<String, Tag> tags;
-  private final String source;
 
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new File("/resources/schemas/default.xml"));

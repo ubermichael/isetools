@@ -26,6 +26,17 @@ abstract public class Node {
   protected String text = "";
   protected String tln = "";
 
+  public enum NodeType {
+
+    ABBR,
+    CHAR,
+    COMMENT,
+    EMPTY,
+    END,
+    START,
+    TEXT
+  }
+
   public Node() {
     // do nothing.
   }
@@ -114,6 +125,20 @@ abstract public class Node {
   }
 
   /**
+   * @return the tln
+   */
+  public String getTLN() {
+    return tln;
+  }
+
+  /**
+   * @param tln the tln to set
+   */
+  public void setTLN(String tln) {
+    this.tln = tln;
+  }
+
+  /**
    * @return the text
    */
   public String getText() {
@@ -128,20 +153,6 @@ abstract public class Node {
     this._expanded = null;
     this._unicode = null;
     this.text = text;
-  }
-
-  /**
-   * @return the tln
-   */
-  public String getTLN() {
-    return tln;
-  }
-
-  /**
-   * @param tln the tln to set
-   */
-  public void setTLN(String tln) {
-    this.tln = tln;
   }
 
   /**
@@ -183,16 +194,5 @@ abstract public class Node {
    * @throws java.io.IOException
    */
   public abstract String unicode() throws IOException;
-
-  public enum NodeType {
-
-    ABBR,
-    CHAR,
-    COMMENT,
-    EMPTY,
-    END,
-    START,
-    TEXT
-  }
 
 }

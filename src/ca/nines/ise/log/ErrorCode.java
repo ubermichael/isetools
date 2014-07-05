@@ -14,13 +14,18 @@ import java.util.Formatter;
 public class ErrorCode implements Comparable<ErrorCode> {
 
   private final String code;
-  private final String severity;
   private final String message;
+  private final String severity;
 
   public ErrorCode(String code, String severity, String message) {
     this.code = code;
     this.severity = severity;
     this.message = message.trim();
+  }
+
+  @Override
+  public int compareTo(ErrorCode o) {
+    return this.code.compareTo(o.code);
   }
 
   /**
@@ -31,23 +36,18 @@ public class ErrorCode implements Comparable<ErrorCode> {
   }
 
   /**
-   * @return the severity
-   */
-  public String getSeverity() {
-    return severity;
-  }
-
-  /**
    * @return the message
    */
   public String getMessage() {
     return message;
   }
 
-  @Override
-  public int compareTo(ErrorCode o) {
-    return this.code.compareTo(o.code);
-  }
+  /**
+   * @return the severity
+   */
+    public String getSeverity() {
+      return severity;
+    }
 
   @Override
   public String toString() {

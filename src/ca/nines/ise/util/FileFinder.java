@@ -24,7 +24,21 @@ public class FileFinder extends DirectoryWalker<File> {
 
   FileFilter filter;
 
-  @Override
+    public ArrayList<File> find(File startDirectory, String wildcard) throws IOException {
+      ArrayList<File> files = new ArrayList<>();
+      filter = new WildcardFileFilter(wildcard);
+      walk(startDirectory, files);
+      return files;
+    }
+
+    public ArrayList<File> find(File startDirectory, Pattern matcher) throws IOException {
+      ArrayList<File> files = new ArrayList<>();
+      filter = new RegexFileFilter(matcher);
+      walk(startDirectory, files);
+      return files;
+    }
+
+    @Override
   protected boolean handleDirectory(File directory, int depth, Collection<File> results) throws IOException {
     return HiddenFileFilter.VISIBLE.accept(directory);
   }
@@ -34,20 +48,6 @@ public class FileFinder extends DirectoryWalker<File> {
     if (filter.accept(file)) {
       results.add(file);
     }
-  }
-
-  public ArrayList<File> find(File startDirectory, String wildcard) throws IOException {
-    ArrayList<File> files = new ArrayList<>();
-    filter = new WildcardFileFilter(wildcard);
-    walk(startDirectory, files);
-    return files;
-  }
-
-  public ArrayList<File> find(File startDirectory, Pattern matcher) throws IOException {
-    ArrayList<File> files = new ArrayList<>();
-    filter = new RegexFileFilter(matcher);
-    walk(startDirectory, files);
-    return files;
   }
 
 }

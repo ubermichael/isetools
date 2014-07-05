@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class UnicodeCharNode extends CharNode {
 
   private static final HashMap<String, String> charMap = new HashMap<>();
+
   static {
     charMap.put("{s}", "\u017F");
     charMap.put("{P}", "\u00B6");
@@ -26,18 +27,18 @@ public class UnicodeCharNode extends CharNode {
     charMap.put("{th}", "\u00fe");
     charMap.put("{TH}", "\u00de");
   }
-  
+
+  @Override
+  public Fragment expanded() {
+    return wrap("UNICODE", charMap.get(text));
+  }
+
   /**
    * @return the charType
    */
   @Override
   public CharType getCharType() {
     return CharType.UNICODE;
-  }
-
-  @Override
-  public Fragment expanded() {
-    return wrap("UNICODE", charMap.get(text));
   }
 
 }

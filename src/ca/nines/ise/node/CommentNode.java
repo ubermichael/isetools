@@ -22,11 +22,6 @@ public class CommentNode extends Node {
   }
 
   @Override
-  public NodeType type() {
-    return NodeType.COMMENT;
-  }
-
-  @Override
   public Fragment expanded() {
     CommentNode node = new CommentNode(this);
     Fragment f = new Fragment();
@@ -37,6 +32,11 @@ public class CommentNode extends Node {
   @Override
   public String plain() {
     return "";
+  }
+
+  @Override
+  public NodeType type() {
+    return NodeType.COMMENT;
   }
 
   @Override

@@ -32,13 +32,6 @@ public class Syntax extends Command {
   }
 
   @Override
-  public Options getOptions() {
-    Options opts = new Options();
-    opts.addOption("l", true, "Send error messages to log file");
-    return opts;
-  }
-
-  @Override
   public void execute(CommandLine cmd) {
     try {
       File[] files;
@@ -68,6 +61,13 @@ public class Syntax extends Command {
     } catch (IOException ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
+
+  @Override
+  public Options getOptions() {
+    Options opts = new Options();
+    opts.addOption("l", true, "Send error messages to log file");
+    return opts;
   }
 
 }

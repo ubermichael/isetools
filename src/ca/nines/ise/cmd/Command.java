@@ -29,39 +29,38 @@ abstract public class Command {
   protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();
 
   abstract public String description();
-  
-  abstract public Options getOptions();
 
   abstract public void execute(CommandLine cmd);
-  
+
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
     CommandLineParser parser = new BasicParser();
     cmd = parser.parse(opts, args);
     return cmd;
   }
-  
-  public File[] getFilePaths(CommandLine cmd) {
-      Collection<File> fileList = new ArrayList<>();
-      
-      List<String> argList = cmd.getArgList();
-      argList = argList.subList(1, argList.size());
 
-      if (argList.isEmpty()) {
-        File dir = new File("input");
-        SuffixFileFilter sfx = new SuffixFileFilter(".txt");
-        fileList = FileUtils.listFiles(dir, sfx, TrueFileFilter.INSTANCE);
-      } else {
-        for (String name : argList) {
-          fileList.add(new File(name));
-        }
+  public File[] getFilePaths(CommandLine cmd) {
+    Collection<File> fileList = new ArrayList<>();
+
+    List<String> argList = cmd.getArgList();
+    argList = argList.subList(1, argList.size());
+
+    if (argList.isEmpty()) {
+      File dir = new File("input");
+      SuffixFileFilter sfx = new SuffixFileFilter(".txt");
+      fileList = FileUtils.listFiles(dir, sfx, TrueFileFilter.INSTANCE);
+    } else {
+      for (String name : argList) {
+        fileList.add(new File(name));
       }
-    
+    }
+
     File[] files = fileList.toArray(new File[fileList.size()]);
     Arrays.sort(files);
     return files;
-    
+
   }
 
-}  
-  
+  public abstract Options getOptions();
+
+}

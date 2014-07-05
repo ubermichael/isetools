@@ -24,10 +24,11 @@ import org.xml.sax.SAXException;
  */
 public class Edition implements Comparable<Edition> {
 
-  private final String parentDir;
-  private final File file;
-  private final String playCode;
   private final String editionCode;
+  private final File file;
+
+  private final String parentDir;
+  private final String playCode;
 
   public Edition(File file) throws IOException {
     this.file = file;
@@ -48,9 +49,9 @@ public class Edition implements Comparable<Edition> {
     return editionCode.toLowerCase().compareTo(o.editionCode.toLowerCase());
   }
 
-  public boolean hasCollations() throws IOException {
-    File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
-    return annotationsFile.exists();
+  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    File collationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
+    return new Annotations(collationsFile);
   }
 
   public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
@@ -58,18 +59,18 @@ public class Edition implements Comparable<Edition> {
     return new Collations(collationsFile);
   }
 
+  public DOM getDOM() throws IOException {
+    return new Builder(file).getDOM();
+  }
+
   public boolean hasAnnotations() {
     File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
     return annotationsFile.exists();
   }
 
-  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    File collationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
-    return new Annotations(collationsFile);
-  }
-
-  public DOM getDOM() throws IOException {
-    return new Builder(file).getDOM();
+  public boolean hasCollations() throws IOException {
+    File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
+    return annotationsFile.exists();
   }
 
   @Override

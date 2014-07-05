@@ -28,9 +28,8 @@ import org.apache.commons.io.input.BOMInputStream;
 public class DOMStream {
 
   private ByteOrderMark bom;
-  private String encoding;
-  private String source;
   private String content;
+  private String encoding;
   private ArrayList<String> lines;
   private final Log log = Log.getInstance();
 
@@ -41,7 +40,6 @@ public class DOMStream {
    * @throws java.io.IOException
    */
   public DOMStream(InputStream in, String source) throws IOException {
-    this.source = source;
     lines = new ArrayList<>();
 
     BOMInputStream bomStream = new BOMInputStream(in, ByteOrderMark.UTF_8, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE);
@@ -102,19 +100,19 @@ public class DOMStream {
     this(new FileInputStream(input), input.getCanonicalPath());
   }
 
-  public String getContent() {
-    return content;
-  }
-
-  public String[] getLines() {
-    return lines.toArray(new String[lines.size()]);
-  }
-
   public ByteOrderMark getBOM() {
     return bom;
   }
 
+  public String getContent() {
+    return content;
+  }
+
   public String getEncoding() {
     return encoding;
+  }
+
+  public String[] getLines() {
+    return lines.toArray(new String[lines.size()]);
   }
 }

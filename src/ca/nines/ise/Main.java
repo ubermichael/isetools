@@ -19,22 +19,6 @@ import org.apache.commons.cli.ParseException;
  */
 public class Main {
 
-  public Command getCommand(String commandName) {
-    String className = "ca.nines.ise.cmd." + commandName.substring(0, 1).toUpperCase() + commandName.substring(1);
-    Command cmd;
-
-    try {
-      cmd = (Command) Class.forName(commandName).newInstance();
-    } catch (ClassNotFoundException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    return null;
-  }
-
   public static void main(String[] args) {
 
     String commandName = "help";
@@ -71,5 +55,21 @@ public class Main {
     }
 
     cmd.execute(cmdline);
+  }
+
+  public Command getCommand(String commandName) {
+    String className = "ca.nines.ise.cmd." + commandName.substring(0, 1).toUpperCase() + commandName.substring(1);
+    Command cmd;
+    
+    try {
+      cmd = (Command) Class.forName(commandName).newInstance();
+    } catch (ClassNotFoundException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+      Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return null;
   }
 }

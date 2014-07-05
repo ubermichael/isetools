@@ -18,15 +18,14 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 abstract public class Lemma {
+  private String lem;
+  private String lineNumber;
+  private String node;
 
   private String source;
   private String tln;
-  private String lem;
-  private String lineNumber;
   private String xml;
-  private String node;
 
-  
   public Lemma(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new XMLFileReader(in));
   }
@@ -126,5 +125,4 @@ abstract public class Lemma {
     this.xml = xml;
   }
 
-  
 }

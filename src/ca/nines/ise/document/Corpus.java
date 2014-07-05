@@ -21,9 +21,9 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author michael
  */
 public class Corpus {
+  private final File root;
 
   private final HashMap<String, Work> works = new HashMap<>();
-  private final File root;
 
   public Corpus() throws IOException {
     this(Config.getInstance().getSourceDir());
@@ -45,12 +45,12 @@ public class Corpus {
     }
 
     w = new File(root.getCanonicalPath() + "/noTitlePage/" + code);
-    if(w.exists()) {
+    if (w.exists()) {
       return new Work(w);
     }
-    
+
     w = new File(root.getCanonicalPath() + "/withTitlePage/" + code);
-    if(w.exists()) {
+    if (w.exists()) {
       return new Work(w);
     }
 

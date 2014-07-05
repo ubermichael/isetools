@@ -21,14 +21,6 @@ public class CodePointCharNode extends CharNode {
 
   Pattern p = Pattern.compile("\\\\u(\\p{XDigit}+)");
 
-  /**
-   * @return the charType
-   */
-  @Override
-  public CharType getCharType() {
-    return CharType.CODEPOINT;
-  }
-
   @Override
   public Fragment expanded() {
     Matcher m = p.matcher(innerText());
@@ -46,6 +38,14 @@ public class CodePointCharNode extends CharNode {
     }
 
     return wrap("CODEPOINT", (String) null);
+  }
+
+  /**
+   * @return the charType
+   */
+  @Override
+  public CharType getCharType() {
+    return CharType.CODEPOINT;
   }
 
 }

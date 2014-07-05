@@ -35,13 +35,6 @@ public class Chars extends Command {
   }
 
   @Override
-  public Options getOptions() {
-    Options opts = new Options();
-    opts.addOption("l", true, "Send output to log file");
-    return opts;
-  }
-
-  @Override
   public void execute(CommandLine cmd) {
     try {
       File[] files;
@@ -56,7 +49,7 @@ public class Chars extends Command {
       HashMap<CharNode.CharType, HashMap<String, Integer>> types = new HashMap<>();
       files = getFilePaths(cmd);
 
-      for(CharNode.CharType type : CharNode.CharType.values()) {
+      for (CharNode.CharType type : CharNode.CharType.values()) {
         types.put(type, new HashMap<String, Integer>());
       }
 
@@ -94,6 +87,13 @@ public class Chars extends Command {
     } catch (IOException ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
+
+  @Override
+  public Options getOptions() {
+    Options opts = new Options();
+    opts.addOption("l", true, "Send output to log file");
+    return opts;
   }
 
 }

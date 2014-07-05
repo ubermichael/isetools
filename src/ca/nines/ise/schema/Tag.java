@@ -22,13 +22,13 @@ import org.xml.sax.SAXException;
  */
 public class Tag implements Comparable<Tag> {
 
-  private String name;
-  private String depreciated;
-  private String where;
-  private String empty;
-  private String desc;
-
   private HashMap<String, Attribute> attributes;
+  private String depreciated;
+  private String desc;
+  private String empty;
+  private String name;
+
+  private String where;
 
   public Tag(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     XMLResourceReader xmlIn = new XMLResourceReader(in);
@@ -63,6 +63,15 @@ public class Tag implements Comparable<Tag> {
     }
   }
 
+  @Override
+  public int compareTo(Tag t) {
+    return this.name.toLowerCase().compareTo(t.name.toLowerCase());
+  }
+
+  public int countAttributes() {
+    return attributes.size();
+  }
+
   public Attribute getAttribute(String attrName) {
     return attributes.get(attrName.toLowerCase());
   }
@@ -73,44 +82,24 @@ public class Tag implements Comparable<Tag> {
     return names;
   }
 
-  public Attribute[] getAttributes() {
-    Attribute[] a = attributes.values().toArray(new Attribute[attributes.size()]);
-    Arrays.sort(a);
-    return a;
-  }
-
-  public int countAttributes() {
-    return attributes.size();
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
-
-    formatter.format("%s:%s:%s%n", name, depreciated, where);
-    Iterator<Attribute> i = attributes.values().iterator();
-    while (i.hasNext()) {
-      Attribute a = i.next();
-      sb.append(a);
+    public Attribute[] getAttributes() {
+      Attribute[] a = attributes.values().toArray(new Attribute[attributes.size()]);
+      Arrays.sort(a);
+      return a;
     }
 
-    return sb.toString();
-  }
-
   /**
-   * @return the name
+   * @return the depreciated
    */
-  public String getName() {
-    return name;
+  public String getDepreciated() {
+    return depreciated;
   }
 
-  public boolean isEmpty() {
-    return empty.equals("yes");
-  }
-
-  public boolean maybeEmpty() {
-    return empty.equals("yes") || empty.equals("optional");
+  public String getDescription() {
+    if (desc.equals("")) {
+      return "No description provided.";
+    }
+    return desc;
   }
 
   public String getEmpty() {
@@ -121,14 +110,10 @@ public class Tag implements Comparable<Tag> {
   }
 
   /**
-   * @return the depreciated
+   * @return the name
    */
-  public String getDepreciated() {
-    return depreciated;
-  }
-
-  public boolean isDepreciated() {
-    return !depreciated.equals("");
+  public String getName() {
+    return name;
   }
 
   /**
@@ -141,15 +126,30 @@ public class Tag implements Comparable<Tag> {
     return where;
   }
 
-  public String getDescription() {
-    if (desc.equals("")) {
-      return "No description provided.";
-    }
-    return desc;
+  public boolean isDepreciated() {
+    return !depreciated.equals("");
+  }
+
+  public boolean isEmpty() {
+    return empty.equals("yes");
+  }
+
+  public boolean maybeEmpty() {
+    return empty.equals("yes") || empty.equals("optional");
   }
 
   @Override
-  public int compareTo(Tag t) {
-    return this.name.toLowerCase().compareTo(t.name.toLowerCase());
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    Formatter formatter = new Formatter(sb);
+    
+    formatter.format("%s:%s:%s%n", name, depreciated, where);
+    Iterator<Attribute> i = attributes.values().iterator();
+    while (i.hasNext()) {
+      Attribute a = i.next();
+      sb.append(a);
+    }
+    
+    return sb.toString();
   }
 }

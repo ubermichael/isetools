@@ -33,15 +33,15 @@ public class DOM {
     nodes = new ArrayList<>();
     index = new HashMap<>();
   }
-  
+
   public void add(Node n) {
     nodes.add(n);
   }
-  
+
   public void addAll(DOM dom) {
     nodes.addAll(dom.nodes);
   }
-  
+
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
     Iterator<Node> iterator = this.iterator();
@@ -55,7 +55,7 @@ public class DOM {
   public Node get(int i) {
     return nodes.get(i);
   }
-  
+
   /**
    * Get the nth line of text which was parsed to create the DOM. Note that the
    * lines are stored in a zero-based array. Line numbers in nodes are
@@ -78,7 +78,7 @@ public class DOM {
 
     return lines[n];
   }
-  
+
   public String[] getLines() {
     return lines;
   }
@@ -110,7 +110,7 @@ public class DOM {
   public String getSource() {
     return source;
   }
-  
+
   public boolean hasIndex() {
     return index.size() > 0;
   }
@@ -183,18 +183,18 @@ public class DOM {
    * @return a string representation.
    */
   @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-
-    Iterator<Node> i = this.iterator();
-
-    while (i.hasNext()) {
-      Node n = i.next();
-      sb.append(n).append("\n");
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      
+      Iterator<Node> i = this.iterator();
+      
+      while (i.hasNext()) {
+        Node n = i.next();
+        sb.append(n).append("\n");
+      }
+      
+      return sb.toString();
     }
-    
-    return sb.toString();
-  }
 
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
@@ -211,12 +211,12 @@ public class DOM {
    * <p>
    * @param source
    */
-  protected void setSource(String source) {
-    this.source = source;
-  }
-
-    public int size() {
-      return nodes.size();
+    protected void setSource(String source) {
+      this.source = source;
     }
+
+  public int size() {
+    return nodes.size();
+  }
 
 }

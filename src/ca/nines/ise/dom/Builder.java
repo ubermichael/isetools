@@ -141,8 +141,8 @@ public class Builder extends ISEParserBaseListener {
   }
 
   @Override
-  public void enterCharNested(CharNestedContext ctx) {
-    NestedCharNode n = (NestedCharNode) setupNode(new NestedCharNode(), ctx);
+  public void enterCharCodePoint(CharCodePointContext ctx) {
+    UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
     dom.add(n);
   }
 
@@ -155,6 +155,12 @@ public class Builder extends ISEParserBaseListener {
   @Override
   public void enterCharLigature(CharLigatureContext ctx) {
     LigatureCharNode n = (LigatureCharNode) setupNode(new LigatureCharNode(), ctx);
+    dom.add(n);
+  }
+
+  @Override
+  public void enterCharNested(CharNestedContext ctx) {
+    NestedCharNode n = (NestedCharNode) setupNode(new NestedCharNode(), ctx);
     dom.add(n);
   }
 
@@ -175,12 +181,6 @@ public class Builder extends ISEParserBaseListener {
     UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
     dom.add(n);
   }
-  
-  @Override
-  public void enterCharCodePoint(CharCodePointContext ctx) {
-    UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
-    dom.add(n);
-  }  
 
   @Override
   public void enterComment(CommentContext ctx) {

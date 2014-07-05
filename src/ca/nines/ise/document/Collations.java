@@ -23,19 +23,19 @@ public class Collations extends Apparatus<Coll> {
   public Collations() {
     super();
   }
-  
+
   public Collations(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }
-  
+
   public Collations(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }
-  
+
   public Collations(Node in) throws ParserConfigurationException, XPathExpressionException {
     super(in);
   }
-  
+
   public Collations(XMLFileReader in) throws XPathExpressionException {
     super(in);
   }

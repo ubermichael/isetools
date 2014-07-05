@@ -18,26 +18,32 @@ import org.xml.sax.SAXException;
  *
  * @author michael
  */
-public class Annotations  extends Apparatus<Note> {
+public class Annotations extends Apparatus<Note> {
 
   public Annotations() {
     super();
   }
-  
+
   public Annotations(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }
-  
+
   public Annotations(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }
-  
+
   public Annotations(Node in) throws ParserConfigurationException, XPathExpressionException {
     super(in);
   }
-  
+
   public Annotations(XMLFileReader in) throws XPathExpressionException {
     super(in);
+  }
+
+  @Override
+  public Note buildLemma(XMLFileReader in, Node n) {
+    return null;
+    
   }
 
   @Override
@@ -48,11 +54,5 @@ public class Annotations  extends Apparatus<Note> {
   @Override
   public String rootXPath() {
     return "note";
-  }
-  
-  @Override
-  public Note buildLemma(XMLFileReader in, Node n) {
-    return null;
-    
   }
 }

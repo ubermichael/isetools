@@ -14,17 +14,17 @@ import ca.nines.ise.node.CharNode;
  */
 public class LigatureCharNode extends CharNode {
 
+  @Override
+  public Fragment expanded() {
+    return wrap("LIGATURE", this.innerText());
+  }
+
   /**
    * @return the charType
    */
   @Override
   public CharType getCharType() {
     return CharType.LIGATURE;
-  }
-
-  @Override
-  public Fragment expanded() {
-    return wrap("LIGATURE", this.innerText());
   }
 
 }

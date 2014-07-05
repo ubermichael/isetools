@@ -44,12 +44,6 @@ public class ErrorCodes {
     }
   }
 
-  public ErrorCode[] getErrorCodes() {
-    ErrorCode[] codes = list.values().toArray(new ErrorCode[list.size()]);
-    Arrays.sort(codes);
-    return codes;
-  }
-
   public ErrorCode getErrorCode(String code) {
     if (list.containsKey(code)) {
       return list.get(code);
@@ -57,18 +51,24 @@ public class ErrorCodes {
     return list.get("unknown");
   }
 
-  public String getSeverity(String code) {
-    ErrorCode ec = list.get(code);
-    if (ec != null) {
-      return ec.getSeverity();
-    }
-    return "unknown";
+  public ErrorCode[] getErrorCodes() {
+    ErrorCode[] codes = list.values().toArray(new ErrorCode[list.size()]);
+    Arrays.sort(codes);
+    return codes;
   }
 
   public String getMessage(String code) {
     ErrorCode ec = list.get(code);
     if (ec != null) {
       return ec.getMessage();
+    }
+    return "unknown";
+  }
+
+  public String getSeverity(String code) {
+    ErrorCode ec = list.get(code);
+    if (ec != null) {
+      return ec.getSeverity();
     }
     return "unknown";
   }

@@ -20,23 +20,6 @@ import java.util.logging.Logger;
  */
 public class SW {
 
-  public static String attrOptions(Attribute attr) {
-    StringBuilder sb = new StringBuilder();
-    String[] options = attr.getOptions();
-    if (options.length == 0) {
-      return "";
-    }
-    Iterator<String> i = Arrays.asList(options).iterator();
-    while (i.hasNext()) {
-      String s = i.next();
-      sb.append(s);
-      if (i.hasNext()) {
-        sb.append(", ");
-      }
-    }
-    return sb.toString();
-  }
-
   public static void attrInfo(Tag tag) {
     if (tag.countAttributes() == 0) {
       return;
@@ -59,16 +42,21 @@ public class SW {
     System.out.println(sb);
   }
 
-  public static void tagInfo(Tag tag) {
-    System.out.println("== " + tag.getName() + "==\n");
-    System.out.println(tag.getDescription() + "\n");
-    System.out.println(" Empty::");
-    System.out.println("  " + tag.getEmpty());
-    System.out.println(" Context::");
-    System.out.println("  " + tag.getWhere());
-    System.out.println(" Depreciated::");
-    System.out.println("  " + (tag.isDepreciated() ? tag.getDepreciated() : "no"));
-    System.out.println("\n");
+  public static String attrOptions(Attribute attr) {
+    StringBuilder sb = new StringBuilder();
+    String[] options = attr.getOptions();
+    if (options.length == 0) {
+      return "";
+    }
+    Iterator<String> i = Arrays.asList(options).iterator();
+    while (i.hasNext()) {
+      String s = i.next();
+      sb.append(s);
+      if (i.hasNext()) {
+        sb.append(", ");
+      }
+    }
+    return sb.toString();
   }
 
   public static void main(String[] args) {
@@ -83,7 +71,19 @@ public class SW {
     } catch (Exception ex) {
       Logger.getLogger(SW.class.getName()).log(Level.SEVERE, null, ex);
     }
+    
+  }
 
+  public static void tagInfo(Tag tag) {
+    System.out.println("== " + tag.getName() + "==\n");
+    System.out.println(tag.getDescription() + "\n");
+    System.out.println(" Empty::");
+    System.out.println("  " + tag.getEmpty());
+    System.out.println(" Context::");
+    System.out.println("  " + tag.getWhere());
+    System.out.println(" Depreciated::");
+    System.out.println("  " + (tag.isDepreciated() ? tag.getDepreciated() : "no"));
+    System.out.println("\n");
   }
 }
 

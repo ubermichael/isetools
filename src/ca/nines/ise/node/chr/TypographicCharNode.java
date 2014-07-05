@@ -17,24 +17,25 @@ import java.util.HashMap;
 public class TypographicCharNode extends CharNode {
 
   private static final HashMap<String, String> charMap = new HashMap<>();
+
   static {
     charMap.put("{w}", "vv");
     charMap.put("{W}", "VV");
   }
-  
+
+  @Override
+  public Fragment expanded() {
+    Fragment dom = wrap("TYPEFORM", charMap.get(text));
+    ((TagNode) dom.get(0)).setAttribute("t", this.innerText());
+    return dom;
+  }
+
   /**
    * @return the charType
    */
   @Override
   public CharType getCharType() {
     return CharType.TYPOGRAPHIC;
-  }
-
-  @Override
-  public Fragment expanded() {    
-    Fragment dom = wrap("TYPEFORM", charMap.get(text));
-    ((TagNode)dom.get(0)).setAttribute("t", this.innerText());
-    return dom;
   }
 
 }

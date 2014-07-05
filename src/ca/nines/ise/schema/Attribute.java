@@ -21,16 +21,24 @@ import org.xml.sax.SAXException;
  */
 public class Attribute implements Comparable<Attribute> {
 
-  private final String name;
-  private final String type;
-  private final boolean optional;
-  private final String depreciated;
-  private final boolean renumber;
   private final String defaultValue;
-  private final boolean empty;
+  private final String depreciated;
   private final String desc;
+  private final boolean empty;
+  private final String name;
+  private final boolean optional;
 
   private ArrayList<String> options = null;
+  private final boolean renumber;
+  private final String type;
+
+  public enum AttributeType {
+
+    STRING,
+    LIST,
+    SELECT,
+    NUMBER,
+  }
 
   public Attribute(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
     XMLResourceReader xmlIn = new XMLResourceReader(in);
@@ -68,16 +76,29 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+  public int compareTo(Attribute a) {
+    return this.name.toLowerCase().compareTo(a.name.toLowerCase());
+  }
 
-    formatter.format("  @%s(%s:%s:%s:%s:%s:%s)%n", name, type, optional, depreciated, renumber, defaultValue, empty);
-    if (options != null) {
-      sb.append("    ").append(options).append("\n");
+  /**
+   * @return the defaultValue
+   */
+  public String getDefaultValue() {
+    return defaultValue;
+  }
+
+  /**
+   * @return the depreciated
+   */
+  public String getDepreciated() {
+    return depreciated;
+  }
+
+  public String getDescription() {
+    if (desc.equals("")) {
+      return "No description provided.";
     }
-
-    return sb.toString();
+    return desc;
   }
 
   /**
@@ -85,6 +106,19 @@ public class Attribute implements Comparable<Attribute> {
    */
   public String getName() {
     return name;
+  }
+
+  /**
+   * @return the options
+   */
+  public String[] getOptions() {
+    if (options != null && options.size() > 0) {
+      String[] names = options.toArray(new String[options.size()]);
+      Arrays.sort(names);
+      return names;
+    } else {
+      return new String[0];
+    }
   }
 
   /**
@@ -109,36 +143,8 @@ public class Attribute implements Comparable<Attribute> {
     return type;
   }
 
-  /**
-   * @return the optional
-   */
-  public boolean isOptional() {
-    return optional;
-  }
-
-  /**
-   * @return the depreciated
-   */
-  public String getDepreciated() {
-    return depreciated;
-  }
-
   public boolean isDepreciated() {
     return !depreciated.equals("");
-  }
-
-  /**
-   * @return the renumber
-   */
-  public boolean isRenumberable() {
-    return type.equals("number") && renumber;
-  }
-
-  /**
-   * @return the defaultValue
-   */
-  public String getDefaultValue() {
-    return defaultValue;
   }
 
   /**
@@ -149,36 +155,30 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
-   * @return the options
+   * @return the optional
    */
-  public String[] getOptions() {
-    if (options != null && options.size() > 0) {
-      String[] names = options.toArray(new String[options.size()]);
-      Arrays.sort(names);
-      return names;
-    } else {
-      return new String[0];
-    }
+  public boolean isOptional() {
+    return optional;
   }
 
-  public String getDescription() {
-    if (desc.equals("")) {
-      return "No description provided.";
-    }
-    return desc;
+  /**
+   * @return the renumber
+   */
+  public boolean isRenumberable() {
+    return type.equals("number") && renumber;
   }
 
   @Override
-  public int compareTo(Attribute a) {
-    return this.name.toLowerCase().compareTo(a.name.toLowerCase());
-  }
-
-  public enum AttributeType {
-
-    STRING,
-    LIST,
-    SELECT,
-    NUMBER,
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    Formatter formatter = new Formatter(sb);
+    
+    formatter.format("  @%s(%s:%s:%s:%s:%s:%s)%n", name, type, optional, depreciated, renumber, defaultValue, empty);
+    if (options != null) {
+      sb.append("    ").append(options).append("\n");
+    }
+    
+    return sb.toString();
   }
 
 }
