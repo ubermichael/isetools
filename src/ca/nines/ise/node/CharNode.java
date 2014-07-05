@@ -16,19 +16,27 @@ import java.io.IOException;
  */
 abstract public class CharNode extends Node {
 
-  abstract public CharType getCharType();
+  public enum CharType {
+
+    ACCENT,
+    CODEPOINT,
+    DIGRAPH,
+    LIGATURE,
+    SPACE,
+    TYPOGRAPHIC,
+    UNICODE,
+    NESTED
+  };
 
   public String getCharName() {
     return getCharType().name();
   }
 
-  protected String innerText() {
-    return text.replaceAll("^\\{|\\}$", "");
-  }
+  public abstract CharType getCharType();
 
   @Override
-  public NodeType type() {
-    return NodeType.CHAR;
+  public String plain() throws IOException {
+    return expanded().plain();
   }
 
   @Override
@@ -41,47 +49,9 @@ abstract public class CharNode extends Node {
     return sb.toString();
   }
 
-  protected Fragment wrap(String tagName, String content) {
-    Fragment dom = new Fragment();
-    TagNode node;
-
-    node = new StartNode(this);
-    node.setName(tagName);
-    node.setAttribute("setting", this.text);
-    dom.add(node);
-
-    TextNode textNode = new TextNode(this);
-    if (content == null) {
-      content = "\uFFFD";
-      Message m = Log.getInstance().error("char." + tagName.toLowerCase() + ".unknown", this);
-      m.addNote("Character " + text + " cannot be expanded.");
-    }
-    textNode.setText(content);
-    dom.add(textNode);
-
-    node = new EndNode(this);
-    node.setName(tagName);
-    dom.add(node);
-
-    return dom;
-  }
-
-  protected Fragment wrap(String tagName, Fragment fragment) {
-    Fragment dom = new Fragment();
-    TagNode node;
-
-    node = new StartNode(this);
-    node.setName(tagName);
-    node.setAttribute("setting", this.text);
-    dom.add(node);
-
-    dom.addAll(fragment);
-
-    node = new EndNode(this);
-    node.setName(tagName);
-    dom.add(node);
-
-    return dom;
+  @Override
+  public NodeType type() {
+    return NodeType.CHAR;
   }
 
   @Override
@@ -89,21 +59,51 @@ abstract public class CharNode extends Node {
     return expanded().unicode();
   }
 
-  @Override
-  public String plain() throws IOException {
-    return expanded().plain();
+  protected String innerText() {
+    return text.replaceAll("^\\{|\\}$", "");
   }
 
-  public enum CharType {
+    protected Fragment wrap(String tagName, String content) {
+      Fragment dom = new Fragment();
+      TagNode node;
+      
+      node = new StartNode(this);
+      node.setName(tagName);
+      node.setAttribute("setting", this.text);
+      dom.add(node);
+      
+      TextNode textNode = new TextNode(this);
+      if (content == null) {
+        content = "\uFFFD";
+        Message m = Log.getInstance().error("char." + tagName.toLowerCase() + ".unknown", this);
+        m.addNote("Character " + text + " cannot be expanded.");
+      }
+      textNode.setText(content);
+      dom.add(textNode);
+      
+      node = new EndNode(this);
+      node.setName(tagName);
+      dom.add(node);
+      
+      return dom;
+    }
 
-    ACCENT,
-    CODEPOINT,
-    DIGRAPH,
-    LIGATURE,
-    SPACE,
-    TYPOGRAPHIC,
-    UNICODE,
-    NESTED
-  };
+    protected Fragment wrap(String tagName, Fragment fragment) {
+      Fragment dom = new Fragment();
+      TagNode node;
+      
+      node = new StartNode(this);
+      node.setName(tagName);
+      node.setAttribute("setting", this.text);
+      dom.add(node);
+      
+      dom.addAll(fragment);
+      
+      node = new EndNode(this);
+      node.setName(tagName);
+      dom.add(node);
+      
+      return dom;
+    }
 
 }

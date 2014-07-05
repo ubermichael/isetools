@@ -19,14 +19,6 @@ import java.util.Iterator;
  */
 public class NestedCharNode extends CharNode {
 
-  /**
-   * @return the charType
-   */
-  @Override
-  public CharType getCharType() {
-    return CharType.NESTED;
-  }
-
   @Override
   public Fragment expanded() throws IOException {
     Fragment dom = new Fragment();
@@ -39,5 +31,13 @@ public class NestedCharNode extends CharNode {
     }
 
     return wrap("LIG", dom);
+  }
+
+  /**
+   * @return the charType
+   */
+  @Override
+  public CharType getCharType() {
+    return CharType.NESTED;
   }
 }

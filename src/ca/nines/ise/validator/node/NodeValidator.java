@@ -20,14 +20,14 @@ import ca.nines.ise.schema.Schema;
 abstract public class NodeValidator<T extends Node> {
 
   /**
-   * The schema to validate against. Not used by all node validators.
-   */
-  protected final Schema schema;
-
-  /**
    * The log to store the validation messages.
    */
   protected final Log log;
+
+  /**
+   * The schema to validate against. Not used by all node validators.
+   */
+  protected final Schema schema;
 
   /**
    * Construct a node validator. Should be called as {@code super(schema) } in

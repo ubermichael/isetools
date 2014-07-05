@@ -18,12 +18,21 @@ import org.antlr.v4.runtime.Recognizer;
  */
 public class ParserErrorListener extends BaseErrorListener {
 
-  private String source = "";
+  private final String[] lines;
   private final Log log = Log.getInstance();
-  private final String lines[];
-  
+  private String source = "";
+
   ParserErrorListener(String[] lines) {
     this.lines = lines;
+  }
+
+  /**
+   * Sets the source of the parsed data. Either #STRING or the path to the file.
+   * <p>
+   * @param source the source to set
+   */
+  public void setSource(String source) {
+    this.source = source;
   }
 
   /**
@@ -40,29 +49,14 @@ public class ParserErrorListener extends BaseErrorListener {
     "lexer.syntax"
   })
   @Override
-  public void syntaxError(
-          Recognizer<?, ?> recognizer,
-          Object offendingSymbol,
-          int line,
-          int charPositionInLine,
-          String msg,
-          RecognitionException e) {
+  public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
 
     Message m = log.error("lexer.syntax");
     m.setLineNumber(line);
     m.setColumnNumber(charPositionInLine);
     m.setSource(source);
-    m.setLine(lines[line-1]);
+    m.setLine(lines[line - 1]);
     m.addNote(msg.substring(0, Math.min(64, msg.length())));
-  }
-
-  /**
-   * Sets the source of the parsed data. Either #STRING or the path to the file.
-   * <p>
-   * @param source the source to set
-   */
-  public void setSource(String source) {
-    this.source = source;
   }
 
 }

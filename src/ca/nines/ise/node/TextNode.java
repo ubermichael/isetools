@@ -22,11 +22,6 @@ public class TextNode extends Node {
   }
 
   @Override
-  public NodeType type() {
-    return NodeType.TEXT;
-  }
-
-  @Override
   public Fragment expanded() {
     Fragment f = new Fragment();
     TextNode node = new TextNode(this);
@@ -37,6 +32,11 @@ public class TextNode extends Node {
   @Override
   public String plain() {
     return text;
+  }
+
+  @Override
+  public NodeType type() {
+    return NodeType.TEXT;
   }
 
   @Override

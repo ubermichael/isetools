@@ -44,14 +44,13 @@ abstract public class TagNode extends Node {
     this.tagname = tagname;
   }
 
-  public String setName(String name) {
-    return this.tagname = name;
+  public void clearAttributes() {
+    attributes.clear();
   }
 
-  @Override
-  public String getName() {
-    return tagname;
-  }
+    public void deleteAttribute(String name) {
+      attributes.remove(name);
+    }
 
   @Override
   public Fragment expanded() {
@@ -60,14 +59,32 @@ abstract public class TagNode extends Node {
     return f;
   }
 
+    public String getAttribute(String name) {
+      return attributes.get(name.toLowerCase());
+    }
+
+    public String[] getAttributeNames() {
+      String[] names = attributes.keySet().toArray(new String[attributes.size()]);
+      Arrays.sort(names);
+      return names;
+    }
+
+  @Override
+  public String getName() {
+    return tagname;
+  }
+
   @Override
   public String plain() {
     return "";
   }
 
-  @Override
-  public String unicode() {
-    return "";
+  public void setAttribute(String name, String value) {
+    attributes.put(name.toLowerCase(), value);
+  }
+
+  public String setName(String name) {
+    return this.tagname = name;
   }
 
   @Override
@@ -88,26 +105,9 @@ abstract public class TagNode extends Node {
     return sb.toString();
   }
 
-  public void clearAttributes() {
-    attributes.clear();
-  }
-
-  public String getAttribute(String name) {
-    return attributes.get(name.toLowerCase());
-  }
-
-  public void setAttribute(String name, String value) {
-    attributes.put(name.toLowerCase(), value);
-  }
-
-  public void deleteAttribute(String name) {
-    attributes.remove(name);
-  }
-
-  public String[] getAttributeNames() {
-    String[] names = attributes.keySet().toArray(new String[attributes.size()]);
-    Arrays.sort(names);
-    return names;
+  @Override
+  public String unicode() {
+    return "";
   }
 
 }

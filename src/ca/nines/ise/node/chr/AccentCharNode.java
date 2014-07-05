@@ -20,6 +20,7 @@ import java.util.HashMap;
 public class AccentCharNode extends CharNode {
 
   private static final HashMap<Character, String> charMap = new HashMap<>();
+
   static {
     charMap.put('^', "\u0302");
     charMap.put('"', "\u0308");
@@ -29,28 +30,28 @@ public class AccentCharNode extends CharNode {
     charMap.put('~', "\u0303");
   }
 
+  @Override
+  public Fragment expanded() {
+    Fragment dom = new Fragment();
+    char[] cs = super.innerText().toCharArray();
+
+    String accent = charMap.get(cs[0]);
+    if (accent == null) {
+      accent = "\uFFFD";
+      Message m = Log.getInstance().error("char.accent.unknown", this);
+      m.addNote("Character " + text + " cannot be expanded.");
+    }
+    String str = cs[1] + accent;
+    str = Normalizer.normalize(str, Form.NFC);
+    return wrap("ACCENT", str);
+  }
+
   /**
    * @return the charType
    */
   @Override
   public CharType getCharType() {
     return CharType.ACCENT;
-  }
-
-  @Override
-  public Fragment expanded() {
-    Fragment dom = new Fragment();
-    char[] cs = super.innerText().toCharArray();
-    
-    String accent = charMap.get(cs[0]);
-    if(accent == null) {
-      accent = "\uFFFD";
-      Message m = Log.getInstance().error("char.accent.unknown", this);
-      m.addNote("Character " + text + " cannot be expanded.");      
-    }    
-    String str = cs[1] + accent;
-    str = Normalizer.normalize(str, Form.NFC);
-    return wrap("ACCENT", str);
   }
 
 }

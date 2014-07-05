@@ -19,12 +19,9 @@ import java.util.Formatter;
  */
 public class Log {
 
-  private final ArrayList<Message> messages = new ArrayList<>();
-
   private static final Log instance = new Log();
 
-  private Log() {
-  }
+  private final ArrayList<Message> messages = new ArrayList<>();
 
   /**
    * Get an instance of the log.
@@ -33,6 +30,29 @@ public class Log {
    */
   public static Log getInstance() {
     return instance;
+  }
+
+  private Log() {
+  }
+
+  /**
+   * Add a message to the log.
+   * <p>
+   * @param m the message to error.
+   */
+  public void add(Message m) {
+    messages.add(m);
+  }
+
+  /**
+   * Empty the message log.
+   */
+  public void clear() {
+    messages.clear();
+  }
+
+  public int count() {
+    return messages.size();
   }
 
   /**
@@ -56,24 +76,8 @@ public class Log {
     return m;
   }
 
-  /**
-   * Add a message to the log.
-   * <p>
-   * @param m the message to error.
-   */
-  public void add(Message m) {
-    messages.add(m);
-  }
-
   public Message get(int i) {
     return messages.get(i);
-  }
-
-  /**
-   * Empty the message log.
-   */
-  public void clear() {
-    messages.clear();
   }
 
   /**
@@ -81,18 +85,18 @@ public class Log {
    * <p>
    * @return sorted message array.
    */
-  public Message[] messages() {
-    Message[] m = messages.toArray(new Message[messages.size()]);
-    Arrays.sort(m);
-    return m;
-  }
+    public Message[] messages() {
+      Message[] m = messages.toArray(new Message[messages.size()]);
+      Arrays.sort(m);
+      return m;
+    }
 
   /**
    * Serialize the messages into a string.
    * <p>
    * @return string of messages.
    */
-  @Override
+    @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
@@ -101,9 +105,5 @@ public class Log {
       formatter.format("%s%n", message);
     }
     return sb.toString();
-  }
-
-  public int count() {
-    return messages.size();
   }
 }

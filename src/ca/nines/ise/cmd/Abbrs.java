@@ -34,13 +34,6 @@ public class Abbrs extends Command {
   }
 
   @Override
-  public Options getOptions() {
-    Options opts = new Options();
-    opts.addOption("l", true, "Send output to log file");
-    return opts;
-  }
-
-  @Override
   public void execute(CommandLine cmd) {
     try {
       File[] files;
@@ -79,6 +72,13 @@ public class Abbrs extends Command {
     } catch (Exception ex) {
       Logger.getLogger(Abbrs.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
+
+  @Override
+  public Options getOptions() {
+    Options opts = new Options();
+    opts.addOption("l", true, "Send output to log file");
+    return opts;
   }
 
 }

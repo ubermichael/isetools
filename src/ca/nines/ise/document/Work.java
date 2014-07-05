@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
  */
 public class Work implements Comparable<Work> {
 
-  private File root;
-  private String playCode;
   private final HashMap<String, Edition> editions;
+  private String playCode;
+  private File root;
 
   public Work(File root) throws IOException {
     this.editions = new HashMap<>();
@@ -32,17 +32,30 @@ public class Work implements Comparable<Work> {
     this.playCode = root.getName();
   }
 
-  @Override
+    public void addEdition(File f) throws IOException {
+      Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
+      Matcher m = p.matcher(f.getName());
+      if (m.find()) {
+        editions.put(m.group(1), new Edition(f));
+      }
+    }
+
+    @Override
   public int compareTo(Work o) {
     return playCode.toLowerCase().compareTo(o.playCode.toLowerCase());
   }
 
-  public void addEdition(File f) throws IOException {
-    Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
-    Matcher m = p.matcher(f.getName());
-    if (m.find()) {
-      editions.put(m.group(1), new Edition(f));
+  public Edition getEdition(String code) throws IOException {
+    if (editions.containsKey(code)) {
+      return editions.get(code);
     }
+    String editionPath = playCode + "_" + code + ".txt";
+    String path = root.getCanonicalPath() + "/" + editionPath;
+    File file = new File(path);
+    if (file.exists()) {
+      return new Edition(file);
+    }
+    throw new FileNotFoundException("Cannot find " + editionPath + " in " + root.getCanonicalPath());
   }
 
   public Edition[] getEditions() throws IOException {
@@ -67,27 +80,6 @@ public class Work implements Comparable<Work> {
     return e;
   }
 
-  public String[] listEditions() {
-    return null;
-  }
-
-  public Edition getEdition(String code) throws IOException {
-    if(editions.containsKey(code)) {
-      return editions.get(code);
-    }
-    String editionPath = playCode + "_" + code + ".txt";
-    String path = root.getCanonicalPath() + "/" + editionPath;
-    File file = new File(path);
-    if(file.exists()) {
-      return new Edition(file);
-    }
-    throw new FileNotFoundException("Cannot find " + editionPath + " in " + root.getCanonicalPath());
-  }
-
-  public boolean hasTitlePage() throws IOException {
-    return root.getCanonicalPath().contains("withTitlePage");
-  }
-
   /**
    * @return the root
    */
@@ -107,6 +99,14 @@ public class Work implements Comparable<Work> {
    */
   public void setPlayCode(String playCode) {
     this.playCode = playCode;
+  }
+
+  public boolean hasTitlePage() throws IOException {
+    return root.getCanonicalPath().contains("withTitlePage");
+  }
+
+  public String[] listEditions() {
+    return null;
   }
 
   @Override

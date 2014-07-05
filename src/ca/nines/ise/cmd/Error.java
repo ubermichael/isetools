@@ -20,14 +20,14 @@ public class Error extends Command {
   }
 
   @Override
-  public Options getOptions() {
-    Options opts = new Options();    
-    return opts;
-  }  
-
-  @Override
-  public void execute(CommandLine cmd) {    
+  public void execute(CommandLine cmd) {
     System.out.println("Error");
     
+  }
+
+  @Override
+  public Options getOptions() {
+    Options opts = new Options();
+    return opts;
   }
 }

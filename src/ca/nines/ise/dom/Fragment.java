@@ -11,6 +11,4 @@ package ca.nines.ise.dom;
  * <p>
  */
 public class Fragment extends DOM {
-
-  static final long serialVersionUID = 522991937691489981L;
 }

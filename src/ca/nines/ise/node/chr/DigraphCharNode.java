@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class DigraphCharNode extends CharNode {
 
   private static final HashMap<String, String> charMap = new HashMap<>();
+
   static {
     charMap.put("{ae}", "\u00e6");
     charMap.put("{AE}", "\u00c6");
@@ -24,17 +25,17 @@ public class DigraphCharNode extends CharNode {
     charMap.put("{qp}", "\u0239");
     charMap.put("{db}", "\u0238");
   }
-  
+
+  @Override
+  public Fragment expanded() {
+    return wrap("DIGRAPH", charMap.get(text));
+  }
+
   /**
    * @return the charType
    */
   @Override
   public CharType getCharType() {
     return CharType.DIGRAPH;
-  }
-
-  @Override
-  public Fragment expanded() {
-    return wrap("DIGRAPH", charMap.get(text));
   }
 }

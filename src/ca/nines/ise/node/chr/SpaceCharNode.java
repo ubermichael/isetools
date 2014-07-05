@@ -17,21 +17,14 @@ import ca.nines.ise.node.EmptyNode;
  */
 public class SpaceCharNode extends CharNode {
 
-  /**
-   * @return the charType
-   */
-  @Override
-  public CharNode.CharType getCharType() {
-    return CharType.SPACE;
-  }
-
   // doesn't make sense to use wrap() here.
+
   @Override
   public Fragment expanded() {
     Fragment dom = new Fragment();
     EmptyNode node = new EmptyNode(this);
     node.setAttribute("setting", text);
-    
+
     switch (innerText()) {
       case " ":
         node.setName("SPACE");
@@ -53,6 +46,13 @@ public class SpaceCharNode extends CharNode {
 
     dom.add(node);
     return dom;
+  }
+
+  /**
+   * @return the charType
+   */  @Override
+  public CharNode.CharType getCharType() {
+    return CharType.SPACE;
   }
 
 }

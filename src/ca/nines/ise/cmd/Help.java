@@ -25,48 +25,48 @@ public class Help extends Command {
   }
 
   @Override
+  public void execute(CommandLine cmd) {
+    
+    System.out.println("help");
+    listCommands();
+  }
+
+  @Override
   public Options getOptions() {
     Options opts = new Options();
     return opts;
   }
 
-  public void listCommands() {
-    System.out.println("listing commands");
-    String packageName = this.getClass().getPackage().getName();
-    String packagePath = '/' + packageName.replace('.', '/');
-
-    URL url = this.getClass().getResource(packagePath);
-    File dir = new File(url.getFile());
-    if (dir.exists()) {
-      String[] files = dir.list();
-      for (String file : files) {
-        if (file.endsWith(".class")) {
-          String className = file.substring(0, file.length() - 6);
-          try {
-            Class cls = Class.forName(packageName + "." + className);
-            if(Modifier.isAbstract(cls.getModifiers())) {
-              continue;
+    public void listCommands() {
+      System.out.println("listing commands");
+      String packageName = this.getClass().getPackage().getName();
+      String packagePath = '/' + packageName.replace('.', '/');
+      
+      URL url = this.getClass().getResource(packagePath);
+      File dir = new File(url.getFile());
+      if (dir.exists()) {
+        String[] files = dir.list();
+        for (String file : files) {
+          if (file.endsWith(".class")) {
+            String className = file.substring(0, file.length() - 6);
+            try {
+              Class cls = Class.forName(packageName + "." + className);
+              if (Modifier.isAbstract(cls.getModifiers())) {
+                continue;
+              }
+              Object o = cls.newInstance();
+              if (o instanceof Command) {
+                System.out.println("command : " + className);
+              }
+            } catch (ClassNotFoundException ex) {
+              Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+              Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+              Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Object o = cls.newInstance();
-            if (o instanceof Command) {
-              System.out.println("command : " + className);
-            }
-          } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
-          } catch (InstantiationException ex) {
-            Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
-          } catch (IllegalAccessException ex) {
-            Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
           }
         }
       }
     }
-  }
-
-  @Override
-  public void execute(CommandLine cmd) {
-
-    System.out.println("help");
-    listCommands();
-  }
 }

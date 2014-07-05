@@ -54,14 +54,13 @@ abstract public class Apparatus<T extends Lemma> extends ArrayList<T> {
     }
   }
 
-  public abstract String rootXPath();
+  public abstract T buildLemma(XMLFileReader in, Node n);
 
   public abstract String nodeXPath();
 
-  public abstract T buildLemma(XMLFileReader in, Node n);
-  
   @Override
   public Iterator<T> iterator() {
     return super.iterator();
   }
+  public abstract String rootXPath();
 }
