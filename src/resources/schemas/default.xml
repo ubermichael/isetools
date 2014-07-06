@@ -330,8 +330,8 @@
       <attribute name="drop" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Marks this ornament as a drop-capital, and specifies the number of lines to span.]]></desc>
       </attribute>
-      <attribute name="letter" type="string" optional="yes">
-        <desc><![CDATA[The oranmented letter.]]></desc>
+      <attribute name="letter" type="string" optional="yes" depreciated="Give the letter in the content of the ORNAMENT element instead.">
+        <desc><![CDATA[The ornamented letter.]]></desc>
       </attribute>
     </tag>
     <tag name="PAGE" where="oldspelling">
