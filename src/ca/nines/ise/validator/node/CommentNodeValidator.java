@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.CommentNode;
 import ca.nines.ise.schema.Schema;
 
@@ -45,17 +46,26 @@ public class CommentNodeValidator extends NodeValidator<CommentNode> {
     Message m;
     String text = n.getText();
     if (!text.startsWith("<!--")) {
-      m = log.error("validator.comment.badstart", n);
-      m.addNote("The comment started with " + text.substring(0, Math.min(text.length(), 4)));
+      m = Message.builder("validator.comment.badstart")
+              .fromNode(n)
+              .addNote("The comment started with " + text.substring(0, Math.min(text.length(), 4)))
+              .build();
+      Log.addMessage(m);
     }
     if (!text.endsWith("-->")) {
-      m = log.error("validator.comment.badend", n);
-      m.addNote("The comment ended with " + text.substring(Math.max(0, text.length() - 3)));
+      m = Message.builder("validator.comment.badend")
+              .fromNode(n)
+              .addNote("The comment ended with " + text.substring(Math.max(0, text.length() - 3)))
+              .build();
+      Log.addMessage(m);
     }
     text = text.replaceAll("^(<!--)|(-->)$", "");
     if (text.contains("--")) {
-      m = log.error("validator.comment.dashes", n);
-      m.addNote("after replace: " + text);
+      m = Message.builder("validator.comment.dashes")
+              .fromNode(n)
+              .addNote("after replace: " + text)
+              .build();
+      Log.addMessage(m);
     }
   }
 

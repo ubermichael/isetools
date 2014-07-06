@@ -8,6 +8,7 @@ package ca.nines.ise.validator.node.attribute;
 import ca.nines.ise.validator.node.*;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
 import org.apache.commons.lang3.ArrayUtils;
@@ -42,8 +43,11 @@ public class ListAttributeValidator extends AttributeValidator {
     String[] options = attr.getOptions();
     for (String value : values) {
       if (!ArrayUtils.contains(options, value)) {
-        Message m = log.error("validator.attribute.badlist", n);
-        m.addNote("Attribute " + attr.getName() + " cannot contain " + value);
+        Message m = Message.builder("validator.attribute.badlist")
+                .fromNode(n)
+                .addNote("Attribute " + attr.getName() + " cannot contain " + value)
+                .build();
+        Log.addMessage(m);
       }
     }
   }

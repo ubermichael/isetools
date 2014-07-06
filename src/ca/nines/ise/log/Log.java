@@ -20,7 +20,11 @@ public class Log {
 
   private static final Log instance = new Log();
 
-  private final ArrayList<Message> messages = new ArrayList<>();
+  private static final ArrayList<Message> messages = new ArrayList<>();
+
+  public static void addMessage(Message m) {
+    instance.add(m);
+  }
 
   /**
    * Get an instance of the log.
@@ -30,7 +34,7 @@ public class Log {
   public static Log getInstance() {
     return instance;
   }
-
+  
   private Log() {
   }
 

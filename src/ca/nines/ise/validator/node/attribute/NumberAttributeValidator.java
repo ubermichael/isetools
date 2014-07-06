@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.validator.node.AttributeValidator;
@@ -42,8 +43,11 @@ public class NumberAttributeValidator extends AttributeValidator {
   public void validate(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     if (!value.matches("^[+-]?\\d+(\\.\\d+)?$")) {
-      Message m = log.error("validator.attribute.badnumber", n);
-      m.addNote("Attribute " + attr.getName() + "=" + value + " does not look like a number.");
+        Message m = Message.builder("validator.attribute.badnumber")
+                .fromNode(n)
+                .addNote("Attribute " + attr.getName() + "=" + value + " does not look like a number.")
+                .build();
+        Log.addMessage(m);
     }
   }
 
