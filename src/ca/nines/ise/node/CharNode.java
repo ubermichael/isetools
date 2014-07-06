@@ -8,7 +8,10 @@ package ca.nines.ise.node;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
+import ca.nines.ise.node.chr.AccentCharNode;
 import java.io.IOException;
+import java.text.Normalizer;
+import java.util.HashMap;
 
 /**
  *
@@ -109,4 +112,35 @@ abstract public class CharNode extends Node {
     return dom;
   }
 
+  public static CharNode accentChar() {
+    return new AccentCharNode();
+  }
+
+  public static CharNode codePoint() {
+    return null;
+  }
+
+  public static CharNode digraphChar() {
+    return null;
+  }
+
+  public static CharNode ligatureChar() {
+    return null;
+  }
+
+  public static CharNode nestedChar() {
+    return null;
+  }
+
+  public static CharNode spaceChar() {
+    return null;
+  }
+
+  public static CharNode typographicChar() {
+    return null;
+  }
+
+  public static CharNode unicodeChar() {
+    return null;
+  }
 }

@@ -25,6 +25,10 @@ public class DigraphCharNode extends CharNode {
     charMap.put("{qp}", "\u0239");
     charMap.put("{db}", "\u0238");
   }
+  
+  public static HashMap<String, String> mapping() {
+    return new HashMap<>(charMap);
+  }
 
   @Override
   public Fragment expanded() {
