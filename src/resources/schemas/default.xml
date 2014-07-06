@@ -44,10 +44,13 @@
 <LD>Actus Secundus</LD>.]]></desc>
       </attribute>
     </tag>
-    <tag name="ADD" where="unknown">
+    <tag name="ADD" where="modern">
       <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version. May contain LEM and RDG elements, or directly contain added text for the extended version (as if RDG were used around the entire contents).]]></desc>
+      <attribute name="wit" type="string" optional="true">
+        <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omit if using a child RDG.]]></desc>
+      </attribute>
     </tag>
-    <tag name="AMBIG" where="unknown">
+    <tag name="AMBIG" where="modern">
       <desc><![CDATA[Designates a word with alternative readings (marked up by child RDG elements) where a word in the source material is irreducibly ambiguous. Note: this is not a textual variant, but a product of the process of modernization.]]></desc>
     </tag>
     <tag name="BACKMATTER" where="all">
@@ -252,6 +255,9 @@
     <tag name="LEM" where="apparatus">
       <desc><![CDATA[Surrounds the lemma for an annotation or collation. The lemma will become the link on the text, and must be wholly accurate, including punctuation.]]></desc>
     </tag>
+    <tag name="LEM" where="modern">
+      <desc><![CDATA[Used inside of ADD to mark text that will appear only in the non-extended version of the text.]]></desc>
+    </tag>
     <tag name="LINEGROUP" where="primary">
       <desc><![CDATA[Surrounds a pattern of rhyming verse.]]></desc>
       <attribute name="form" type="select">
@@ -383,6 +389,12 @@
       <desc><![CDATA[The reading of an editor or edition for an entry in the collation. One collation may contain multiple variant readings.]]></desc>
       <attribute name="resp" type="string" optional="yes">
         <desc><![CDATA[The edition or editor responsible for the reading.]]></desc>
+      </attribute>
+    </tag>
+    <tag name="RDG" where="modern">
+      <desc><![CDATA[A Reading within an AMBIG or ADD.]]></desc>
+      <attribute name="wit" type="string" optional="yes">
+        <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omitted when used within AMBIG.]]></desc>
       </attribute>
     </tag>
     <tag name="RT" where="oldspelling">
