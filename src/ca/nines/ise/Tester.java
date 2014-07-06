@@ -5,10 +5,10 @@
  */
 package ca.nines.ise;
 
+import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.chr.CodePointCharNode;
-import java.io.IOException;
+import ca.nines.ise.output.XMLOutput;        
 
 /**
  *
@@ -19,10 +19,10 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      CharNode c = new CodePointCharNode();
-      c.setText("{\\u151}");
-      System.out.println(c.expanded());
-    } catch (IOException ex) {
+      DOM dom = new DOMBuilder("<a a='3'>hello<b>yes</b><ok></ok> world.</a>").build();
+      XMLOutput out = new XMLOutput();
+      out.render(dom);
+    } catch (Exception ex) {
       System.err.println(ex.getMessage());
       ex.printStackTrace(System.err);
     }
