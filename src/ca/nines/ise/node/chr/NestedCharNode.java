@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.node.chr;
 
-import ca.nines.ise.dom.Builder;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
@@ -23,7 +23,7 @@ public class NestedCharNode extends CharNode {
   public Fragment expanded() throws IOException {
     Fragment dom = new Fragment();
 
-    DOM inner = new Builder(innerText()).getDOM();
+    DOM inner = new DOMBuilder(innerText()).build();
     Iterator<Node> iterator = inner.iterator();
     while (iterator.hasNext()) {
       Node node = iterator.next();

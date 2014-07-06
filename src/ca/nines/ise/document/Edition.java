@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.document;
 
-import ca.nines.ise.dom.Builder;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class Edition implements Comparable<Edition> {
   }
 
   public DOM getDOM() throws IOException {
-    return new Builder(file).getDOM();
+    return new DOMBuilder(file).build();
   }
 
   public boolean hasAnnotations() {

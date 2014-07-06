@@ -63,47 +63,50 @@ abstract public class CharNode extends Node {
     return text.replaceAll("^\\{|\\}$", "");
   }
 
-    protected Fragment wrap(String tagName, String content) {
-      Fragment dom = new Fragment();
-      TagNode node;
-      
-      node = new StartNode(this);
-      node.setName(tagName);
-      node.setAttribute("setting", this.text);
-      dom.add(node);
-      
-      TextNode textNode = new TextNode(this);
-      if (content == null) {
-        content = "\uFFFD";
-        Message m = Log.getInstance().error("char." + tagName.toLowerCase() + ".unknown", this);
-        m.addNote("Character " + text + " cannot be expanded.");
-      }
-      textNode.setText(content);
-      dom.add(textNode);
-      
-      node = new EndNode(this);
-      node.setName(tagName);
-      dom.add(node);
-      
-      return dom;
-    }
+  protected Fragment wrap(String tagName, String content) {
+    Fragment dom = new Fragment();
+    TagNode node;
 
-    protected Fragment wrap(String tagName, Fragment fragment) {
-      Fragment dom = new Fragment();
-      TagNode node;
-      
-      node = new StartNode(this);
-      node.setName(tagName);
-      node.setAttribute("setting", this.text);
-      dom.add(node);
-      
-      dom.addAll(fragment);
-      
-      node = new EndNode(this);
-      node.setName(tagName);
-      dom.add(node);
-      
-      return dom;
+    node = new StartNode(this);
+    node.setName(tagName);
+    node.setAttribute("setting", this.text);
+    dom.add(node);
+
+    TextNode textNode = new TextNode(this);
+    if (content == null) {
+      content = "\uFFFD";
+      Message m = Message.builder("char." + tagName.toLowerCase() + ".unknown")
+              .fromNode(this)
+              .addNote("Character " + text + " cannot be expanded.")
+              .build();
+      Log.getInstance().add(m);
     }
+    textNode.setText(content);
+    dom.add(textNode);
+
+    node = new EndNode(this);
+    node.setName(tagName);
+    dom.add(node);
+
+    return dom;
+  }
+
+  protected Fragment wrap(String tagName, Fragment fragment) {
+    Fragment dom = new Fragment();
+    TagNode node;
+
+    node = new StartNode(this);
+    node.setName(tagName);
+    node.setAttribute("setting", this.text);
+    dom.add(node);
+
+    dom.addAll(fragment);
+
+    node = new EndNode(this);
+    node.setName(tagName);
+    dom.add(node);
+
+    return dom;
+  }
 
 }

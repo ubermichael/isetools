@@ -5,7 +5,6 @@
  */
 package ca.nines.ise.log;
 
-import ca.nines.ise.node.Node;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -53,27 +52,6 @@ public class Log {
 
   public int count() {
     return messages.size();
-  }
-
-  /**
-   * Create and error a new error message to the log.
-   * <p>
-   * @param code <p>
-   * @return Message, so that notes can be added.
-   */
-  public Message error(String code) {
-    Message m = new Message(code);
-    this.add(m);
-    return m;
-  }
-
-  public Message error(String code, Node node) {
-    Message m = error(code);
-    m.setSource(node.getSource());
-    m.setColumnNumber(node.getColumn());
-    m.setLineNumber(node.getLine());
-    m.setTLN(node.getTLN());
-    return m;
   }
 
   public Message get(int i) {

@@ -46,19 +46,15 @@ public class DOMStream {
     bom = bomStream.getBOM();
     encoding = "UTF-8";
     if (bom != null) {
-      Message m = log.error("builder.bom");
-      m.setSource(source);
+      Message m = Message.builder("builder.bom").setSource(source).build();
       m.addNote("The byte order mark was " + bom.getCharsetName());
-      m.setLineNumber(0);
-      m.setColumnNumber(0);
+      log.add(m);
       encoding = bom.getCharsetName();
     }
     if (!encoding.equals("UTF-8")) {
-      Message m = log.error("builder.notutf8");
-      m.setSource(source);
+      Message m = Message.builder("builder.notutf8").setSource(source).build();
       m.addNote("The incorrect encoding is " + encoding);
-      m.setLineNumber(0);
-      m.setColumnNumber(0);
+      log.add(m);
     }
 
     BufferedReader buffer = new BufferedReader(new InputStreamReader(bomStream, encoding));
@@ -76,7 +72,7 @@ public class DOMStream {
   }
 
   /**
-   * Constructs a Builder from a string. The resulting DOM source will be
+   * Constructs a MessageBuilder from a string. The resulting DOM source will be
    * "#STRING".
    * <p>
    * @param input The string to parse.
@@ -88,7 +84,7 @@ public class DOMStream {
   }
 
   /**
-   * Constructs a Builder from a File. The resulting DOM source will return the
+   * Constructs a MessageBuilder from a File. The resulting DOM source will return the
    * absolute path to the file.
    * <p>
    * @param input The file to read and parse.

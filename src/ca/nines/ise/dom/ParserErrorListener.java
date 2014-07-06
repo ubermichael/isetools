@@ -14,7 +14,7 @@ import org.antlr.v4.runtime.Recognizer;
 
 /**
  * ParserErrorListener intercepts parser errors and generates error messages in
- * the log. Used by Builder.
+ * the log. Used by MessageBuilder.
  */
 public class ParserErrorListener extends BaseErrorListener {
 
@@ -50,13 +50,14 @@ public class ParserErrorListener extends BaseErrorListener {
   })
   @Override
   public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-
-    Message m = log.error("lexer.syntax");
-    m.setLineNumber(line);
-    m.setColumnNumber(charPositionInLine);
-    m.setSource(source);
-    m.setLine(lines[line - 1]);
-    m.addNote(msg.substring(0, Math.min(64, msg.length())));
+    Message m = Message.builder("lexer.syntax")
+            .setLineNumber(line)
+            .setColumnNumber(charPositionInLine)
+            .setSource(source)
+            .setLine(lines[line - 1])
+            .addNote(msg.substring(0, Math.min(64, msg.length())))
+            .build();
+    log.add(m);
   }
 
 }

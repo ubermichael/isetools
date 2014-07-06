@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.dom.Builder;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.schema.Schema;
@@ -55,7 +55,7 @@ public class Validate extends Command {
       if (files != null) {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
-          DOM dom = new Builder(in).getDOM();
+          DOM dom = new DOMBuilder(in).build();
           validator.validate(dom);
           if (log.count() > 0) {
             out.println(log);

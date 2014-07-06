@@ -15,33 +15,36 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+ * @author Michael Joyce <michael@negativespatternace.net>
  */
 public class CodePointCharNode extends CharNode {
 
-  Pattern p = Pattern.compile("\\\\u(\\p{XDigit}+)");
+  Pattern pattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
 
   @Override
   public Fragment expanded() {
-    Matcher m = p.matcher(innerText());
+    Matcher matcher = pattern.matcher(innerText());
     try {
-      if (m.matches()) {
-        String hex = m.group(1);
+      if (matcher.matches()) {
+        String hex = matcher.group(1);
         int codePoint = Integer.parseInt(hex, 16);
         char[] c = Character.toChars(codePoint);
         String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
         return wrap("CODEPOINT", str);
       }
     } catch (IllegalArgumentException e) {
-      Message message = Log.getInstance().error("char.codepoint.unknown", this);
-      message.addNote("Cannot parse " + innerText() + " as a hexidecimal code point.");
+      Message m = Message.builder("char.codepoint.unknown")
+              .fromNode(this)
+              .addNote("Cannot parse " + innerText() + " as a hexidecimal code point.")
+              .build();
+      Log.getInstance().add(m);
     }
 
     return wrap("CODEPOINT", (String) null);
   }
 
   /**
-   * @return the charType
+   * @return the charTypatterne
    */
   @Override
   public CharType getCharType() {

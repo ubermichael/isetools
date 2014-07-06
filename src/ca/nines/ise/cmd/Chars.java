@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.dom.Builder;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.Node;
@@ -55,7 +55,7 @@ public class Chars extends Command {
 
       out.println("Found " + files.length + " files to check.");
       for (File file : files) {
-        DOM dom = new Builder(file).getDOM();
+        DOM dom = new DOMBuilder(file).build();
         Iterator<Node> i = dom.iterator();
         while (i.hasNext()) {
           Node n = i.next();

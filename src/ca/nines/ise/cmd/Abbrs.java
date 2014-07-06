@@ -5,7 +5,7 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.dom.Builder;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.Node;
@@ -54,7 +54,7 @@ public class Abbrs extends Command {
       if (files != null) {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
-          DOM dom = new Builder(in).getDOM();
+          DOM dom = new DOMBuilder(in).build();
           dom.index();
           Iterator<Node> iterator = dom.iterator();
           while (iterator.hasNext()) {

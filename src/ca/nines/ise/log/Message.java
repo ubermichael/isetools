@@ -5,6 +5,8 @@
  */
 package ca.nines.ise.log;
 
+import ca.nines.ise.node.Node;
+import ca.nines.ise.util.BuilderInterface;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Level;
@@ -29,25 +31,87 @@ public class Message implements Comparable<Message> {
     }
     errorCodes = tmp;
   }
-  private String TLN = "(unknown)";
-  private String code = "(unknown)";
-  private int columnNumber = 0;
-  private String line = "";
-  private int lineNumber = 0;
+  private final String TLN;
+  private final String code;
+  private final int columnNumber;
+  private final String line;
+  private final int lineNumber;
   private final ArrayList<String> notes = new ArrayList<>();
-  private String source = "(unknown)";
+  private final String source;
 
-  /**
-   * Construct a message object for the given message code.
-   * <p>
-   * @param code
-   */
-  public Message(String code) {
-    if (code == null) {
-      this.code = "(unknown)";
-    } else {
+  public static MessageBuilder builder(String code) {
+    return new MessageBuilder(code);
+  }
+  
+  public static class MessageBuilder implements BuilderInterface<Message> {
+
+    private String TLN = "(unknown)";
+    private String code = "(unknown)";
+    private int columnNumber = 0;
+    private String line = "";
+    private int lineNumber = 0;
+    private final ArrayList<String> notes = new ArrayList<>();
+    private String source = "(unknown)";
+
+    private MessageBuilder(String code) {
       this.code = code;
     }
+
+    public MessageBuilder addNote(String note) {
+      notes.add(note);
+      return this;
+    }
+
+    @Override
+    public Message build() {
+      Message m = new Message(code, TLN, lineNumber, columnNumber, line, source);
+      for (String note : notes) {
+        m.addNote(note);
+      }
+      return m;
+    }
+
+    public MessageBuilder fromNode(Node n) {
+      setColumnNumber(n.getColumn());
+      setLineNumber(n.getLine());
+      setSource(n.getSource());
+      setTLN(n.getTLN());
+      return this;
+    }
+
+    public MessageBuilder setColumnNumber(int columnNumber) {
+      this.columnNumber = columnNumber;
+      return this;
+    }
+
+    public MessageBuilder setLine(String line) {
+      this.line = line;
+      return this;
+    }
+
+    public MessageBuilder setLineNumber(int lineNumber) {
+      this.lineNumber = lineNumber;
+      return this;
+    }
+
+    public MessageBuilder setSource(String source) {
+      this.source = source;
+      return this;
+    }
+
+    public MessageBuilder setTLN(String TLN) {
+      this.TLN = TLN;
+      return this;
+    }
+  }
+
+  Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source) {
+    this.code = code;
+    this.TLN = TLN;
+    this.lineNumber = lineNumber;
+    this.columnNumber = columnNumber;
+    this.line = line;
+    this.source = source;
   }
 
   /**
@@ -76,24 +140,10 @@ public class Message implements Comparable<Message> {
   }
 
   /**
-   * @param code the code to set
-   */
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  /**
    * @return the column
    */
   public int getColumnNumber() {
     return columnNumber;
-  }
-
-  /**
-   * @param column the column to set
-   */
-  public void setColumnNumber(int column) {
-    this.columnNumber = column;
   }
 
   /**
@@ -104,24 +154,10 @@ public class Message implements Comparable<Message> {
   }
 
   /**
-   * @param line the line to set
-   */
-  public void setLine(String line) {
-    this.line = line;
-  }
-
-  /**
    * @return the line
    */
   public int getLineNumber() {
     return lineNumber;
-  }
-
-  /**
-   * @param line the line to set
-   */
-  public void setLineNumber(int line) {
-    this.lineNumber = line;
   }
 
   public String getMessage() {
@@ -158,24 +194,10 @@ public class Message implements Comparable<Message> {
   }
 
   /**
-   * @param source the source to set
-   */
-  public void setSource(String source) {
-    this.source = source;
-  }
-
-  /**
    * @return the TLN
    */
   public String getTLN() {
     return TLN;
-  }
-
-  /**
-   * @param TLN the TLN to set
-   */
-  public void setTLN(String TLN) {
-    this.TLN = TLN;
   }
 
   @Override
