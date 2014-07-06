@@ -53,8 +53,11 @@ public class AbbrNode extends Node {
       fragment.add(node);
     } else {
       if (!content.matches(shortAbbrPattern.pattern())) {
-        Message msg = Log.getInstance().error("abbr.expand.syntax", this);
-        msg.addNote("The syntax error occurs in " + text);
+        Message msg = Message.builder("abbr.expand.syntax")
+                .fromNode(this)
+                .addNote("The syntax error occurs in " + text)
+                .build();
+        Log.getInstance().add(msg);
       }
       TextNode tn = new TextNode(this);
       tn.setText(content);

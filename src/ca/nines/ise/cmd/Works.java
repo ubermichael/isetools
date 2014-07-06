@@ -6,7 +6,7 @@
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.document.Corpus;
-import ca.nines.ise.dom.Builder;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import java.io.File;

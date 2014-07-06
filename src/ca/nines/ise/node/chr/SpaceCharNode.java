@@ -40,8 +40,11 @@ public class SpaceCharNode extends CharNode {
         node.setAttribute("n", "1");
         break;
       default:
-        Message m = Log.getInstance().error("char.space.unknown", this);
-        m.addNote("Space markup " + text + " cannot be transformed.");
+        Message m = Message.builder("char.space.unknown")
+                .fromNode(this)
+                .addNote("Space markup " + text + " cannot be transformed.")
+                .build();
+        Log.getInstance().add(m);
     }
 
     dom.add(node);

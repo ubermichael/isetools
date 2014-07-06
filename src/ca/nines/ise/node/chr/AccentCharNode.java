@@ -38,8 +38,11 @@ public class AccentCharNode extends CharNode {
     String accent = charMap.get(cs[0]);
     if (accent == null) {
       accent = "\uFFFD";
-      Message m = Log.getInstance().error("char.accent.unknown", this);
-      m.addNote("Character " + text + " cannot be expanded.");
+      Message m = Message.builder("char.accent.unknown")
+              .fromNode(this)
+              .addNote("Character " + text + " cannot be expanded.")
+              .build();
+      Log.getInstance().add(m);
     }
     String str = cs[1] + accent;
     str = Normalizer.normalize(str, Form.NFC);
