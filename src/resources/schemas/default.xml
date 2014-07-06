@@ -339,6 +339,12 @@
       <attribute name="n" type="number"  renumber="yes">
         <desc><![CDATA[The "through page number" for the text.]]></desc>
       </attribute>
+      <attribute name="sig" type="string" optional="yes">
+        <desc><![CDATA[The page signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
+      </attribute>
+      <attribute name="compositor" type="string" optional="yes">
+        <desc><![CDATA[The compositor(s) of this page.]]></desc>
+      </attribute>
     </tag>
     <tag name="PN" where="oldspelling">
       <desc><![CDATA[Page number as printed.]]></desc>
@@ -445,8 +451,8 @@
       </attribute>
     </tag>
     <tag name="SIG" where="primary">
-      <attribute name="n" type="string" optional="yes" renumber="no">
       <desc><![CDATA[Page Signature.  Encloses the printed page signature.]]></desc>
+      <attribute name="n" type="string" optional="yes" renumber="no" depreciated="Use @sig on PAGE instead">
         <desc><![CDATA[The signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
     </tag>
