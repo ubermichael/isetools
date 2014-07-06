@@ -20,7 +20,6 @@ import org.xml.sax.SAXException;
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Schema {
-  private final String source;
 
   private final HashMap<String, Tag> tags;
 
@@ -42,7 +41,6 @@ public class Schema {
 
   public Schema(XMLResourceReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
     tags = new HashMap<>();
-    source = xmlIn.getSource();
     for (Node n : xmlIn.xpathList("//tag")) {
       Tag t = new Tag(n, xmlIn);
       tags.put(t.getName().toUpperCase(), t);
