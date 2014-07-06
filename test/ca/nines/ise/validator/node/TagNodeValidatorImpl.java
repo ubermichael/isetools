@@ -12,7 +12,7 @@ import ca.nines.ise.schema.Schema;
  *
  * @author michael
  */
-public class TagNodeValidatorImpl extends TagNodeValidator {
+public class TagNodeValidatorImpl extends TagNodeValidator<TagNode> {
 
   public TagNodeValidatorImpl(Schema schema) {
     super(schema);

@@ -20,10 +20,6 @@ import org.xml.sax.SAXException;
  */
 public class Annotations extends Apparatus<Note> {
 
-  public Annotations() {
-    super();
-  }
-
   public Annotations(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }

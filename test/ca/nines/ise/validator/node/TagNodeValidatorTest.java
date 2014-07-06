@@ -31,7 +31,7 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
   @Test
   public void testValidate_attributes() throws Exception {
     TagNode n = new TagNodeImpl();
-    TagNodeValidator instance = new TagNodeValidatorImpl(schema);
+    TagNodeValidator<?> instance = new TagNodeValidatorImpl(schema);
     instance.validate_attributes(n);
     checkLog(new String[]{});
 
