@@ -13,16 +13,50 @@
 
 <schema edition="default" group="default">
   <locations>
-    <location id="all">any non-apparatus text.</location>
-    <location id="annotations">level 1 or level 2 stand-off footnotes</location>    
-    <location id="anywhere">any primary text or apparatus.</location>
-    <location id="apparatus">collation or annotation files, excluding level 3 footnotes</location>
-    <location id="collations">stand-off collations</location>
-    <location id="modern">modern primary texts.</location>
-    <location id="oldspelling">non-modern, primary texts.</location>
-    <location id="primary">any main text of an edition (old spelling or modern), encoded using the SGML syntax.</location>
-    <location id="quarto">old spelling quarto</location>
-    <location id="unknown">a location for this tag has not been specified yet.</location>
+    <location id="annotations">
+      <includes loc="anywhere"/>
+      <desc>level 1 or level 2 stand-off footnotes</desc>
+    </location>
+    <location id="anywhere">
+      <desc>any primary text or apparatus.</desc>
+    </location>
+    <location id="apparatus">
+      <includes loc="anywhere"/>
+      <includes loc="annotations"/>
+      <includes loc="collations"/>
+      <desc>collation or annotation files, excluding level 3 footnotes</desc>
+    </location>
+    <location id="collations">
+      <includes loc="anywhere"/>
+      <desc>stand-off collations</desc>
+    </location>
+    <location id="folio">
+      <includes loc="anywhere"/>
+      <desc>old spelling folio</desc>
+    </location>
+    <location id="modern">
+      <includes loc="anywhere"/>
+      <desc>modern primary texts.</desc>
+    </location>
+    <location id="oldspelling">
+      <includes loc="anywhere"/>
+      <includes loc="folio"/>
+      <includes loc="quarto"/>
+      <desc>non-modern, primary texts.</desc>
+    </location>
+    <location id="primary">
+      <includes loc="anywhere"/>
+      <includes loc="oldspelling"/>
+      <includes loc="modern"/>      
+      <desc>any main text of an edition (old spelling or modern), encoded using the SGML syntax.</desc>
+    </location>
+    <location id="quarto">
+      <includes loc="anywhere"/>
+      <desc>old spelling quarto</desc></location>
+    <location id="unknown">
+      <includes loc="anywhere"/>
+      <desc>a location for this tag has not been specified yet.</desc>
+    </location>
   </locations>
   <attrTypes>
     <type id="string">The attribute is a non-empty string.</type>
@@ -31,7 +65,7 @@
     <type id="select">The attribute contains one item from a list.</type>
   </attrTypes>  
   <tags>
-    <tag name="ABBR" where="all">
+    <tag name="ABBR" where="primary">
       <desc><![CDATA[Used to expand old-spelling contractions, e.g. <ABBR expan="the">y<SUP>e</SUP></ABBR>]]></desc>
       <attribute name="expan" type="string">
         <desc><![CDATA[The expanded form of the abbreviated word. This will eventually permit searches on the word.]]></desc>
@@ -56,7 +90,7 @@
     <tag name="annotations" where="annotations">
       <desc><![CDATA[Root element of an annotation file.]]></desc>
     </tag>
-    <tag name="BACKMATTER" where="all">
+    <tag name="BACKMATTER" where="primary">
       <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of BACKMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, Colophon and so on.]]></desc>
     </tag>
     <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL." where="unknown">
@@ -71,7 +105,7 @@
     <tag name="BR" empty="yes" where="primary">
       <desc><![CDATA[Break between lines of hung-words. Should NOT be used to force line breaks in any other context.]]></desc>
     </tag>
-    <tag name="C" where="all">
+    <tag name="C" where="primary">
       <desc><![CDATA[Centered text. This tag should be applied to a whole line, except for portions marked up by RA.]]></desc>
     </tag>
     <tag name="CL" where="primary">
@@ -95,7 +129,7 @@
     <tag name="CW" where="oldspelling">
       <desc><![CDATA[Catchword]]></desc>
     </tag>
-    <tag name="DIV" where="all">
+    <tag name="DIV" where="primary">
       <desc><![CDATA[Named Division of the text that is not an ACT or SCENE.]]></desc>
       <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
@@ -122,13 +156,13 @@
         <option>6</option>
       </attribute>
     </tag>
-    <tag name="FOREIGN" where="all">
+    <tag name="FOREIGN" where="primary">
       <desc><![CDATA[Surrounds a word or phrase in a language other than English. Used for the content of speeches only, not Latin stage directions, literary divisions etc. Example <FOREIGN lang="French">Diable!</FOREIGN>.]]></desc>
       <attribute name="lang" type="string">
         <desc><![CDATA[The name of the language used.]]></desc>
       </attribute>
     </tag>
-    <tag name="FRONTMATTER" where="all">
+    <tag name="FRONTMATTER" where="primary">
       <desc><![CDATA[Surrounds all sections of an edition that precede the first scene. The actual division(s) of FRONTMATTER are designated by the <DIV> tag, and include (and replace) such items as Prologue, Epistle, Dedication and so on.]]></desc>
     </tag>
     <tag name="H1" depreciated="Use LD instead of H1." where="modern">
@@ -231,19 +265,19 @@
     <tag name="I" where="anywhere">
       <desc><![CDATA[Italic text.]]></desc>
     </tag>
-    <tag name="INDENT" where="all">
+    <tag name="INDENT" where="primary">
       <desc><![CDATA[Surrounds a passage indented in the original.]]></desc>
       <attribute name="n" type="number" renumber="no">
         <desc><![CDATA[Indicates the number of em spaces a block of text (verse or prose) is to be indented.]]></desc>
       </attribute>
     </tag>
-    <tag name="iseHeader" where="all">
+    <tag name="iseHeader" where="primary">
       <desc><![CDATA[metadata block]]></desc>
     </tag>
-    <tag name="J" where="all">
+    <tag name="J" where="primary">
       <desc><![CDATA[Justified line. Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
     </tag>
-    <tag name="L" empty="yes" where="all">
+    <tag name="L" empty="yes" where="primary">
       <desc><![CDATA[Editor's line number. Mainly used in modern texts. Can also be used to mark blank lines so they will not be collapsed.]]></desc>
       <attribute name="n" type="number" optional="yes" empty="yes" renumber="yes">
         <desc><![CDATA[Line number. Each scene is renumbered from 1.]]></desc>
@@ -258,7 +292,7 @@
     <tag name="LB" depreciated="Use L on an empty line instead of LB to preserve empty lines." where="anywhere">
       <desc><![CDATA[Previously used for line break. <L/> is recommended.]]></desc>
     </tag>    
-    <tag name="LD" where="all">
+    <tag name="LD" where="primary">
       <desc><![CDATA[Header for a Literary Division (e.g. Act, Scene.).]]></desc>
     </tag>
     <tag name="lem" where="annotations">
@@ -300,7 +334,7 @@
         <desc><![CDATA[The group's rhyming pattern, for example aabbcddc]]></desc>
       </attribute>
     </tag>
-    <tag name="LINK" empty="yes" where="all">
+    <tag name="LINK" empty="yes" where="primary">
       <desc><![CDATA[describes a relationship to another document]]></desc>
       <attribute name="rel" type="string" optional="yes">
         <desc><![CDATA[the kind of relationship, describe in the forward direction (how the linked resource relates to this one)]]></desc>
@@ -336,7 +370,7 @@
     <tag name="LS" where="oldspelling">
       <desc><![CDATA[Surrounds letter-spaced words (e.g., "G O D").]]></desc>
     </tag>
-    <tag name="MARG" where="all">
+    <tag name="MARG" where="primary">
       <desc><![CDATA[Marginalia]]></desc>
       <attribute name="loc" type="select">
         <desc><![CDATA[Which page margin this text appears in]]></desc>
@@ -344,7 +378,7 @@
         <option>right</option>
       </attribute>
     </tag>
-    <tag name="META" empty="yes" where="all">
+    <tag name="META" empty="yes" where="primary">
       <desc><![CDATA[A metadata item about the document.]]></desc>
       <attribute name="name" type="string">
         <desc><![CDATA[metadata key]]></desc>
@@ -428,7 +462,7 @@
         <desc><![CDATA[The line number.]]></desc>
       </attribute>
     </tag>
-    <tag name="QUOTE" where="all">
+    <tag name="QUOTE" where="primary">
       <desc><![CDATA[A Quotation.]]></desc>
       <attribute name="source" type="string" optional="yes">
         <desc><![CDATA[a short desecription of the source of the quoted material]]></desc>
@@ -437,7 +471,7 @@
     <tag name="R" where="primary">
       <desc><![CDATA[Roman type. This tag is used only in texts where the default font is black letter.]]></desc>
     </tag>
-    <tag name="RA" where="all">
+    <tag name="RA" where="primary">
       <desc><![CDATA[Right Aligned text. This tag may be applied to a portion of a line that is otherwise left aligned (the default), centered (with C), or justified (with J) so that only the indicated portion is affected.]]></desc>
     </tag>
     <tag name="rdg" where="collations">
@@ -455,7 +489,7 @@
     <tag name="RT" where="oldspelling">
       <desc><![CDATA[Running title.]]></desc>
     </tag>
-    <tag name="RULE" empty="yes" where="all">
+    <tag name="RULE" empty="yes" where="primary">
       <desc><![CDATA[A horizontal rule. The tag is self-closing.]]></desc>
       <attribute name="n" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Width of the rule in m-spaces. The default is a full width rule.]]></desc>
@@ -511,7 +545,7 @@
         <desc><![CDATA[Normalized form of the name. If there is more than one speaker, separate the noramlized names by commas.]]></desc>
       </attribute>
     </tag>
-    <tag name="SPACE" empty="yes" where="all">
+    <tag name="SPACE" empty="yes" where="primary">
       <desc><![CDATA[Indicates significant space to be left in the text. The most common instance of this will be in formatting the lines of verse in a song or sonnet, where some lines will be indented further than others.]]></desc>
       <attribute name="n" type="number" optional="yes" renumber="no">
         <desc><![CDATA[The number of m-spaces should be indicated.]]></desc>
@@ -571,7 +605,7 @@
         <desc><![CDATA[An identifier for the witness that the passage came from. If omitted, the source witness referenced in the metadata is assumed.]]></desc>
       </attribute>
     </tag>
-    <tag name="WORK" where="all">
+    <tag name="WORK" where="primary">
       <desc><![CDATA[The tag that surrounds the entire document.]]></desc>
       <attribute name="genre" type="string" empty="yes" optional="yes" depreciated="Use metadata instead of the genre attribute.">
         <desc><![CDATA[Previously used to decribe the work's genre.]]></desc>
