@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.cmd;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -36,11 +37,13 @@ public class Wikify extends Command {
         out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
       }
 
+      System.out.println("not implemented.");
+
     } catch (UnsupportedEncodingException ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    } catch (FileNotFoundException ex) {
+      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
+    } 
   }
 
   @Override

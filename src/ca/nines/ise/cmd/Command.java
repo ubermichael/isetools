@@ -44,15 +44,16 @@ abstract public class Command {
   public File[] getFilePaths(CommandLine cmd) {
     Collection<File> fileList = new ArrayList<>();
 
-    List<String> argList = cmd.getArgList();
+    List<?> argList = cmd.getArgList();
     argList = argList.subList(1, argList.size());
+    String[] args = argList.toArray(new String[argList.size()]);
 
     if (argList.isEmpty()) {
       File dir = new File("input");
       SuffixFileFilter sfx = new SuffixFileFilter(".txt");
       fileList = FileUtils.listFiles(dir, sfx, TrueFileFilter.INSTANCE);
     } else {
-      for (String name : argList) {
+      for (String name : args) {
         fileList.add(new File(name));
       }
     }
@@ -63,9 +64,10 @@ abstract public class Command {
   }
 
   public String[] getArgList(CommandLine cmd) {
-    List<String> argList = cmd.getArgList();
+    List<?> argList = cmd.getArgList();
     argList = argList.subList(1, argList.size());
-    return argList.toArray(new String[argList.size()]);
+    String[] args = argList.toArray(new String[argList.size()]);
+    return args;
   }
 
   public void help() {
