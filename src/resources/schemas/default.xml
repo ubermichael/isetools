@@ -408,7 +408,7 @@
     </tag>
     <tag name="RULE" empty="yes" where="primary">
       <desc><![CDATA[A horizontal rule. The tag is self-closing.]]></desc>
-      <attribute name="n" type="number" optional="yes" empty="yes" renumber="no">
+      <attribute name="n" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Width of the rule in m-spaces. The default is a full width rule.]]></desc>
       </attribute>
     </tag>
