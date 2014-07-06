@@ -348,7 +348,7 @@
     </tag>
     <tag name="PN" where="oldspelling">
       <desc><![CDATA[Page number as printed.]]></desc>
-      <attribute name="n" type="number" optional="yes" renumber="no">
+      <attribute name="n" type="number" optional="yes" renumber="no" depreciated="Use @n on the PAGE element instead.">
         <desc><![CDATA[Actual page number where it differs from the printed number.]]></desc>
       </attribute>
     </tag>
