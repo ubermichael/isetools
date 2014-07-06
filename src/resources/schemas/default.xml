@@ -34,7 +34,7 @@
     <tag name="ABBR" where="oldspelling">
       <desc><![CDATA[Used to expand old-spelling contractions, e.g. <ABBR expan="the">y<SUP>e</SUP></ABBR>]]></desc>
       <attribute name="expan" type="string">
-        <desc><![CDATA[The word abbreviated. This will eventually permit searches on the word.]]></desc>
+        <desc><![CDATA[The expanded form of the abbreviated word. This will eventually permit searches on the word.]]></desc>
       </attribute>
     </tag>
     <tag name="ACT" where="primary">
@@ -45,13 +45,13 @@
       </attribute>
     </tag>
     <tag name="ADD" where="unknown">
-      <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version.]]></desc>
+      <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version. May contain LEM and RDG elements, or directly contain added text for the extended version (as if RDG were used around the entire contents).]]></desc>
     </tag>
     <tag name="AMBIG" where="unknown">
-      <desc><![CDATA[Designates alternative readings in a modern text where a word in the original is irreducibly ambiguous. Note: this is not a textual variant, but a product of the process of modernization. ]]></desc>
+      <desc><![CDATA[Designates a word with alternative readings (marked up by child RDG elements) where a word in the source material is irreducibly ambiguous. Note: this is not a textual variant, but a product of the process of modernization.]]></desc>
     </tag>
     <tag name="BACKMATTER" where="all">
-      <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of FRONTMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, List of Characters and so on.]]></desc>
+      <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of BACKMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, Colophon and so on.]]></desc>
     </tag>
     <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL." where="unknown">
       <desc><![CDATA[Formerly blank line. Depreciated in favour of L.]]></desc>
@@ -60,16 +60,16 @@
       <desc><![CDATA[Black Letter (not to be confused with BL, previously the indication of a blank line).]]></desc>
     </tag>
     <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE" where="oldspelling">
-      <desc><![CDATA[Previously used to denote a quoted piece of text (e.g. letter).></desc>
+      <desc><![CDATA[Previously used to denote a quoted piece of text (e.g. letter).]]></desc>
     </tag>
-    <tag name="BR" empty="yes" where="apparatus">
-      <desc><![CDATA[Forces a line break where no other option is available. To be used with caution.]]></desc>
+    <tag name="BR" empty="yes" where="primary">
+      <desc><![CDATA[Break between lines of hung-words. Should NOT be used to force line breaks in any other context.]]></desc>
     </tag>
     <tag name="C" where="primary">
-      <desc><![CDATA[Centered text. As in HTML this tag applies to a whole line.]]></desc>
+      <desc><![CDATA[Centered text. This tag should be applied to a whole line, except for portions marked up by RA.]]></desc>
     </tag>
     <tag name="CL" where="primary">
-      <desc><![CDATA[Closing (e.g. Finis).]]></desc>
+      <desc><![CDATA[Closing statement (e.g. Finis).]]></desc>
     </tag>
     <tag name="COL" where="oldspelling">
       <desc><![CDATA[Defines columns in a page.]]></desc>
@@ -84,7 +84,7 @@
       <desc><![CDATA[Catchword]]></desc>
     </tag>
     <tag name="DIV" where="all">
-      <desc><![CDATA[Divisions of the FRONTMATTER and ENDMATTER tags, indicating what kind of material follows.]]></desc>
+      <desc><![CDATA[Named Division of the text that is not an ACT or SCENE.]]></desc>
       <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
       </attribute>
@@ -109,9 +109,9 @@
       </attribute>
     </tag>
     <tag name="EM" where="anywhere">
-      <desc><![CDATA[Surrounds words to be emphasized. May be replaced by word processor italics.]]></desc>
+      <desc><![CDATA[Words to be emphasized.]]></desc>
     </tag>
-    <tag name="EPILOGUE" depreciated="Use BACKMATTER or DIV instead of EPILOGUE" where="primary">
+    <tag name="EPILOGUE" depreciated="Use BACKMATTER with DIV instead of EPILOGUE" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
     <tag name="FONTGROUP" where="oldspelling">
@@ -154,20 +154,20 @@
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
     <tag name="HW" where="oldspelling">
-      <desc><![CDATA[Hung Word(s). Note that the hung word should be restored to the line it continues; the "type" indicates whether it was originally displaced to the previous or next line.]]></desc>
+      <desc><![CDATA[Hung-Word(s). Note that the hung-word should be restored to the line it continues; the "type" indicates whether it was originally displaced to the previous or next line. Multiple lines of hung-word content should be separated with BR.]]></desc>
       <attribute name="t" type="select">
-        <desc><![CDATA[The type of hung word indicates whether it appears on the previous or next line from the line it continues.]]></desc>
+        <desc><![CDATA[The type of hung-word indicates whether it appears on lines preceding or following the line it continues.]]></desc>
         <option>prev</option>
         <option>next</option>
       </attribute>
     </tag>
     <tag name="iembed" where="anywhere">
-      <desc><![CDATA[]]></desc>
       <attribute name="site" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
+      <desc><![CDATA[Embedded content]]></desc>
       </attribute>
       <attribute name="component" type="select" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[The site component to fetch content from.]]></desc>
         <option>imagedb</option>
         <option>text</option>
         <option>slt</option>
@@ -177,21 +177,21 @@
         <option>static</option>
       </attribute>
       <attribute name="href" type="string">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[identifier of the resource to embed]]></desc>
       </attribute>
       <attribute name="showCaption" type="select" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[whether or not to display a caption with the embedded content]]></desc>
         <option>true</option>
         <option>false</option>
       </attribute>
       <attribute name="height" type="number" optional="yes" renumber="no">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[height (in pixels) of the embedded content]]></desc>
       </attribute>
       <attribute name="width" type="number" optional="yes" renumber="no">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[width (in pixels) of the embedded content]]></desc>
       </attribute>
       <attribute name="align" type="select" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[how to align the embedded content within the host document]]></desc>
         <option>left</option>
         <option>center</option>
         <option>right</option>
@@ -199,19 +199,19 @@
         <option>auto</option>
       </attribute>
       <attribute name="lightbox" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[identifier of the large resource to show in the lightbox]]></desc>
       </attribute>
       <attribute name="longCaption" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[long-form caption to show in the lightbox]]></desc>
       </attribute>
     </tag>
     <tag name="ilink" where="anywhere">
-      <desc><![CDATA[]]></desc>
       <attribute name="site" type="string" optional="yes">
         <desc><![CDATA[]]></desc>
+      <desc><![CDATA[ISE link]]></desc>
       </attribute>
       <attribute name="component" type="select" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[The site component to fetch content from.]]></desc>
         <option>imagedb</option>
         <option>text</option>
         <option>slt</option>
@@ -221,11 +221,11 @@
         <option>static</option>
       </attribute>
       <attribute name="href" type="string">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[the resource to link to]]></desc>
       </attribute>
     </tag>
     <tag name="I" where="anywhere">
-      <desc><![CDATA[Italic text. Italics may also be generated in the normal word processor way to assist you in working with a readable text; they will later be converted automatically.]]></desc>
+      <desc><![CDATA[Italic text.]]></desc>
     </tag>
     <tag name="INDENT" where="primary">
       <desc><![CDATA[Surrounds a passage indented in the original.]]></desc>
@@ -234,31 +234,31 @@
       </attribute>
     </tag>
     <tag name="iseHeader" where="primary">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[metadata block]]></desc>
     </tag>
     <tag name="J" where="primary">
-      <desc><![CDATA[Justified line(s). Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
+      <desc><![CDATA[Justified line. Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
     </tag>
     <tag name="L" empty="yes" where="primary">
-      <desc><![CDATA[Blank line in the old-spelling texts. (Previously tagged <L></L> and even earlier <BL>.)]]></desc>
+      <desc><![CDATA[Editor's line number. Mainly used in modern texts. Can also be used to mark blank lines so they will not be collapsed.]]></desc>
       <attribute name="n" type="number" optional="yes" empty="yes" renumber="yes">
-        <desc><![CDATA[A line in the modern text, with its line number, each scene renumbered from 1.]]></desc>
+        <desc><![CDATA[Line number. Each scene is renumbered from 1.]]></desc>
       </attribute>
       <attribute name="part" type="select" optional="yes">
-        <desc><![CDATA[See Editor Guidelines 4.4.8 on division into lines. Part may optionally be indicated by tabs: one tab = medial, two tabs = final.]]></desc>
+        <desc><![CDATA[Used to create split-line groups, where each part is positioned as if it were on the same line as the preceding part. The first part in the group should be marked as part "i", intermediate parts as part "m", and the final part as part "f". See Editor Guidelines 4.4.8]]></desc>
         <option>i</option>
         <option>m</option>
         <option>f</option>
       </attribute>
     </tag>
-    <tag name="LB" depreciated="Use L for lineation instead of LB." where="anywhere">
+    <tag name="LB" depreciated="Use L on an empty line instead of LB to preserve empty lines." where="anywhere">
       <desc><![CDATA[Previously used for line break. <L/> is recommended.]]></desc>
     </tag>    
     <tag name="LD" where="primary">
-      <desc><![CDATA[Literary Division (e.g. Act, Scene.). Note that this tag encloses original literary divisions; modern divisions are indicated by separate tags]]></desc>
+      <desc><![CDATA[Header for a Literary Division (e.g. Act, Scene.).]]></desc>
     </tag>
     <tag name="LEM" where="apparatus">
-      <desc><![CDATA[Surrounds the lemma for an annotation or collation. The lemma will become the link on the text, and must be wholly accurate, including final punctuation.]]></desc>
+      <desc><![CDATA[Surrounds the lemma for an annotation or collation. The lemma will become the link on the text, and must be wholly accurate, including punctuation.]]></desc>
     </tag>
     <tag name="LINEGROUP" where="primary">
       <desc><![CDATA[Surrounds a pattern of rhyming verse.]]></desc>
@@ -275,18 +275,18 @@
       </attribute>
     </tag>
     <tag name="LINK" empty="yes" where="primary">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[describes a relationship to another document]]></desc>
       <attribute name="rel" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[the kind of relationship, describe in the forward direction (how the linked resource relates to this one)]]></desc>
       </attribute>
       <attribute name="rev" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[the kind of relationship, described in the reverse direction (how this resource relates to the linked one)]]></desc>
       </attribute>
       <attribute name="href" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[identifier of the related resource]]></desc>
       </attribute>
       <attribute name="order" type="number" optional="yes" renumber="no">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[order that this item will appear on the edition title page]]></desc>
       </attribute>
     </tag>
     <tag name="LN" where="apparatus">
@@ -298,21 +298,21 @@
     <tag name="MARG" where="all">
       <desc><![CDATA[Marginalia]]></desc>
       <attribute name="loc" type="select">
-        <desc><![CDATA["left" or "right". Which page margin this text appears in]]></desc>
+        <desc><![CDATA[Which page margin this text appears in]]></desc>
         <option>left</option>
         <option>right</option>
       </attribute>
     </tag>
     <tag name="META" empty="yes" where="primary">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[A metadata item about the document.]]></desc>
       <attribute name="name" type="string">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[metadata key]]></desc>
       </attribute>
       <attribute name="content" type="string" empty="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[the metadata content]]></desc>
       </attribute>
       <attribute name="scheme" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[format of the metadata content]]></desc>
       </attribute>
     </tag>
     <tag name="MODE" where="primary">
@@ -325,7 +325,7 @@
       </attribute>
     </tag>
     <tag name="note" where="apparatus">
-      <desc><![CDATA[Surrounds the note.]]></desc>
+      <desc><![CDATA[Top level element for an annotation. Contains information on the lemma to annotate, and all level 1 or 2 notes attached to that lemma.]]></desc>
     </tag>
     <tag name="ORNAMENT" empty="optional" where="primary">
       <desc><![CDATA[Self-closing <ORNAMENT /> is a printer's ornament. <ORNAMENT> </ORNAMENT> is used for decorative or large font letters only.]]></desc>
@@ -348,19 +348,19 @@
         <desc><![CDATA[Actual page number where it differs from the printed number.]]></desc>
       </attribute>
     </tag>
-    <tag name="POEM" depreciated="Use DIV with a name attrbute instead of POEM" where="primary">
-      <desc><![CDATA[]]></desc>
+    <tag name="POEM" depreciated="Use DIV instead of POEM" where="primary">
+      <desc><![CDATA[a single poem in a collection of poems]]></desc>
     </tag>
-    <tag name="PROLOGUE" depreciated="Use FRONTMATTER or DIV instead of PROLOGUE" where="primary">
+    <tag name="PROLOGUE" depreciated="Use FRONTMATTER with DIV instead of PROLOGUE" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
     <tag name="PROP" empty="optional" where="primary">
-      <desc><![CDATA[Surrounds an annotation that provides information about props to be used in the play, in the location they are needed.]]></desc>
+      <desc><![CDATA[Identifies props to be used in the play when they are mentioned in stage directions or speeches.]]></desc>
       <attribute name="item" type="string" optional="yes">
-        <desc><![CDATA[A one-word indication of the nature of the item. Where there are more than one in the play (in the case of multiple letters, for example) these should be designate "letter 1" "letter 2" etc.]]></desc>
+        <desc><![CDATA[An unique identifier for the item. Where there are more than one in the play (in the case of multiple letters, for example) these should be designated "letter1" "letter2" etc.]]></desc>
       </attribute>
       <attribute name="desc" type="string" optional="yes">
-        <desc><![CDATA[A short description of the prop, if needed.]]></desc>
+        <desc><![CDATA[A short description of the prop, if needed. Do provide the description for more than one instance of the same prop.]]></desc>
       </attribute>
     </tag>
     <tag name="PROSEQUOTE" depreciated="Use QUOTE instead of PROSEQUOTE." where="primary">
@@ -372,20 +372,20 @@
     <tag name="QLN" empty="yes" where="quarto">
       <desc><![CDATA[quarto line number]]></desc>
       <attribute name="n" type="number" renumber="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[The line number.]]></desc>
       </attribute>
     </tag>
     <tag name="QUOTE" where="primary">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[A Quotation.]]></desc>
       <attribute name="source" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[a short desecription of the source of the quoted material]]></desc>
       </attribute>
     </tag>
     <tag name="R" where="primary">
       <desc><![CDATA[Roman type. This tag is used only in texts where the default font is black letter.]]></desc>
     </tag>
     <tag name="RA" where="primary">
-      <desc><![CDATA[Right Aligned text. This tag can be applied to a separate part of a line, so is the equivalent of a tab rather than right alignment for the whole line.]]></desc>
+      <desc><![CDATA[Right Aligned text. This tag may be applied to a portion of a line that is otherwise left aligned (the default), centered (with C), or justified (with J) so that only the indicated portion is affected.]]></desc>
     </tag>
     <tag name="RDG" where="collations">
       <desc><![CDATA[The reading of an editor or edition for an entry in the collation. One collation may contain multiple variant readings.]]></desc>
@@ -403,7 +403,7 @@
       </attribute>
     </tag>
     <tag name="S" where="primary">
-      <desc><![CDATA[Speech. Includes the speech prefix and any included stage directions (</S> may appear at the end of a hung word).]]></desc>
+      <desc><![CDATA[Speech. Should include a speech prefix (SP).]]></desc>
     </tag>
     <tag name="SC" where="oldspelling">
       <desc><![CDATA[Small caps.]]></desc>
@@ -411,14 +411,14 @@
     <tag name="SCENE" where="primary">
       <desc><![CDATA[Scene division as in the modern edition. Note: In plays with a non-diegetic chorus, like Henry V (F) and Pericles, use <SCENE n="0"> to designate chorus passages that are not prologues or epilogues. SCENEs may be used with or without enclosing ACTs.]]></desc>
       <attribute name="n" type="number" renumber="yes">
-        <desc><![CDATA[The number of the scene.]]></desc>
+        <desc><![CDATA[The number of the scene, not including any Act numbering.]]></desc>
       </attribute>
       <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
       </attribute>
     </tag>
     <tag name="SD" where="primary">
-      <desc><![CDATA[Stage Direction. Each line of a split direction in the right hand margin should be tagged separately; directions different in kind should also be tagged separately.]]></desc>
+      <desc><![CDATA[Stage Direction. Consecutive directions of different kinds should be tagged separately.]]></desc>
       <attribute name="t" type="list">
         <desc><![CDATA[The type of the stage direction, a comma-separated list.]]></desc>
         <option>entrance</option>
@@ -441,15 +441,15 @@
       </attribute>
     </tag>
     <tag name="SIG" where="primary">
-      <desc><![CDATA[Page Signature (encloses the printed signature, and appears at the end of the page, where it will be displayed). Note that the signature itself may include other tags where necessary (if, for example, an italic letter is used). Examples: <SIG n="A2v"></SIG><BR> <SIG n="aaa1r"><LS>aaa</LS></SIG>]]></desc>
       <attribute name="n" type="string" optional="yes" renumber="no">
+      <desc><![CDATA[Page Signature.  Encloses the printed page signature.]]></desc>
         <desc><![CDATA[The signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
     </tag>
     <tag name="SP" where="primary">
-      <desc><![CDATA[Normalized form of the name; must be included in every instance of a speech prefix, but not if the name is used in the course of a speech. Example: <SP norm="Hamlet">Ham.</SP>. Where there are more than one speaker, separate the normalized names by commas; if there is a speech without a speech prefix, put<SP norm="normalized name"></SP> to indicate its omission.]]></desc>
+      <desc><![CDATA[Speaker(s) for the enclosing speech. Should appear before any speech text. If a prefix is not given in the source material, use an empty SP tag to indicate its omission.]]></desc>
       <attribute name="norm" type="string">
-        <desc><![CDATA[Normalized form of the name; must be included in every instance of a speech prefix, but not in the course of a speech.]]></desc>
+        <desc><![CDATA[Normalized form of the name. If there is more than one speaker, separate the noramlized names by commas.]]></desc>
       </attribute>
     </tag>
     <tag name="SPACE" empty="yes" where="primary">
@@ -459,7 +459,7 @@
       </attribute>
     </tag>
     <tag name="STANZA" where="primary">
-      <desc><![CDATA[]]></desc>
+      <desc><![CDATA[Stanza of a poem. Use instead of ACT/SCENE/DIV in long-form poems.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the stanza.]]></desc>
       </attribute>
@@ -503,7 +503,7 @@
         <desc><![CDATA[The WLN.]]></desc>
       </attribute>
       <attribute name="wit" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
+        <desc><![CDATA[An identifier for the witness that the passage came from. If omitted, the source witness referenced in the metadata is assumed.]]></desc>
       </attribute>
     </tag>
     <tag name="WORK" where="anywhere">
