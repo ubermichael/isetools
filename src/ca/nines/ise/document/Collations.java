@@ -20,10 +20,6 @@ import org.xml.sax.SAXException;
  */
 public class Collations extends Apparatus<Coll> {
 
-  public Collations() {
-    super();
-  }
-
   public Collations(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     super(in);
   }
