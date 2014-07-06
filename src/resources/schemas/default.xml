@@ -46,7 +46,7 @@
     </tag>
     <tag name="ADD" where="modern">
       <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version. May contain LEM and RDG elements, or directly contain added text for the extended version (as if RDG were used around the entire contents).]]></desc>
-      <attribute name="wit" type="string" optional="true">
+      <attribute name="wit" type="string" optional="yes">
         <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omit if using a child RDG.]]></desc>
       </attribute>
     </tag>
@@ -265,6 +265,7 @@
       <desc><![CDATA[Surrounds the lemma for an annotation. The lemma will become the link on the text, and must be wholly accurate, including punctuation.]]></desc>
     </tag>
     <tag name="lem" where="collations">
+      <desc><![CDATA[Surrounds the lemma for a collation The lemma will become the link on the text, and must be wholly accurate, including punctuation.]]></desc>
       <attribute name="resp" type="string">
         <desc><![CDATA[The witness the lemma is based on. Use "Ed" if the lemma was created by the editor.]]></desc>
       </attribute>
@@ -322,13 +323,13 @@
     </tag>
     <tag name="ln" where="apparatus" empty="optional">
       <desc><![CDATA[The line numbers from the modern edition to which a collation or note is linked. The format of the content follows the MLA style: 1.3.33, for example.]]></desc>
-      <attribute name="tln" optional="yes">
+      <attribute name="tln" type="number" optional="yes">
         <desc><![CDATA[Through-line number]]></desc>
       </attribute>
-      <attribute name="qln" optional="yes">
+      <attribute name="qln" type="number" optional="yes">
         <desc><![CDATA[Quarto line number]]></desc>
       </attribute>
-      <attribute name="l" optional="yes">
+      <attribute name="l" type="number" optional="yes">
         <desc><![CDATA[Editor's line number.]]></desc>
       </attribute>
     </tag>
