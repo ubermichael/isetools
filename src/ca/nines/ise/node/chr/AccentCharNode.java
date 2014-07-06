@@ -19,23 +19,26 @@ import java.util.HashMap;
  */
 public class AccentCharNode extends CharNode {
 
-  private static final HashMap<Character, String> charMap = new HashMap<>();
+  private static final HashMap<String, String> charMap = new HashMap<>();
 
   static {
-    charMap.put('^', "\u0302");
-    charMap.put('"', "\u0308");
-    charMap.put('\'', "\u0301");
-    charMap.put('`', "\u0300");
-    charMap.put('_', "\u0304");
-    charMap.put('~', "\u0303");
+    charMap.put("^", "\u0302");
+    charMap.put("\"", "\u0308");
+    charMap.put("'", "\u0301");
+    charMap.put("`", "\u0300");
+    charMap.put("_", "\u0304");
+    charMap.put("~", "\u0303");
   }
 
+  public static HashMap<String, String> mapping() {
+    return new HashMap<>(charMap);
+  }
+  
   @Override
   public Fragment expanded() {
-    Fragment dom = new Fragment();
     char[] cs = super.innerText().toCharArray();
 
-    String accent = charMap.get(cs[0]);
+    String accent = charMap.get(innerText().substring(0,1));
     if (accent == null) {
       accent = "\uFFFD";
       Message m = Message.builder("char.accent.unknown")
@@ -44,7 +47,7 @@ public class AccentCharNode extends CharNode {
               .build();
       Log.getInstance().add(m);
     }
-    String str = cs[1] + accent;
+    String str = "" + cs[1] + accent;
     str = Normalizer.normalize(str, Form.NFC);
     return wrap("ACCENT", str);
   }

@@ -5,7 +5,6 @@
  */
 package ca.nines.ise.dom;
 
-import ca.nines.ise.node.chr.AccentCharNode;
 import ca.nines.ise.node.chr.UnicodeCharNode;
 import ca.nines.ise.node.chr.LigatureCharNode;
 import ca.nines.ise.node.chr.TypographicCharNode;
@@ -168,7 +167,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   @Override
   public void enterCharAccent(CharAccentContext ctx) {
-    AccentCharNode n = (AccentCharNode) setupNode(new AccentCharNode(), ctx);
+    CharNode n = (CharNode) setupNode(CharNode.accentChar(), ctx);
     dom.add(n);
   }
 

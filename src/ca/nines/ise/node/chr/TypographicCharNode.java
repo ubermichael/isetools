@@ -23,6 +23,10 @@ public class TypographicCharNode extends CharNode {
     charMap.put("{W}", "VV");
   }
 
+  public static HashMap<String, String> mapping() {
+    return new HashMap<>(charMap);
+  }
+
   @Override
   public Fragment expanded() {
     Fragment dom = wrap("TYPEFORM", charMap.get(text));

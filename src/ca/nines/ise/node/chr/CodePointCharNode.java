@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class CodePointCharNode extends CharNode {
 
-  Pattern pattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
+  private static final Pattern pattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
 
   @Override
   public Fragment expanded() {

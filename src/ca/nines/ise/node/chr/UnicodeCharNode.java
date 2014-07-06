@@ -28,6 +28,10 @@ public class UnicodeCharNode extends CharNode {
     charMap.put("{TH}", "\u00de");
   }
 
+  public static HashMap<String, String> mapping() {
+    return new HashMap<>(charMap);
+  }
+
   @Override
   public Fragment expanded() {
     return wrap("UNICODE", charMap.get(text));
