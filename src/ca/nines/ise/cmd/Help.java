@@ -50,7 +50,7 @@ public class Help extends Command {
           if (file.endsWith(".class")) {
             String className = file.substring(0, file.length() - 6);
             try {
-              Class cls = Class.forName(packageName + "." + className);
+              Class<?> cls = Class.forName(packageName + "." + className);
               if (Modifier.isAbstract(cls.getModifiers())) {
                 continue;
               }
