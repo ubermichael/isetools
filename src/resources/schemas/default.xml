@@ -53,6 +53,9 @@
     <tag name="AMBIG" where="modern">
       <desc><![CDATA[Designates a word with alternative readings (marked up by child RDG elements) where a word in the source material is irreducibly ambiguous. Note: this is not a textual variant, but a product of the process of modernization.]]></desc>
     </tag>
+    <tag name="annotations" where="annotations">
+      <desc><![CDATA[Root element of an annotation file.]]></desc>
+    </tag>
     <tag name="BACKMATTER" where="all">
       <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of BACKMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, Colophon and so on.]]></desc>
     </tag>
@@ -82,6 +85,12 @@
         <option>1</option>
         <option>2</option>
       </attribute>
+    </tag>
+    <tag name="coll" where="collations">
+      <desc><![CDATA[Top level element for an collation. Contains information on the lemma in the text (<lem>), alternate readings (<rdg>), and notes about the variance (<general_note>).]]></desc>
+    </tag>
+    <tag name="collations" where="collations">
+      <desc><![CDATA[Root element of a collations file.]]></desc>
     </tag>
     <tag name="CW" where="oldspelling">
       <desc><![CDATA[Catchword]]></desc>
@@ -252,11 +261,29 @@
     <tag name="LD" where="all">
       <desc><![CDATA[Header for a Literary Division (e.g. Act, Scene.).]]></desc>
     </tag>
-    <tag name="LEM" where="apparatus">
-      <desc><![CDATA[Surrounds the lemma for an annotation or collation. The lemma will become the link on the text, and must be wholly accurate, including punctuation.]]></desc>
+    <tag name="lem" where="annotations">
+      <desc><![CDATA[Surrounds the lemma for an annotation. The lemma will become the link on the text, and must be wholly accurate, including punctuation.]]></desc>
+    </tag>
+    <tag name="lem" where="collations">
+      <attribute name="resp" type="string">
+        <desc><![CDATA[The witness the lemma is based on. Use "Ed" if the lemma was created by the editor.]]></desc>
+      </attribute>
+      <attribute name="subst" type="select" optional="yes">
+        <desc><![CDATA[Set to "true" on lemmas that differ from the witness' version, but are substantively equivalent. Default is "false".]]></desc>
+        <option>true</option>
+        <option>false</option>
+      </attribute>
     </tag>
     <tag name="LEM" where="modern">
       <desc><![CDATA[Used inside of ADD to mark text that will appear only in the non-extended version of the text.]]></desc>
+    </tag>
+    <tag name="level" where="annotations">
+      <desc><![CDATA[Surrounds the annotation content.]]></desc>
+      <attribute name="n" type="select">
+        <desc><![CDATA[The "level" of this annotation.  Level 1 annotations are short, and tend to focus on basic meaning without context. Level 2 annotations provide longer, deeper explainations of meaning in context.]]></desc>
+        <option>1</option>
+        <option>2</option>
+      </attribute>
     </tag>
     <tag name="LINEGROUP" where="primary">
       <desc><![CDATA[Surrounds a pattern of rhyming verse.]]></desc>
@@ -287,8 +314,23 @@
         <desc><![CDATA[order that this item will appear on the edition title page]]></desc>
       </attribute>
     </tag>
-    <tag name="LN" where="apparatus">
-      <desc><![CDATA[The line numbers from the modern edition to which a collation or note is linked. The format follows the MLA style: 1.3.33, for example.]]></desc>
+    <tag name="linklist" where="collations">
+      <desc><![CDATA[Provides a list of <linkText> describing witness names that should be linked to ISE editions when displayed]]></desc>
+    </tag>
+    <tag name="linkText" where="collations">
+      <desc><![CDATA[A witness name that refers to an ISE edition.]]></desc>
+    </tag>
+    <tag name="ln" where="apparatus" empty="optional">
+      <desc><![CDATA[The line numbers from the modern edition to which a collation or note is linked. The format of the content follows the MLA style: 1.3.33, for example.]]></desc>
+      <attribute name="tln" optional="yes">
+        <desc><![CDATA[Through-line number]]></desc>
+      </attribute>
+      <attribute name="qln" optional="yes">
+        <desc><![CDATA[Quarto line number]]></desc>
+      </attribute>
+      <attribute name="l" optional="yes">
+        <desc><![CDATA[Editor's line number.]]></desc>
+      </attribute>
     </tag>
     <tag name="LS" where="oldspelling">
       <desc><![CDATA[Surrounds letter-spaced words (e.g., "G O D").]]></desc>
@@ -322,8 +364,11 @@
         <option>uncertain</option>
       </attribute>
     </tag>
-    <tag name="note" where="apparatus">
-      <desc><![CDATA[Top level element for an annotation. Contains information on the lemma to annotate, and all level 1 or 2 notes attached to that lemma.]]></desc>
+    <tag name="note" where="annotations">
+      <desc><![CDATA[Top level element for an annotation. Contains information on the lemma to annotate (<lem>), and all level 1 or 2 notes attached to that lemma (<level>).]]></desc>
+    </tag>
+    <tag name="note" where="collations">
+      <desc><![CDATA[Additional notes about the variant. Use as a child of <coll> when the note applies to the collation as a whole, or as a child of <rdg> when it applies to a specific reading.]]></desc>
     </tag>
     <tag name="ORNAMENT" empty="optional" where="oldspelling">
       <desc><![CDATA[Self-closing <ORNAMENT /> is a printer's ornament. <ORNAMENT> </ORNAMENT> is used for decorative or large font letters only.]]></desc>
@@ -373,6 +418,9 @@
         <desc><![CDATA[When the passage is a quotation from another source, the source should be recorded.]]></desc>
       </attribute>
     </tag>
+    <tag name="q" where="collations">
+      <desc><![CDATA[container for a collation reading's text when the reading also has an associated <note>.]]></desc>
+    </tag>
     <tag name="QLN" empty="yes" where="primary">
       <desc><![CDATA[Quarto Line Number]]></desc>
       <attribute name="n" type="number" renumber="yes">
@@ -391,9 +439,9 @@
     <tag name="RA" where="all">
       <desc><![CDATA[Right Aligned text. This tag may be applied to a portion of a line that is otherwise left aligned (the default), centered (with C), or justified (with J) so that only the indicated portion is affected.]]></desc>
     </tag>
-    <tag name="RDG" where="collations">
+    <tag name="rdg" where="collations">
       <desc><![CDATA[The reading of an editor or edition for an entry in the collation. One collation may contain multiple variant readings.]]></desc>
-      <attribute name="resp" type="string" optional="yes">
+      <attribute name="resp" type="string">
         <desc><![CDATA[The edition or editor responsible for the reading.]]></desc>
       </attribute>
     </tag>
@@ -499,6 +547,12 @@
       <desc><![CDATA[Through Line Number. The basic method of internal reference for the editions will be the TLN number. Where a quarto or modern edition omits material the numbers will be omitted; where they add material the numbers will be added decimally (<TLN n="1033.1"> etc.); where the line division varies from the Folio the TLN number will be that of the first word of the line.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The TLN.]]></desc>
+      </attribute>
+    </tag>
+    <tag name="var" where="annotations">
+      <desc><![CDATA["pop-up" variant to show on this lemma when it is hovered.]]></desc>
+      <attribute name="wit" type="string">
+        <desc><![CDATA[Name of the witness that the reading comes from.]]></desc>
       </attribute>
     </tag>
     <tag name="VERSEQUOTE" depreciated="Use QUOTE instead of VERSEQUOTE." where="primary">
