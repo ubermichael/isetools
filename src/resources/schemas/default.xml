@@ -88,24 +88,8 @@
       <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
       </attribute>
-      <attribute name="name" type="select">
-        <desc><![CDATA[]]></desc>
-        <option>Argument</option>
-        <option>Colophon</option>
-        <option>Dedication</option>
-        <option>Disposition of the Characters</option>
-        <option>Dumb Show</option>
-        <option>Epilogue</option>
-        <option>Epistle [1]</option>
-        <option>Epistle [2]</option>
-        <option>Epistle</option>
-        <option>Introduction</option>
-        <option>List of Characters</option>
-        <option>Prologue</option>
-        <option>The Names of the Actors</option>
-        <option>Titlepage [1]</option>
-        <option>Titlepage [2]</option>
-        <option>Titlepage</option>
+      <attribute name="name" type="string">
+        <desc><![CDATA[Name of the section]]></desc>
       </attribute>
     </tag>
     <tag name="EM" where="anywhere">
