@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.schema.Attribute.AttributeType;
@@ -113,13 +114,19 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     for (String name : n.getAttributeNames()) {
       Attribute attr = tag.getAttribute(name);
       if (attr == null) {
-        m = log.error("validator.attribute.unknown", n);
-        m.addNote("The schema does not define attribute " + name + " for tag " + tagName + ".");
+        m = Message.builder("validator.attribute.unknown")
+                .fromNode(n)
+                .addNote("The schema does not define attribute " + name + " for tag " + tagName + ".")
+                .build();
+        Log.addMessage(m);
         continue;
       }
       if (attr.isDepreciated()) {
-        m = log.error("validator.attribute.depreciated", n);
-        m.addNote(attr.getDepreciated());
+        m = Message.builder("validator.attribute.depreciated")
+                .fromNode(n)
+                .addNote(attr.getDepreciated())
+                .build();
+        Log.addMessage(m);
         continue;
       }
       String attrValue = n.getAttribute(name);
@@ -128,9 +135,11 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
         if (attr.isEmpty()) {
           continue;
         }
-
-        m = log.error("validator.attribute.nonempty", n);
-        m.addNote("Attribute " + name + " must not be empty for tag " + tagName + ".");
+        m = Message.builder("validator.attribute.nonempty")
+                .fromNode(n)
+                .addNote("Attribute " + name + " must not be empty for tag " + tagName + ".")
+                .build();
+        Log.addMessage(m);
         continue;
       }
       validate_attribute(n, attr);
@@ -142,8 +151,11 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
       }
       String attrValue = n.getAttribute(attrName);
       if (attrValue == null) {
-        m = log.error("validator.attribute.missing", n);
-        m.addNote("Attribute " + attrName + " is required for " + tagName + " tags");
+        m = Message.builder("validator.attribute.missing")
+                .fromNode(n)
+                .addNote("Attribute " + attrName + " is required for " + tagName + " tags")
+                .build();
+        Log.addMessage(m);
       }
     }
 

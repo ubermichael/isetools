@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
@@ -43,13 +44,19 @@ public class EndNodeValidator extends TagNodeValidator<EndNode> {
   public void validate(EndNode n) {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
-      Message m = log.error("validator.tag.unknown", n);
-      m.addNote("Tag " + n.getName() + " is not defined in the schema.");
+      Message m = Message.builder("validator.tag.unknown")
+              .fromNode(n)
+              .addNote("Tag " + n.getName() + " is not defined in the schema.")
+              .build();
+      Log.addMessage(m);
       return;
     }
     if (t.isEmpty()) {
-      Message m = log.error("validator.tag.endempty", n);
-      m.addNote("End tag " + n.getName() + " should not occur.");
+      Message m = Message.builder("validator.tag.endempty")
+              .fromNode(n)
+              .addNote("End tag " + n.getName() + " should not occur.")
+              .build();
+      Log.addMessage(m);
     }
   }
 

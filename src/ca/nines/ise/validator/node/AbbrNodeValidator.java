@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.AbbrNode;
 import ca.nines.ise.schema.Schema;
 
@@ -32,6 +33,8 @@ public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
 
   /**
    * The maximum length of abbreviation markup.
+   * 
+   * TODO make this a configuration variable.
    */
   public final static int ABBR_LENGTH = 12;
 
@@ -50,12 +53,20 @@ public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
   })
   @Override
   public void validate(AbbrNode n) {
-    Message m = log.error("validator.abbr.depreciated", n);
-    m.addNote("The old abbreviation found was " + n.getText());
+    Message m;
+    m = Message.builder("validator.abbr.depreciated")
+            .fromNode(n)
+            .addNote("The old abbreviation found was " + n.getText())
+            .build();
+    Log.addMessage(m);
+            
     if (n.getText().length() > ABBR_LENGTH) {
-      m = log.error("validator.abbr.long", n);
-      m.addNote("The long abbreviation starts with " + n.getText().substring(0, ABBR_LENGTH));
-      m.addNote("The abbreviation cannot be corrected automatically.");
+      m = Message.builder("validator.abbr.long")
+              .fromNode(n)
+              .addNote("The long abbreviation starts with " + n.getText().substring(0, ABBR_LENGTH))
+              .addNote("The abbreviation cannot be corrected automatically.")
+              .build();
+      Log.addMessage(m);
     }
     n.expanded();
   }

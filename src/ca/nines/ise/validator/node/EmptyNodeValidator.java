@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
@@ -44,17 +45,24 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
   public void validate(EmptyNode n) throws Exception {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
-      Message m = log.error("validator.tag.unknown", n);
-      m.addNote("Tag " + n.getName() + " is not defined in the schema.");
+      Message m = Message.builder("validator.tag.unknown")
+              .fromNode(n)
+              .addNote("Tag " + n.getName() + " is not defined in the schema.")
+              .build();
+      Log.addMessage(m);
       return;
     }
     if (!t.maybeEmpty()) {
-      Message m = log.error("validator.tag.emptystart", n);
-      m.addNote("Tag " + n.getName() + " should not be self-closing.");
+      Message m = Message.builder("validator.tag.emptystart")
+              .addNote("Tag " + n.getName() + " should not be self-closing.")
+              .build();
+      Log.addMessage(m);
     }
     if (t.isDepreciated()) {
-      Message m = log.error("validator.tag.depreciated", n);
-      m.addNote(t.getDepreciated());
+      Message m = Message.builder("validator.tag.depreciated")
+              .addNote(t.getDepreciated())
+              .build();
+      Log.addMessage(m);
     }
     validate_attributes(n);
   }

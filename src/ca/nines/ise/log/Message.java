@@ -36,13 +36,13 @@ public class Message implements Comparable<Message> {
   private final int columnNumber;
   private final String line;
   private final int lineNumber;
-  private final ArrayList<String> notes = new ArrayList<>();
+  private final ArrayList<String> notes;
   private final String source;
 
   public static MessageBuilder builder(String code) {
     return new MessageBuilder(code);
   }
-  
+
   public static class MessageBuilder implements BuilderInterface<Message> {
 
     private String TLN = "(unknown)";
@@ -64,10 +64,7 @@ public class Message implements Comparable<Message> {
 
     @Override
     public Message build() {
-      Message m = new Message(code, TLN, lineNumber, columnNumber, line, source);
-      for (String note : notes) {
-        m.addNote(note);
-      }
+      Message m = new Message(code, TLN, lineNumber, columnNumber, line, source, notes);
       return m;
     }
 
@@ -105,20 +102,14 @@ public class Message implements Comparable<Message> {
     }
   }
 
-  Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source) {
+  Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source, ArrayList<String> notes) {
     this.code = code;
     this.TLN = TLN;
     this.lineNumber = lineNumber;
     this.columnNumber = columnNumber;
     this.line = line;
     this.source = source;
-  }
-
-  /**
-   * @param note the note to add
-   */
-  public void addNote(String note) {
-    notes.add(note);
+    this.notes = notes;
   }
 
   @Override
