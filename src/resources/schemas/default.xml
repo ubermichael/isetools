@@ -146,9 +146,12 @@
       </attribute>
     </tag>
     <tag name="iembed" where="anywhere">
-      <attribute name="site" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
       <desc><![CDATA[Embedded content]]></desc>
+      <attribute name="site" type="select" optional="yes">
+        <desc><![CDATA[The ISE sub-site to fetch content from.]]></desc>
+        <option>ise</option>
+        <option>dre</option>
+        <option>qme</option>
       </attribute>
       <attribute name="component" type="select" optional="yes">
         <desc><![CDATA[The site component to fetch content from.]]></desc>
@@ -159,6 +162,7 @@
         <option>facsimile</option>
         <option>link</option>
         <option>static</option>
+        <option>friends</option>
       </attribute>
       <attribute name="href" type="string">
         <desc><![CDATA[identifier of the resource to embed]]></desc>
@@ -190,9 +194,12 @@
       </attribute>
     </tag>
     <tag name="ilink" where="anywhere">
-      <attribute name="site" type="string" optional="yes">
-        <desc><![CDATA[]]></desc>
       <desc><![CDATA[ISE link]]></desc>
+      <attribute name="site" type="select" optional="yes">
+        <desc><![CDATA[The ISE sub-site to fetch content from.]]></desc>
+        <option>ise</option>
+        <option>dre</option>
+        <option>qme</option>
       </attribute>
       <attribute name="component" type="select" optional="yes">
         <desc><![CDATA[The site component to fetch content from.]]></desc>
@@ -203,6 +210,7 @@
         <option>facsimile</option>
         <option>link</option>
         <option>static</option>
+        <option>friends</option>
       </attribute>
       <attribute name="href" type="string">
         <desc><![CDATA[the resource to link to]]></desc>
