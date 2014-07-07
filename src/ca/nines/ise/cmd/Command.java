@@ -72,8 +72,13 @@ abstract public class Command {
 
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
+    Options opts = getOptions();
     System.out.println(description());
-    formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage(), getOptions());
+    if (opts.getOptions().size() > 0) {
+      formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage() , opts);
+    } else {
+      System.out.println(this.getClass().getSimpleName().toLowerCase() + " " + getUsage());
+    }
   }
 
   public abstract Options getOptions();
