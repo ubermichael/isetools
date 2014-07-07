@@ -1,8 +1,11 @@
 package ca.nines.ise.output;
 
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.node.EmptyNode;
+import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
@@ -17,10 +20,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
- 
+
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Text;
 
 /*
@@ -48,56 +52,84 @@ public class XMLOutput {
     this.out = out;
   }
 
-  public void render(DOM dom) throws TransformerConfigurationException, TransformerException {
+  public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     // @TODO check if the DOM is expanded, and expand if necessary.
 
-    Iterator<Node> iterator = dom.iterator();
+    Iterator<Node> iterator = dom.expanded().iterator();
     ArrayDeque<Element> xmlStack = new ArrayDeque<>();
     Document xml = docBuilder.newDocument();
 
-    Element root = xml.createElement("work");
-    xml.appendChild(root);
-    xmlStack.push(root);
-    
+    Element e = xml.createElement("root");
+    xml.appendChild(e);
+    xmlStack.push(e);
+
+    int joinID = 1;
+
     while (iterator.hasNext()) {
       Node n = iterator.next();
       switch (n.type()) {
-        case ABBR:
-          break;
-        case CHAR:
-          break;
         case COMMENT:
           Comment c = xml.createComment(n.getText());
-          xml.appendChild(c);
+          xmlStack.peekFirst().appendChild(c);
           break;
         case EMPTY:
+          EmptyNode emptyNode = (EmptyNode) n;
+          Element endElement = xml.createElement(emptyNode.getName());
+          for (String name : emptyNode.getAttributeNames()) {
+            endElement.setAttribute(name, emptyNode.getAttribute(name));
+          }
+          xmlStack.peekFirst().appendChild(endElement);
           break;
         case END:
-          System.out.println("size a: " + xmlStack.size());
-          xmlStack.pop();
-          System.out.println("size a: " + xmlStack.size());
+          EndNode endNode = (EndNode) n;
+          if (endNode.getName().equals(xmlStack.peekFirst().getNodeName())) {
+            xmlStack.pop();
+            break;
+          }
+
+          ArrayDeque<Element> splitStack = new ArrayDeque<>();
+          while (xmlStack.size() > 1) {
+            Element split = xmlStack.pop();
+            if (split.getNodeName().equals(endNode.getName())) {
+              break; // while 
+            }           
+            if (!split.hasAttribute("joinID")) {
+              split.setAttribute("joinID", "" + joinID);
+              joinID++;
+            }
+            splitStack.push(split);
+          }
+
+          while (splitStack.size() > 0) {
+            Element popped = splitStack.pop();
+            Element clone = xml.createElement(popped.getNodeName());
+            NamedNodeMap attrs = popped.getAttributes();
+            int numAttrs = attrs.getLength();
+            for (int i = 0; i < numAttrs; i++) {
+              clone.setAttribute(attrs.item(i).getNodeName(), attrs.item(i).getNodeValue());
+            }
+            xmlStack.peekFirst().appendChild(clone);
+            xmlStack.push(clone);
+          }
+
           break;
         case START:
-          StartNode sn = (StartNode) n;
-          Element e = xml.createElement(sn.getName());
-          for (String name : sn.getAttributeNames()) {
-            e.setAttribute(name, sn.getAttribute(name));
+          StartNode startNode = (StartNode) n;
+          Element startElement = xml.createElement(startNode.getName());
+          for (String name : startNode.getAttributeNames()) {
+            startElement.setAttribute(name, startNode.getAttribute(name));
           }
-          System.out.println("size b: " + xmlStack.size());
-          xmlStack.peekFirst().appendChild(e);
-          System.out.println("size c: " + xmlStack.size());
-          xmlStack.push(e);
-          System.out.println("size d: " + xmlStack.size());
+          xmlStack.peekFirst().appendChild(startElement);
+          xmlStack.push(startElement);
           break;
         case TEXT:
           Text t = xml.createTextNode(n.getText());
-          System.out.println("size e: " + xmlStack.size());
           xmlStack.peekFirst().appendChild(t);
-          System.out.println("size f: " + xmlStack.size());
           break;
+        default:
+          throw new Exception("Cannot convert " + n.getName() + " to XML");
       }
     }
-    xml.normalizeDocument();
 
     try {
       Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -105,8 +137,8 @@ public class XMLOutput {
       DOMSource source = new DOMSource(xml);
       StreamResult stream = new StreamResult(out);
       transformer.transform(source, stream);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
   }
 
