@@ -19,7 +19,7 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new DOMBuilder("<a a='3'>hello<b>yes</b><ok></ok> world.</a>").build();
+      DOM dom = new DOMBuilder("<work><a>text<b n='2'>more <c n=\"a\">text</a>end</b>abc</c></work>").build();
       XMLOutput out = new XMLOutput();
       out.render(dom);
     } catch (Exception ex) {
