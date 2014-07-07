@@ -133,7 +133,8 @@ public class XMLOutput {
 
     try {
       Transformer transformer = TransformerFactory.newInstance().newTransformer();
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty(OutputKeys.INDENT, "no");
+      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
       DOMSource source = new DOMSource(xml);
       StreamResult stream = new StreamResult(out);
       transformer.transform(source, stream);

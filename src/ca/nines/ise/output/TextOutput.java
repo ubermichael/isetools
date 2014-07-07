@@ -36,7 +36,7 @@ public class TextOutput extends Output {
   }
 
   @Override
-  public void print(DOM dom) {
+  public void render(DOM dom) {
     try {
       out.print(dom.plain());
     } catch (IOException ex) {
@@ -45,7 +45,7 @@ public class TextOutput extends Output {
   }
 
   @Override
-  public void print(Node n) {
+  public void render(Node n) {
     try {
       out.print(n.plain());
     } catch (IOException ex) {
@@ -54,12 +54,12 @@ public class TextOutput extends Output {
   }
 
   @Override
-  public void print(Log log) {
+  public void render(Log log) {
     out.print(log);
   }
 
   @Override
-  public void print(Message m) {
+  public void render(Message m) {
     out.print(m);
   }
 
