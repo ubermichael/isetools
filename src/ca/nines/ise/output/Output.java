@@ -36,12 +36,12 @@ abstract public class Output {
     this.out = new PrintStream(out, true, "UTF-8");
   }
 
-  abstract public void print(DOM dom);
+  abstract public void render(DOM dom);
 
-  abstract public void print(Node n);
+  abstract public void render(Node n);
 
-  abstract public void print(Log log);
+  abstract public void render(Log log);
 
-  abstract public void print(Message m);
+  abstract public void render(Message m);
 
 }
