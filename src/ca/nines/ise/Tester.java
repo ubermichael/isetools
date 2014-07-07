@@ -9,6 +9,7 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.output.XMLOutput;        
+import java.io.File;
 
 /**
  *
@@ -19,7 +20,8 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new DOMBuilder("<work><a>text<b n='2'>more <c n=\"a\">text</a>end</b>abc</c></work>").build();
+      File file = new File("input/withTitlePage/Oth/Oth_F1.txt");
+      DOM dom = new DOMBuilder(file).build();
       XMLOutput out = new XMLOutput();
       out.render(dom);
     } catch (Exception ex) {
