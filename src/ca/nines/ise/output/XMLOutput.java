@@ -74,7 +74,7 @@ public class XMLOutput {
           break;
         case EMPTY:
           EmptyNode emptyNode = (EmptyNode) n;
-          Element endElement = xml.createElement(emptyNode.getName());
+          Element endElement = xml.createElement(emptyNode.getName().toLowerCase());
           for (String name : emptyNode.getAttributeNames()) {
             endElement.setAttribute(name, emptyNode.getAttribute(name));
           }
@@ -82,7 +82,7 @@ public class XMLOutput {
           break;
         case END:
           EndNode endNode = (EndNode) n;
-          if (endNode.getName().equals(xmlStack.peekFirst().getNodeName())) {
+          if (endNode.getName().toLowerCase().equals(xmlStack.peekFirst().getNodeName())) {
             xmlStack.pop();
             break;
           }
@@ -90,7 +90,7 @@ public class XMLOutput {
           ArrayDeque<Element> splitStack = new ArrayDeque<>();
           while (xmlStack.size() > 1) {
             Element split = xmlStack.pop();
-            if (split.getNodeName().equals(endNode.getName())) {
+            if (split.getNodeName().equals(endNode.getName().toLowerCase())) {
               break; // while 
             }           
             if (!split.hasAttribute("joinID")) {
@@ -115,7 +115,7 @@ public class XMLOutput {
           break;
         case START:
           StartNode startNode = (StartNode) n;
-          Element startElement = xml.createElement(startNode.getName());
+          Element startElement = xml.createElement(startNode.getName().toLowerCase());
           for (String name : startNode.getAttributeNames()) {
             startElement.setAttribute(name, startNode.getAttribute(name));
           }
