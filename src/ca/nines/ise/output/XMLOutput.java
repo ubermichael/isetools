@@ -135,6 +135,7 @@ public class XMLOutput {
       Transformer transformer = TransformerFactory.newInstance().newTransformer();
       transformer.setOutputProperty(OutputKeys.INDENT, "no");
       transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+      transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
       DOMSource source = new DOMSource(xml);
       StreamResult stream = new StreamResult(out);
       transformer.transform(source, stream);
