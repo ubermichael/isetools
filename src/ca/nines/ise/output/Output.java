@@ -6,15 +6,12 @@
 package ca.nines.ise.output;
 
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
-import ca.nines.ise.node.Node;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  *
@@ -24,24 +21,14 @@ abstract public class Output {
 
   protected final PrintStream out;
 
-  public Output() throws UnsupportedEncodingException {
+  public Output() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
 
-  public Output(File file) throws FileNotFoundException, UnsupportedEncodingException {
-    this(new FileOutputStream(file));
+  public Output(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
+    this.out = out;
   }
 
-  public Output(OutputStream out) throws UnsupportedEncodingException {
-    this.out = new PrintStream(out, true, "UTF-8");
-  }
-
-  abstract public void render(DOM dom);
-
-  abstract public void render(Node n);
-
-  abstract public void render(Log log);
-
-  abstract public void render(Message m);
+  abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 
 }

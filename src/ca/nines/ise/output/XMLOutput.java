@@ -36,7 +36,7 @@ import org.w3c.dom.Text;
  *
  * @author michael
  */
-public class XMLOutput {
+public class XMLOutput extends Output{
 
   private final DocumentBuilderFactory docFactory;
   private final DocumentBuilder docBuilder;
@@ -46,12 +46,13 @@ public class XMLOutput {
     this(new PrintStream(System.out, true, "UTF-8"));
   }
 
-  public XMLOutput(PrintStream out) throws ParserConfigurationException {
+  public XMLOutput(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     docFactory = DocumentBuilderFactory.newInstance();
     docBuilder = docFactory.newDocumentBuilder();
     this.out = out;
   }
 
+  @Override
   public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     // @TODO check if the DOM is expanded, and expand if necessary.
 
