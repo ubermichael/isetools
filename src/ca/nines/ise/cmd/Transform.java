@@ -8,6 +8,8 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.output.Output;
+import ca.nines.ise.output.TextOutput;
 import ca.nines.ise.output.XMLOutput;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +37,8 @@ public class Transform extends Command {
 
   @Override
   public void execute(CommandLine cmd) {
-    PrintStream out = null;
+    PrintStream out;
+    Output renderer = null;
     try {
       Log log = Log.getInstance();
       Locale.setDefault(Locale.ENGLISH);
@@ -43,24 +46,33 @@ public class Transform extends Command {
       if (cmd.hasOption("l")) {
         out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
       }
-      
+
       String[] files = getArgList(cmd);
-      if(files.length > 1) {
+      if (files.length > 1) {
         System.err.println("Can only transform one file at a time.");
         help();
         System.exit(1);
       }
-      
-      if(files.length < 1) {
+
+      if (files.length < 1) {
         System.err.println("Must include a file path to transform.");
         help();
         System.exit(2);
       }
-      
-      DOM dom = new DOMBuilder(new File(files[0])).build();
-      XMLOutput xmlOut = new XMLOutput(out);
-      xmlOut.render(dom);
-      
+
+      if (cmd.hasOption("text")) {
+        renderer = new TextOutput(out);
+      }
+      if (cmd.hasOption("xml")) {
+        renderer = new XMLOutput(out);
+      }
+
+      if (renderer != null) {
+
+        DOM dom = new DOMBuilder(new File(files[0])).build();
+        renderer.render(dom);
+
+      }
     } catch (UnsupportedEncodingException ex) {
       Logger.getLogger(Transform.class.getName()).log(Level.SEVERE, null, ex);
     } catch (FileNotFoundException ex) {
@@ -71,13 +83,15 @@ public class Transform extends Command {
       Logger.getLogger(Transform.class.getName()).log(Level.SEVERE, null, ex);
     } catch (Exception ex) {
       Logger.getLogger(Transform.class.getName()).log(Level.SEVERE, null, ex);
-    } 
+    }
   }
 
   @Override
   public Options getOptions() {
     Options opts = new Options();
-    opts.addOption("l", true, "Send error messages to log file");
+    opts.addOption("o", true, "Send output to file.");
+    opts.addOption("xml", false, "Transform output to XML.");
+    opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
     return opts;
   }
 

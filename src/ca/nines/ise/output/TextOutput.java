@@ -7,15 +7,12 @@ package ca.nines.ise.output;
 
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
-import ca.nines.ise.node.Node;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  *
@@ -23,48 +20,21 @@ import java.util.logging.Logger;
  */
 public class TextOutput extends Output {
 
-  public TextOutput() throws UnsupportedEncodingException {
+  public TextOutput() throws UnsupportedEncodingException, ParserConfigurationException {
     super();
   }
 
-  public TextOutput(File file) throws FileNotFoundException, UnsupportedEncodingException {
-    super(file);
-  }
-
-  public TextOutput(OutputStream out) throws UnsupportedEncodingException {
+  public TextOutput(PrintStream out) throws UnsupportedEncodingException, ParserConfigurationException {
     super(out);
   }
 
   @Override
   public void render(DOM dom) {
     try {
-      out.print(dom.plain());
+      out.print(dom.unicode());
     } catch (IOException ex) {
       Logger.getLogger(TextOutput.class.getName()).log(Level.SEVERE, null, ex);
     }
-  }
-
-  @Override
-  public void render(Node n) {
-    try {
-      out.print(n.plain());
-    } catch (IOException ex) {
-      Logger.getLogger(TextOutput.class.getName()).log(Level.SEVERE, null, ex);
-    }
-  }
-
-  @Override
-  public void render(Log log) {
-    out.print(log);
-  }
-
-  @Override
-  public void render(Message m) {
-    out.print(m);
-  }
-
-  public void print(String string) {
-    out.print(string);
   }
 
 }
