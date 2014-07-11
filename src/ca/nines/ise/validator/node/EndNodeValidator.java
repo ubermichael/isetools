@@ -28,20 +28,11 @@ import ca.nines.ise.schema.Tag;
  */
 public class EndNodeValidator extends TagNodeValidator<EndNode> {
 
-  /**
-   * Construct an end node validator.
-   * <p>
-   * @param schema The schema for validation.
-   */
-  public EndNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @ErrorCode(code = {
     "validator.tag.unknown",
     "validator.tag.endempty",})
   @Override
-  public void validate(EndNode n) {
+  public void validate(EndNode n, Schema schema) {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = Message.builder("validator.tag.unknown")

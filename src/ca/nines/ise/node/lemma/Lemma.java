@@ -18,13 +18,16 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 abstract public class Lemma {
-  private String lem;
-  private String lineNumber;
-  private String node;
+  
+  // @TODO write a builder Lemma.LemmaBuilder or something.
+  
+  private final String lem;
+  private final String lineNumber;
+  private final String node;
 
-  private String source;
-  private String tln;
-  private String xml;
+  private final String source;
+  private final String tln;
+  private final String xml;
 
   public Lemma(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new XMLFileReader(in));
@@ -39,6 +42,13 @@ abstract public class Lemma {
   }
 
   public Lemma(XMLFileReader in) throws XPathExpressionException {
+  this.lem = "";
+  this.lineNumber = "";
+  this.node = "";
+
+  this.source = "";
+  this.tln = "";
+  this.xml = "";
   }
 
   /**
@@ -49,24 +59,10 @@ abstract public class Lemma {
   }
 
   /**
-   * @param lem the lem to set
-   */
-  public void setLem(String lem) {
-    this.lem = lem;
-  }
-
-  /**
    * @return the lineNumber
    */
   public String getLineNumber() {
     return lineNumber;
-  }
-
-  /**
-   * @param lineNumber the lineNumber to set
-   */
-  public void setLineNumber(String lineNumber) {
-    this.lineNumber = lineNumber;
   }
 
   /**
@@ -77,24 +73,10 @@ abstract public class Lemma {
   }
 
   /**
-   * @param node the node to set
-   */
-  public void setNode(String node) {
-    this.node = node;
-  }
-
-  /**
    * @return the source
    */
   public String getSource() {
     return source;
-  }
-
-  /**
-   * @param source the source to set
-   */
-  public void setSource(String source) {
-    this.source = source;
   }
 
   /**
@@ -105,24 +87,9 @@ abstract public class Lemma {
   }
 
   /**
-   * @param tln the tln to set
-   */
-  public void setTln(String tln) {
-    this.tln = tln;
-  }
-
-  /**
    * @return the xml
    */
   public String getXml() {
     return xml;
   }
-
-  /**
-   * @param xml the xml to set
-   */
-  public void setXml(String xml) {
-    this.xml = xml;
-  }
-
 }

@@ -19,11 +19,11 @@ import java.util.regex.Pattern;
  */
 public class CodePointCharNode extends CharNode {
 
-  private static final Pattern pattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
+  private static final Pattern unicodePattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
 
   @Override
   public Fragment expanded() {
-    Matcher matcher = pattern.matcher(innerText());
+    Matcher matcher = unicodePattern.matcher(innerText());
     try {
       if (matcher.matches()) {
         String hex = matcher.group(1);

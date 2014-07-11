@@ -38,10 +38,8 @@ public class Abbrs extends Command {
     try {
       File[] files;
 
-      Log log = Log.getInstance();
       Locale.setDefault(Locale.ENGLISH);
       Schema schema = new Schema();
-      DOMValidator validator = new DOMValidator(schema);
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
       if (cmd.hasOption("l")) {

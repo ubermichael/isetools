@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
@@ -21,7 +22,7 @@ import org.xml.sax.SAXException;
  */
 public class Schema {
 
-  private final HashMap<String, Tag> tags;
+  private final Map<String, Tag> tags;
 
   public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     this(new File("/resources/schemas/default.xml"));

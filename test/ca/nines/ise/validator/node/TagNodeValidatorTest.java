@@ -31,47 +31,47 @@ public class TagNodeValidatorTest extends ValidatorTestBase {
   @Test
   public void testValidate_attributes() throws Exception {
     TagNode n = new TagNodeImpl();
-    TagNodeValidator<?> instance = new TagNodeValidatorImpl(schema);
-    instance.validate_attributes(n);
+    TagNodeValidator<?> instance = new TagNodeValidatorImpl();
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{});
 
     n.setName("NONEXISTANT");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{});
 
     n.setName("NOATTR");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{});
 
     n.setAttribute("non", "yes");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{"validator.attribute.unknown"});
     n.clearAttributes();
 
     n.setName("ONEATTR");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{"validator.attribute.missing"});
 
     n.setAttribute("n", "");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{"validator.attribute.nonempty"});
 
     n.setAttribute("n", "3");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{});
 
     n.setName("TWOATTRS");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{"validator.attribute.missing"});
 
     n.setAttribute("b", "3");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{});
 
     n.setName("DEPAT");
     n.clearAttributes();
     n.setAttribute("foo", "yes");
-    instance.validate_attributes(n);
+    instance.validate_attributes(n, schema);
     checkLog(new String[]{"validator.attribute.depreciated"});
   }
 

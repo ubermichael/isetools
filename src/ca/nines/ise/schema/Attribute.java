@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
+import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
@@ -28,7 +29,7 @@ public class Attribute implements Comparable<Attribute> {
   private final String name;
   private final boolean optional;
 
-  private ArrayList<String> options = null;
+  private List<String> options = null;
   private final boolean renumber;
   private final String type;
 

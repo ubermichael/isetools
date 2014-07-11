@@ -44,7 +44,7 @@ public class Validate extends Command {
       Log log = Log.getInstance();
       Locale.setDefault(Locale.ENGLISH);
       Schema schema = new Schema();
-      DOMValidator validator = new DOMValidator(schema);
+      DOMValidator validator = new DOMValidator();
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
       if (cmd.hasOption("l")) {
@@ -56,7 +56,7 @@ public class Validate extends Command {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
           DOM dom = new DOMBuilder(in).build();
-          validator.validate(dom);
+          validator.validate(dom, schema);
           if (log.count() > 0) {
             out.println(log);
             log.clear();

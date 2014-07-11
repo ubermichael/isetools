@@ -18,19 +18,16 @@ import java.util.regex.Pattern;
  */
 public class AbbrNode extends Node {
 
+  private static final Pattern longAbbrPattern = Pattern.compile("^([a-zA-Z])\\^([a-zA-Z])$");
+  private static final Pattern shortAbbrPattern = Pattern.compile("^([a-zA-Z]+)$");
+
   @ErrorCode(code = {
     "abbr.expand.syntax"
   })
   @Override
   public Fragment expanded() {
 
-    if (this._expanded != null) {
-      return this._expanded;
-    }
-
     String content = text.replaceAll("\\|", "");
-    Pattern longAbbrPattern = Pattern.compile("^([a-zA-Z])\\^([a-zA-Z])$");
-    Pattern shortAbbrPattern = Pattern.compile("^([a-zA-Z]+)$");
     Fragment fragment = new Fragment();
     TagNode node = new StartNode(this);
     node.setName("ABBR");
@@ -67,18 +64,12 @@ public class AbbrNode extends Node {
     node.setName("ABBR");
     fragment.add(node);
 
-    this._expanded = fragment;
-
     return fragment;
   }
 
   @Override
   public String plain() {
-    if (this._plain != null) {
-      return this._plain;
-    }
-    this._plain = getText().replaceAll("[^a-zA-Z]*", "");
-    return this._plain;
+    return getText().replaceAll("[^a-zA-Z]*", "");
   }
 
   @Override
@@ -88,10 +79,6 @@ public class AbbrNode extends Node {
 
   @Override
   public String unicode() {
-    if (this._unicode != null) {
-      return this._unicode;
-    }
-    this._unicode = getText().replaceAll("[^a-zA-Z]*", "");
-    return this._unicode;
+    return getText().replaceAll("[^a-zA-Z]*", "");
   }
 }

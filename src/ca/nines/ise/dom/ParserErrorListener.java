@@ -19,20 +19,11 @@ import org.antlr.v4.runtime.Recognizer;
 public class ParserErrorListener extends BaseErrorListener {
 
   private final String[] lines;
-  private final Log log = Log.getInstance();
-  private String source = "";
+  private final String source;
 
-  ParserErrorListener(String[] lines) {
-    this.lines = lines;
-  }
-
-  /**
-   * Sets the source of the parsed data. Either #STRING or the path to the file.
-   * <p>
-   * @param source the source to set
-   */
-  public void setSource(String source) {
+  ParserErrorListener(String source, String[] lines) {
     this.source = source;
+    this.lines = lines;    
   }
 
   /**
@@ -57,7 +48,7 @@ public class ParserErrorListener extends BaseErrorListener {
             .setLine(lines[line - 1])
             .addNote(msg.substring(0, Math.min(64, msg.length())))
             .build();
-    log.add(m);
+    Log.addMessage(m);
   }
 
 }

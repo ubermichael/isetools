@@ -9,6 +9,7 @@ import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.TagNode;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -23,7 +24,7 @@ public class TypographicCharNode extends CharNode {
     charMap.put("{W}", "VV");
   }
 
-  public static HashMap<String, String> mapping() {
+  public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
 

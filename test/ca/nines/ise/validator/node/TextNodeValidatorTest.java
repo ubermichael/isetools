@@ -27,21 +27,21 @@ public class TextNodeValidatorTest extends ValidatorTestBase {
    */
   @Test
   public void testValidate() {
-    TextNodeValidator validator = new TextNodeValidator(schema);
+    TextNodeValidator validator = new TextNodeValidator();
     TextNode n = new TextNode();
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setText("foo bar yes please.");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setText("foo \uFFFD yes please.");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.text.badunicode"});
 
     n.setText("foo # yes please.");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.text.depreciatedhash"});
   }
 

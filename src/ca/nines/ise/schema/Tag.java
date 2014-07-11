@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
@@ -22,7 +23,9 @@ import org.xml.sax.SAXException;
  */
 public class Tag implements Comparable<Tag> {
 
-  private HashMap<String, Attribute> attributes;
+  // @TODO make the fields final and create a Builder.
+  
+  private Map<String, Attribute> attributes;
   private String depreciated;
   private String desc;
   private String empty;

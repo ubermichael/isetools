@@ -10,6 +10,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.filefilter.HiddenFileFilter;
@@ -24,14 +25,14 @@ public class FileFinder extends DirectoryWalker<File> {
 
   FileFilter filter;
 
-    public ArrayList<File> find(File startDirectory, String wildcard) throws IOException {
-      ArrayList<File> files = new ArrayList<>();
+    public List<File> find(File startDirectory, String wildcard) throws IOException {
+      List<File> files = new ArrayList<>();
       filter = new WildcardFileFilter(wildcard);
       walk(startDirectory, files);
       return files;
     }
 
-    public ArrayList<File> find(File startDirectory, Pattern matcher) throws IOException {
+    public List<File> find(File startDirectory, Pattern matcher) throws IOException {
       ArrayList<File> files = new ArrayList<>();
       filter = new RegexFileFilter(matcher);
       walk(startDirectory, files);

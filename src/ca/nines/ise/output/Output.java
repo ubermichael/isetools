@@ -21,6 +21,8 @@ abstract public class Output {
 
   protected final PrintStream out;
 
+  // @TODO make this an interface by dropping out and the constructors.
+  
   public Output() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }

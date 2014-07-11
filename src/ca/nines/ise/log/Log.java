@@ -8,6 +8,7 @@ package ca.nines.ise.log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
+import java.util.List;
 
 /**
  * Log collects error messages generated during parsing and validation.
@@ -20,8 +21,11 @@ public class Log {
 
   private static final Log instance = new Log();
 
-  private static final ArrayList<Message> messages = new ArrayList<>();
+  private static final List<Message> messages = new ArrayList<>();
 
+  // @todo why do i have instance methods at all? They aren't necessary.
+  // I never pass log objects around.
+  
   public static void addMessage(Message m) {
     instance.add(m);
   }

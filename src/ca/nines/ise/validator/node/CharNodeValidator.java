@@ -22,17 +22,8 @@ import java.util.logging.Logger;
  */
 public class CharNodeValidator extends NodeValidator<CharNode> {
 
-  /**
-   * Construct a character validator.
-   * <p>
-   * @param schema The schema for validation. Unused in character validation.
-   */
-  public CharNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @Override
-  public void validate(CharNode n) {
+  public void validate(CharNode n, Schema schema) {
     try {
       n.expanded();
     } catch (IOException ex) {

@@ -28,26 +28,26 @@ public class EmptyNodeValidatorTest extends ValidatorTestBase {
   @Test
   public void testValidate() throws Exception {
     EmptyNode n = new EmptyNode();
-    EmptyNodeValidator validator = new EmptyNodeValidator(schema);
+    EmptyNodeValidator validator = new EmptyNodeValidator();
 
     n.setName("EMPTY");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setName("OPT");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setName("NOATTR");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.emptystart"});
 
     n.setName("FOO");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.unknown"});
 
     n.setName("DEPTAG");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.depreciated"});
 
   }

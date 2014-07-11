@@ -27,22 +27,13 @@ import ca.nines.ise.schema.Tag;
  */
 public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
 
-  /**
-   * Construct an empty node validator.
-   * <p>
-   * @param schema The schema for validation.
-   */
-  public EmptyNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @ErrorCode(code = {
     "validator.tag.unknown",
     "validator.tag.emptystart",
     "validator.tag.depreciated"
   })
   @Override
-  public void validate(EmptyNode n) throws Exception {
+  public void validate(EmptyNode n, Schema schema) throws Exception {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = Message.builder("validator.tag.unknown")
@@ -64,7 +55,7 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
               .build();
       Log.addMessage(m);
     }
-    validate_attributes(n);
+    validate_attributes(n, schema);
   }
 
 }

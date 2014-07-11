@@ -17,12 +17,9 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.Node.NodeType;
 import ca.nines.ise.schema.Schema;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import org.xml.sax.SAXException;
+import java.util.Map;
 
 /**
  * DOMValidator validates all the nodes in a DOM against a schema. All
@@ -44,34 +41,17 @@ import org.xml.sax.SAXException;
  */
 public class DOMValidator {
 
-  private final HashMap<NodeType, NodeValidator<? extends Node>> validators;
+  private static final HashMap<NodeType, NodeValidator<? extends Node>> validators;
 
-  /**
-   * Construct a DOMValidator with the default schema.
-   * <p>
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
-   * @throws XPathExpressionException
-   */
-  public DOMValidator() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new Schema());
-  }
-
-  /**
-   * Construct a DOMValidator with the given schema.
-   * <p>
-   * @param schema
-   */
-  public DOMValidator(Schema schema) {
-    this.validators = new HashMap<>();
-    validators.put(NodeType.ABBR, new AbbrNodeValidator(schema));
-    validators.put(NodeType.CHAR, new CharNodeValidator(schema));
-    validators.put(NodeType.COMMENT, new CommentNodeValidator(schema));
-    validators.put(NodeType.EMPTY, new EmptyNodeValidator(schema));
-    validators.put(NodeType.END, new EndNodeValidator(schema));
-    validators.put(NodeType.START, new StartNodeValidator(schema));
-    validators.put(NodeType.TEXT, new TextNodeValidator(schema));
+  static {
+    validators = new HashMap<>();
+    validators.put(NodeType.ABBR, new AbbrNodeValidator());
+    validators.put(NodeType.CHAR, new CharNodeValidator());
+    validators.put(NodeType.COMMENT, new CommentNodeValidator());
+    validators.put(NodeType.EMPTY, new EmptyNodeValidator());
+    validators.put(NodeType.END, new EndNodeValidator());
+    validators.put(NodeType.START, new StartNodeValidator());
+    validators.put(NodeType.TEXT, new TextNodeValidator());
   }
 
   /**
@@ -81,7 +61,7 @@ public class DOMValidator {
    * @throws Exception
    */
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public void validate(DOM dom) throws Exception {
+  public void validate(DOM dom, Schema schema) throws Exception {
     NodeValidator validator;
     Node n;
     Iterator<Node> i = dom.iterator();
@@ -90,8 +70,8 @@ public class DOMValidator {
       validator = validators.get(n.type());
       if (validator == null) {
         throw new Exception("Unknown node type: " + n.type());
-      }
-      validator.validate(n);
+      }      
+      validator.validate(n, schema);
     }
   }
 

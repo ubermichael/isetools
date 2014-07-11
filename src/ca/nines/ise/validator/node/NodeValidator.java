@@ -5,7 +5,6 @@
  */
 package ca.nines.ise.validator.node;
 
-import ca.nines.ise.log.Log;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.schema.Schema;
 
@@ -20,32 +19,12 @@ import ca.nines.ise.schema.Schema;
 abstract public class NodeValidator<T extends Node> {
 
   /**
-   * The log to store the validation messages.
-   */
-  protected final Log log;
-
-  /**
-   * The schema to validate against. Not used by all node validators.
-   */
-  protected final Schema schema;
-
-  /**
-   * Construct a node validator. Should be called as {@code super(schema) } in
-   * constructors.
-   * <p>
-   * @param schema The schema for validation.
-   */
-  public NodeValidator(Schema schema) {
-    this.schema = schema;
-    this.log = Log.getInstance();
-  }
-
-  /**
    * Perform the text node validation, as described above.
    * <p>
    * @param n <p>
+   * @param schema
    * @throws java.lang.Exception
    */
-  abstract public void validate(T n) throws Exception;
+  abstract public void validate(T n, Schema schema) throws Exception;
 
 }

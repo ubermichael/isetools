@@ -27,15 +27,15 @@ public class AbbrNodeValidatorTest extends ValidatorTestBase {
    */
   @Test
   public void testValidate() {
-    AbbrNodeValidator validator = new AbbrNodeValidator(schema);
+    AbbrNodeValidator validator = new AbbrNodeValidator();
     AbbrNode n = new AbbrNode();
     n.setText("|a^b|");
 
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.abbr.depreciated"});
 
     n.setText("|supercalafraglistic|");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.abbr.depreciated", "validator.abbr.long"});
   }
 

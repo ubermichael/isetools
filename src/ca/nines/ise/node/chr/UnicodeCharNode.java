@@ -8,6 +8,7 @@ package ca.nines.ise.node.chr;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -28,7 +29,7 @@ public class UnicodeCharNode extends CharNode {
     charMap.put("{TH}", "\u00de");
   }
 
-  public static HashMap<String, String> mapping() {
+  public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
 

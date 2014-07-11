@@ -28,26 +28,26 @@ public class StartNodeValidatorTest extends ValidatorTestBase {
   @Test
   public void testValidate() throws Exception {
     StartNode n = new StartNode();
-    StartNodeValidator validator = new StartNodeValidator(schema);
+    StartNodeValidator validator = new StartNodeValidator();
 
     n.setName("EMPTY");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.startempty"});
 
     n.setName("OPT");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setName("NOATTR");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setName("FOO");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.unknown"});
 
     n.setName("DEPTAG");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.depreciated"});
   }
 

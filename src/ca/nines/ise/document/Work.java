@@ -11,32 +11,31 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
  * @author michael
  */
-public class Work implements Comparable<Work> {
+public class Work extends Document implements Comparable<Work> {
 
-  private final HashMap<String, Edition> editions;
-  private String playCode;
+  private final Map<String, Edition> editions;
+  private final String playCode;
   private final File root;
 
-  public Work(File root) throws IOException {
+  public Work(File file) throws IOException {
     this.editions = new HashMap<>();
-    this.root = root;
+    this.root = file;
     this.playCode = root.getName();
   }
 
-  public void addEdition(File f) throws IOException {
-    Pattern p = Pattern.compile("_([a-zA-Z0-9]+)\\.txt$");
-    Matcher m = p.matcher(f.getName());
-    if (m.find()) {
-      editions.put(m.group(1), new Edition(f));
+  public void addEdition(File file) throws IOException {
+    String filename = file.getName();
+    if(validName(filename)) {
+      String edition = extractEdition(filename);
+      editions.put(edition, new Edition(file));
     }
   }
 
@@ -59,11 +58,10 @@ public class Work implements Comparable<Work> {
   }
 
   public Edition[] getEditions() throws IOException {
-
     File files[] = root.listFiles(new FilenameFilter() {
       @Override
       public boolean accept(File dir, String name) {
-        return name.matches("^[a-zA-Z0-9]+_[a-zA-Z0-9]+\\.txt$");
+        return Document.validName(name);
       }
     });
 
@@ -71,7 +69,6 @@ public class Work implements Comparable<Work> {
       return new Edition[0];
     }
 
-    Pattern p = Pattern.compile("[a-zA-Z0-9]+_([a-zA-Z0-9]+)\\.txt");
     for (File f : files) {
       addEdition(f);
     }
@@ -94,19 +91,8 @@ public class Work implements Comparable<Work> {
     return playCode;
   }
 
-  /**
-   * @param playCode the playCode to set
-   */
-  public void setPlayCode(String playCode) {
-    this.playCode = playCode;
-  }
-
   public boolean hasTitlePage() throws IOException {
     return root.getCanonicalPath().contains("withTitlePage");
-  }
-
-  public String[] listEditions() {
-    return null;
   }
 
   @Override

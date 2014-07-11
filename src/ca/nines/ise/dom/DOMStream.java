@@ -27,10 +27,10 @@ import org.apache.commons.io.input.BOMInputStream;
  */
 public class DOMStream {
 
-  private ByteOrderMark bom;
-  private String content;
-  private String encoding;
-  private ArrayList<String> lines;
+  private final ByteOrderMark bom;
+  private final String content;
+  private final String encoding;
+  private final ArrayList<String> lines;
 
   /**
    *
@@ -43,7 +43,6 @@ public class DOMStream {
 
     BOMInputStream bomStream = new BOMInputStream(in, ByteOrderMark.UTF_8, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE);
     bom = bomStream.getBOM();
-    encoding = "UTF-8";
     if (bom != null) {
       Message m = Message.builder("builder.bom")
               .setSource(source)
@@ -51,7 +50,10 @@ public class DOMStream {
               .build();
       Log.addMessage(m);
       encoding = bom.getCharsetName();
+    } else {
+      encoding = "UTF-8";
     }
+    
     if (!encoding.equals("UTF-8")) {
       Message m = Message.builder("builder.notutf8")
               .setSource(source)
@@ -61,7 +63,6 @@ public class DOMStream {
     }
 
     BufferedReader buffer = new BufferedReader(new InputStreamReader(bomStream, encoding));
-
     String line;
     StringBuilder sb = new StringBuilder();
 

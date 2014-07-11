@@ -14,12 +14,8 @@ import ca.nines.ise.schema.Schema;
  */
 public class TagNodeValidatorImpl extends TagNodeValidator<TagNode> {
 
-  public TagNodeValidatorImpl(Schema schema) {
-    super(schema);
-  }
-
   @Override
-  public void validate(TagNode node) throws Exception {
-    validate_attributes(node);
+  public void validate(TagNode node, Schema schema) throws Exception {
+    validate_attributes(node, schema);
   }
 }

@@ -20,22 +20,12 @@ import ca.nines.ise.schema.Schema;
  */
 public class TextNodeValidator extends NodeValidator<TextNode> {
 
-  /**
-   * Construct a TextNodeValidator. The schema parameter is only necessary
-   * because of the parent class.
-   * <p>
-   * @param schema The schema for validation.
-   */
-  public TextNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @ErrorCode(code = {
     "validator.text.depreciatedhash",
     "validator.text.badunicode"
   })
   @Override
-  public void validate(TextNode n) {
+  public void validate(TextNode n, Schema schema) {
     if (n.getText().contains("#")) {
       Message m = Message.builder("validator.text.depreciatedhash")
               .fromNode(n)
