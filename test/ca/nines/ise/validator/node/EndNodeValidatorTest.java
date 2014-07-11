@@ -5,15 +5,10 @@
  */
 package ca.nines.ise.validator.node;
 
-import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -33,26 +28,26 @@ public class EndNodeValidatorTest extends ValidatorTestBase {
   @Test
   public void testValidate() throws Exception {
     EndNode n = new EndNode();
-    EndNodeValidator validator = new EndNodeValidator(schema);
+    EndNodeValidator validator = new EndNodeValidator();
 
     n.setName("EMPTY");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.endempty"});
 
     n.setName("OPT");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setName("NOATTR");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
 
     n.setName("FOO");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.tag.unknown"});
 
     n.setName("DEPTAG");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
   }
 

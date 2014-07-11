@@ -5,6 +5,10 @@
  */
 package ca.nines.ise.cmd;
 
+import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.chr.AccentCharNode;
+import ca.nines.ise.output.Output;
+import ca.nines.ise.output.XMLOutput;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
@@ -17,6 +21,7 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -42,19 +47,17 @@ public class Wikify extends Command {
       Locale.setDefault(Locale.ENGLISH);
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
-      if (cmd.hasOption("l")) {
+      if (cmd.hasOption("o")) {
         out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
       }
 
-      if(cmd.hasOption("c")) {
+      if (cmd.hasOption("chars")) {
         wikifyCharacters(out);
       }
-      
-      if(cmd.hasOption("s")) {
+
+      if (cmd.hasOption("schema")) {
         wikifySchema(out);
       }
-      
-      System.out.println("not implemented.");
 
     } catch (UnsupportedEncodingException ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,15 +71,15 @@ public class Wikify extends Command {
       Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
     } catch (XPathExpressionException ex) {
       Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
-    } 
+    }
   }
 
   @Override
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("o", true, "Send output to file");
-    opts.addOption("c", false, "Generate output for special characters");
-    opts.addOption("s", false, "Generate output for default schema");
+    opts.addOption("chars", false, "Generate output for special characters");
+    opts.addOption("schema", false, "Generate output for default schema");
     return opts;
   }
 
@@ -86,16 +89,45 @@ public class Wikify extends Command {
   }
 
   private void wikifyCharacters(PrintStream out) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    // accented
+    try {
+      Map<String, String> cm = AccentCharNode.mapping();
+      Output xmlOut = new XMLOutput(out);
+      CharNode cn = new AccentCharNode();
+      Formatter formatter = new Formatter(out);
+      
+      for (String c : cm.keySet()) {
+        cn.setText("{" + c + "a}");
+        formatter.format("%s %s %s %s%n", 
+                         c, 
+                         Character.getName(cm.get(c).charAt(0)),
+                         cn.getText(),
+                         cn.unicode()                         
+        );
+        xmlOut.render(cn.expanded());
+        out.println();
+      }
+      
+    } catch (Exception ex) {
+      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    // code point
+    // digraph
+    // ligature
+    // space
+    // typographic
+    // unicode
+    // nested
   }
 
   private void wikifySchema(PrintStream out) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      Schema schema = new Schema();
+    Schema schema = new Schema();
 
-      for (Tag tag : schema.getTags()) {
-        wikifyTagInfo(out, tag);
-        wikifySchemaAttrInfo(out, tag);
-      }
+    for (Tag tag : schema.getTags()) {
+      wikifyTagInfo(out, tag);
+      wikifySchemaAttrInfo(out, tag);
+    }
   }
 
   public static void wikifySchemaAttrInfo(PrintStream out, Tag tag) {

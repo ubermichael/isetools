@@ -18,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
@@ -45,8 +46,8 @@ public class Chars extends Command {
         out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
       }
 
-      HashMap<String, Integer> m = new HashMap<>();
-      HashMap<CharNode.CharType, HashMap<String, Integer>> types = new HashMap<>();
+      Map<String, Integer> m = new HashMap<>();
+      Map<CharNode.CharType, HashMap<String, Integer>> types = new HashMap<>();
       files = getFilePaths(cmd);
 
       for (CharNode.CharType type : CharNode.CharType.values()) {

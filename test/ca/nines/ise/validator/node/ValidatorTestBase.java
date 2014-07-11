@@ -5,14 +5,11 @@
  */
 package ca.nines.ise.validator.node;
 
-import ca.nines.ise.log.Log;
 import ca.nines.ise.schema.Schema;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import org.junit.Before;
-import static org.junit.Assert.*;
 import org.xml.sax.SAXException;
 
 /**

@@ -27,22 +27,13 @@ import ca.nines.ise.schema.Schema;
  */
 public class CommentNodeValidator extends NodeValidator<CommentNode> {
 
-  /**
-   * Construct a comment node validator.
-   * <p>
-   * @param schema The schema for validation. Unused in comment validation.
-   */
-  public CommentNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @ErrorCode(code = {
     "validator.comment.badstart",
     "validator.comment.badend",
     "validator.comment.dashes"
   })
   @Override
-  public void validate(CommentNode n) {
+  public void validate(CommentNode n, Schema schema) {
     Message m;
     String text = n.getText();
     if (!text.startsWith("<!--")) {

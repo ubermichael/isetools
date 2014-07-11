@@ -15,12 +15,8 @@ import java.util.Formatter;
  */
 abstract public class Node {
 
-  protected Fragment _expanded;
-  protected String _plain;
-  protected String _unicode;
   protected String asl = "";
   protected int column;
-
   protected int line;
   protected String source = "";
   protected String text = "";
@@ -149,9 +145,6 @@ abstract public class Node {
    * @param text the text to set
    */
   public void setText(String text) {
-    this._plain = null;
-    this._expanded = null;
-    this._unicode = null;
     this.text = text;
   }
 

@@ -9,6 +9,7 @@ import ca.nines.ise.node.Node;
 import ca.nines.ise.util.BuilderInterface;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +37,7 @@ public class Message implements Comparable<Message> {
   private final int columnNumber;
   private final String line;
   private final int lineNumber;
-  private final ArrayList<String> notes;
+  private final List<String> notes;
   private final String source;
 
   public static MessageBuilder builder(String code) {
@@ -50,7 +51,7 @@ public class Message implements Comparable<Message> {
     private int columnNumber = 0;
     private String line = "";
     private int lineNumber = 0;
-    private final ArrayList<String> notes = new ArrayList<>();
+    private final List<String> notes = new ArrayList<>();
     private String source = "(unknown)";
 
     private MessageBuilder(String code) {
@@ -102,7 +103,7 @@ public class Message implements Comparable<Message> {
     }
   }
 
-  Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source, ArrayList<String> notes) {
+  Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source, List<String> notes) {
     this.code = code;
     this.TLN = TLN;
     this.lineNumber = lineNumber;

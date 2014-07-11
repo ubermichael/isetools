@@ -40,16 +40,15 @@ public class XMLOutput extends Output{
 
   private final DocumentBuilderFactory docFactory;
   private final DocumentBuilder docBuilder;
-  private final PrintStream out;
 
   public XMLOutput() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
   }
 
   public XMLOutput(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
+    super(out);
     docFactory = DocumentBuilderFactory.newInstance();
     docBuilder = docFactory.newDocumentBuilder();
-    this.out = out;
   }
 
   @Override

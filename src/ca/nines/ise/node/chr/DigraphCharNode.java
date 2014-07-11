@@ -8,6 +8,7 @@ package ca.nines.ise.node.chr;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -26,7 +27,7 @@ public class DigraphCharNode extends CharNode {
     charMap.put("{db}", "\u0238");
   }
   
-  public static HashMap<String, String> mapping() {
+  public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
 

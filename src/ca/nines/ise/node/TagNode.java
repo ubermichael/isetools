@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +18,7 @@ import java.util.LinkedHashMap;
  */
 abstract public class TagNode extends Node {
 
-  protected LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
+  protected Map<String, String> attributes = new LinkedHashMap<>();
   protected String tagname;
 
   public TagNode() {
@@ -48,9 +49,9 @@ abstract public class TagNode extends Node {
     attributes.clear();
   }
 
-    public void deleteAttribute(String name) {
-      attributes.remove(name);
-    }
+  public void deleteAttribute(String name) {
+    attributes.remove(name);
+  }
 
   @Override
   public Fragment expanded() {
@@ -59,15 +60,15 @@ abstract public class TagNode extends Node {
     return f;
   }
 
-    public String getAttribute(String name) {
-      return attributes.get(name.toLowerCase());
-    }
+  public String getAttribute(String name) {
+    return attributes.get(name.toLowerCase());
+  }
 
-    public String[] getAttributeNames() {
-      String[] names = attributes.keySet().toArray(new String[attributes.size()]);
-      Arrays.sort(names);
-      return names;
-    }
+  public String[] getAttributeNames() {
+    String[] names = attributes.keySet().toArray(new String[attributes.size()]);
+    Arrays.sort(names);
+    return names;
+  }
 
   @Override
   public String getName() {

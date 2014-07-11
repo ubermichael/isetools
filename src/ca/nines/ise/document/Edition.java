@@ -10,10 +10,6 @@ import ca.nines.ise.dom.DOM;
 import java.io.File;
 import java.io.IOException;
 import java.util.Formatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
@@ -22,7 +18,7 @@ import org.xml.sax.SAXException;
  *
  * @author michael
  */
-public class Edition implements Comparable<Edition> {
+public class Edition extends Document implements Comparable<Edition> {
 
   private final String editionCode;
   private final File file;
@@ -32,13 +28,13 @@ public class Edition implements Comparable<Edition> {
 
   public Edition(File file) throws IOException {
     this.file = file;
-    parentDir = file.getParentFile().getCanonicalPath();
-    Pattern p = Pattern.compile("(\\p{Alnum}+)_(\\p{Alnum}+)\\.txt");
-    Matcher m = p.matcher(file.getName());
-    if (m.matches()) {
-      playCode = m.group(1);
-      editionCode = m.group(2);
+    String filename = file.getName();
+    if (validName(filename)) {
+      parentDir = file.getParentFile().getCanonicalPath();
+      playCode = extractName(filename);
+      editionCode = extractEdition(filename);
     } else {
+      parentDir = "";
       playCode = "";
       editionCode = "";
     }
@@ -48,15 +44,21 @@ public class Edition implements Comparable<Edition> {
   public int compareTo(Edition o) {
     return editionCode.toLowerCase().compareTo(o.editionCode.toLowerCase());
   }
+  
+  public File expectedAnnotationsFile() {
+    return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
+  }
+  
+  public File expectedCollationsFile() {
+    return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
+  }
 
   public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    File collationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
-    return new Annotations(collationsFile);
+    return new Annotations(expectedAnnotationsFile());
   }
 
   public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    File collationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
-    return new Collations(collationsFile);
+    return new Collations(expectedCollationsFile());
   }
 
   public DOM getDOM() throws IOException {
@@ -64,24 +66,18 @@ public class Edition implements Comparable<Edition> {
   }
 
   public boolean hasAnnotations() {
-    File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
-    return annotationsFile.exists();
+    return expectedAnnotationsFile().exists();
   }
 
-  public boolean hasCollations() throws IOException {
-    File annotationsFile = new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
-    return annotationsFile.exists();
+  public boolean hasCollations() {
+    return expectedCollationsFile().exists();
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     Formatter formatter = new Formatter(sb);
-    try {
-      formatter.format("%4s %12s %12s%n", editionCode, hasAnnotations() ? "annotations" : "", hasCollations() ? "collations" : "");
-    } catch (IOException ex) {
-      Logger.getLogger(Edition.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    formatter.format("%4s %12s %12s%n", editionCode, hasAnnotations() ? "annotations" : "", hasCollations() ? "collations" : "");
     return sb.toString();
   }
 }

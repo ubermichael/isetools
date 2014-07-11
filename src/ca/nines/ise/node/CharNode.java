@@ -10,8 +10,6 @@ import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.chr.AccentCharNode;
 import java.io.IOException;
-import java.text.Normalizer;
-import java.util.HashMap;
 
 /**
  *

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An ISE DOM (a document object model) is a stream of Node objects. Since ISE
@@ -22,10 +24,13 @@ import java.util.Iterator;
  */
 public class DOM {
 
-  private final HashMap<String, Node> index;
+  // @todo make all of DOM's fields final, by moving
+  // all the setters to DOMBuilder, just like Message and Message.MessageBuilder.
+  
+  private final Map<String, Node> index;
   private String[] lines;
 
-  private final ArrayList<Node> nodes;
+  private final List<Node> nodes;
 
   private String source;
 

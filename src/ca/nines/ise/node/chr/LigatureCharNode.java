@@ -16,7 +16,7 @@ public class LigatureCharNode extends CharNode {
 
   @Override
   public Fragment expanded() {
-    return wrap("LIGATURE", this.innerText());
+    return wrap("LIG", this.innerText());
   }
 
   /**

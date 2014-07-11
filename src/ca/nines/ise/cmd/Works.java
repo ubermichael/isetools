@@ -6,10 +6,6 @@
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.document.Corpus;
-import ca.nines.ise.dom.DOMBuilder;
-import ca.nines.ise.dom.DOM;
-import ca.nines.ise.log.Log;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,8 +47,6 @@ public class Works extends Command {
     } catch (UnsupportedEncodingException ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     } catch (FileNotFoundException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     }
   }

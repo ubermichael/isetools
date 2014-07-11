@@ -18,6 +18,7 @@ import ca.nines.ise.validator.node.attribute.NumberAttributeValidator;
 import ca.nines.ise.validator.node.attribute.SelectAttributeValidator;
 import ca.nines.ise.validator.node.attribute.StringAttributeValidator;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Abstract class to handle the commonalities in tag validations. Also provides
@@ -28,26 +29,18 @@ import java.util.HashMap;
  */
 abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<T> {
 
-  private static final HashMap<AttributeType, AttributeValidator> validators = new HashMap<>();
+  private static final Map<AttributeType, AttributeValidator> validators;
 
   static {
+    validators = new HashMap<>();
     validators.put(AttributeType.LIST, new ListAttributeValidator());
     validators.put(AttributeType.NUMBER, new NumberAttributeValidator());
     validators.put(AttributeType.SELECT, new SelectAttributeValidator());
     validators.put(AttributeType.STRING, new StringAttributeValidator());
   }
 
-  /**
-   * Construct a tag node validator.
-   * <p>
-   * @param schema The schema for validation.
-   */
-  public TagNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @Override
-  abstract public void validate(T node) throws Exception;
+  abstract public void validate(T node, Schema schema) throws Exception;
 
   /**
    * Validate an attribute, by calling one of the validate_attribute_*
@@ -101,7 +94,7 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     "validator.attribute.depreciated",
     "validator.attribute.nonempty",
     "validator.attribute.missing",})
-  public void validate_attributes(TagNode n) throws Exception {
+  public void validate_attributes(TagNode n, Schema schema) throws Exception {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);
     Message m;

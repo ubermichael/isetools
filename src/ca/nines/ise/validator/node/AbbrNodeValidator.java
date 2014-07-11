@@ -38,21 +38,12 @@ public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
    */
   public final static int ABBR_LENGTH = 12;
 
-  /**
-   * Construct an Abbreviation node validator.
-   * <p>
-   * @param schema The schema for validation. Unused in abbreviation validation.
-   */
-  public AbbrNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @ErrorCode(code = {
     "validator.abbr.depreciated",
     "validator.abbr.long"
   })
   @Override
-  public void validate(AbbrNode n) {
+  public void validate(AbbrNode n, Schema schema) {
     Message m;
     m = Message.builder("validator.abbr.depreciated")
             .fromNode(n)

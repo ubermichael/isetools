@@ -29,22 +29,13 @@ import ca.nines.ise.schema.Tag;
  */
 public class StartNodeValidator extends TagNodeValidator<StartNode> {
 
-  /**
-   * Construct a start node validator.
-   * <p>
-   * @param schema The schema for validation.
-   */
-  public StartNodeValidator(Schema schema) {
-    super(schema);
-  }
-
   @ErrorCode(code = {
     "validator.tag.unknown",
     "validator.tag.startempty",
     "validator.tag.depreciated"
   })
   @Override
-  public void validate(StartNode n) throws Exception {
+  public void validate(StartNode n, Schema schema) throws Exception {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = Message.builder("validator.tag.unknown")
@@ -68,7 +59,7 @@ public class StartNodeValidator extends TagNodeValidator<StartNode> {
               .build();
       Log.addMessage(m);
     }
-    validate_attributes(n);
+    validate_attributes(n, schema);
   }
 
 }

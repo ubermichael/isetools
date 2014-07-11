@@ -5,13 +5,12 @@
  */
 package ca.nines.ise.document;
 
-import ca.nines.ise.config.Config;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,9 +23,10 @@ public class Corpus {
 
   private final File root;
 
-  private final HashMap<String, Work> works = new HashMap<>();
+  // @todo write a case-insensitive wrapper around Map<String, ?>
+  private final Map<String, Work> works = new HashMap<>();
 
-  public Corpus(String root) throws IOException {
+  public Corpus(String root) {
     this(new File(root));
   }
 
@@ -37,21 +37,20 @@ public class Corpus {
   public Work getWork(String code) throws IOException {
     File w;
 
-    if (works.containsKey(code)) {
+    if (works.containsKey(code.toLowerCase())) {
       return works.get(code.toLowerCase());
     }
 
     w = new File(root.getCanonicalPath() + "/noTitlePage/" + code);
     if (w.exists()) {
-      return new Work(w);
+      works.put(code, new Work(w));
     }
 
     w = new File(root.getCanonicalPath() + "/withTitlePage/" + code);
     if (w.exists()) {
-      return new Work(w);
+      works.put(code, new Work(w));
     }
-
-    throw new FileNotFoundException("Cannot find work directory for " + code);
+    return works.get(code);
   }
 
   public Work[] getWorks() throws IOException {
@@ -63,7 +62,7 @@ public class Corpus {
       File editions[] = d.listFiles(new FilenameFilter() {
         @Override
         public boolean accept(File dir, String name) {
-          return name.endsWith(".txt");
+          return Document.validName(name);
         }
       });
       if (editions.length == 0) {

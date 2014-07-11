@@ -27,27 +27,27 @@ public class CommentNodeValidatorTest extends ValidatorTestBase {
    */
   @Test
   public void testValidate() {
-    CommentNodeValidator validator = new CommentNodeValidator(schema);
+    CommentNodeValidator validator = new CommentNodeValidator();
     CommentNode n;
 
     n = new CommentNode();
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.comment.badstart", "validator.comment.badend"});
 
     n.setText("<! bad start, good end. -->");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.comment.badstart"});
 
     n.setText("<!-- good start, bad end. >");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.comment.badend"});
 
     n.setText("<!-- dashes -- dashes -->");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{"validator.comment.dashes"});
 
     n.setText("<!-- good comment. -->");
-    validator.validate(n);
+    validator.validate(n, schema);
     checkLog(new String[]{});
   }
 

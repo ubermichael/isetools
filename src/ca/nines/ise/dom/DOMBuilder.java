@@ -125,15 +125,13 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
    */
   @Override
   public DOM build() {
-    ParserErrorListener parserListener = new ParserErrorListener(dom.getLines());
-    parserListener.setSource(dom.getSource());
+    ParserErrorListener parserListener = new ParserErrorListener(dom.getSource(), dom.getLines());
     ISELexer lexer = new ISELexer(ais);
     lexer.removeErrorListeners();
     lexer.addErrorListener(parserListener);
     
     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
     
-    parserListener.setSource(dom.getSource());
     ISEParser parser = new ISEParser(tokenStream);
     parser.removeErrorListeners();
     parser.addErrorListener(parserListener);
@@ -256,6 +254,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     currentAttrName = null;
   }
 
+  // @TODO turn this into Node.Builder and provide a Node.builder()
+  // etc.
   private Node setupNode(Node n, ParserRuleContext ctx) {
     Token t = ctx.getStart();
     n.setSource(dom.getSource());

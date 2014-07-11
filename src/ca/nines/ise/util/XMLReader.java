@@ -30,6 +30,8 @@ import org.xml.sax.SAXException;
  */
 abstract public class XMLReader {
 
+  // @todo almost all of these can be final.
+  
   protected DocumentBuilder builder;
   protected DocumentBuilderFactory factory;
   protected Node root;
