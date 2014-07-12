@@ -6,9 +6,13 @@
 package ca.nines.ise.document;
 
 import ca.nines.ise.node.lemma.Note;
+import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.XMLFileReader;
+import ca.nines.ise.util.XMLReader;
+import ca.nines.ise.util.XMLResourceReader;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
@@ -20,35 +24,43 @@ import org.xml.sax.SAXException;
  */
 public class Annotations extends Apparatus<Note> {
 
-  public Annotations(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    super(in);
+  public Annotations(String source, List<Note> lemmas) {
+    super(source, lemmas);
   }
 
-  public Annotations(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    super(in);
+  public static class AnnotationsBuilder extends ApparatusBuilder<Note> implements BuilderInterface<Annotations> {
+
+    @Override
+    public Annotations build() {
+      return new Annotations(source, lemmas);
+    }
+
+    public AnnotationsBuilder fromNode(Node in) throws ParserConfigurationException, XPathExpressionException {
+      return fromXML(in, new XMLResourceReader(in));
+    }
+
+    public AnnotationsBuilder fromString(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return fromXML(new XMLResourceReader(in));
+    }
+
+    public AnnotationsBuilder fromFile(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return fromXML(new XMLFileReader(in));
+    }
+
+    public AnnotationsBuilder fromXML(XMLReader xmlIn) throws XPathExpressionException {
+      return fromXML(xmlIn.xpathNode("/annotations"), xmlIn);
+    }
+
+    public AnnotationsBuilder fromXML(Node in, XMLReader xmlIn) throws XPathExpressionException {
+      for (Node n : xmlIn.xpathList("note", in)) {
+        addLemma(Note.builder().fromXML(n, xmlIn).build());
+      }
+      return this;
+    }
+
   }
 
-  public Annotations(Node in) throws ParserConfigurationException, XPathExpressionException {
-    super(in);
-  }
-
-  public Annotations(XMLFileReader in) throws XPathExpressionException {
-    super(in);
-  }
-
-  @Override
-  public Note buildLemma(XMLFileReader in, Node n) {
-    return null;
-    
-  }
-
-  @Override
-  public String nodeXPath() {
-    return "/annotations";
-  }
-
-  @Override
-  public String rootXPath() {
-    return "note";
+  public static AnnotationsBuilder builder() {
+    return new AnnotationsBuilder();
   }
 }
