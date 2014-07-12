@@ -52,8 +52,6 @@ public class Note extends Lemma {
       return fromXML(new XMLResourceReader(in));
     }
         
-    // @TODO make the xpath expressions into private static final XPathExpression constants
-    // most of the parse time is in building the xpaths.  
     public NoteBuilder fromXML(XMLReader xmlIn) throws XPathExpressionException {
       setLem(xmlIn.xpathString("lem/text()"));
       setSource(xmlIn.getSource());
