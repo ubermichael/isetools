@@ -23,10 +23,6 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class Annotations extends Apparatus<Note> {
-  
-  private Annotations(String source, List<Note> lemmas) {
-    super(source, lemmas);
-  }
 
   public static class AnnotationsBuilder extends ApparatusBuilder<Note> implements BuilderInterface<Annotations> {
 
@@ -66,5 +62,9 @@ public class Annotations extends Apparatus<Note> {
 
   public static AnnotationsBuilder builder() {
     return new AnnotationsBuilder();
+  }
+  
+  private Annotations(String source, List<Note> lemmas) {
+    super(source, lemmas);
   }
 }
