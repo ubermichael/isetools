@@ -23,32 +23,10 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class Coll extends Lemma {
-
-  private final String lemResp;
   private final String lemNote;
-  private final Map<String, String> readings;
+  private final String lemResp;
   private final Map<String, String> readingNotes;
-
-  private Coll(String lem,
-              String lineNumber,
-              String node,
-              String source,
-              String tln,
-              String xml,
-              String lemResp,
-              String lemNote,
-              Map<String, String> readings,
-              Map<String, String> readingNotes) {
-    super(lem, lineNumber, node, source, tln, xml);
-    this.lemResp = lemResp;
-    this.lemNote = lemNote;
-    this.readings = new HashMap<>(readings);
-    this.readingNotes = new HashMap<>(readingNotes);
-  }
-  
-  public static CollBuilder builder() {
-    return new CollBuilder();
-  }
+  private final Map<String, String> readings;
 
   public static class CollBuilder extends Lemma.LemmaBuilder
           implements BuilderInterface<Coll> {
@@ -132,32 +110,16 @@ public class Coll extends Lemma {
 
   }
 
-  public String getReading(String resp) {
-    return readings.get(resp);
+  public static CollBuilder builder() {
+    return new CollBuilder();
   }
-
-  public String getReadingNote(String resp) {
-    return readingNotes.get(resp);
-  }
-
-  public boolean hasReading(String resp) {
-    return readings.containsKey(resp);
-  }
-
-  public boolean hasReadingNote(String resp) {
-    return readingNotes.containsKey(resp);
-  }
-
-  public String[] getReadings() {
-    String[] rdgs = readings.keySet().toArray(new String[readings.size()]);
-    Arrays.sort(rdgs);
-    return rdgs;
-  }
-
-  public String[] getReadingNotes() {
-    String[] rdgs = readingNotes.keySet().toArray(new String[readingNotes.size()]);
-    Arrays.sort(rdgs);
-    return rdgs;
+  
+  private Coll(String lem, String lineNumber, String node, String source, String tln, String xml, String lemResp, String lemNote, Map<String, String> readings, Map<String, String> readingNotes) {
+    super(lem, lineNumber, node, source, tln, xml);
+    this.lemResp = lemResp;
+    this.lemNote = lemNote;
+    this.readings = new HashMap<>(readings);
+    this.readingNotes = new HashMap<>(readingNotes);
   }
 
   /**
@@ -172,6 +134,34 @@ public class Coll extends Lemma {
    */
   public String getLemResp() {
     return lemResp;
+  }
+
+  public String getReading(String resp) {
+    return readings.get(resp);
+  }
+
+  public String getReadingNote(String resp) {
+    return readingNotes.get(resp);
+  }
+
+  public String[] getReadingNotes() {
+    String[] rdgs = readingNotes.keySet().toArray(new String[readingNotes.size()]);
+    Arrays.sort(rdgs);
+    return rdgs;
+  }
+
+  public String[] getReadings() {
+    String[] rdgs = readings.keySet().toArray(new String[readings.size()]);
+    Arrays.sort(rdgs);
+    return rdgs;
+  }
+
+  public boolean hasReading(String resp) {
+    return readings.containsKey(resp);
+  }
+
+  public boolean hasReadingNote(String resp) {
+    return readingNotes.containsKey(resp);
   }
 
   @Override

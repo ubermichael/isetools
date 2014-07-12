@@ -24,14 +24,6 @@ import org.xml.sax.SAXException;
  */
 public class Collations extends Apparatus<Coll> {
 
-  private Collations(String source, List<Coll> lemmas) {
-    super(source, lemmas);
-  }
-  
-  public static CollationsBuilder builder() {
-    return new CollationsBuilder();
-  }
-
   public static class CollationsBuilder extends ApparatusBuilder<Coll> implements BuilderInterface<Collations> {
 
     private CollationsBuilder() {
@@ -65,6 +57,14 @@ public class Collations extends Apparatus<Coll> {
       return this;
     }
 
+  }
+
+  public static CollationsBuilder builder() {
+    return new CollationsBuilder();
+  }
+  
+  private Collations(String source, List<Coll> lemmas) {
+    super(source, lemmas);
   }
 
 }
