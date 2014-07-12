@@ -57,6 +57,7 @@ abstract public class XMLReader {
     source = "#STREAM";
 
     Document doc = builder.parse(stream);
+    doc.normalize();
     XPathExpression expr = xpath.compile("/node()");
     root = (Node) expr.evaluate(doc, XPathConstants.NODE);
   }
@@ -106,7 +107,8 @@ abstract public class XMLReader {
 
   public String xpathString(String xp, Node node) throws XPathExpressionException {
     XPathExpression expr = xpath.compile(xp);
-    return (String) expr.evaluate(node, XPathConstants.STRING);
+    String str = (String) expr.evaluate(node, XPathConstants.STRING);
+    return str.trim();
   }
 
 }

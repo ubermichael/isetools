@@ -36,7 +36,7 @@ public class Schema {
     this(new XMLResourceReader(in));
   }
 
-  public Schema(Node in) throws XPathExpressionException, ParserConfigurationException {
+  public Schema(Node in) throws ParserConfigurationException, XPathExpressionException {
     this(new XMLResourceReader(in));
   }
 

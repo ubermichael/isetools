@@ -54,11 +54,11 @@ public class Edition extends Document implements Comparable<Edition> {
   }
 
   public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    return new Annotations(expectedAnnotationsFile());
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    return new Collations(expectedCollationsFile());
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   public DOM getDOM() throws IOException {
