@@ -86,7 +86,9 @@ abstract public class XMLReader {
     NodeList nl = (NodeList) expr.evaluate(node, XPathConstants.NODESET);
     int length = nl.getLength();
     for (int i = 0; i < length; i++) {
-      nodes.add(nl.item(i));
+      Node n = nl.item(i);
+      n.getParentNode().removeChild(n);
+      nodes.add(n);
     }
     return nodes.toArray(new Node[nodes.size()]);
   }
