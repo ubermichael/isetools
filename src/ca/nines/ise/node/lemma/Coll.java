@@ -8,6 +8,7 @@ package ca.nines.ise.node.lemma;
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.XMLReader;
 import ca.nines.ise.util.XMLResourceReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -64,36 +66,19 @@ public class Coll extends Lemma {
       readingNotes = new HashMap<>();
     }
 
-    public CollBuilder fromNode(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return fromXML(in, new XMLResourceReader(in));
+    public CollBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+      return from(in, new XMLResourceReader(in));
     }
 
-    public CollBuilder fromString(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return fromXML(new XMLResourceReader(in));
+    public CollBuilder from(String in) throws ParserConfigurationException, XPathExpressionException, SAXException, IOException {
+      return from(new XMLResourceReader(in));
     }
 
-    public CollBuilder fromXML(XMLReader xmlIn) throws XPathExpressionException {
-      setSource(xmlIn.getSource());
-      setLemResp(xmlIn.xpathString("lem/@resp"));
-      setLem(xmlIn.xpathString("lem/text()"));
-      String lnote = xmlIn.xpathString("lem/note/text()");
-      if( ! lnote.equals("")) {
-        setLemNote(lnote);
-      }
-      setTln(xmlIn.xpathString("l/@tln"));
-      setLineNumber(xmlIn.xpathString("ln/text()"));
-      for(Node n : xmlIn.xpathList("rdg")){
-        String rdg = xmlIn.xpathString("@resp", n);
-        addReading(rdg, xmlIn.xpathString("text()", n));
-        String note = xmlIn.xpathString("note/text()", n);
-        if( ! note.equals("")) {
-          addReadingNote(rdg, note);
-        }
-      }
-      return this;
+    public CollBuilder from(XMLReader xmlIn) throws XPathExpressionException {
+      return from(xmlIn.xpathNode("coll"), xmlIn);
     }
 
-    public CollBuilder fromXML(Node in, XMLReader xmlIn) throws XPathExpressionException {
+    public CollBuilder from(Node in, XMLReader xmlIn) throws XPathExpressionException {
       setSource(xmlIn.getSource());
       setLemResp(xmlIn.xpathString("lem/@resp", in));
       setLem(xmlIn.xpathString("lem/text()", in));
