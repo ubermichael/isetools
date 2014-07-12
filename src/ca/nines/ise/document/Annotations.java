@@ -39,25 +39,25 @@ public class Annotations extends Apparatus<Note> {
       return new Annotations(source, lemmas);
     }
 
-    public AnnotationsBuilder fromNode(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return fromXML(in, new XMLResourceReader(in));
+    public AnnotationsBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+      return from(in, new XMLResourceReader(in));
     }
 
-    public AnnotationsBuilder fromString(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return fromXML(new XMLResourceReader(in));
+    public AnnotationsBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return from(new XMLResourceReader(in));
     }
 
-    public AnnotationsBuilder fromFile(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return fromXML(new XMLFileReader(in));
+    public AnnotationsBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return from(new XMLFileReader(in));
     }
 
-    public AnnotationsBuilder fromXML(XMLReader xmlIn) throws XPathExpressionException {
-      return fromXML(xmlIn.xpathNode("/annotations"), xmlIn);
+    public AnnotationsBuilder from(XMLReader xmlIn) throws XPathExpressionException {
+      return from(xmlIn.xpathNode("/annotations"), xmlIn);
     }
 
-    public AnnotationsBuilder fromXML(Node in, XMLReader xmlIn) throws XPathExpressionException {
+    public AnnotationsBuilder from(Node in, XMLReader xmlIn) throws XPathExpressionException {
       for (Node n : xmlIn.xpathList("note", in)) {
-        addLemma(Note.builder().fromXML(n, xmlIn).build());
+        addLemma(Note.builder().from(n, xmlIn).build());
       }
       return this;
     }

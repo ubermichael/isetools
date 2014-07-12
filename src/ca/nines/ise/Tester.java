@@ -30,7 +30,7 @@ public class Tester {
               + "<rdg resp=\"Q1\"><note>not in Q1</note></rdg>\n"
               + "</coll>"
               + "</collations>";
-      Collations a = Collations.builder().fromString(in).build();
+      Collations a = Collations.builder().from(in).build();
       System.out.println(a);
     } catch (Exception ex) {
       ex.printStackTrace(System.err);

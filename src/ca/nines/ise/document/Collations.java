@@ -42,25 +42,25 @@ public class Collations extends Apparatus<Coll> {
       return new Collations(source, lemmas);
     }
 
-    public CollationsBuilder fromNode(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return fromXML(in, new XMLResourceReader(in));
+    public CollationsBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+      return from(in, new XMLResourceReader(in));
     }
 
-    public CollationsBuilder fromString(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return fromXML(new XMLResourceReader(in));
+    public CollationsBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return from(new XMLResourceReader(in));
     }
 
-    public CollationsBuilder fromFile(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return fromXML(new XMLFileReader(in));
+    public CollationsBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return from(new XMLFileReader(in));
     }
 
-    public CollationsBuilder fromXML(XMLReader xmlIn) throws XPathExpressionException {
-      return fromXML(xmlIn.xpathNode("/collations"), xmlIn);
+    public CollationsBuilder from(XMLReader xmlIn) throws XPathExpressionException {
+      return from(xmlIn.xpathNode("/collations"), xmlIn);
     }
 
-    public CollationsBuilder fromXML(Node in, XMLReader xmlIn) throws XPathExpressionException {
+    public CollationsBuilder from(Node in, XMLReader xmlIn) throws XPathExpressionException {
       for(Node n : xmlIn.xpathList("coll", in)) {
-        addLemma(Coll.builder().fromXML(n, xmlIn).build());
+        addLemma(Coll.builder().from(n, xmlIn).build());
       }
       return this;
     }

@@ -34,7 +34,7 @@ public class Note extends Lemma {
       super();
       notes = new HashMap<>();
     }
-    
+
     public NoteBuilder addNote(String level, String note) {
       notes.put(level, note);
       return this;
@@ -44,36 +44,30 @@ public class Note extends Lemma {
     public Note build() {
       return new Note(lem, lineNumber, node, source, tln, xml, notes);
     }
-    
-    public NoteBuilder fromNode(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return fromXML(in, new XMLResourceReader(in));
+
+    public NoteBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+      return from(in, new XMLResourceReader(in));
     }
-    
-    public NoteBuilder fromString(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return fromXML(new XMLResourceReader(in));
+
+    public NoteBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return from(new XMLResourceReader(in));
     }
-        
-    public NoteBuilder fromXML(XMLReader xmlIn) throws XPathExpressionException {
-      setLem(xmlIn.xpathString("lem/text()"));
-      setSource(xmlIn.getSource());
-      setTln(xmlIn.xpathString("ln/@tln"));
-      for(Node n : xmlIn.xpathList("level")) {
-        addNote(xmlIn.xpathString("@n", n), xmlIn.xpathString("text()", n));
-      }
-      return this;      
+
+    public NoteBuilder from(XMLReader xmlIn) throws XPathExpressionException {
+      return from(xmlIn.xpathNode("note"), xmlIn);
     }
-    
-    public NoteBuilder fromXML(Node in, XMLReader xmlIn) throws XPathExpressionException {
+
+    public NoteBuilder from(Node in, XMLReader xmlIn) throws XPathExpressionException {
       setLem(xmlIn.xpathString("lem/text()", in));
       setSource(xmlIn.getSource());
       setTln(xmlIn.xpathString("ln/@tln", in));
-      for(Node n : xmlIn.xpathList("level", in)) {
+      for (Node n : xmlIn.xpathList("level", in)) {
         addNote(xmlIn.xpathString("@n", n), xmlIn.xpathString("text()", n));
       }
       return this;
     }
   }
-  
+
   public static NoteBuilder builder() {
     return new NoteBuilder();
   }
@@ -97,10 +91,10 @@ public class Note extends Lemma {
   public String toString() {
     Formatter formatter = new Formatter();
     formatter.format("%s%n", super.toString());
-    for(String lvl : getNoteLevels()) {
+    for (String lvl : getNoteLevels()) {
       formatter.format("    %s:%s%n", lvl, getNote(lvl));
     }
     return formatter.toString();
   }
-  
+
 }
