@@ -7,8 +7,6 @@ package ca.nines.ise;
 
 import ca.nines.ise.cmd.Command;
 import ca.nines.ise.cmd.Error;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
