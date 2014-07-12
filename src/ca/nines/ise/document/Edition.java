@@ -75,9 +75,8 @@ public class Edition extends Document implements Comparable<Edition> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
     formatter.format("%4s %12s %12s%n", editionCode, hasAnnotations() ? "annotations" : "", hasCollations() ? "collations" : "");
-    return sb.toString();
+    return formatter.toString();
   }
 }

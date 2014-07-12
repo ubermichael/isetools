@@ -51,10 +51,9 @@ public class ErrorCode implements Comparable<ErrorCode> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
     formatter.format("%s:%s:%s%n", code, severity, message);
-    return sb.toString();
+    return formatter.toString();
   }
 
 }

@@ -171,15 +171,13 @@ public class Attribute implements Comparable<Attribute> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
     
     formatter.format("  @%s(%s:%s:%s:%s:%s:%s)%n", name, type, optional, depreciated, renumber, defaultValue, empty);
     if (options != null) {
-      sb.append("    ").append(options).append("\n");
+      formatter.format("    %s%n", options);
     }
-    
-    return sb.toString();
+    return formatter.toString();
   }
 
 }
