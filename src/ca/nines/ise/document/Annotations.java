@@ -23,13 +23,17 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class Annotations extends Apparatus<Note> {
-
-  public Annotations(String source, List<Note> lemmas) {
+  
+  private Annotations(String source, List<Note> lemmas) {
     super(source, lemmas);
   }
 
   public static class AnnotationsBuilder extends ApparatusBuilder<Note> implements BuilderInterface<Annotations> {
 
+    private AnnotationsBuilder() {
+      
+    }
+    
     @Override
     public Annotations build() {
       return new Annotations(source, lemmas);

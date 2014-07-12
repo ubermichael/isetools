@@ -40,7 +40,7 @@ abstract public class Apparatus<T extends Lemma> {
     }
   }
   
-  public Apparatus(String source, List<T> lemmas) {
+  protected Apparatus(String source, List<T> lemmas) {
     this.source = source;
     this.lemmas = new ArrayList<>(lemmas);
   }
