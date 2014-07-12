@@ -90,8 +90,7 @@ abstract public class TagNode extends Node {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder(super.toString());
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
     formatter.format(":%s(", tagname);
     Iterator<String> i = attributes.keySet().iterator();
 
@@ -99,11 +98,11 @@ abstract public class TagNode extends Node {
       String name = i.next();
       formatter.format("@%s=%s", name, attributes.get(name));
       if (i.hasNext()) {
-        sb.append(", ");
+        formatter.format(", ");
       }
     }
-    sb.append(')');
-    return sb.toString();
+    formatter.format(")");
+    return formatter.toString();
   }
 
   @Override

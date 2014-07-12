@@ -143,16 +143,15 @@ public class Tag implements Comparable<Tag> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
     
     formatter.format("%s:%s:%s%n", name, depreciated, where);
     Iterator<Attribute> i = attributes.values().iterator();
     while (i.hasNext()) {
       Attribute a = i.next();
-      sb.append(a);
+      formatter.format("%s", a);
     }
     
-    return sb.toString();
+    return formatter.toString();
   }
 }

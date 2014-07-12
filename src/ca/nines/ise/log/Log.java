@@ -84,12 +84,11 @@ public class Log {
    */
     @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
 
     for (Message message : messages) {
       formatter.format("%s%n", message);
     }
-    return sb.toString();
+    return formatter.toString();
   }
 }

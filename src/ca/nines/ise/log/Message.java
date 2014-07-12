@@ -194,8 +194,7 @@ public class Message implements Comparable<Message> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    Formatter formatter = new Formatter(sb);
+    Formatter formatter = new Formatter();
     formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
     formatter.format("  %s:%s%n", getSeverity(), getMessage());
     formatter.format("  near TLN %s%n", TLN);
@@ -205,6 +204,6 @@ public class Message implements Comparable<Message> {
     for (String note : notes) {
       formatter.format("    * %s%n", note);
     }
-    return sb.toString();
+    return formatter.toString();
   }
 }
