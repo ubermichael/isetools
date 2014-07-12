@@ -27,7 +27,7 @@ public class Coll extends Lemma {
   private final Map<String, String> readings;
   private final Map<String, String> readingNotes;
 
-  public Coll(String lem,
+  private Coll(String lem,
               String lineNumber,
               String node,
               String source,
@@ -56,7 +56,7 @@ public class Coll extends Lemma {
     private final Map<String, String> readingNotes;
     private final Map<String, String> readings;
 
-    public CollBuilder() {
+    private CollBuilder() {
       super();
       lemResp = "";
       lemNote = "";

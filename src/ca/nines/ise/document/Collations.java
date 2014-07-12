@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
  */
 public class Collations extends Apparatus<Coll> {
 
-  public Collations(String source, List<Coll> lemmas) {
+  private Collations(String source, List<Coll> lemmas) {
     super(source, lemmas);
   }
   
@@ -34,6 +34,9 @@ public class Collations extends Apparatus<Coll> {
 
   public static class CollationsBuilder extends ApparatusBuilder<Coll> implements BuilderInterface<Collations> {
 
+    private CollationsBuilder() {
+    }
+    
     @Override
     public Collations build() {
       return new Collations(source, lemmas);

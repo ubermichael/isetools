@@ -30,7 +30,7 @@ public class Note extends Lemma {
 
     private final Map<String, String> notes;
 
-    public NoteBuilder() {
+    private NoteBuilder() {
       super();
       notes = new HashMap<>();
     }
@@ -78,7 +78,7 @@ public class Note extends Lemma {
     return new NoteBuilder();
   }
 
-  protected Note(String lem, String lineNumber, String node, String source, String tln, String xml, Map<String, String> notes) {
+  private Note(String lem, String lineNumber, String node, String source, String tln, String xml, Map<String, String> notes) {
     super(lem, lineNumber, node, source, tln, xml);
     this.notes = new HashMap<>(notes);
   }
