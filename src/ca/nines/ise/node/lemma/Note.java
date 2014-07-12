@@ -10,6 +10,7 @@ import ca.nines.ise.util.XMLReader;
 import ca.nines.ise.util.XMLResourceReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
@@ -94,13 +95,12 @@ public class Note extends Lemma {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(super.toString());
-    sb.append("\n");
+    Formatter formatter = new Formatter();
+    formatter.format("%s%n", super.toString());
     for(String lvl : getNoteLevels()) {
-      sb.append("  ").append(lvl).append(":").append(getNote(lvl)).append("\n");
+      formatter.format("    %s:%s%n", lvl, getNote(lvl));
     }
-    return sb.toString();
+    return formatter.toString();
   }
   
 }
