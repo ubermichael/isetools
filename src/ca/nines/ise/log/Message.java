@@ -153,8 +153,8 @@ public class Message implements Comparable<Message> {
   }
 
   public String getMessage() {
-    if (errorCodes != null) {
-      return errorCodes.getMessage(code);
+    if (errorCodes != null && errorCodes.hasErrorCode(code)) {
+      return errorCodes.getErrorCode(code).getMessage();
     } else {
       return "unknown";
     }
@@ -171,8 +171,8 @@ public class Message implements Comparable<Message> {
    * @return the severity
    */
   public String getSeverity() {
-    if (errorCodes != null) {
-      return errorCodes.getSeverity(code);
+    if (errorCodes != null && errorCodes.hasErrorCode(code)) {
+      return errorCodes.getErrorCode(code).getSeverity();
     } else {
       return "unknown";
     }
