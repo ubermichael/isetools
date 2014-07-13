@@ -5,10 +5,8 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.document.Annotations;
 import ca.nines.ise.document.Collations;
 import ca.nines.ise.log.Log;
-import java.io.File;
 
 /**
  *
