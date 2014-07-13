@@ -5,15 +5,17 @@
  */
 package ca.nines.ise.log;
 
-import ca.nines.ise.util.XMLResourceReader;
+import ca.nines.ise.util.XMLDriver;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
+import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -24,27 +26,23 @@ public class ErrorCodes {
 
   private final Map<String, ErrorCode> list;
 
-  public ErrorCodes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new File("/resources/data/errors.xml"));
+  public ErrorCodes() throws ParserConfigurationException, SAXException, TransformerException, IOException {
+    this(new File("src/resources/data/errors.xml"));
   }
 
-  public ErrorCodes(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new XMLResourceReader(in));
-  }
-
-  public ErrorCodes(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new XMLResourceReader(in));
-  }
-
-  public ErrorCodes(XMLResourceReader xmlIn) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    list = new HashMap<>();
-    for (Node n : xmlIn.xpathList("/messages/errorCodes/message")) {
-      String code = xmlIn.xpathString("@code", n).toLowerCase();
-      ErrorCode ec = new ErrorCode(code, xmlIn.xpathString("@severity", n), xmlIn.xpathString("text()", n));
-      list.put(code, ec);
+  public ErrorCodes(File in) throws ParserConfigurationException, SAXException, TransformerException, IOException {
+    this.list = new HashMap<>();
+    XMLDriver xml = new XMLDriver();
+    Document doc = xml.drive(in);
+    NodeList nl = doc.getElementsByTagName("message");
+    int length = nl.getLength();
+    for (int i = 0; i < length; i++) {
+        Node n = nl.item(i);
+        ErrorCode ec = ErrorCode.builder().from(n).build();
+        list.put(ec.getCode(), ec);
     }
   }
-
+  
   public ErrorCode getErrorCode(String code) {
     if (list.containsKey(code)) {
       return list.get(code);
@@ -58,27 +56,15 @@ public class ErrorCodes {
     return codes;
   }
 
-  public String getMessage(String code) {
-    ErrorCode ec = list.get(code);
-    if (ec != null) {
-      return ec.getMessage();
-    }
-    return "unknown";
-  }
-
-  public String getSeverity(String code) {
-    ErrorCode ec = list.get(code);
-    if (ec != null) {
-      return ec.getSeverity();
-    }
-    return "unknown";
+  public boolean hasErrorCode(String code) {
+    return list.containsKey(code);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     for (ErrorCode code : getErrorCodes()) {
-      sb.append(code);
+      sb.append(code).append("\n");
     }
     return sb.toString();
   }
