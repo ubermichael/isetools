@@ -5,16 +5,15 @@
  */
 package ca.nines.ise.schema;
 
-import ca.nines.ise.util.XMLResourceReader;
-import java.io.File;
-import java.io.IOException;
+import ca.nines.ise.util.BuilderInterface;
+import ca.nines.ise.util.LocationData;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -22,30 +21,134 @@ import org.xml.sax.SAXException;
  */
 public class Schema {
 
+  private final String edition;
+  private final String group;
+  private final int lineNumber;
+  private final String source;
+
   private final Map<String, Tag> tags;
 
-  public Schema() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new File("/resources/schemas/default.xml"));
-  }
+  public static class SchemaBuilder implements BuilderInterface<Schema> {
 
-  public Schema(String in) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-    this(new XMLResourceReader(in));
-  }
+    private String edition;
+    private String group;
+    private int lineNumber;
+    private String source;
 
-  public Schema(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    this(new XMLResourceReader(in));
-  }
+    private Map<String, Tag> tags;
 
-  public Schema(Node in) throws ParserConfigurationException, XPathExpressionException {
-    this(new XMLResourceReader(in));
-  }
-
-  public Schema(XMLResourceReader xmlIn) throws XPathExpressionException, ParserConfigurationException {
-    tags = new HashMap<>();
-    for (Node n : xmlIn.xpathList("//tag")) {
-      Tag t = new Tag(n, xmlIn);
-      tags.put(t.getName().toUpperCase(), t);
+    private SchemaBuilder() {
+      tags = new HashMap<>();
+      edition = "";
+      group = "";
+      lineNumber = 0;
+      source = "";
     }
+
+    public SchemaBuilder addTag(Tag tag) {
+      tags.put(tag.getName(), tag);
+      return this;
+    }
+
+    @Override
+    public Schema build() {
+      return new Schema(source, lineNumber, edition, group, tags);
+    }
+
+    public SchemaBuilder from(Node n) {
+      NamedNodeMap map = n.getAttributes();
+      Node tmp;
+
+      LocationData loc = (LocationData) n.getUserData(LocationData.LOCATION_DATA_KEY);
+      setSource(loc.getSystemId());
+      setLineNumber(loc.getStartLine());
+
+      setEdition(map.getNamedItem("edition").getTextContent());
+      setGroup(map.getNamedItem("group").getTextContent());
+            
+      NodeList list = ((Element) n).getElementsByTagName("tag");
+      int length = list.getLength();
+      for (int i = 0; i < length; i++) {
+        Tag.TagBuilder tb = Tag.builder();
+        addTag(tb.from(list.item(i)).build());
+      }
+
+      return this;
+    }
+
+    /**
+     * @param edition the edition to set
+     */
+    public void setEdition(String edition) {
+      this.edition = edition;
+    }
+
+    /**
+     * @param group the group to set
+     */
+    public void setGroup(String group) {
+      this.group = group;
+    }
+
+    /**
+     * @param lineNumber the lineNumber to set
+     */
+    public void setLineNumber(int lineNumber) {
+      this.lineNumber = lineNumber;
+    }
+
+    /**
+     * @param source the source to set
+     */
+    public void setSource(String source) {
+      this.source = source;
+    }
+
+    public SchemaBuilder setTags(Map<String, Tag> tags) {
+      this.tags = new HashMap<>(tags);
+      return this;
+    }
+
+  }
+
+  public static SchemaBuilder builder() {
+    return new SchemaBuilder();
+  }
+
+  private Schema(String source, int lineNumber, String edition, String group, Map<String, Tag> tags) {
+    this.source = source;
+    this.lineNumber = lineNumber;
+    this.edition = edition;
+    this.group = group;
+    this.tags = new HashMap<>(tags);
+  }
+
+  /**
+   * @return the edition
+   */
+  public String getEdition() {
+    return edition;
+  }
+
+  /**
+   * @return the group
+   */
+  public String getGroup() {
+    return group;
+  }
+
+  /**
+   * @return the lineNumber
+   */
+  public int getLineNumber() {
+    return lineNumber;
+  }
+
+  /**
+   * @return the source
+   */
+  public String getSource() {
+    return source;
   }
 
   public Tag getTag(String name) {
