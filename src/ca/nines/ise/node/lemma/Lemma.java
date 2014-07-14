@@ -5,7 +5,13 @@
  */
 package ca.nines.ise.node.lemma;
 
+import ca.nines.ise.util.LocationData;
+import java.io.IOException;
 import java.util.Formatter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -13,9 +19,8 @@ import java.util.Formatter;
  */
 abstract public class Lemma {
 
-  // @TODO write a builder Lemma.LemmaBuilder or something.
   private final String lem;
-  private final String lineNumber;
+  private final int lineNumber;
   private final String node;
   private final String source;
   private final String tln;
@@ -24,7 +29,7 @@ abstract public class Lemma {
   public abstract static class LemmaBuilder {
 
     protected String lem;
-    protected String lineNumber;
+    protected int lineNumber;
     protected String node;
     protected String source;
     protected String tln;
@@ -32,13 +37,25 @@ abstract public class Lemma {
 
     public LemmaBuilder() {
       lem = "";
-      lineNumber = "";
+      lineNumber = 0;
       node = "";
       source = "";
       tln = "";
       xml = "";
     }
     
+    public LemmaBuilder from(Node n) throws ParserConfigurationException, XPathExpressionException {
+      LocationData loc = (LocationData) n.getUserData(LocationData.LOCATION_DATA_KEY);
+      setSource(loc.getSystemId());
+      setLineNumber(loc.getStartLine());
+
+      return this;
+    }
+
+    public LemmaBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      return this;
+    }
+
     /**
      * @param lem the lem to set
      */
@@ -50,7 +67,7 @@ abstract public class Lemma {
     /**
      * @param lineNumber the lineNumber to set
      */
-    public LemmaBuilder setLineNumber(String lineNumber) {
+    public LemmaBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
       return this;
     }
@@ -89,7 +106,7 @@ abstract public class Lemma {
   
   }
 
-  protected Lemma(String lem, String lineNumber, String node, String source, String tln, String xml) {
+  protected Lemma(String lem, int lineNumber, String node, String source, String tln, String xml) {
     this.lem = lem;
     this.lineNumber = lineNumber;
     this.node = node;
@@ -108,7 +125,7 @@ abstract public class Lemma {
   /**
    * @return the lineNumber
    */
-  public String getLineNumber() {
+  public int getLineNumber() {
     return lineNumber;
   }
 

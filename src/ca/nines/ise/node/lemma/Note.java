@@ -6,8 +6,6 @@
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.BuilderInterface;
-import ca.nines.ise.util.XMLReader;
-import ca.nines.ise.util.XMLResourceReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -45,34 +43,25 @@ public class Note extends Lemma {
       return new Note(lem, lineNumber, node, source, tln, xml, notes);
     }
 
+    @Override
     public NoteBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return from(in, new XMLResourceReader(in));
-    }
-
-    public NoteBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return from(new XMLResourceReader(in));
-    }
-
-    public NoteBuilder from(XMLReader xmlIn) throws XPathExpressionException {
-      return from(xmlIn.xpathNode("note"), xmlIn);
-    }
-
-    public NoteBuilder from(Node in, XMLReader xmlIn) throws XPathExpressionException {
-      setLem(xmlIn.xpathString("lem/text()", in));
-      setSource(xmlIn.getSource());
-      setTln(xmlIn.xpathString("ln/@tln", in));
-      for (Node n : xmlIn.xpathList("level", in)) {
-        addNote(xmlIn.xpathString("@n", n), xmlIn.xpathString("text()", n));
-      }
+      super.from(in);
       return this;
     }
+
+    @Override
+    public NoteBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+      super.from(in);
+      return this;
+    }
+
   }
 
   public static NoteBuilder builder() {
     return new NoteBuilder();
   }
 
-  private Note(String lem, String lineNumber, String node, String source, String tln, String xml, Map<String, String> notes) {
+  private Note(String lem, int lineNumber, String node, String source, String tln, String xml, Map<String, String> notes) {
     super(lem, lineNumber, node, source, tln, xml);
     this.notes = new HashMap<>(notes);
   }

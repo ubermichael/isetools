@@ -6,8 +6,6 @@
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.BuilderInterface;
-import ca.nines.ise.util.XMLReader;
-import ca.nines.ise.util.XMLResourceReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -23,6 +21,7 @@ import org.xml.sax.SAXException;
  * @author michael
  */
 public class Coll extends Lemma {
+
   private final String lemNote;
   private final String lemResp;
   private final Map<String, String> readingNotes;
@@ -45,35 +44,11 @@ public class Coll extends Lemma {
     }
 
     public CollBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return from(in, new XMLResourceReader(in));
+      return this;
+
     }
 
     public CollBuilder from(String in) throws ParserConfigurationException, XPathExpressionException, SAXException, IOException {
-      return from(new XMLResourceReader(in));
-    }
-
-    public CollBuilder from(XMLReader xmlIn) throws XPathExpressionException {
-      return from(xmlIn.xpathNode("coll"), xmlIn);
-    }
-
-    public CollBuilder from(Node in, XMLReader xmlIn) throws XPathExpressionException {
-      setSource(xmlIn.getSource());
-      setLemResp(xmlIn.xpathString("lem/@resp", in));
-      setLem(xmlIn.xpathString("lem/text()", in));
-      String lemNote = xmlIn.xpathString("lem/note//descendant::*/text()", in);
-      if( ! lemNote.equals("")) {
-        setLemNote(lemNote);
-      }
-      setTln(xmlIn.xpathString("l/@tln", in));
-      setLineNumber(xmlIn.xpathString("ln/text()", in));
-      for(Node n : xmlIn.xpathList("rdg", in)){
-        String rdg = xmlIn.xpathString("@resp", n);
-        addReading(rdg, xmlIn.xpathString("descendant::*/text()", n));
-        String note = xmlIn.xpathString("note/descendant::*/text()", n);
-        if( ! note.equals("")) {
-          addReadingNote(rdg, note);
-        }
-      }
       return this;
     }
 
@@ -113,8 +88,8 @@ public class Coll extends Lemma {
   public static CollBuilder builder() {
     return new CollBuilder();
   }
-  
-  private Coll(String lem, String lineNumber, String node, String source, String tln, String xml, String lemResp, String lemNote, Map<String, String> readings, Map<String, String> readingNotes) {
+
+  private Coll(String lem, int lineNumber, String node, String source, String tln, String xml, String lemResp, String lemNote, Map<String, String> readings, Map<String, String> readingNotes) {
     super(lem, lineNumber, node, source, tln, xml);
     this.lemResp = lemResp;
     this.lemNote = lemNote;
