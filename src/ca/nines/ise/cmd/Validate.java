@@ -43,7 +43,7 @@ public class Validate extends Command {
 
       Log log = Log.getInstance();
       Locale.setDefault(Locale.ENGLISH);
-      Schema schema = new Schema();
+      Schema schema = Schema.defaultSchema();
       DOMValidator validator = new DOMValidator();
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
 

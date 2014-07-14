@@ -7,13 +7,22 @@ package ca.nines.ise.schema;
 
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.LocationData;
+import ca.nines.ise.util.XMLDriver;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -57,7 +66,6 @@ public class Schema {
 
     public SchemaBuilder from(Node n) {
       NamedNodeMap map = n.getAttributes();
-      Node tmp;
 
       LocationData loc = (LocationData) n.getUserData(LocationData.LOCATION_DATA_KEY);
       setSource(loc.getSystemId());
@@ -65,7 +73,7 @@ public class Schema {
 
       setEdition(map.getNamedItem("edition").getTextContent());
       setGroup(map.getNamedItem("group").getTextContent());
-            
+
       NodeList list = ((Element) n).getElementsByTagName("tag");
       int length = list.getLength();
       for (int i = 0; i < length; i++) {
@@ -74,6 +82,27 @@ public class Schema {
       }
 
       return this;
+    }
+
+    public SchemaBuilder from(File file) throws ParserConfigurationException, SAXException, TransformerException, IOException {
+      XMLDriver xd = new XMLDriver();
+      Document doc = xd.drive(file);
+      Node n = doc.getElementsByTagName("schema").item(0);
+      return from(n);
+    }
+
+    public SchemaBuilder from(String str) throws TransformerException, ParserConfigurationException, TransformerConfigurationException, SAXException {
+      XMLDriver xd = new XMLDriver();
+      Document doc = xd.drive(str);
+      Node n = doc.getElementsByTagName("schema").item(0);
+      return from(n);
+    }
+
+    public SchemaBuilder from(String source, InputStream in) throws TransformerException, ParserConfigurationException, TransformerConfigurationException, SAXException, IOException {
+      XMLDriver xd = new XMLDriver();
+      Document doc = xd.drive(source, in);
+      Node n = doc.getElementsByTagName("schema").item(0);
+      return from(n);
     }
 
     /**
@@ -113,6 +142,12 @@ public class Schema {
 
   public static SchemaBuilder builder() {
     return new SchemaBuilder();
+  }
+
+  public static Schema defaultSchema() throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    String loc = "/resources/schemas/default.xml";
+    InputStream in = Schema.class.getResourceAsStream(loc);    
+    return Schema.builder().from(loc, in).build();
   }
 
   private Schema(String source, int lineNumber, String edition, String group, Map<String, Tag> tags) {
