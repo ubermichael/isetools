@@ -39,7 +39,6 @@ public class Abbrs extends Command {
       File[] files;
 
       Locale.setDefault(Locale.ENGLISH);
-      Schema schema = new Schema();
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
       if (cmd.hasOption("l")) {
