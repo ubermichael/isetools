@@ -7,14 +7,19 @@ package ca.nines.ise.schema;
 
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.LocationData;
+import ca.nines.ise.util.XMLDriver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -124,6 +129,13 @@ public class Attribute implements Comparable<Attribute> {
         addOption(list.item(i).getTextContent());
       }
       return this;
+    }
+
+    public AttributeBuilder from(String str) throws SAXException, ParserConfigurationException, TransformerException {
+      XMLDriver xd = new XMLDriver();
+      Document doc = xd.drive(str);
+      Node n = doc.getElementsByTagName("attribute").item(0);
+      return from(n);
     }
 
     /**
