@@ -7,6 +7,7 @@ package ca.nines.ise.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -58,6 +59,18 @@ public class XMLDriver {
     return doc;
   }
   
+  public Document drive(String source, InputStream in) throws TransformerException, IOException {
+    Document doc = docBuilder.newDocument();
+    DOMResult domResult = new DOMResult(doc);
+    LocationAnnotator locationAnnotator = new LocationAnnotator(source, xmlReader, doc);
+
+    InputSource inputSource = new InputSource(in);
+    SAXSource saxSource = new SAXSource(locationAnnotator, inputSource);
+    nullTransformer.transform(saxSource, domResult);
+
+    return doc;
+  }
+
   public Document drive(String in) throws TransformerException {
     Document doc = docBuilder.newDocument();
     DOMResult domResult = new DOMResult(doc);

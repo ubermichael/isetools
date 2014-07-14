@@ -6,11 +6,8 @@
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.document.Corpus;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,9 +41,7 @@ public class Works extends Command {
       corpus = new Corpus(root);
       out.println(corpus);
       
-    } catch (UnsupportedEncodingException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (FileNotFoundException ex) {
+    } catch (Exception ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     }
   }

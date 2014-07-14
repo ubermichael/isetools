@@ -12,11 +12,9 @@ import ca.nines.ise.output.XMLOutput;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Iterator;
@@ -25,6 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
@@ -59,18 +58,8 @@ public class Wikify extends Command {
         wikifySchema(out);
       }
 
-    } catch (UnsupportedEncodingException ex) {
+    } catch (Exception ex) {
       Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (FileNotFoundException ex) {
-      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ParserConfigurationException ex) {
-      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (SAXException ex) {
-      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (XPathExpressionException ex) {
-      Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
@@ -95,19 +84,19 @@ public class Wikify extends Command {
       Output xmlOut = new XMLOutput(out);
       CharNode cn = new AccentCharNode();
       Formatter formatter = new Formatter(out);
-      
+
       for (String c : cm.keySet()) {
         cn.setText("{" + c + "a}");
-        formatter.format("%s %s %s %s%n", 
-                         c, 
+        formatter.format("%s %s %s %s%n",
+                         c,
                          Character.getName(cm.get(c).charAt(0)),
                          cn.getText(),
-                         cn.unicode()                         
+                         cn.unicode()
         );
         xmlOut.render(cn.expanded());
         out.println();
       }
-      
+
     } catch (Exception ex) {
       Logger.getLogger(Wikify.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -121,8 +110,8 @@ public class Wikify extends Command {
     // nested
   }
 
-  private void wikifySchema(PrintStream out) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Schema schema = new Schema();
+  private void wikifySchema(PrintStream out) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
+    Schema schema = Schema.defaultSchema();
 
     for (Tag tag : schema.getTags()) {
       wikifyTagInfo(out, tag);
@@ -173,8 +162,6 @@ public class Wikify extends Command {
     System.out.println(tag.getDescription() + "\n");
     System.out.println(" Empty::");
     System.out.println("  " + tag.getEmpty());
-    System.out.println(" Context::");
-    System.out.println("  " + tag.getWhere());
     System.out.println(" Depreciated::");
     System.out.println("  " + (tag.isDepreciated() ? tag.getDepreciated() : "no"));
     System.out.println("\n");

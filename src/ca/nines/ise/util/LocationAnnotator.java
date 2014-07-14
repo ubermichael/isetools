@@ -6,7 +6,6 @@
 package ca.nines.ise.util;
 
 import java.util.ArrayDeque;
-import java.util.Stack;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,6 +32,7 @@ import org.xml.sax.helpers.LocatorImpl;
 public class LocationAnnotator extends XMLFilterImpl {
 
   private Locator locator;
+  private final String source;
   private final ArrayDeque<Locator> locatorStack = new ArrayDeque<>();
   private final ArrayDeque<Element> elementStack = new ArrayDeque<>();
   
@@ -40,7 +40,22 @@ public class LocationAnnotator extends XMLFilterImpl {
 
   LocationAnnotator(XMLReader xmlReader, Document dom) {
     super(xmlReader);
+    source = "";
+    
+    EventListener modListener = new EventListener() {
+      @Override
+      public void handleEvent(Event e) {
+        EventTarget target = ((MutationEvent) e).getTarget();
+        elementStack.push((Element) target);
+      }
+    };
+    ((EventTarget) dom).addEventListener("DOMNodeInserted", modListener, true);
+  }
 
+  LocationAnnotator(String source, XMLReader xmlReader, Document dom) {
+    super(xmlReader);
+    this.source = source;
+    
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
@@ -71,7 +86,7 @@ public class LocationAnnotator extends XMLFilterImpl {
       Locator startLocator = locatorStack.pop();
 
       LocationData location = new LocationData(
-              startLocator.getSystemId(),
+              (startLocator.getSystemId() == null ? source : startLocator.getSystemId()),
               startLocator.getLineNumber(),
               startLocator.getColumnNumber(),
               locator.getLineNumber(),
