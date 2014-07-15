@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BOMInputStream;
@@ -40,6 +42,7 @@ public class DOMStream {
    */
   public DOMStream(InputStream in, String source) throws IOException {
     lines = new ArrayList<>();
+    boolean warnedSmartQuotes = false;
 
     BOMInputStream bomStream = new BOMInputStream(in, ByteOrderMark.UTF_8, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE);
     bom = bomStream.getBOM();
@@ -53,7 +56,7 @@ public class DOMStream {
     } else {
       encoding = "UTF-8";
     }
-    
+
     if (!encoding.equals("UTF-8")) {
       Message m = Message.builder("builder.notutf8")
               .setSource(source)
@@ -66,8 +69,22 @@ public class DOMStream {
     String line;
     StringBuilder sb = new StringBuilder();
 
+    Pattern p = Pattern.compile("\u201C|\u201D");
+
     while ((line = buffer.readLine()) != null) {
       line = Normalizer.normalize(line, Form.NFKC);
+      Matcher m = p.matcher(line);
+      if (m.find()) {
+        line = m.replaceAll("\"");
+        if (!warnedSmartQuotes) {
+          warnedSmartQuotes = true;
+          Message msg = Message.builder("builder.smartquotes")
+                  .setSource(source)
+                  .addNote("The first occurence of smart quotes was at line " + lines.size())
+                  .build();
+          Log.addMessage(msg);
+        }
+      }
       lines.add(line);
       sb.append(line).append("\n");
     }
