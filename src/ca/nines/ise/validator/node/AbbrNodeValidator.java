@@ -29,7 +29,7 @@ import ca.nines.ise.schema.Schema;
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
+public class AbbrNodeValidator implements NodeValidator<AbbrNode> {
 
   /**
    * The maximum length of abbreviation markup.
@@ -38,6 +38,12 @@ public class AbbrNodeValidator extends NodeValidator<AbbrNode> {
    */
   public final static int ABBR_LENGTH = 12;
 
+  /**
+   * Validate the abbreviation.
+   * 
+   * @param n AbbrNode to validate.
+   * @param schema Schema to validate against.
+   */
   @ErrorCode(code = {
     "validator.abbr.depreciated",
     "validator.abbr.long"

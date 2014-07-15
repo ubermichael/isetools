@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.validator.node;
 
+import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.log.Log;
@@ -27,8 +28,11 @@ import java.util.Map;
  * @author Michael Joyce <ubermichael@gmail.com>
  * @param <T>
  */
-abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<T> {
+abstract public class TagNodeValidator<T extends TagNode> implements NodeValidator<T> {
 
+  /**
+   * Mapping of attribute types to attribute validators.
+   */
   private static final Map<AttributeType, AttributeValidator> validators;
 
   static {
@@ -39,8 +43,15 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
     validators.put(AttributeType.STRING, new StringAttributeValidator());
   }
 
+  /**
+   * Validate a tag node.
+   * 
+   * @param node The tag node to validate.
+   * @param schema The schema to validate against.
+   * @throws ca.nines.ise.exceptions.AttributeTypeException if the node contains an attribute of an unknown type.
+   */
   @Override
-  abstract public void validate(T node, Schema schema) throws Exception;
+  abstract public void validate(T node, Schema schema) throws AttributeTypeException ;
 
   /**
    * Validate an attribute, by calling one of the validate_attribute_*
@@ -54,17 +65,17 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
    * <p>
    * @param n    TagNode to validate
    * @param attr attribute to validate against
-   * <p>
-   * @throws java.lang.Exception
+   * <p> 
+   * @throws ca.nines.ise.exceptions.AttributeTypeException if the attribute type is unknown.
    */
   @ErrorCode(code = {
     "validator.attribute.unknowntype"
   })
-  public void validate_attribute(TagNode n, Attribute attr) throws Exception {
+  public void validate_attribute(TagNode n, Attribute attr) throws AttributeTypeException {
     AttributeType at = attr.getType();
     AttributeValidator v = TagNodeValidator.validators.get(attr.getType());
     if (v == null) {
-      throw new Exception("Unknown attribute type: " + at.name());
+      throw new AttributeTypeException("Unknown attribute type: " + at.name());
     }
     v.validate(n, attr);
   }
@@ -83,18 +94,20 @@ abstract public class TagNodeValidator<T extends TagNode> extends NodeValidator<
    * Additionally, each of the attributes defined as required for the tag must
    * be present.
    * <p>
-   * Warning: validate_attributes will silently ignore nodes which do not have a
+   * <b>Warning</b>: validate_attributes will silently ignore nodes which do not have a
    * definition in the schema. It is the responsibility of calling classes to
    * check that the schema contains a definition or the node.
    * <p>
    * @param n TagNode to validate
+   * @param schema Schema to validate against
+   * @throws ca.nines.ise.exceptions.AttributeTypeException
    */
   @ErrorCode(code = {
     "validator.attribute.unknown",
     "validator.attribute.depreciated",
     "validator.attribute.nonempty",
     "validator.attribute.missing",})
-  public void validate_attributes(TagNode n, Schema schema) throws Exception {
+  public void validate_attributes(TagNode n, Schema schema) throws AttributeTypeException {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);
     Message m;

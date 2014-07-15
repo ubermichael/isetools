@@ -7,6 +7,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.schema.Schema;
@@ -27,13 +28,20 @@ import ca.nines.ise.schema.Tag;
  */
 public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
 
+  /**
+   * Validate the end node.
+   * 
+   * @param n EmptyNode to validate.
+   * @param schema Schema to validate against.
+   * @throws ca.nines.ise.exceptions.AttributeTypeException for unknown attribute types. 
+   */
   @ErrorCode(code = {
     "validator.tag.unknown",
     "validator.tag.emptystart",
     "validator.tag.depreciated"
   })
   @Override
-  public void validate(EmptyNode n, Schema schema) throws Exception {
+  public void validate(EmptyNode n, Schema schema) throws AttributeTypeException {
     Tag t = schema.getTag(n.getName());
     if (t == null) {
       Message m = Message.builder("validator.tag.unknown")

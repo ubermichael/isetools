@@ -7,10 +7,17 @@
 package ca.nines.ise.util;
 
 /**
+ * BuilderInterface defines a way to build complex objects.
  *
  * @author michael
  * @param <T>
  */
 public interface BuilderInterface<T> {
+  
+  /**
+   * Build an object.
+   * 
+   * @return T
+   */
   public T build();
 }
