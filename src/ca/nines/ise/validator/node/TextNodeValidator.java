@@ -18,8 +18,14 @@ import ca.nines.ise.schema.Schema;
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class TextNodeValidator extends NodeValidator<TextNode> {
+public class TextNodeValidator implements NodeValidator<TextNode> {
 
+  /**
+   * Perform validation on a text node.
+   * 
+   * @param n TextNode to validate
+   * @param schema Schema to validate against.
+   */
   @ErrorCode(code = {
     "validator.text.depreciatedhash",
     "validator.text.badunicode"

@@ -14,12 +14,13 @@ import ca.nines.ise.schema.Attribute;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
- * Abstract class to handle the commonalities in tag validations. Also provides
- * attribute validation.
+ * Validate a select attribute value. A select is valid if
+ * it contains one of the &lt;option&gt;'s defined in the
+ * schema.
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class SelectAttributeValidator extends AttributeValidator {
+public class SelectAttributeValidator implements AttributeValidator {
 
   /**
    * Validate a select attribute.
@@ -30,7 +31,7 @@ public class SelectAttributeValidator extends AttributeValidator {
    * <li>The attribute value must be one of the allowed values.</li>
    * </ul>
    * <p>
-   * @param n    TagNode to validate
+   * @param n TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
