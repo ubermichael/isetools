@@ -42,29 +42,50 @@ public class RTFOutput extends Output {
   private ArrayDeque<Font> fontStack;
   private Paragraph p = new Paragraph();
 
+  private RtfParagraphStyle normal;
+  private RtfParagraphStyle ld;
+  private RtfParagraphStyle p1;
+  private RtfParagraphStyle p2;
+  
   public RTFOutput() throws UnsupportedEncodingException, ParserConfigurationException {
-    super();
-    doc = new Document();
-    writer = RtfWriter2.getInstance(doc, out);
+    this(System.out);
   }
 
   public RTFOutput(PrintStream out) throws UnsupportedEncodingException, ParserConfigurationException {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
+    normal = new RtfParagraphStyle("ISE Normal", "Times New Roman", 12, Font.NORMAL, Color.BLACK);
+    writer.getDocumentSettings().registerParagraphStyle(normal);
+    
+    ld = new RtfParagraphStyle("ISE h2", "ISE Normal");
+    ld.setFontName("Helvetica");
+    ld.setSize(16);
+    ld.setStyle(Font.BOLD);
+    writer.getDocumentSettings().registerParagraphStyle(ld);
+
+    p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
+    p1.setFirstLineIndent(-9);
+    p1.setIndentLeft(18);
+    p1.setIndentRight(49);
+    writer.getDocumentSettings().registerParagraphStyle(p1);
+    
+    p2 = new RtfParagraphStyle("ISE p2", "ISE Normal");
+    p2.setFirstLineIndent(-19);
+    p2.setIndentLeft(36);
+    p2.setIndentRight(49);
+    writer.getDocumentSettings().registerParagraphStyle(p2);
   }
 
   private void startParagraph() throws DocumentException {
-    if (!p.isEmpty() && !StringUtils.isWhitespace(p.getContent())) {
-      doc.add(p);
-    }
-    p = new Paragraph();
+    startParagraph(normal);
   }
 
-  private void finishParagraph(RtfParagraphStyle style) throws DocumentException {
+  private void startParagraph(RtfParagraphStyle style) throws DocumentException {
     if (!p.isEmpty() && !StringUtils.isWhitespace(p.getContent())) {
       doc.add(p);
     }
+    p = new Paragraph("", style);
   }
 
   private void addChunk(String txt) {
@@ -81,10 +102,10 @@ public class RTFOutput extends Output {
     fontStack.push(FontFactory.getFont("Times New Roman", 12, Color.BLACK));
     Font font;
 
-    boolean inSP = false;
-    boolean inSD = false;
+    boolean inSP = false; // in speech prefix
+    boolean inSD = false; // in stage direction
     boolean inDQ = false; // in a double quote
-    boolean inSQ = false; // in a single quote
+    boolean inS = false; // in a speech
     char part = 'i';
 
     Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
@@ -102,7 +123,11 @@ public class RTFOutput extends Output {
         case EMPTY:
           switch (n.getName()) {
             case "L":
-              startParagraph();
+              if(inS) {
+                startParagraph(p2);
+              } else {
+                startParagraph(p1);
+              }
               EmptyNode en = (EmptyNode) n;
               if (en.hasAttribute("part")) {
                 part = en.getAttribute("part").charAt(0);
@@ -117,9 +142,11 @@ public class RTFOutput extends Output {
             case "FOREIGN":
               fontStack.pop();
               break;
-            case "LD":
+            case "LD":              
               startParagraph();
-              fontStack.pop();
+              break;
+            case "S":
+              inS = false;
               break;
             case "SD":
               fontStack.pop();
@@ -138,7 +165,7 @@ public class RTFOutput extends Output {
                 case 'f':
                   RtfTab ftab = new RtfTab(200, RtfTab.TAB_LEFT_ALIGN);
                   p.add(ftab);
-                  addChunk("\t\t");
+                  addChunk("\t");
                   break;
               }
               break;
@@ -152,7 +179,10 @@ public class RTFOutput extends Output {
               fontStack.push(font);
               break;
             case "LD":
-              startParagraph();
+              startParagraph(ld);
+              break;
+            case "S":
+              inS = true;
               break;
             case "SD":
               font = new Font(fontStack.getFirst());
@@ -169,9 +199,6 @@ public class RTFOutput extends Output {
               break;
             case "SP":
               inSP = true;
-              break;
-            case "S":
-              startParagraph();
               break;
           }
           break;
@@ -224,12 +251,10 @@ public class RTFOutput extends Output {
                   // typographer's end quote.
                   sb.append("\u201D");
                   inDQ = false;
-                  inSQ = false;
                 } else {
                   // typographer's start quote.
                   sb.append("\u201C");
                   inDQ = true;
-                  inSQ = false;
                 }
                 break;
               case '\'':
