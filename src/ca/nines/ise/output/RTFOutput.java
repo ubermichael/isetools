@@ -7,10 +7,12 @@ package ca.nines.ise.output;
 
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
@@ -22,6 +24,8 @@ import java.util.ArrayDeque;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -65,7 +69,9 @@ public class RTFOutput extends Output {
   }
 
   private void addChunk(String txt) {
-    p.add(new Chunk(txt, fontStack.getFirst()));
+    if (txt.length() > 0) {
+      p.add(new Chunk(txt, fontStack.getFirst()));
+    }
   }
 
   @Override
@@ -76,6 +82,9 @@ public class RTFOutput extends Output {
     Font font;
 
     boolean inSP = false;
+    boolean inSD = false;
+
+    Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
 
     doc.open();
     startParagraph();
@@ -96,19 +105,30 @@ public class RTFOutput extends Output {
           break;
         case END:
           switch (n.getName()) {
+            case "FOREIGN":
+              fontStack.pop();
+              break;
             case "LD":
               startParagraph();
               fontStack.pop();
               break;
             case "SD":
               fontStack.pop();
+              inSD = false;
+              break;
             case "SP":
               addChunk(". ");
               inSP = false;
+              break;
           }
           break;
         case START:
           switch (n.getName()) {
+            case "FOREIGN":
+              font = new Font(fontStack.getFirst());
+              font.setStyle(Font.ITALIC);
+              fontStack.push(font);
+              break;
             case "LD":
               startParagraph();
               font = new Font(fontStack.getFirst());
@@ -119,6 +139,11 @@ public class RTFOutput extends Output {
               font = new Font(fontStack.getFirst());
               font.setStyle(Font.ITALIC);
               fontStack.push(font);
+              StartNode start = (StartNode) n;
+              if(start.hasAttribute("t") && start.getAttribute("t").matches("\\bexit\\b")) {
+                p.setAlignment(Element.ALIGN_RIGHT);
+              }
+              inSD = true;
               break;
             case "SP":
               inSP = true;
@@ -129,13 +154,36 @@ public class RTFOutput extends Output {
           }
           break;
         case TEXT:
-          String txt = n.getText().trim();
+          String txt = n.getText();
+          txt = txt.replace("--", "\u2014");
+          txt = txt.replace("\n", "");
           if (inSP) {
             txt = txt.toUpperCase();
           }
-          if (!StringUtils.isWhitespace(txt)) {
-            addChunk(txt);
+          if (inSD) {
+            Matcher m = squareBraces.matcher(txt);
+            if (m.matches()) {
+              font = new Font(fontStack.getFirst());
+              font.setStyle(Font.NORMAL);
+
+              addChunk(m.group(1));
+
+              fontStack.push(font);
+              addChunk("[");
+              fontStack.pop();
+
+              addChunk(m.group(2));
+
+              fontStack.push(font);
+              addChunk("]");
+              fontStack.pop();
+
+              addChunk(m.group(3));
+                      
+              break;
+            }
           }
+          addChunk(txt);
           break;
       }
     }
