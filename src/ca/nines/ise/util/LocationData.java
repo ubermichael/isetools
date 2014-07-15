@@ -9,8 +9,8 @@ import java.util.Formatter;
 
 /**
  * Location data to add to an XML node.
- * 
- * @see http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
+ *
+ * http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
  *
  * @author michael
  */
@@ -19,7 +19,7 @@ public class LocationData {
   public static final String LOCATION_DATA_KEY = "locationDataKey";
 
   private final String systemId;
-  
+
   private final int startLine;
   private final int startColumn;
   private final int endLine;
