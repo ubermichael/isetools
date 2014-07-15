@@ -79,6 +79,9 @@ public class RTFOutput extends Output {
 
     boolean inSP = false;
     boolean inSD = false;
+    boolean inDQ = false; // in a double quote
+    boolean inSQ = false; // in a single quote
+    char part = 'i';
 
     Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
 
@@ -187,7 +190,33 @@ public class RTFOutput extends Output {
               break;
             }
           }
-          addChunk(txt);
+
+          // fix quotation marks.
+          StringBuilder sb = new StringBuilder();
+          for (int i = 0; i < txt.length(); i++) {
+            char c = txt.charAt(i);
+            switch (c) {
+              case '"':
+                if (inDQ) {
+                  // typographer's end quote.
+                  sb.append("\u201D");
+                  inDQ = false;
+                  inSQ = false;
+                } else {
+                  // typographer's start quote.
+                  sb.append("\u201C");
+                  inDQ = true;
+                  inSQ = false;
+                }
+                break;
+              case '\'':
+                    sb.append("\u2019");
+                break;
+              default:
+                sb.append(c);
+            }
+          }
+          addChunk(sb.toString());
           break;
       }
     }
