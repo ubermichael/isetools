@@ -6,6 +6,7 @@
 package ca.nines.ise.output;
 
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
@@ -17,6 +18,10 @@ import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
+import com.lowagie.text.rtf.style.RtfColor;
+import com.lowagie.text.rtf.style.RtfParagraphStyle;
+import com.lowagie.text.rtf.text.RtfTab;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -67,8 +72,9 @@ public class RTFOutput extends Output {
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
 
+    dom.index();
     fontStack = new ArrayDeque<>();
-    fontStack.push(FontFactory.getFont("Times New Roman", 12));
+    fontStack.push(FontFactory.getFont("Times New Roman", 12, Color.BLACK));
     Font font;
 
     boolean inSP = false;
@@ -128,11 +134,14 @@ public class RTFOutput extends Output {
             case "SD":
               font = new Font(fontStack.getFirst());
               font.setStyle(Font.ITALIC);
-              fontStack.push(font);
               StartNode start = (StartNode) n;
-              if (start.hasAttribute("t") && start.getAttribute("t").matches("\\bexit\\b")) {
+              if (start.hasAttribute("t") && start.getAttribute("t").contains("exit")) {
                 p.setAlignment(Element.ALIGN_RIGHT);
               }
+              if(start.hasAttribute("t") && start.getAttribute("t").contains("optional")) {
+                font.setColor(Color.GRAY);
+              }              
+              fontStack.push(font);
               inSD = true;
               break;
             case "SP":
