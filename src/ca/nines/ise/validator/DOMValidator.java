@@ -41,7 +41,10 @@ import java.util.Map;
  */
 public class DOMValidator {
 
-  private static final HashMap<NodeType, NodeValidator<? extends Node>> validators;
+  /**
+   * Mapping of node types to node validators.
+   */
+  private static final Map<NodeType, NodeValidator<? extends Node>> validators;
 
   static {
     validators = new HashMap<>();

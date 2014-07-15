@@ -14,11 +14,12 @@ import ca.nines.ise.schema.Attribute;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Validate an string attribute value.
+ * Validate a string attribute value. A string is valid
+ * if it contains at least one non-whitespace character.
  * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class StringAttributeValidator extends AttributeValidator {
+public class StringAttributeValidator implements AttributeValidator {
 
   /**
    * Validate a string attribute.
@@ -29,7 +30,7 @@ public class StringAttributeValidator extends AttributeValidator {
    * <li>The string must include at least one non-whitespace character.</li>
    * </ul>
    * <p>
-   * @param n    TagNode to validate
+   * @param n TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {

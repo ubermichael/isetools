@@ -9,11 +9,12 @@ import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
 
 /**
+ * An interface for attribute validators.
  *
  * @author michael
  */
-abstract public class AttributeValidator {
+abstract public interface AttributeValidator {
 
-  public abstract void validate(TagNode n, Attribute a);
+  public void validate(TagNode n, Attribute a);
 
 }

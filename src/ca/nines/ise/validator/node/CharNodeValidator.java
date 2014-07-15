@@ -20,8 +20,14 @@ import java.util.logging.Logger;
  * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class CharNodeValidator extends NodeValidator<CharNode> {
+public class CharNodeValidator implements NodeValidator<CharNode> {
 
+  /**
+   * Validate the character node.
+   * 
+   * @param n CharNode to validate
+   * @param schema Schema to validate against.
+   */
   @Override
   public void validate(CharNode n, Schema schema) {
     try {

@@ -14,12 +14,13 @@ import ca.nines.ise.schema.Attribute;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
- * Abstract class to handle the commonalities in tag validations. Also provides
- * attribute validation.
+ * Validate a list attribute value. A list attribute is valid
+ * if it contains a comma separated list of values, and each
+ * of those values is defined in the schema.
  * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class ListAttributeValidator extends AttributeValidator {
+public class ListAttributeValidator implements AttributeValidator {
 
   /**
    * Validate a list attribute.

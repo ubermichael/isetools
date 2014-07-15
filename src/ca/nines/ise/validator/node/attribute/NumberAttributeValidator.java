@@ -13,12 +13,12 @@ import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.validator.node.AttributeValidator;
 
 /**
- * Abstract class to handle the commonalities in tag validations. Also provides
- * attribute validation.
+ * Validate a number value. A number is valid if it
+ * matches {@code [+-]?\\d+(\\.\\d+)?}.
  * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class NumberAttributeValidator extends AttributeValidator {
+public class NumberAttributeValidator implements AttributeValidator {
 
   /**
    * Validate a number attribute.
