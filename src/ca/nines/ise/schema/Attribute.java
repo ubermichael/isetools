@@ -22,29 +22,85 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * An attribute as defined in a schema. Attribute is an immutable class. Use
+ * AttributeBuilder to create them.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Attribute implements Comparable<Attribute> {
 
+  /**
+   * The source of the attribute.
+   */
   private final String source;
+
+  /**
+   * The line number the attribute is defined on.
+   */
   private final int lineNumber;
 
+  /**
+   * The attribute's default value.
+   */
   private final String defaultValue;
+
+  /**
+   * A depreciation message. Should never be null: attributes that are not
+   * depreciated have an empty depreciated string.
+   */
   private final String depreciated;
+
+  /**
+   * A description of the attribute
+   */
   private final String desc;
+
+  /**
+   * Can the attribute be empty.
+   */
   private final boolean empty;
+
+  /**
+   * The name of the attribute.
+   */
   private final String name;
+
+  /**
+   * Is the attribute optional.
+   */
   private final boolean optional;
 
+  /**
+   * A list of valid attribute values.
+   */
   private List<String> options = null;
+
+  /**
+   * Is the attribute renumberable.
+   */
   private final boolean renumber;
+
+  /**
+   * The attribute's type.
+   */
   private final AttributeType type;
 
+  /**
+   * Get an attribute builder. Use it to build the attribute.
+   *
+   * @return AttributeBuilder
+   */
   public static AttributeBuilder builder() {
     return new AttributeBuilder();
   }
 
+  /**
+   * A class to construct an attribute. There are too many options for a simple
+   * constructor, so use a builder.
+   *
+   * All the setters return the AttributeBuilder object, to enable method
+   * chaining.
+   */
   public static class AttributeBuilder implements BuilderInterface<Attribute> {
 
     private String defaultValue;
@@ -61,6 +117,9 @@ public class Attribute implements Comparable<Attribute> {
     private String source;
     private AttributeType type;
 
+    /**
+     * Don't create AttributeBuilders directly. Use Attribute.builder() instead.
+     */
     private AttributeBuilder() {
       this.source = "";
       this.lineNumber = 0;
@@ -76,11 +135,22 @@ public class Attribute implements Comparable<Attribute> {
       this.options = new ArrayList<>();
     }
 
+    /**
+     * Add an option for the attribute.
+     *
+     * @param option String to add as an option
+     * @return AttributeBuilder
+     */
     public AttributeBuilder addOption(String option) {
       this.options.add(option);
       return this;
     }
 
+    /**
+     * Construct the attribute and return it.
+     *
+     * @return Attribute
+     */
     @Override
     public Attribute build() {
       return new Attribute(
@@ -88,6 +158,12 @@ public class Attribute implements Comparable<Attribute> {
       );
     }
 
+    /**
+     * Construct an attribute from an XML Node.
+     *
+     * @param n Node to build the attribute
+     * @return AttributeBuilder
+     */
     public AttributeBuilder from(Node n) {
       NamedNodeMap map = n.getAttributes();
       Node tmp;
@@ -131,6 +207,16 @@ public class Attribute implements Comparable<Attribute> {
       return this;
     }
 
+    /**
+     * Build an attribute from an XML String.
+     *
+     * @param str String to build the attribute
+     * @return AttributeBuilder
+     * @throws SAXException if the XML is invalid
+     * @throws ParserConfigurationException if Java's default parser isn't
+     * configured correctly
+     * @throws TransformerException if you look at it funny.
+     */
     public AttributeBuilder from(String str) throws SAXException, ParserConfigurationException, TransformerException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(str);
@@ -139,7 +225,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the default value.
+     *
      * @param defaultValue the defaultValue to set
+     * @return AttributeValue
      */
     public AttributeBuilder setDefaultValue(String defaultValue) {
       this.defaultValue = defaultValue;
@@ -147,7 +236,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the depreciation message.
+     *
      * @param depreciated the depreciated to set
+     * @return AttributeValue
      */
     public AttributeBuilder setDepreciated(String depreciated) {
       this.depreciated = depreciated;
@@ -155,7 +247,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's description
+     *
      * @param desc the desc to set
+     * @return AttributeValue
      */
     public AttributeBuilder setDesc(String desc) {
       this.desc = desc;
@@ -163,7 +258,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's empty status.
+     *
      * @param empty the empty to set
+     * @return AttributeValue
      */
     public AttributeBuilder setEmpty(boolean empty) {
       this.empty = empty;
@@ -171,7 +269,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's line number.
+     *
      * @param lineNumber the lineNumber to set
+     * @return AttributeValue
      */
     public AttributeBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
@@ -179,7 +280,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's name.
+     *
      * @param name the name to set
+     * @return AttributeValue
      */
     public AttributeBuilder setName(String name) {
       this.name = name;
@@ -187,7 +291,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's optional status.
+     *
      * @param optional the optional to set
+     * @return AttributeValue
      */
     public AttributeBuilder setOptional(boolean optional) {
       this.optional = optional;
@@ -195,7 +302,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's renumberable status.
+     *
      * @param renumber the renumber to set
+     * @return AttributeValue
      */
     public AttributeBuilder setRenumber(boolean renumber) {
       this.renumber = renumber;
@@ -203,7 +313,10 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
+     * Set the attribute's source.
+     *
      * @param source the source to set
+     * @return AttributeValue
      */
     public AttributeBuilder setSource(String source) {
       this.source = source;
@@ -211,13 +324,22 @@ public class Attribute implements Comparable<Attribute> {
     }
 
     /**
-     * @param type the type to set
+     * Set the attribute's type.
+     *
+     * @param type AttributeType of the attribute
+     * @return AttributeValue
      */
     public AttributeBuilder setType(AttributeType type) {
       this.type = type;
       return this;
     }
 
+    /**
+     * Set type of the attribute from a string.
+     *
+     * @param type String of the AttributeType's name
+     * @return AttributeValue
+     */
     public AttributeBuilder setType(String type) {
       this.type = AttributeType.valueOf(type.toUpperCase());
       return this;
@@ -225,15 +347,45 @@ public class Attribute implements Comparable<Attribute> {
 
   }
 
+  /**
+   * Attribute types
+   */
   public enum AttributeType {
 
+    /**
+     * Attribute is a string
+     */
     STRING,
+    /**
+     * Attribute is a comma separated list of values from the list of options
+     */
     LIST,
+    /**
+     * Attribute is one value from the list of options
+     */
     SELECT,
+    /**
+     * Attribute is a number.
+     */
     NUMBER,
   }
 
-  public Attribute(
+  /**
+   * Use AttributeBuilder to construct Attributes.
+   *
+   * @param source
+   * @param lineNumber
+   * @param name
+   * @param type
+   * @param desc
+   * @param empty
+   * @param optional
+   * @param renumber
+   * @param defaultValue
+   * @param depreciated
+   * @param options
+   */
+  private Attribute(
           String source,
           int lineNumber,
           String name,
@@ -258,25 +410,45 @@ public class Attribute implements Comparable<Attribute> {
     this.options = new ArrayList<>(options);
   }
 
+  /**
+   * Compare attributes by comparing names case insensitively.
+   *
+   * @param a the attribute to compare to
+   * @return the value 0 if the argument attribute's name is equal to this
+   * attribute's name; a value less than 0 if this attribute's name is
+   * lexicographically less than the argument attribute's name; and a value
+   * greater than 0 if this attribute's name is lexicographically greater than
+   * the argument attribute's name.
+   */
   @Override
   public int compareTo(Attribute a) {
     return this.name.toLowerCase().compareTo(a.name.toLowerCase());
   }
 
   /**
-   * @return the defaultValue
+   * Get the attribute's default value.
+   *
+   * @return the default value
    */
   public String getDefaultValue() {
     return defaultValue;
   }
 
   /**
-   * @return the depreciated
+   * Get the attribute's depreciation message, or the empty string if the
+   * attribute is not depreciated.
+   *
+   * @return the depreciated message
    */
   public String getDepreciated() {
     return depreciated;
   }
 
+  /**
+   * Get the attribute's description
+   *
+   * @return the description
+   */
   public String getDescription() {
     if (desc.equals("")) {
       return "No description provided.";
@@ -285,6 +457,8 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
+   * Get the attribute's line number.
+   *
    * @return the lineNumber
    */
   public int getLineNumber() {
@@ -292,14 +466,18 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
-   * @return the name
+   * Get the attribute's name
+   *
+   * @return String the name
    */
   public String getName() {
     return name;
   }
 
   /**
-   * @return the options
+   * Get the allowable options
+   *
+   * @return the options as a sorted array of strings
    */
   public String[] getOptions() {
     if (options != null && options.size() > 0) {
@@ -312,6 +490,8 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
+   * Get the attribute's source
+   *
    * @return the source
    */
   public String getSource() {
@@ -319,12 +499,19 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
+   * Get the attribute type
+   *
    * @return the type
    */
   public AttributeType getType() {
     return type;
   }
 
+  /**
+   * Get the name of the attribute type
+   *
+   * @return String the attribute type
+   */
   public String getTypeName() {
     return type.name().toLowerCase();
   }
@@ -334,6 +521,8 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
+   * Return true if the attribute is allowed to be empty.
+   *
    * @return the empty
    */
   public boolean isEmpty() {
@@ -341,6 +530,8 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
+   * Return true if the attribute is optional.
+   *
    * @return the optional
    */
   public boolean isOptional() {
@@ -348,12 +539,19 @@ public class Attribute implements Comparable<Attribute> {
   }
 
   /**
+   * Return true if the attribute can be renumbered.
+   *
    * @return the renumber
    */
   public boolean isRenumberable() {
     return type.equals("number") && renumber;
   }
 
+  /**
+   * Stringify the attribute. Only useful for development and debugging.
+   *
+   * @return
+   */
   @Override
   public String toString() {
     Formatter formatter = new Formatter();

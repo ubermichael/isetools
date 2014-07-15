@@ -24,7 +24,6 @@ import org.xml.sax.helpers.LocatorImpl;
 /**
  * Add location data to an XML node.
  * <p>
- * @see
  * http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
  * <p>
  * @author michael
@@ -35,13 +34,13 @@ public class LocationAnnotator extends XMLFilterImpl {
   private final String source;
   private final ArrayDeque<Locator> locatorStack = new ArrayDeque<>();
   private final ArrayDeque<Element> elementStack = new ArrayDeque<>();
-  
+
   private final UserDataHandler dataHandler = new LocationDataHandler();
 
   LocationAnnotator(XMLReader xmlReader, Document dom) {
     super(xmlReader);
     source = "";
-    
+
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
@@ -55,7 +54,7 @@ public class LocationAnnotator extends XMLFilterImpl {
   LocationAnnotator(String source, XMLReader xmlReader, Document dom) {
     super(xmlReader);
     this.source = source;
-    
+
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
