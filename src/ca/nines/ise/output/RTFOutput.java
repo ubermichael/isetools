@@ -9,7 +9,6 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
-import ca.nines.ise.node.TextNode;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -18,7 +17,6 @@ import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
-import com.lowagie.text.rtf.style.RtfColor;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
 import com.lowagie.text.rtf.text.RtfTab;
 import java.awt.Color;
@@ -63,6 +61,12 @@ public class RTFOutput extends Output {
     p = new Paragraph();
   }
 
+  private void finishParagraph(RtfParagraphStyle style) throws DocumentException {
+    if (!p.isEmpty() && !StringUtils.isWhitespace(p.getContent())) {
+      doc.add(p);
+    }
+  }
+
   private void addChunk(String txt) {
     if (txt.length() > 0) {
       p.add(new Chunk(txt, fontStack.getFirst()));
@@ -100,7 +104,7 @@ public class RTFOutput extends Output {
             case "L":
               startParagraph();
               EmptyNode en = (EmptyNode) n;
-              if(en.hasAttribute("part")) {
+              if (en.hasAttribute("part")) {
                 part = en.getAttribute("part").charAt(0);
               } else {
                 part = 'i';
@@ -123,7 +127,7 @@ public class RTFOutput extends Output {
               break;
             case "SP":
               inSP = false;
-              switch(part) {
+              switch (part) {
                 case 'i':
                   break;
                 case 'm':
@@ -149,9 +153,6 @@ public class RTFOutput extends Output {
               break;
             case "LD":
               startParagraph();
-              font = new Font(fontStack.getFirst());
-              font.setStyle(Font.BOLD);
-              fontStack.push(font);
               break;
             case "SD":
               font = new Font(fontStack.getFirst());
@@ -160,9 +161,9 @@ public class RTFOutput extends Output {
               if (start.hasAttribute("t") && start.getAttribute("t").contains("exit")) {
                 p.setAlignment(Element.ALIGN_RIGHT);
               }
-              if(start.hasAttribute("t") && start.getAttribute("t").contains("optional")) {
+              if (start.hasAttribute("t") && start.getAttribute("t").contains("optional")) {
                 font.setColor(Color.GRAY);
-              }              
+              }
               fontStack.push(font);
               inSD = true;
               break;
@@ -232,7 +233,7 @@ public class RTFOutput extends Output {
                 }
                 break;
               case '\'':
-                    sb.append("\u2019");
+                sb.append("\u2019");
                 break;
               default:
                 sb.append(c);
