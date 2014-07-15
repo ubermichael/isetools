@@ -15,6 +15,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
@@ -31,6 +32,7 @@ public class RTFOutput extends Output {
 
   private final Document doc;
   private final RtfWriter2 writer;
+  private ArrayDeque<Font> fontStack;
   private Paragraph p = new Paragraph();
 
   public RTFOutput() throws UnsupportedEncodingException, ParserConfigurationException {
@@ -62,15 +64,19 @@ public class RTFOutput extends Output {
     p = new Paragraph();
   }
 
-  @Override
-  public void render(DOM dom) throws DocumentException {
+  private void addChunk(String txt) {
+    p.add(new Chunk(txt, fontStack.getFirst()));
+  }
 
-    ArrayDeque<Font> fontStack = new ArrayDeque<>();
+  @Override
+  public void render(DOM dom) throws DocumentException, IOException {
+
+    fontStack = new ArrayDeque<>();
     fontStack.push(FontFactory.getFont("Times New Roman", 12));
     Font font;
 
     boolean inSP = false;
-    
+
     doc.open();
     startParagraph();
 
@@ -78,8 +84,11 @@ public class RTFOutput extends Output {
     while (iterator.hasNext()) {
       Node n = iterator.next();
       switch (n.type()) {
+        case CHAR:
+          addChunk(n.unicode());
+          break;
         case EMPTY:
-          switch(n.getName()) {
+          switch (n.getName()) {
             case "L":
               startParagraph();
               break;
@@ -94,7 +103,7 @@ public class RTFOutput extends Output {
             case "SD":
               fontStack.pop();
             case "SP":
-              p.add(new Chunk(". ", fontStack.getFirst()));
+              addChunk(". ");
               inSP = false;
           }
           break;
@@ -121,12 +130,11 @@ public class RTFOutput extends Output {
           break;
         case TEXT:
           String txt = n.getText().trim();
-          if(inSP) {
-            System.err.println("YES");
+          if (inSP) {
             txt = txt.toUpperCase();
           }
           if (!StringUtils.isWhitespace(txt)) {
-            p.add(new Chunk(txt, fontStack.getFirst()));
+            addChunk(txt);
           }
           break;
       }
