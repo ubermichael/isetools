@@ -99,6 +99,12 @@ public class RTFOutput extends Output {
           switch (n.getName()) {
             case "L":
               startParagraph();
+              EmptyNode en = (EmptyNode) n;
+              if(en.hasAttribute("part")) {
+                part = en.getAttribute("part").charAt(0);
+              } else {
+                part = 'i';
+              }
               break;
           }
           break;
@@ -116,8 +122,21 @@ public class RTFOutput extends Output {
               inSD = false;
               break;
             case "SP":
-              addChunk(". ");
               inSP = false;
+              switch(part) {
+                case 'i':
+                  break;
+                case 'm':
+                  RtfTab mtab = new RtfTab(100, RtfTab.TAB_LEFT_ALIGN);
+                  p.add(mtab);
+                  addChunk("\t");
+                  break;
+                case 'f':
+                  RtfTab ftab = new RtfTab(200, RtfTab.TAB_LEFT_ALIGN);
+                  p.add(ftab);
+                  addChunk("\t\t");
+                  break;
+              }
               break;
           }
           break;
@@ -159,9 +178,12 @@ public class RTFOutput extends Output {
           String txt = n.getText();
           txt = txt.replace("--", "\u2014");
           txt = txt.replace("\n", "");
+
           if (inSP) {
-            txt = txt.toUpperCase();
+            addChunk(txt.toUpperCase() + ". ");
+            break;
           }
+
           if (inSD) {
             Matcher m = squareBraces.matcher(txt);
 
