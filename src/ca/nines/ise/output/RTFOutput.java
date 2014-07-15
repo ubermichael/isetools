@@ -51,16 +51,6 @@ public class RTFOutput extends Output {
     writer = RtfWriter2.getInstance(doc, out);
   }
 
-  private void skipTo(Iterator<Node> iterator, String tagName) {
-    while (iterator.hasNext()) {
-      Node n = iterator.next();
-      if (n.getName().equals(tagName)) {
-        return;
-      }
-    }
-    return;
-  }
-
   private void startParagraph() throws DocumentException {
     if (!p.isEmpty() && !StringUtils.isWhitespace(p.getContent())) {
       doc.add(p);
@@ -140,7 +130,7 @@ public class RTFOutput extends Output {
               font.setStyle(Font.ITALIC);
               fontStack.push(font);
               StartNode start = (StartNode) n;
-              if(start.hasAttribute("t") && start.getAttribute("t").matches("\\bexit\\b")) {
+              if (start.hasAttribute("t") && start.getAttribute("t").matches("\\bexit\\b")) {
                 p.setAlignment(Element.ALIGN_RIGHT);
               }
               inSD = true;
@@ -162,24 +152,29 @@ public class RTFOutput extends Output {
           }
           if (inSD) {
             Matcher m = squareBraces.matcher(txt);
+
             if (m.matches()) {
               font = new Font(fontStack.getFirst());
               font.setStyle(Font.NORMAL);
 
-              addChunk(m.group(1));
-
-              fontStack.push(font);
-              addChunk("[");
-              fontStack.pop();
-
-              addChunk(m.group(2));
-
-              fontStack.push(font);
-              addChunk("]");
-              fontStack.pop();
-
-              addChunk(m.group(3));
-                      
+              StringBuilder sb = new StringBuilder();
+              for (int i = 0; i < txt.length(); i++) {
+                char c = txt.charAt(i);
+                if (c == '[' || c == ']') {
+                  if (sb.length() > 0) {
+                    addChunk(sb.toString());
+                    sb = new StringBuilder();
+                  }
+                  fontStack.push(font);
+                  addChunk(String.valueOf(c));
+                  fontStack.pop();
+                } else {
+                  sb.append(c);
+                }
+              }
+              if (sb.length() > 0) {
+                addChunk(sb.toString());
+              }
               break;
             }
           }
@@ -187,7 +182,9 @@ public class RTFOutput extends Output {
           break;
       }
     }
+
     startParagraph();
+
     doc.close();
   }
 
