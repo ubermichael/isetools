@@ -25,8 +25,14 @@ import ca.nines.ise.schema.Schema;
  * <p>
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class CommentNodeValidator extends NodeValidator<CommentNode> {
+public class CommentNodeValidator implements NodeValidator<CommentNode> {
 
+  /**
+   * Validate the comment node.
+   * 
+   * @param n CommentNode to validate
+   * @param schema Schema to validate against.
+   */
   @ErrorCode(code = {
     "validator.comment.badstart",
     "validator.comment.badend",

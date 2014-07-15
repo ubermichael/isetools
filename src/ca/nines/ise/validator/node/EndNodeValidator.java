@@ -28,6 +28,12 @@ import ca.nines.ise.schema.Tag;
  */
 public class EndNodeValidator extends TagNodeValidator<EndNode> {
 
+  /**
+   * Validate a node against a schema.
+   * 
+   * @param n EndNode to validate
+   * @param schema Schema to validate against
+   */
   @ErrorCode(code = {
     "validator.tag.unknown",
     "validator.tag.endempty",})
