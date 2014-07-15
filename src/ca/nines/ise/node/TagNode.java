@@ -64,6 +64,10 @@ abstract public class TagNode extends Node {
     return attributes.get(name.toLowerCase());
   }
 
+  public boolean hasAttribute(String name) {
+    return attributes.containsKey(name.toLowerCase());
+  }
+  
   public String[] getAttributeNames() {
     String[] names = attributes.keySet().toArray(new String[attributes.size()]);
     Arrays.sort(names);
