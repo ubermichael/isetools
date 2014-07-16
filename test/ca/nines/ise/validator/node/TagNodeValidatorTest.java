@@ -9,6 +9,7 @@ import ca.nines.ise.node.TagNodeImpl;
 import ca.nines.ise.node.TagNode;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
  */
 public class TagNodeValidatorTest extends ValidatorTestBase {
 
-  public TagNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public TagNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     super();
   }
 

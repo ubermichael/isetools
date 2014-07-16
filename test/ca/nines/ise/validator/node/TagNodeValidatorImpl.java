@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.validator.node;
 
+import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Schema;
 
@@ -15,7 +16,7 @@ import ca.nines.ise.schema.Schema;
 public class TagNodeValidatorImpl extends TagNodeValidator<TagNode> {
 
   @Override
-  public void validate(TagNode node, Schema schema) throws Exception {
+  public void validate(TagNode node, Schema schema) throws AttributeTypeException  {
     validate_attributes(node, schema);
   }
 }

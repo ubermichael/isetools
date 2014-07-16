@@ -11,13 +11,9 @@ import ca.nines.ise.node.TagNodeImpl;
 import ca.nines.ise.validator.node.ValidatorTestBase;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,7 +22,7 @@ import org.xml.sax.SAXException;
  */
 public class SelectAttributeValidatorTest extends ValidatorTestBase {
 
-  public SelectAttributeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public SelectAttributeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     super();
   }
 

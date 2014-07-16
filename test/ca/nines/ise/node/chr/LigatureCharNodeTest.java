@@ -52,7 +52,7 @@ public class LigatureCharNodeTest extends TestBase {
     assertEquals(3, dom.size());
     node = iterator.next();
     assertEquals("START", node.type().name());
-    assertEquals("LIGATURE", node.getName());
+    assertEquals("LIG", node.getName());
     assertEquals("3.2.1", node.getAsl());
     assertEquals(42, node.getColumn());
     assertEquals(420, node.getLine());
@@ -74,7 +74,7 @@ public class LigatureCharNodeTest extends TestBase {
     assertEquals(42, node.getColumn());
     assertEquals(420, node.getLine());
     assertEquals("11.3", node.getTLN());
-    assertEquals("LIGATURE", node.getName());
+    assertEquals("LIG", node.getName());
     checkLog(errors);
   }
 

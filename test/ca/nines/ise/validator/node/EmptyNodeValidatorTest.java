@@ -8,6 +8,7 @@ package ca.nines.ise.validator.node;
 import ca.nines.ise.node.EmptyNode;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -18,7 +19,7 @@ import org.xml.sax.SAXException;
  */
 public class EmptyNodeValidatorTest extends ValidatorTestBase {
 
-  public EmptyNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public EmptyNodeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     super();
   }
 
