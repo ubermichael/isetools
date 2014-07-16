@@ -72,11 +72,14 @@ public class RTFOutput extends Output {
     writer.getDocumentSettings().registerParagraphStyle(exit);
     
     p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
+    p1.setFirstLineIndent(-19);
+    p1.setIndentLeft(19);
+    p1.setIndentRight(49);
     writer.getDocumentSettings().registerParagraphStyle(p1);
 
     p2 = new RtfParagraphStyle("ISE p2", "ISE Normal");
     p2.setFirstLineIndent(-19);
-    p2.setIndentLeft(36);
+    p2.setIndentLeft(38);
     p2.setIndentRight(49);
     writer.getDocumentSettings().registerParagraphStyle(p2);
   }
@@ -270,7 +273,7 @@ public class RTFOutput extends Output {
                 }
                 break;
               case '\'':
-                sb.append("\u2019");
+                sb.append("\u2019"); // appostrophe
                 break;
               default:
                 sb.append(c);
