@@ -26,7 +26,7 @@ public class Message implements Comparable<Message> {
   static {
     ErrorCodes tmp = null;
     try {
-      tmp = new ErrorCodes();
+      tmp = ErrorCodes.defaultErrorCodes();
     } catch (Exception ex) {
       Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -46,13 +46,13 @@ public class Message implements Comparable<Message> {
 
   public static class MessageBuilder implements BuilderInterface<Message> {
 
-    private String TLN = "(unknown)";
-    private String code = "(unknown)";
+    private String TLN = "unknown";
+    private String code = "unknown";
     private int columnNumber = 0;
     private String line = "";
     private int lineNumber = 0;
     private final List<String> notes = new ArrayList<>();
-    private String source = "(unknown)";
+    private String source = "unknown";
 
     private MessageBuilder(String code) {
       this.code = code;

@@ -17,7 +17,7 @@ import java.util.List;
  * <p>
  * @author michael
  */
-public class Log {
+public final class Log {
 
   private static final Log instance = new Log();
 
@@ -25,7 +25,6 @@ public class Log {
 
   // @todo why do i have instance methods at all? They aren't necessary.
   // I never pass log objects around.
-  
   public static void addMessage(Message m) {
     instance.add(m);
   }
@@ -38,7 +37,7 @@ public class Log {
   public static Log getInstance() {
     return instance;
   }
-  
+
   private Log() {
   }
 
@@ -71,18 +70,18 @@ public class Log {
    * <p>
    * @return sorted message array.
    */
-    public Message[] messages() {
-      Message[] m = messages.toArray(new Message[messages.size()]);
-      Arrays.sort(m);
-      return m;
-    }
+  public Message[] messages() {
+    Message[] m = messages.toArray(new Message[messages.size()]);
+    Arrays.sort(m);
+    return m;
+  }
 
   /**
    * Serialize the messages into a string.
    * <p>
    * @return string of messages.
    */
-    @Override
+  @Override
   public String toString() {
     Formatter formatter = new Formatter();
 

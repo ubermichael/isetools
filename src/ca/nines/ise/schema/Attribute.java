@@ -182,9 +182,9 @@ public class Attribute implements Comparable<Attribute> {
 
       tmp = map.getNamedItem("optional");
       setOptional(tmp != null && tmp.getTextContent().equals("yes"));
-
+      
       tmp = map.getNamedItem("empty");
-      setOptional(tmp != null && tmp.getTextContent().equals("yes"));
+      setEmpty(tmp != null && tmp.getTextContent().equals("yes"));
 
       tmp = map.getNamedItem("renumber");
       setRenumber(tmp != null && tmp.getTextContent().equals("yes"));
@@ -513,6 +513,9 @@ public class Attribute implements Comparable<Attribute> {
    * @return String the attribute type
    */
   public String getTypeName() {
+    if(type == null) {
+      return "";
+    }
     return type.name().toLowerCase();
   }
 
@@ -544,7 +547,7 @@ public class Attribute implements Comparable<Attribute> {
    * @return the renumber
    */
   public boolean isRenumberable() {
-    return type.equals("number") && renumber;
+    return type != null && type.equals("number") && renumber;
   }
 
   /**

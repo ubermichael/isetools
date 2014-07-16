@@ -5,11 +5,15 @@
  */
 package ca.nines.ise.schema;
 
+import ca.nines.ise.util.XMLDriver;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
@@ -18,232 +22,111 @@ import org.xml.sax.SAXException;
  */
 public class TagTest {
 
-  /**
-   * Test of getAttribute method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
   @Test
-  public void testGetAttribute() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag tag = new Tag("<tag/>");
-    assertEquals(null, tag.getAttribute("a"));
-
-    tag = new Tag("<tag><attribute name='a'/></tag>");
-    assertEquals("a", tag.getAttribute("a").getName());
-    assertEquals("a", tag.getAttribute("A").getName());
+  public void testBuilderDefaults() {
+    Tag t = Tag.builder().build();
+    assertEquals(0, t.countAttributes());
+    assertNull(t.getAttribute("foo"));
+    assertArrayEquals(new String[]{}, t.getAttributeNames());
+    assertArrayEquals(new Attribute[]{}, t.getAttributes());
+    assertEquals("", t.getDepreciated());
+    assertEquals("No description provided.", t.getDescription());
+    assertEquals("no", t.getEmpty());
+    assertEquals(0, t.getLineNumber());
+    assertEquals("", t.getName());
+    assertEquals("", t.getSource());
+    assertFalse(t.isDepreciated());
+    assertFalse(t.isEmpty());
+    assertFalse(t.maybeEmpty());
   }
 
-  /**
-   * Test of getAttributeNames method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
   @Test
-  public void testGetAttributeNames() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag tag = new Tag("<tag/>");
-    assertArrayEquals(new String[0], tag.getAttributeNames());
-
-    tag = new Tag("<tag></tag>");
-    assertArrayEquals(new String[0], tag.getAttributeNames());
-
-    tag = new Tag("<tag><attribute name='a'/></tag>");
-    assertArrayEquals(new String[]{"a"}, tag.getAttributeNames());
-
-    tag = new Tag("<tag><attribute name='a'/><attribute name='a'/></tag>");
-    assertArrayEquals(new String[]{"a"}, tag.getAttributeNames());
-
-    tag = new Tag("<tag><attribute name='b'/><attribute name='a'/></tag>");
-    assertArrayEquals(new String[]{"a", "b"}, tag.getAttributeNames());
+  public void testBuilderSetters() {
+    Tag t = Tag.builder()
+            .addAttribute(Attribute.builder().setName("foo").build())
+            .addAttribute(Attribute.builder().setName("bar").build())
+            .setDepreciated("so very depreciated.")
+            .setDesc("so very described.")
+            .setEmpty("yes")
+            .setLineNumber(32)
+            .setName("chachacha")
+            .setSource("file")
+            .build();
+    assertEquals(2, t.countAttributes());
+    assertNull(t.getAttribute("abc"));
+    assertNotNull(t.getAttribute("foo"));
+    assertNotNull(t.getAttribute("bar"));
+    assertNotNull(t.getAttribute("FOO"));
+    assertArrayEquals(new String[]{"bar", "foo"}, t.getAttributeNames());
+    assertEquals("so very depreciated.", t.getDepreciated());
+    assertEquals("so very described.", t.getDescription());
+    assertEquals(32, t.getLineNumber());
+    assertEquals("chachacha", t.getName());
+    assertEquals("file", t.getSource());
+    assertTrue(t.isDepreciated());
+    assertTrue(t.isEmpty());
+    assertTrue(t.maybeEmpty());
   }
 
-  /**
-   * Test of getAttributes method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
   @Test
-  public void testGetAttributes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag tag = new Tag("<tag/>");
-    assertArrayEquals(new Attribute[0], tag.getAttributes());
+  public void testBuilderFromNode() throws ParserConfigurationException, TransformerConfigurationException, SAXException, TransformerException {
+    String data = ""
+            + "    <tag name=\"ONEATTR\" where=\"all\">\n"
+            + "      <desc>tag with one attribute</desc>\n"
+            + "      <attribute name=\"n\" type=\"number\" renumber=\"yes\">\n"
+            + "        <desc>one renumberable number attribute</desc>\n"
+            + "      </attribute>\n"
+            + "    </tag>";
+    Document doc = new XMLDriver().drive(data);
+    Tag t = Tag.builder().from(doc.getElementsByTagName("tag").item(0)).build();
+    assertEquals(1, t.countAttributes());
+    assertNull(t.getAttribute("a"));
+    assertNotNull(t.getAttribute("n"));
+    assertNotNull(t.getAttribute("N"));
+    assertArrayEquals(new String[]{"n"}, t.getAttributeNames());
+    assertEquals("", t.getDepreciated());
+    assertEquals("tag with one attribute", t.getDescription());
+    assertEquals(1, t.getLineNumber());
+    assertEquals("ONEATTR", t.getName());
+    assertEquals("", t.getSource());
+    assertFalse(t.isDepreciated());
+    assertFalse(t.isEmpty());
+    assertFalse(t.maybeEmpty());
 
-    tag = new Tag("<tag></tag>");
-    assertArrayEquals(new Attribute[0], tag.getAttributes());
-
-    tag = new Tag("<tag><attribute name='a'/></tag>");
-    Attribute a[] = tag.getAttributes();
-    assertEquals("a", a[0].getName());
-
-    tag = new Tag("<tag><attribute name='a'/><attribute name='a'/></tag>");
-    a = tag.getAttributes();
-    assertEquals("a", a[0].getName());
-    assertEquals(1, a.length);
-
-    tag = new Tag("<tag><attribute name='b'/><attribute name='a'/></tag>");
-    a = tag.getAttributes();
-    assertEquals("a", a[0].getName());
-    assertEquals("b", a[1].getName());
-    assertEquals(2, a.length);
   }
 
-  /**
-   * Test of countAttributes method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
   @Test
-  public void testCountAttributes() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag/>");
-    assertEquals(0, a.countAttributes());
-
-    a = new Tag("<tag></tag>");
-    assertEquals(0, a.countAttributes());
-
-    a = new Tag("<tag><attribute name='a'/></tag>");
-    assertEquals(1, a.countAttributes());
-
-    a = new Tag("<tag><attribute name='a'/><attribute name='a'/></tag>");
-    assertEquals(1, a.countAttributes());
-
-    a = new Tag("<tag><attribute name='a'/><attribute name='b'/></tag>");
-    assertEquals(2, a.countAttributes());
+  public void testBuilderFromString() throws SAXException, ParserConfigurationException, TransformerException {
+    String data = ""
+            + "    <tag name=\"ONEATTR\" where=\"all\">\n"
+            + "      <desc>tag with one attribute</desc>\n"
+            + "      <attribute name=\"n\" type=\"number\" renumber=\"yes\">\n"
+            + "        <desc>one renumberable number attribute</desc>\n"
+            + "      </attribute>\n"
+            + "    </tag>";
+    Tag t = Tag.builder().from(data).build();
+    assertEquals(1, t.countAttributes());
+    assertNull(t.getAttribute("a"));
+    assertNotNull(t.getAttribute("n"));
+    assertNotNull(t.getAttribute("N"));
+    assertArrayEquals(new String[]{"n"}, t.getAttributeNames());
+    assertEquals("", t.getDepreciated());
+    assertEquals("tag with one attribute", t.getDescription());
+    assertEquals(1, t.getLineNumber());
+    assertEquals("ONEATTR", t.getName());
+    assertEquals("", t.getSource());
+    assertFalse(t.isDepreciated());
+    assertFalse(t.isEmpty());
+    assertFalse(t.maybeEmpty());
   }
 
-  /**
-   * Test of getName method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
   @Test
-  public void testGetName() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag name='foo' />");
-    assertEquals("foo", a.getName());
-  }
+  public void testCompareTo() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
+    Tag a = Tag.builder().from("<tag name='bar'/>").build();
+    Tag b = Tag.builder().from("<tag name='foo'/>").build();
 
-  /**
-   * Test of getEmpty method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
-  @Test
-  public void testEmpty() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag />");
-    assertFalse(a.isEmpty());
-    assertFalse(a.maybeEmpty());
-    assertEquals("no", a.getEmpty());
-
-    a = new Tag("<tag empty='' />");
-    assertFalse(a.isEmpty());
-    assertFalse(a.maybeEmpty());
-    assertEquals("no", a.getEmpty());
-
-    a = new Tag("<tag empty='no' />");
-    assertFalse(a.isEmpty());
-    assertFalse(a.maybeEmpty());
-    assertEquals("no", a.getEmpty());
-
-    a = new Tag("<tag empty='yes' />");
-    assertTrue(a.isEmpty());
-    assertTrue(a.maybeEmpty());
-    assertEquals("yes", a.getEmpty());
-
-    a = new Tag("<tag empty='optional' />");
-    assertFalse(a.isEmpty());
-    assertTrue(a.maybeEmpty());
-    assertEquals("optional", a.getEmpty());
-
-    a = new Tag("<tag empty='foobr' />");
-    assertFalse(a.isEmpty());
-    assertFalse(a.maybeEmpty());
-    assertEquals("no", a.getEmpty());
-  }
-
-  /**
-   * Test of isDepreciated method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   */
-  @Test
-  public void testDepreciated() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag />");
-    assertFalse(a.isDepreciated());
-    assertEquals("", a.getDepreciated());
-
-    a = new Tag("<tag depreciated=''/>");
-    assertFalse(a.isDepreciated());
-    assertEquals("", a.getDepreciated());
-
-    a = new Tag("<tag depreciated='foo'/>");
-    assertTrue(a.isDepreciated());
-    assertEquals("foo", a.getDepreciated());
-  }
-
-  /**
-   * Test of getWhere method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   * @throws javax.xml.xpath.XPathExpressionException
-   */
-  @Test
-  public void testGetWhere() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag />");
-    assertEquals("anywhere", a.getWhere());
-
-    a = new Tag("<tag where=''/>");
-    assertEquals("anywhere", a.getWhere());
-
-    a = new Tag("<tag where='foo'/>");
-    assertEquals("foo", a.getWhere());
-  }
-
-  /**
-   * Test of getDescription method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   * @throws javax.xml.xpath.XPathExpressionException
-   */
-  @Test
-  public void testGetDescription() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag />");
-    assertEquals("No description provided.", a.getDescription());
-
-    a = new Tag("<tag><desc>a description.</desc></tag>");
-    assertEquals("a description.", a.getDescription());
-  }
-
-  /**
-   * Test of compareTo method, of class Tag.
-   * <p>
-   * @throws javax.xml.parsers.ParserConfigurationException
-   * @throws org.xml.sax.SAXException
-   * @throws java.io.IOException
-   * @throws javax.xml.xpath.XPathExpressionException
-   */
-  @Test
-  public void testCompareTo() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    Tag a = new Tag("<tag name='foo'/>");
-    Tag b = new Tag("<tag name='bar'/>");
-
-    assertTrue(0 < a.compareTo(b));
+    assertTrue(a.compareTo(b) < 0);
     assertEquals(0, a.compareTo(a));
-    assertTrue(b.compareTo(a) < 0);
+    assertTrue(b.compareTo(a) > 0);
   }
-
 }
