@@ -61,6 +61,7 @@ public class DOMValidator {
    * Perform all the schema and node validations.
    * <p>
    * @param dom <p>
+   * @param schema
    * @throws Exception
    */
   @SuppressWarnings({"unchecked", "rawtypes"})
