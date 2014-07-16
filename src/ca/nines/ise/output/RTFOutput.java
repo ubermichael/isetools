@@ -43,10 +43,11 @@ public class RTFOutput extends Output {
   private Paragraph p = new Paragraph();
 
   private RtfParagraphStyle normal;
+  private RtfParagraphStyle exit;
   private RtfParagraphStyle ld;
   private RtfParagraphStyle p1;
   private RtfParagraphStyle p2;
-  
+
   public RTFOutput() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
@@ -56,20 +57,23 @@ public class RTFOutput extends Output {
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
     normal = new RtfParagraphStyle("ISE Normal", "Times New Roman", 12, Font.NORMAL, Color.BLACK);
+    normal.setAlignment(Element.ALIGN_UNDEFINED);
     writer.getDocumentSettings().registerParagraphStyle(normal);
-    
+
     ld = new RtfParagraphStyle("ISE h2", "ISE Normal");
     ld.setFontName("Helvetica");
     ld.setSize(16);
     ld.setStyle(Font.BOLD);
     writer.getDocumentSettings().registerParagraphStyle(ld);
 
-    p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
-    p1.setFirstLineIndent(-9);
-    p1.setIndentLeft(18);
-    p1.setIndentRight(49);
-    writer.getDocumentSettings().registerParagraphStyle(p1);
+    exit = new RtfParagraphStyle("ISE exit", "ISE Normal");
+    exit.setAlignment(Element.ALIGN_RIGHT);
+    exit.setStyle(Font.ITALIC);
+    writer.getDocumentSettings().registerParagraphStyle(exit);
     
+    p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
+    writer.getDocumentSettings().registerParagraphStyle(p1);
+
     p2 = new RtfParagraphStyle("ISE p2", "ISE Normal");
     p2.setFirstLineIndent(-19);
     p2.setIndentLeft(36);
@@ -123,7 +127,7 @@ public class RTFOutput extends Output {
         case EMPTY:
           switch (n.getName()) {
             case "L":
-              if(inS) {
+              if (inS) {
                 startParagraph(p2);
               } else {
                 startParagraph(p1);
@@ -142,7 +146,7 @@ public class RTFOutput extends Output {
             case "FOREIGN":
               fontStack.pop();
               break;
-            case "LD":              
+            case "LD":
               startParagraph();
               break;
             case "S":
@@ -153,21 +157,8 @@ public class RTFOutput extends Output {
               inSD = false;
               break;
             case "SP":
+              addChunk(". ");
               inSP = false;
-              switch (part) {
-                case 'i':
-                  break;
-                case 'm':
-                  RtfTab mtab = new RtfTab(100, RtfTab.TAB_LEFT_ALIGN);
-                  p.add(mtab);
-                  addChunk("\t");
-                  break;
-                case 'f':
-                  RtfTab ftab = new RtfTab(200, RtfTab.TAB_LEFT_ALIGN);
-                  p.add(ftab);
-                  addChunk("\t");
-                  break;
-              }
               break;
           }
           break;
@@ -189,7 +180,7 @@ public class RTFOutput extends Output {
               font.setStyle(Font.ITALIC);
               StartNode start = (StartNode) n;
               if (start.hasAttribute("t") && start.getAttribute("t").contains("exit")) {
-                p.setAlignment(Element.ALIGN_RIGHT);
+                startParagraph(exit);
               }
               if (start.hasAttribute("t") && start.getAttribute("t").contains("optional")) {
                 font.setColor(Color.GRAY);
@@ -208,7 +199,7 @@ public class RTFOutput extends Output {
           txt = txt.replace("\n", "");
 
           if (inSP) {
-            addChunk(txt.toUpperCase() + ". ");
+            addChunk(txt.toUpperCase());
             break;
           }
 
@@ -238,7 +229,28 @@ public class RTFOutput extends Output {
                 addChunk(sb.toString());
               }
               break;
+            } else {
+              addChunk(txt);
+              break;
             }
+          }
+
+          if (part != 'i' && inS) {
+            RtfTab tab = null;
+            String tabStr = "";
+            if (part == 'm') {
+              tab = new RtfTab(100, RtfTab.TAB_LEFT_ALIGN);
+              tabStr = "\t";
+            }
+            if (part == 'f') {
+              tab = new RtfTab(200, RtfTab.TAB_LEFT_ALIGN);
+              tabStr = "\t\t";
+            }
+            if (tab != null) {
+              p.add(tab);
+              addChunk(tabStr);
+            }
+            part = 'i'; // ensure it's only done once for m or f.
           }
 
           // fix quotation marks.
