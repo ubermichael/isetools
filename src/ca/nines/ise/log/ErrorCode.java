@@ -7,8 +7,13 @@ package ca.nines.ise.log;
 
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.LocationData;
+import ca.nines.ise.util.XMLDriver;
 import java.util.Formatter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -38,8 +43,8 @@ public class ErrorCode implements Comparable<ErrorCode> {
       code = "unknown";
       lineNumber = 0;
       message = "";
-      severity = "unknown";
-      source = "unknown";
+      severity = "";
+      source = "";
     }
 
     @Override
@@ -47,6 +52,13 @@ public class ErrorCode implements Comparable<ErrorCode> {
       return new ErrorCode(source, lineNumber, code, severity, message);
     }
 
+    public ErrorCodeBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
+      XMLDriver xd = new XMLDriver();
+      Document doc = xd.drive(str);
+      Node n = doc.getElementsByTagName("message").item(0);      
+      return from(n);
+    }
+    
     public ErrorCodeBuilder from(Node n) {
       setCode(n.getAttributes().getNamedItem("code").getNodeValue());
       setSeverity(n.getAttributes().getNamedItem("severity").getNodeValue());

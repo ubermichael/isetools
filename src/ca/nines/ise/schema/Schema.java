@@ -82,7 +82,7 @@ public class Schema {
     }
 
     public SchemaBuilder addTag(Tag tag) {
-      tags.put(tag.getName(), tag);
+      tags.put(tag.getName().toLowerCase(), tag);
       return this;
     }
 
@@ -135,29 +135,33 @@ public class Schema {
     /**
      * @param edition the edition to set
      */
-    public void setEdition(String edition) {
+    public SchemaBuilder setEdition(String edition) {
       this.edition = edition;
+      return this;
     }
 
     /**
      * @param group the group to set
      */
-    public void setGroup(String group) {
+    public SchemaBuilder setGroup(String group) {
       this.group = group;
+      return this;
     }
 
     /**
      * @param lineNumber the lineNumber to set
      */
-    public void setLineNumber(int lineNumber) {
+    public SchemaBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
+      return this;
     }
 
     /**
      * @param source the source to set
      */
-    public void setSource(String source) {
+    public SchemaBuilder setSource(String source) {
       this.source = source;
+      return this;
     }
 
     public SchemaBuilder setTags(Map<String, Tag> tags) {
@@ -214,7 +218,7 @@ public class Schema {
   }
 
   public Tag getTag(String name) {
-    return tags.get(name.toUpperCase());
+    return tags.get(name.toLowerCase());
   }
 
   public String[] getTagNames() {
@@ -225,7 +229,6 @@ public class Schema {
 
   public Tag[] getTags() {
     Tag[] t = tags.values().toArray(new Tag[tags.size()]);
-
     Arrays.sort(t);
     return t;
   }

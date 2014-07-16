@@ -104,7 +104,7 @@ public class Tag implements Comparable<Tag> {
      * @return TagBuilder
      */
     public TagBuilder addAttribute(Attribute attr) {
-      attributes.put(attr.getName(), attr);
+      attributes.put(attr.getName().toLowerCase(), attr);
       return this;
     }
 
@@ -144,7 +144,10 @@ public class Tag implements Comparable<Tag> {
         setDepreciated(tmp.getTextContent());
       }
 
-      setDesc(((Element) n).getElementsByTagName("desc").item(0).getTextContent());
+      tmp = ((Element)n).getElementsByTagName("desc").item(0);
+      if(tmp != null) {
+        setDesc(tmp.getTextContent());
+      }
 
       NodeList list = ((Element) n).getElementsByTagName("attribute");
       int length = list.getLength();
@@ -396,6 +399,16 @@ public class Tag implements Comparable<Tag> {
     return source;
   }
 
+  /**
+   * Returns true if the tag contains the named attribute.
+   * 
+   * @param name
+   * @return 
+   */
+  public boolean hasAttribute(String name) {
+    return attributes.containsKey(name.toLowerCase());
+  }
+  
   /**
    * True if the tag is depreciated.
    * 
