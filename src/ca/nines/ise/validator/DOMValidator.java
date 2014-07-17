@@ -18,7 +18,6 @@ import ca.nines.ise.node.Node;
 import ca.nines.ise.node.Node.NodeType;
 import ca.nines.ise.schema.Schema;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
