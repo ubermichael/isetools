@@ -59,12 +59,12 @@ public class Note extends Lemma {
       int length = nl.getLength();
       for (int i = 0; i < length; i++) {
         Element ln = (Element) nl.item(i);
-        if (! ln.getTextContent().equals("")) {
+        if (!ln.getTextContent().equals("")) {
           setAsl(ln.getTextContent());
         }
-        Node tln = ln.getAttributeNode("tln");
-        if (tln != null) {
-          setTln(tln.getNodeValue());
+        Node tlnNode = ln.getAttributeNode("tln");
+        if (tlnNode != null) {
+          setTln(tlnNode.getNodeValue());
         }
       }
 
