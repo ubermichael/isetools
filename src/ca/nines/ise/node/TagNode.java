@@ -94,6 +94,7 @@ abstract public class TagNode extends Node {
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
+    formatter.format("%s", super.toString());
     formatter.format(":%s(", tagname);
     for(String name : attributes.keySet()) {
       formatter.format("@%s=%s ", name, attributes.get(name));
