@@ -6,13 +6,17 @@
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.BuilderInterface;
+import ca.nines.ise.util.XMLDriver;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -43,15 +47,16 @@ public class Coll extends Lemma {
       readingNotes = new HashMap<>();
     }
 
-    public CollBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return this;
-
-    }
-
-    public CollBuilder from(String in) throws ParserConfigurationException, XPathExpressionException, SAXException, IOException {
+    public CollBuilder from(Node in) {
+      super.from(in);
       return this;
     }
 
+    public CollBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
+      Document doc = new XMLDriver().drive(in);
+      Node n = doc.getElementsByTagName("coll").item(0);
+      return from(n);
+    }
     public CollBuilder addReading(String resp, String reading) {
       readings.put(resp, reading);
       return this;
@@ -64,7 +69,7 @@ public class Coll extends Lemma {
 
     @Override
     public Coll build() {
-      return new Coll(lem, lineNumber, node, source, tln, xml, lemResp, lemNote, readings, readingNotes);
+      return new Coll(lem, lineNumber, node, source, tln, lemResp, lemNote, asl, readings, readingNotes);
     }
 
     /**
@@ -89,8 +94,8 @@ public class Coll extends Lemma {
     return new CollBuilder();
   }
 
-  private Coll(String lem, int lineNumber, String node, String source, String tln, String xml, String lemResp, String lemNote, Map<String, String> readings, Map<String, String> readingNotes) {
-    super(lem, lineNumber, node, source, tln, xml);
+  private Coll(String lem, int lineNumber, String node, String source, String tln, String lemResp, String lemNote, String asl,  Map<String, String> readings, Map<String, String> readingNotes) {
+    super(lem, lineNumber, node, source, tln, asl);
     this.lemResp = lemResp;
     this.lemNote = lemNote;
     this.readings = new HashMap<>(readings);

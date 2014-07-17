@@ -22,11 +22,10 @@ import java.util.Map;
  * DOM also stores all of the text used to create the DOM, so it can be accessed
  * later.
  */
-public class DOM {
+public class DOM implements Iterable<Node> {
 
   // @todo make all of DOM's fields final, by moving
   // all the setters to DOMBuilder, just like Message and Message.MessageBuilder.
-  
   private final Map<String, Node> index;
   private String[] lines;
 
@@ -163,6 +162,7 @@ public class DOM {
    * <p>
    * @return an return an iterator for the DOM.
    */
+  @Override
   public Iterator<Node> iterator() {
     return nodes.iterator();
   }
@@ -188,18 +188,18 @@ public class DOM {
    * @return a string representation.
    */
   @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder();
-      
-      Iterator<Node> i = this.iterator();
-      
-      while (i.hasNext()) {
-        Node n = i.next();
-        sb.append(n).append("\n");
-      }
-      
-      return sb.toString();
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    Iterator<Node> i = this.iterator();
+
+    while (i.hasNext()) {
+      Node n = i.next();
+      sb.append(n).append("\n");
     }
+
+    return sb.toString();
+  }
 
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
@@ -216,9 +216,9 @@ public class DOM {
    * <p>
    * @param source
    */
-    protected void setSource(String source) {
-      this.source = source;
-    }
+  protected void setSource(String source) {
+    this.source = source;
+  }
 
   public int size() {
     return nodes.size();

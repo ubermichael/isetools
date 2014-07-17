@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Formatter;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
@@ -53,8 +54,8 @@ public class Edition extends Document implements Comparable<Edition> {
     return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
   }
 
-  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
+    return Annotations.builder().from(expectedAnnotationsFile()).build();
   }
 
   public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
