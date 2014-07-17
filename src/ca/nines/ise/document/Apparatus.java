@@ -17,7 +17,7 @@ import java.util.List;
  * @author michael
  * @param <T>
  */
-abstract public class Apparatus<T extends Lemma> {
+abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
 
   private final List<T> lemmas;
   private final String source;
@@ -56,6 +56,7 @@ abstract public class Apparatus<T extends Lemma> {
     return source;
   }
 
+  @Override
   public Iterator<T> iterator() {
     return lemmas.iterator();
   }

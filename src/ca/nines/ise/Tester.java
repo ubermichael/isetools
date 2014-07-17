@@ -5,17 +5,12 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.document.Collations;
+import ca.nines.ise.document.Annotations;
+import ca.nines.ise.document.Edition;
+import ca.nines.ise.document.Work;
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.output.Output;
-import ca.nines.ise.output.RTFOutput;
-import ca.nines.ise.schema.Attribute;
-import ca.nines.ise.util.XMLDriver;
-
-import com.lowagie.text.*;
-import com.lowagie.text.rtf.*;
+import java.io.File;
 
 /**
  *
@@ -26,14 +21,13 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      String data = ""
-              + "<attribute name=\"foo\" type=\"number\" optional=\"yes\">\n"
-              + "  <desc>optional attribute</desc>\n"
-              + "</attribute>";
-
-      org.w3c.dom.Document doc = new XMLDriver().drive(data);
-      Attribute a = Attribute.builder().from(doc.getElementsByTagName("attribute").item(0)).build();
-      System.out.println("optional " + a.isOptional());
+      Work w = new Work(new File("input/withTitlePage/Oth"));
+      Edition e = w.getEdition("M");
+      DOM d = e.getDOM();
+      Annotations a = e.getAnnotations();
+      
+      System.out.println(a);
+      
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {

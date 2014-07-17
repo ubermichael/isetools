@@ -6,14 +6,20 @@
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.BuilderInterface;
+import ca.nines.ise.util.XMLDriver;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -40,19 +46,44 @@ public class Note extends Lemma {
 
     @Override
     public Note build() {
-      return new Note(lem, lineNumber, node, source, tln, xml, notes);
+      return new Note(lem, lineNumber, node, source, tln, asl, notes);
     }
 
     @Override
-    public NoteBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+    public NoteBuilder from(Node in) {
       super.from(in);
+      Element e = (Element) in;
+      NodeList nl;
+
+      nl = e.getElementsByTagName("ln");
+      int length = nl.getLength();
+      for (int i = 0; i < length; i++) {
+        Element ln = (Element) nl.item(i);
+        if (! ln.getTextContent().equals("")) {
+          setAsl(ln.getTextContent());
+        }
+        Node tln = ln.getAttributeNode("tln");
+        if (tln != null) {
+          setTln(tln.getNodeValue());
+        }
+      }
+
+      setLem(e.getElementsByTagName("lem").item(0).getTextContent());
+
+      nl = e.getElementsByTagName("level");
+      length = nl.getLength();
+      for (int i = 0; i < length; i++) {
+        Element level = (Element) nl.item(i);
+        addNote(level.getAttributeNode("n").getValue(), level.getTextContent().trim());
+      }
+
       return this;
     }
 
-    @Override
-    public NoteBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      super.from(in);
-      return this;
+    public NoteBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
+      Document doc = new XMLDriver().drive(in);
+      Node n = doc.getElementsByTagName("note").item(0);
+      return from(n);
     }
 
   }
@@ -61,8 +92,8 @@ public class Note extends Lemma {
     return new NoteBuilder();
   }
 
-  private Note(String lem, int lineNumber, String node, String source, String tln, String xml, Map<String, String> notes) {
-    super(lem, lineNumber, node, source, tln, xml);
+  private Note(String lem, int lineNumber, String node, String source, String tln, String asl, Map<String, String> notes) {
+    super(lem, lineNumber, node, source, tln, asl);
     this.notes = new HashMap<>(notes);
   }
 

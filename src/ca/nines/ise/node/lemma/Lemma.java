@@ -6,12 +6,10 @@
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.LocationData;
-import java.io.IOException;
 import java.util.Formatter;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -24,8 +22,11 @@ abstract public class Lemma {
   private final String node;
   private final String source;
   private final String tln;
-  private final String xml;
-
+  private final String asl;
+  
+  private final static Pattern lemSplitter = Pattern.compile("(.*) ?. . . ?(.*)");
+  private final static Pattern tlnSplitter = Pattern.compile("([^-]*)-([^-]*)");
+  
   public abstract static class LemmaBuilder {
 
     protected String lem;
@@ -33,26 +34,22 @@ abstract public class Lemma {
     protected String node;
     protected String source;
     protected String tln;
-    protected String xml;
+    protected String asl;
 
-    public LemmaBuilder() {
+    protected LemmaBuilder() {
       lem = "";
       lineNumber = 0;
       node = "";
       source = "";
       tln = "";
-      xml = "";
+      asl = "";
     }
     
-    public LemmaBuilder from(Node n) throws ParserConfigurationException, XPathExpressionException {
+    public LemmaBuilder from(Node n) { 
       LocationData loc = (LocationData) n.getUserData(LocationData.LOCATION_DATA_KEY);
       setSource(loc.getSystemId());
       setLineNumber(loc.getStartLine());
 
-      return this;
-    }
-
-    public LemmaBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
       return this;
     }
 
@@ -95,24 +92,20 @@ abstract public class Lemma {
       this.tln = tln;
       return this;
     }
-
-    /**
-     * @param xml the xml to set
-     */
-    public LemmaBuilder setXml(String xml) {
-      this.xml = xml;
+    
+    public LemmaBuilder setAsl(String asl) {
+      this.asl = asl;
       return this;
     }
-  
   }
 
-  protected Lemma(String lem, int lineNumber, String node, String source, String tln, String xml) {
+  protected Lemma(String lem, int lineNumber, String node, String source, String tln, String asl) {
     this.lem = lem;
     this.lineNumber = lineNumber;
     this.node = node;
     this.source = source;
     this.tln = tln;
-    this.xml = xml;
+    this.asl = asl;
   }
 
   /**
@@ -122,6 +115,21 @@ abstract public class Lemma {
     return lem;
   }
 
+  public boolean isLemSplit() {
+    Matcher m = lemSplitter.matcher(lem);
+    return m.matches();
+  }
+  
+  public String getLemStart() {
+    Matcher m = lemSplitter.matcher(lem);
+    return m.group(1);
+  }
+  
+  public String getLemEnd() {
+    Matcher m = lemSplitter.matcher(lem);
+    return m.group(2);
+  }
+  
   /**
    * @return the lineNumber
    */
@@ -149,17 +157,29 @@ abstract public class Lemma {
   public String getTln() {
     return tln;
   }
-
-  /**
-   * @return the xml
-   */
-  public String getXml() {
-    return xml;
+  
+  public boolean isTlnSplit() {
+    Matcher m = tlnSplitter.matcher(tln);
+    return m.matches();
   }
   
+  public String getTlnStart() {
+    Matcher m = tlnSplitter.matcher(tln);
+    return m.group(1);
+  }
+  
+  public String getTlnEnd() {
+    Matcher m = tlnSplitter.matcher(tln);
+    return m.group(2);
+  }
+  
+  public String getAsl() {
+    return asl;
+  }
+
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%s @%s (%s)", source, lineNumber, tln, lem).toString();
+    return formatter.format("%s:%s @%s[%s] (%s)", source, lineNumber, tln, asl, lem).toString();
   }
 }
