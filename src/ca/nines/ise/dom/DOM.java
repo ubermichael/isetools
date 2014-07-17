@@ -29,9 +29,9 @@ public class DOM implements Iterable<Node> {
   private final Map<String, Node> index;
   private String[] lines;
 
-  private final List<Node> nodes;
-
   private String source;
+
+  protected final List<Node> nodes;
 
   public DOM() {
     nodes = new ArrayList<>();
@@ -48,7 +48,7 @@ public class DOM implements Iterable<Node> {
 
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
-    for(Node n : nodes) {
+    for (Node n : nodes) {
       dom.addAll(n.expanded());
     }
     return dom;
@@ -86,21 +86,21 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * Store the text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String[] lines) {
-    this.lines = lines;
-  }
-
-  /**
    * Store the lines of text used to create the DOM.
    * <p>
    * @param lines The data used to create the DOM.
    */
   public void setLines(String lines) {
     this.lines = lines.split("\n");
+  }
+
+  /**
+   * Store the text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String[] lines) {
+    this.lines = lines;
   }
 
   /**
@@ -113,9 +113,68 @@ public class DOM implements Iterable<Node> {
     return source;
   }
 
-  public boolean hasIndex() {
-    return index.size() > 0;
+  public Node getTln(String tln) {
+    if (index.containsKey(tln)) {
+      return index.get(tln);
+    }
+    for (Node n : nodes) {
+      if (n instanceof TagNode && n.getName().toLowerCase().equals("tln")) {
+        TagNode tn = (TagNode) n;
+        if (tn.hasAttribute("n") && tn.getAttribute("n").equals(tln)) {
+          return n;
+        }
+      }
+    }
+    return null;
   }
+
+  /**
+   * Gets a fragment of a DOM near a TLN. The fragment will include
+   * {@code length - 1} tlns after the TLN.
+   * <p>
+   * Returns an empty fragment if the TLN doesn't exist.
+   * <p>
+   * @param tln
+   * @param length <p>
+   * @return a piece of the DOM
+   */
+  public Fragment getTlnFragment(String tln, int length) {
+    Fragment fragment = new Fragment();
+    Node n = getTln(tln);
+    int idx = nodes.indexOf(n);
+    int found = 0;
+    
+    if (n != null) {
+      for (int i = idx; i < nodes.size() && found <= length; i++) {
+        Node t = nodes.get(i);
+        if (found <= length) {
+          fragment.add(t);
+        }
+        if (t.getName().toLowerCase().equals("tln")) {
+          found++;
+        }
+      }
+      fragment.nodes.remove(fragment.nodes.size()-1);
+    }
+    return fragment;
+  }
+
+    public int size() {
+      return nodes.size();
+    }
+
+  /**
+   * Set the source for the DOM, either "#STRING" or the absolute file path.
+   * <p>
+   * @param source
+   */
+  protected void setSource(String source) {
+    this.source = source;
+  }
+
+    public boolean hasIndex() {
+      return index.size() > 0;
+    }
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
@@ -133,7 +192,7 @@ public class DOM implements Iterable<Node> {
     String line = "0";
     String tln = "0";
 
-    for(Node n : nodes) {
+    for (Node n : nodes) {
       switch (n.getName()) {
         case "ACT":
           act = ((TagNode) n).getAttribute("n");
@@ -166,7 +225,7 @@ public class DOM implements Iterable<Node> {
 
   public String plain() throws IOException {
     StringBuilder sb = new StringBuilder();
-    for(Node n : nodes) {
+    for (Node n : nodes) {
       sb.append(n.plain());
     }
     return sb.toString();
@@ -185,7 +244,7 @@ public class DOM implements Iterable<Node> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for(Node n : nodes) {
+    for (Node n : nodes) {
       sb.append(n).append("\n");
     }
 
@@ -194,23 +253,10 @@ public class DOM implements Iterable<Node> {
 
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
-    for(Node n : nodes) {
+    for (Node n : nodes) {
       sb.append(n.unicode());
     }
     return sb.toString();
-  }
-
-  /**
-   * Set the source for the DOM, either "#STRING" or the absolute file path.
-   * <p>
-   * @param source
-   */
-  protected void setSource(String source) {
-    this.source = source;
-  }
-
-  public int size() {
-    return nodes.size();
   }
 
 }
