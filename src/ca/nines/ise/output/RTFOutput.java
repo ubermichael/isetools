@@ -114,6 +114,8 @@ public class RTFOutput extends Output {
     boolean inDQ = false; // in a double quote
     boolean inS = false; // in a speech
     char part = 'i';
+    
+    String mode = "verse";
 
     Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
 
@@ -129,6 +131,7 @@ public class RTFOutput extends Output {
           break;
         case EMPTY:
           switch (n.getName()) {
+            case "TLN":
             case "L":
               if (inS) {
                 startParagraph(p2);
