@@ -122,9 +122,7 @@ public class RTFOutput extends Output {
     doc.open();
     startParagraph();
 
-    Iterator<Node> iterator = dom.iterator();
-    while (iterator.hasNext()) {
-      Node n = iterator.next();
+    for(Node n : dom) {
       switch (n.type()) {
         case CHAR:
           addChunk(n.unicode());

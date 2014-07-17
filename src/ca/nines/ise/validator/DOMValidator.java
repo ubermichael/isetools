@@ -67,10 +67,7 @@ public class DOMValidator {
   @SuppressWarnings({"unchecked", "rawtypes"})
   public void validate(DOM dom, Schema schema) throws Exception {
     NodeValidator validator;
-    Node n;
-    Iterator<Node> i = dom.iterator();
-    while (i.hasNext()) {
-      n = i.next();
+    for(Node n : dom) {
       validator = validators.get(n.type());
       if (validator == null) {
         throw new Exception("Unknown node type: " + n.type());

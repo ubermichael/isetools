@@ -145,7 +145,7 @@ public class Wikify extends Command {
     String[] options = attr.getOptions();
     if (options.length == 0) {
       return "";
-    }
+    }    
     Iterator<String> i = Arrays.asList(options).iterator();
     while (i.hasNext()) {
       String s = i.next();
