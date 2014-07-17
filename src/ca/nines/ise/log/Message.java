@@ -6,6 +6,7 @@
 package ca.nines.ise.log;
 
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.lemma.Lemma;
 import ca.nines.ise.util.BuilderInterface;
 import java.util.ArrayList;
 import java.util.Formatter;
@@ -74,6 +75,13 @@ public class Message implements Comparable<Message> {
       setLineNumber(n.getLine());
       setSource(n.getSource());
       setTLN(n.getTLN());
+      return this;
+    }
+    
+    public MessageBuilder fromLemma(Lemma lem) {
+      setLineNumber(lem.getLineNumber());
+      setSource(lem.getSource());
+      setTLN(lem.getTln());
       return this;
     }
 
