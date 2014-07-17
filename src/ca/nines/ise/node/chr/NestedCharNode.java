@@ -11,7 +11,6 @@ import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.Node;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  *
@@ -24,9 +23,7 @@ public class NestedCharNode extends CharNode {
     Fragment dom = new Fragment();
 
     DOM inner = new DOMBuilder(innerText()).build();
-    Iterator<Node> iterator = inner.iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
+    for(Node node : inner) {
       dom.addAll(node.expanded());
     }
 

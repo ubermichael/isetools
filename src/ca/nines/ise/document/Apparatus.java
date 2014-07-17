@@ -68,9 +68,8 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    Iterator<T> iterator = iterator();
-    while(iterator.hasNext()) {
-      sb.append(iterator.next().toString());
+    for(Lemma lem : lemmas) {
+      sb.append(lem.toString());
       sb.append("\n");
     }
     return sb.toString();

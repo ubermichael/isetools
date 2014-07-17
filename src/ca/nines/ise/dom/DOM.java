@@ -48,10 +48,8 @@ public class DOM implements Iterable<Node> {
 
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
-    Iterator<Node> iterator = this.iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      dom.addAll(node.expanded());
+    for(Node n : nodes) {
+      dom.addAll(n.expanded());
     }
     return dom;
   }
@@ -135,8 +133,7 @@ public class DOM implements Iterable<Node> {
     String line = "0";
     String tln = "0";
 
-    while (i.hasNext()) {
-      Node n = i.next();
+    for(Node n : nodes) {
       switch (n.getName()) {
         case "ACT":
           act = ((TagNode) n).getAttribute("n");
@@ -169,10 +166,8 @@ public class DOM implements Iterable<Node> {
 
   public String plain() throws IOException {
     StringBuilder sb = new StringBuilder();
-    Iterator<Node> iterator = iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      sb.append(node.plain());
+    for(Node n : nodes) {
+      sb.append(n.plain());
     }
     return sb.toString();
   }
@@ -190,11 +185,7 @@ public class DOM implements Iterable<Node> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-
-    Iterator<Node> i = this.iterator();
-
-    while (i.hasNext()) {
-      Node n = i.next();
+    for(Node n : nodes) {
       sb.append(n).append("\n");
     }
 
@@ -203,10 +194,8 @@ public class DOM implements Iterable<Node> {
 
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
-    Iterator<Node> iterator = iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      sb.append(node.unicode());
+    for(Node n : nodes) {
+      sb.append(n.unicode());
     }
     return sb.toString();
   }

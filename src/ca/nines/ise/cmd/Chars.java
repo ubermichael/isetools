@@ -57,9 +57,7 @@ public class Chars extends Command {
       out.println("Found " + files.length + " files to check.");
       for (File file : files) {
         DOM dom = new DOMBuilder(file).build();
-        Iterator<Node> i = dom.iterator();
-        while (i.hasNext()) {
-          Node n = i.next();
+        for (Node n : dom) {
           if (n instanceof CharNode) {
             CharNode c = (CharNode) n;
             m.put(n.getText(), 1);

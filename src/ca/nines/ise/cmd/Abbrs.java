@@ -52,10 +52,7 @@ public class Abbrs extends Command {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
           DOM dom = new DOMBuilder(in).build();
-          dom.index();
-          Iterator<Node> iterator = dom.iterator();
-          while (iterator.hasNext()) {
-            Node n = iterator.next();
+          for(Node n : dom) {
             if (n.type() == Node.NodeType.ABBR) {
               formatter.format("%s:%d:%d%n", n.getSource(), n.getLine(), n.getColumn());
               formatter.format("  near TLN %s%n", n.getTLN());

@@ -8,7 +8,6 @@ package ca.nines.ise.node;
 import ca.nines.ise.dom.Fragment;
 import java.util.Arrays;
 import java.util.Formatter;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -96,14 +95,8 @@ abstract public class TagNode extends Node {
   public String toString() {
     Formatter formatter = new Formatter();
     formatter.format(":%s(", tagname);
-    Iterator<String> i = attributes.keySet().iterator();
-
-    while (i.hasNext()) {
-      String name = i.next();
-      formatter.format("@%s=%s", name, attributes.get(name));
-      if (i.hasNext()) {
-        formatter.format(", ");
-      }
+    for(String name : attributes.keySet()) {
+      formatter.format("@%s=%s ", name, attributes.get(name));
     }
     formatter.format(")");
     return formatter.toString();

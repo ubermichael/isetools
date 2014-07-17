@@ -55,7 +55,6 @@ public class XMLOutput extends Output{
   public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     // @TODO check if the DOM is expanded, and expand if necessary.
 
-    Iterator<Node> iterator = dom.expanded().iterator();
     ArrayDeque<Element> xmlStack = new ArrayDeque<>();
     Document xml = docBuilder.newDocument();
 
@@ -65,8 +64,7 @@ public class XMLOutput extends Output{
 
     int joinID = 1;
 
-    while (iterator.hasNext()) {
-      Node n = iterator.next();
+    for(Node n : dom.expanded()) {
       switch (n.type()) {
         case COMMENT:
           Comment c = xml.createComment(n.getText());

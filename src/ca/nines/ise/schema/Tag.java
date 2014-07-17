@@ -446,9 +446,7 @@ public class Tag implements Comparable<Tag> {
 
     formatter.format("%s:%s%n", source, lineNumber);
     formatter.format("%s:%s:%s%n", name, empty, depreciated);
-    Iterator<Attribute> i = attributes.values().iterator();
-    while (i.hasNext()) {
-      Attribute a = i.next();
+    for(Attribute a : attributes.values()) {
       formatter.format("%s", a);
     }
 
