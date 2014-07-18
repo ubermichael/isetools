@@ -38,7 +38,7 @@ abstract public class ApparatusValidator<T extends Apparatus>{
       return;
     }
     
-    Message m = Message.builder("validator." + this.getClass().getSimpleName().toLowerCase() + ".bad_tln")
+    Message m = Message.builder("validator." + cName + ".bad_tln")
             .fromLemma(lem)
             .addNote("The invalid TLN looks like " + lem.getTln())
             .build();
