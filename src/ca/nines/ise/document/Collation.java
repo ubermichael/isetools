@@ -31,37 +31,37 @@ import org.xml.sax.SAXException;
  *
  * @author michael
  */
-public class Collations extends Apparatus<Coll> {
+public class Collation extends Apparatus<Coll> {
 
-  public static class CollationsBuilder extends ApparatusBuilder<Coll> implements BuilderInterface<Collations> {
+  public static class CollationBuilder extends ApparatusBuilder<Coll> implements BuilderInterface<Collation> {
 
-    private CollationsBuilder() {
+    private CollationBuilder() {
     }
     
     @Override
-    public Collations build() {
-      return new Collations(source, lemmas);
+    public Collation build() {
+      return new Collation(source, lemmas);
     }
 
-    public CollationsBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+    public CollationBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
       return this;
     }
 
-    public CollationsBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    public CollationBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
       return this;
     }
 
-    public CollationsBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    public CollationBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
       return this;
     }
 
   }
 
-  public static CollationsBuilder builder() {
-    return new CollationsBuilder();
+  public static CollationBuilder builder() {
+    return new CollationBuilder();
   }
   
-  private Collations(String source, List<Coll> lemmas) {
+  private Collation(String source, List<Coll> lemmas) {
     super(source, lemmas);
   }
 

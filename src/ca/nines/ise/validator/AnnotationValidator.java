@@ -18,12 +18,33 @@
 
 package ca.nines.ise.validator;
 
-import ca.nines.ise.document.Collations;
+import ca.nines.ise.document.Annotation;
+import ca.nines.ise.dom.DOM;
+import ca.nines.ise.node.lemma.Note;
+import java.io.IOException;
 
 /**
  *
  * @author michael
  */
-public class CollationsValidator extends ApparatusValidator<Collations>{
+public class AnnotationValidator extends ApparatusValidator<Annotation> {
+
+  // validates the markup in the note's levels
+  public void validate_levels(Note n) {
+  }
+  
+  // validate a note against the dom.
+  public void validate(DOM dom, Note n) throws IOException {
+    super.validate(dom, n);
+    validate_levels(n);
+  }
+  
+  public void validate(DOM dom, Annotation a) throws IOException {
+    for (Note n : a) {
+      validate(n);
+      validate(dom, n);
+    }
+    
+  }
   
 }
