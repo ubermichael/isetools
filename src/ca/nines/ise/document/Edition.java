@@ -58,19 +58,19 @@ public class Edition extends Document implements Comparable<Edition> {
     return editionCode.toLowerCase().compareTo(o.editionCode.toLowerCase());
   }
   
-  public File expectedAnnotationsFile() {
+  public File expectedAnnotationFile() {
     return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
   }
   
-  public File expectedCollationsFile() {
+  public File expectedCollationFile() {
     return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
   }
 
-  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
-    return Annotations.builder().from(expectedAnnotationsFile()).build();
+  public Annotation getAnnotation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
+    return Annotation.builder().from(expectedAnnotationFile()).build();
   }
 
-  public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public Collation getCollation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
@@ -79,11 +79,11 @@ public class Edition extends Document implements Comparable<Edition> {
   }
 
   public boolean hasAnnotations() {
-    return expectedAnnotationsFile().exists();
+    return expectedAnnotationFile().exists();
   }
 
   public boolean hasCollations() {
-    return expectedCollationsFile().exists();
+    return expectedCollationFile().exists();
   }
 
   @Override

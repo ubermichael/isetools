@@ -38,20 +38,20 @@ import org.xml.sax.SAXException;
  *
  * @author michael
  */
-public class Annotations extends Apparatus<Note> {
+public class Annotation extends Apparatus<Note> {
 
-  public static class AnnotationsBuilder extends ApparatusBuilder<Note> implements BuilderInterface<Annotations> {
+  public static class AnnotationBuilder extends ApparatusBuilder<Note> implements BuilderInterface<Annotation> {
 
-    private AnnotationsBuilder() {
+    private AnnotationBuilder() {
       super();
     }
     
     @Override
-    public Annotations build() {
-      return new Annotations(source, lemmas);
+    public Annotation build() {
+      return new Annotation(source, lemmas);
     }
 
-    public AnnotationsBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+    public AnnotationBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
       LocationData loc = (LocationData) in.getUserData(LocationData.LOCATION_DATA_KEY);
       setSource(loc.getSystemId());
 
@@ -63,28 +63,28 @@ public class Annotations extends Apparatus<Note> {
       return this;
     }
 
-    public AnnotationsBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
+    public AnnotationBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
       org.w3c.dom.Document doc = new XMLDriver().drive(in);
       return from(doc.getElementsByTagName("annotations").item(0));      
     }
 
-    public AnnotationsBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
+    public AnnotationBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
       org.w3c.dom.Document doc = new XMLDriver().drive(in);
       return from(doc.getElementsByTagName("annotations").item(0));      
     }
     
-    public AnnotationsBuilder from(String source, InputStream stream) throws ParserConfigurationException, TransformerConfigurationException, SAXException, TransformerException, IOException, XPathExpressionException {
+    public AnnotationBuilder from(String source, InputStream stream) throws ParserConfigurationException, TransformerConfigurationException, SAXException, TransformerException, IOException, XPathExpressionException {
       org.w3c.dom.Document doc = new XMLDriver().drive(source, stream);
       return from(doc.getElementsByTagName("annotations").item(0));      
     }
 
   }
 
-  public static AnnotationsBuilder builder() {
-    return new AnnotationsBuilder();
+  public static AnnotationBuilder builder() {
+    return new AnnotationBuilder();
   }
   
-  private Annotations(String source, List<Note> lemmas) {
+  private Annotation(String source, List<Note> lemmas) {
     super(source, lemmas);
   }
 }

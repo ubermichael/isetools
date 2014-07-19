@@ -17,11 +17,13 @@
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.schema.Schema;
+import ca.nines.ise.validator.AnnotationValidator;
 import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,11 +36,11 @@ import org.apache.commons.cli.Options;
  *
  * @author michael
  */
-public class Validate extends Command {
+public class Annotations extends Command {
 
   @Override
   public String description() {
-    return "Validate one or more ISE SGML documents.";
+    return "Validate annotations for an ISE document.";
   }
 
   @ErrorCode(code = {
@@ -46,36 +48,41 @@ public class Validate extends Command {
   })
   @Override
   public void execute(CommandLine cmd) throws Exception {
-    File[] files;
-
     Log log = Log.getInstance();
     Locale.setDefault(Locale.ENGLISH);
-    Schema schema = Schema.defaultSchema();
-    DOMValidator validator = new DOMValidator();
-    PrintStream out = new PrintStream(System.out, true, "UTF-8");
+    PrintStream logOut = new PrintStream(System.out, true, "UTF-8");
 
     if (cmd.hasOption("l")) {
-      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
+      logOut = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
     }
 
-    files = getFilePaths(cmd);
-    if (files != null) {
-      out.println("Found " + files.length + " files to check.");
-      for (File in : files) {
-        DOM dom = new DOMBuilder(in).build();
-        if (dom.getStatus() != DOM.DOMStatus.ERROR) {
-          validator.validate(dom, schema);
-        } else {
-          Message m = Message.builder("dom.errors")
-                  .setSource(dom.getSource())
-                  .build();
-          log.add(m);
-        }
-        if (log.count() > 0) {
-          out.println(log);
-        }
-        log.clear();
-      }
+    String args[] = getArgList(cmd);
+
+    File docFile = new File(args[0]);
+    if (!docFile.exists()) {
+      System.err.println("Cannot read document " + docFile.getCanonicalPath());
+      System.exit(1);
+    }
+
+    File annFile = new File(args[1]);
+    if (!annFile.exists()) {
+      System.err.println("Cannot read annotations " + annFile.getCanonicalPath());
+      System.exit(1);
+    }
+
+    DOM dom = new DOMBuilder(docFile).build();
+    if (dom.getStatus() != DOM.DOMStatus.ERROR) {
+      Annotation annotation = Annotation.builder().from(annFile).build();
+      AnnotationValidator av = new AnnotationValidator();
+      av.validate(dom, annotation);
+    } else {
+      Message m = Message.builder("dom.errors")
+              .setSource(dom.getSource())
+              .build();
+      log.add(m);
+    }
+    if(log.count() > 0) {
+      logOut.print(log);
     }
   }
 
