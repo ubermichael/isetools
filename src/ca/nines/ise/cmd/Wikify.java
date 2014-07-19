@@ -53,25 +53,20 @@ public class Wikify extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
-      Locale.setDefault(Locale.ENGLISH);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+  public void execute(CommandLine cmd) throws Exception {
+    Locale.setDefault(Locale.ENGLISH);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
-      if (cmd.hasOption("o")) {
-        out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
-      }
+    if (cmd.hasOption("o")) {
+      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
+    }
 
-      if (cmd.hasOption("chars")) {
-        wikifyCharacters(out);
-      }
+    if (cmd.hasOption("chars")) {
+      wikifyCharacters(out);
+    }
 
-      if (cmd.hasOption("schema")) {
-        wikifySchema(out);
-      }
-
-    } catch (Exception ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
+    if (cmd.hasOption("schema")) {
+      wikifySchema(out);
     }
   }
 

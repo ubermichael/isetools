@@ -18,7 +18,6 @@
 package ca.nines.ise;
 
 import ca.nines.ise.cmd.Command;
-import ca.nines.ise.cmd.Error;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -29,8 +28,9 @@ import org.apache.commons.cli.ParseException;
  */
 public class Main {
 
-  public static void main(String[] args) {
+  public static final String VERSION = "0.3-dev";
 
+  public static void execute(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, Exception {
     String commandName = "help";
     Command cmd;
     Options opts;
@@ -40,37 +40,43 @@ public class Main {
       commandName = args[0];
     }
     String commandPkg = "ca.nines.ise.cmd." + commandName.substring(0, 1).toUpperCase() + commandName.substring(1);
-    cmd = new Error();
-
-    try {
-      cmd = (Command) Class.forName(commandPkg).newInstance();
-    } catch (ClassNotFoundException e) {
-      System.err.println("Cannot find command " + commandName + " in " + commandPkg);
-    } catch (InstantiationException e) {
-      System.err.println("Cannot instantiate command " + commandName);
-    } catch (IllegalAccessException e) {
-      System.err.println("Cannot access command " + commandName);
-    }
+    cmd = (Command) Class.forName(commandPkg).newInstance();
 
     opts = cmd.getOptions();
     opts.addOption("h", false, "Show command options");
-    cmdline = null;
-    try {
-      cmdline = cmd.getCommandLine(opts, args);
-    } catch (ParseException ex) {
-      System.err.println(ex.getMessage());
-    }
+    cmdline = cmd.getCommandLine(opts, args);
 
-    if (cmdline == null) {
-      System.exit(-1);
-      return;
-    }
-    
-    if(cmdline.hasOption("h")) {
+    if (cmdline.hasOption("h")) {
       cmd.help();
       return;
     }
 
     cmd.execute(cmdline);
+  }
+
+  public static void main(String[] args) {
+    try {
+      execute(args);
+    } catch (ClassNotFoundException ex) {
+      System.err.println("Cannot find command class " + args[0]);
+      System.err.println("iTools version "+ VERSION);
+      ex.printStackTrace(System.err);
+    } catch (IllegalAccessException ex) {
+      System.err.println("Cannot access command class " + args[0]);
+      System.err.println("iTools version "+ VERSION);
+      ex.printStackTrace(System.err);
+    } catch (InstantiationException ex) {
+      System.err.println("Cannot create command class " + args[0]);
+      System.err.println("iTools version "+ VERSION);
+      ex.printStackTrace(System.err);
+    } catch (ParseException ex) {
+      System.err.println("Cannot parse command line arguments " + args[0]);
+      System.err.println("iTools version "+ VERSION);
+      ex.printStackTrace(System.err);
+    } catch (Exception ex) {
+      System.err.println("Internal error for " + args[0]);
+      System.err.println("iTools version "+ VERSION);
+      ex.printStackTrace(System.err);
+    }
   }
 }

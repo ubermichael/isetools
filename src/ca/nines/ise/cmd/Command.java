@@ -44,7 +44,7 @@ abstract public class Command {
 
   abstract public String description();
 
-  abstract public void execute(CommandLine cmd);
+  abstract public void execute(CommandLine cmd) throws Exception;
 
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;

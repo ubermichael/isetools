@@ -37,7 +37,7 @@ public class Help extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
+  public void execute(CommandLine cmd)  throws Exception{
     
     System.out.println("help");
     listCommands();
