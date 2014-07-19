@@ -25,7 +25,6 @@ import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.events.MutationEvent;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -56,7 +55,7 @@ public class LocationAnnotator extends XMLFilterImpl {
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
-        EventTarget target = ((MutationEvent) e).getTarget();
+        EventTarget target = e.getTarget();
         elementStack.push((Element) target);
       }
     };
@@ -70,7 +69,7 @@ public class LocationAnnotator extends XMLFilterImpl {
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
-        EventTarget target = ((MutationEvent) e).getTarget();
+        EventTarget target = e.getTarget();
         elementStack.push((Element) target);
       }
     };
