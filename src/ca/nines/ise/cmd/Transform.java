@@ -43,7 +43,7 @@ public class Transform extends Command {
     try {
       Log log = Log.getInstance();
       Locale.setDefault(Locale.ENGLISH);
-      
+
       out = new PrintStream(System.out, true, "UTF-8");
       if (cmd.hasOption("o")) {
         out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")), true, "UTF-8");
@@ -68,14 +68,16 @@ public class Transform extends Command {
       if (cmd.hasOption("xml")) {
         renderer = new XMLOutput(out);
       }
-      if(cmd.hasOption("rtf")) {
+      if (cmd.hasOption("rtf")) {
         renderer = new RTFOutput(out);
       }
 
       if (renderer != null) {
 
         DOM dom = new DOMBuilder(new File(files[0])).build();
-        renderer.render(dom);
+        if (dom.getStatus() != DOM.DOMStatus.ERROR) {
+          renderer.render(dom);
+        }
 
       }
     } catch (UnsupportedEncodingException ex) {

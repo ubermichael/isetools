@@ -19,6 +19,9 @@
     <message code="char.null" severity="error">
     <![CDATA[Null characters are not allowed in input.]]>
     </message>
+    <message code="dom.errors" severity="fatal">
+      <![CDATA[The document has systax errors and cannot be processed further.]]>
+    </message>
     <message code="structure.afterwork.tag" severity="error">
     <![CDATA[Tags are not allowed after the end WORK tag.]]>
     </message>
@@ -153,6 +156,9 @@
     </message>
     <message code="validator.apparatus.bad_tln" severity="error">
     <![CDATA[This TLN is not parseable.]]>
+    </message>
+    <message code="parser.syntax" severity="fatal">
+      <![CDATA[Syntax error in document.]]>
     </message>
     <message code="validator.apparatus.lemma_notsplit" severity="error">
     <![CDATA[This lemma should be split.]]>

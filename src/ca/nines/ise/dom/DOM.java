@@ -26,7 +26,6 @@ public class DOM {
 
   // @todo make all of DOM's fields final, by moving
   // all the setters to DOMBuilder, just like Message and Message.MessageBuilder.
-  
   private final Map<String, Node> index;
   private String[] lines;
 
@@ -34,9 +33,19 @@ public class DOM {
 
   private String source;
 
+  private DOMStatus status;
+
+  public enum DOMStatus {
+
+    CLEAN,
+    WARNING,
+    ERROR,
+  }
+
   public DOM() {
     nodes = new ArrayList<>();
     index = new HashMap<>();
+    status = DOMStatus.CLEAN;
   }
 
   public void add(Node n) {
@@ -89,24 +98,6 @@ public class DOM {
   }
 
   /**
-   * Store the text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String[] lines) {
-    this.lines = lines;
-  }
-
-  /**
-   * Store the lines of text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String lines) {
-    this.lines = lines.split("\n");
-  }
-
-  /**
    * Either "#STRING" if the DOM was created by parsing a string, or the
    * absolute path to the file parsed to create the DOM.
    * <p>
@@ -114,6 +105,13 @@ public class DOM {
    */
   public String getSource() {
     return source;
+  }
+
+  /**
+   * @return the status
+   */
+  public DOMStatus getStatus() {
+    return status;
   }
 
   public boolean hasIndex() {
@@ -178,6 +176,37 @@ public class DOM {
   }
 
   /**
+   * Store the text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String[] lines) {
+    this.lines = lines;
+  }
+
+  /**
+   * Store the lines of text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String lines) {
+    this.lines = lines.split("\n");
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(DOMStatus status) {
+    if (status.compareTo(this.status) > 0) {
+      this.status = status;
+    }
+  }
+
+  public int size() {
+    return nodes.size();
+  }
+
+  /**
    * Produce a string representation of the DOM by stringifying all of the nodes
    * in the DOM.
    * <p>
@@ -188,18 +217,18 @@ public class DOM {
    * @return a string representation.
    */
   @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder();
-      
-      Iterator<Node> i = this.iterator();
-      
-      while (i.hasNext()) {
-        Node n = i.next();
-        sb.append(n).append("\n");
-      }
-      
-      return sb.toString();
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    Iterator<Node> i = this.iterator();
+
+    while (i.hasNext()) {
+      Node n = i.next();
+      sb.append(n).append("\n");
     }
+
+    return sb.toString();
+  }
 
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
@@ -216,12 +245,8 @@ public class DOM {
    * <p>
    * @param source
    */
-    protected void setSource(String source) {
-      this.source = source;
-    }
-
-  public int size() {
-    return nodes.size();
+  protected void setSource(String source) {
+    this.source = source;
   }
 
 }
