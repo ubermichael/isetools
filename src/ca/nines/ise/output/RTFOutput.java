@@ -17,6 +17,7 @@
 
 package ca.nines.ise.output;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
@@ -111,9 +112,13 @@ public class RTFOutput extends Output {
       p.add(new Chunk(txt, fontStack.getFirst()));
     }
   }
-
+  
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
+    render(dom, Annotation.builder().build());
+  }
+
+  public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
 
     dom.index();
     fontStack = new ArrayDeque<>();
