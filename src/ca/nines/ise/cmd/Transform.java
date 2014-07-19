@@ -14,10 +14,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.output.Output;
 import ca.nines.ise.output.RTFOutput;
@@ -45,25 +45,10 @@ public class Transform extends Command {
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
     Output renderer = null;
-
     Locale.setDefault(Locale.ENGLISH);
-
     out = new PrintStream(System.out, true, "UTF-8");
     if (cmd.hasOption("o")) {
       out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")), true, "UTF-8");
-    }
-
-    String[] files = getArgList(cmd);
-    if (files.length > 1) {
-      System.err.println("Can only transform one file at a time.");
-      help();
-      System.exit(1);
-    }
-
-    if (files.length < 1) {
-      System.err.println("Must include a file path to transform.");
-      help();
-      System.exit(2);
     }
 
     if (cmd.hasOption("text")) {
@@ -76,9 +61,16 @@ public class Transform extends Command {
       renderer = new RTFOutput(out);
     }
 
+    String[] files = getArgList(cmd);
+    if (files.length > 1) {
+      System.err.println("Can only transform one file at a time.");
+      help();
+      System.exit(1);
+    }
     DOM dom = new DOMBuilder(new File(files[0])).build();
-    renderer.render(dom);
-
+    if (dom.getStatus() != DOMStatus.ERROR) {
+      renderer.render(dom);
+    }
   }
 
   @Override

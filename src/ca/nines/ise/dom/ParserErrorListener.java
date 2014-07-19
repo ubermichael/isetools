@@ -30,12 +30,10 @@ import org.antlr.v4.runtime.Recognizer;
  */
 public class ParserErrorListener extends BaseErrorListener {
 
-  private final String[] lines;
-  private final String source;
+  private final DOM dom;
 
-  ParserErrorListener(String source, String[] lines) {
-    this.source = source;
-    this.lines = lines;    
+  ParserErrorListener(DOM dom) {
+    this.dom = dom;
   }
 
   /**
@@ -49,15 +47,16 @@ public class ParserErrorListener extends BaseErrorListener {
    * @param e
    */
   @ErrorCode(code = {
-    "lexer.syntax"
+    "parser.syntax"
   })
   @Override
   public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-    Message m = Message.builder("lexer.syntax")
+    dom.setStatus(DOM.DOMStatus.ERROR);
+    Message m = Message.builder("parser.syntax")
             .setLineNumber(line)
             .setColumnNumber(charPositionInLine)
-            .setSource(source)
-            .setLine(lines[line - 1])
+            .setSource(dom.getSource())
+            .setLine(dom.getLine(line - 1))
             .addNote(msg.substring(0, Math.min(64, msg.length())))
             .build();
     Log.addMessage(m);

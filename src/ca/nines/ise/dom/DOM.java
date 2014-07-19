@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.dom;
 
 import ca.nines.ise.node.Node;
@@ -42,12 +41,21 @@ public class DOM implements Iterable<Node> {
   private String[] lines;
 
   private String source;
+  private DOMStatus status;
 
   protected final List<Node> nodes;
+
+  public enum DOMStatus {
+
+    CLEAN,
+    WARNING,
+    ERROR,
+  }
 
   public DOM() {
     nodes = new ArrayList<>();
     index = new HashMap<>();
+    status = DOMStatus.CLEAN;
   }
 
   public void add(Node n) {
@@ -98,24 +106,6 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * Store the lines of text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String lines) {
-    this.lines = lines.split("\n");
-  }
-
-  /**
-   * Store the text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String[] lines) {
-    this.lines = lines;
-  }
-
-  /**
    * Either "#STRING" if the DOM was created by parsing a string, or the
    * absolute path to the file parsed to create the DOM.
    * <p>
@@ -123,6 +113,13 @@ public class DOM implements Iterable<Node> {
    */
   public String getSource() {
     return source;
+  }
+
+  /**
+   * @return the status
+   */
+  public DOMStatus getStatus() {
+    return status;
   }
 
   public Node getTln(String tln) {
@@ -155,7 +152,7 @@ public class DOM implements Iterable<Node> {
     Node n = getTln(tln);
     int idx = nodes.indexOf(n);
     int found = 0;
-    
+
     if (n != null) {
       for (int i = idx; i < nodes.size() && found <= length; i++) {
         Node t = nodes.get(i);
@@ -166,27 +163,14 @@ public class DOM implements Iterable<Node> {
           found++;
         }
       }
-      fragment.nodes.remove(fragment.nodes.size()-1);
+      fragment.nodes.remove(fragment.nodes.size() - 1);
     }
     return fragment;
   }
 
-    public int size() {
-      return nodes.size();
-    }
-
-  /**
-   * Set the source for the DOM, either "#STRING" or the absolute file path.
-   * <p>
-   * @param source
-   */
-  protected void setSource(String source) {
-    this.source = source;
+  public boolean hasIndex() {
+    return index.size() > 0;
   }
-
-    public boolean hasIndex() {
-      return index.size() > 0;
-    }
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
@@ -197,7 +181,6 @@ public class DOM implements Iterable<Node> {
    * function.
    */
   public void index() {
-    Iterator<Node> i = this.iterator();
     index.clear();
     String act = "0";
     String scene = "0";
@@ -244,6 +227,37 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
+   * Store the lines of text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String lines) {
+    this.lines = lines.split("\n");
+  }
+
+  /**
+   * Store the text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String[] lines) {
+    this.lines = lines;
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(DOMStatus status) {
+    if (status.compareTo(this.status) > 0) {
+      this.status = status;
+    }
+  }
+
+  public int size() {
+    return nodes.size();
+  }
+
+  /**
    * Produce a string representation of the DOM by stringifying all of the nodes
    * in the DOM.
    * <p>
@@ -256,6 +270,15 @@ public class DOM implements Iterable<Node> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
+
+    for (Node n : nodes) {
+      sb.append(n).append("\n");
+    }
+    return sb.toString();
+  }
+
+  public String unicode() throws IOException {
+    StringBuilder sb = new StringBuilder();
     for (Node n : nodes) {
       sb.append(n).append("\n");
     }
@@ -263,12 +286,13 @@ public class DOM implements Iterable<Node> {
     return sb.toString();
   }
 
-  public String unicode() throws IOException {
-    StringBuilder sb = new StringBuilder();
-    for (Node n : nodes) {
-      sb.append(n.unicode());
-    }
-    return sb.toString();
+  /**
+   * Set the source for the DOM, either "#STRING" or the absolute file path.
+   * <p>
+   * @param source
+   */
+  protected void setSource(String source) {
+    this.source = source;
   }
 
 }
