@@ -38,24 +38,19 @@ public class Works extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
-      Corpus corpus;
-      String root = "input";
-      
-      Locale.setDefault(Locale.ENGLISH);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+  public void execute(CommandLine cmd) throws Exception {
+    Corpus corpus;
+    String root = "input";
 
-      if (cmd.hasOption("l")) {
-        out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
-      }
-      
-      corpus = new Corpus(root);
-      out.println(corpus);
-      
-    } catch (Exception ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
+    Locale.setDefault(Locale.ENGLISH);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
+
+    if (cmd.hasOption("l")) {
+      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
     }
+
+    corpus = new Corpus(root);
+    out.println(corpus);
   }
 
   @Override

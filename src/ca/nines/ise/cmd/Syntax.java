@@ -44,34 +44,25 @@ public class Syntax extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
-      File[] files;
+  public void execute(CommandLine cmd) throws Exception {
+    File[] files;
 
-      Log log = Log.getInstance();
-      Locale.setDefault(Locale.ENGLISH);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+    Log log = Log.getInstance();
+    Locale.setDefault(Locale.ENGLISH);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
-      if (cmd.hasOption("l")) {
-        out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
+    if (cmd.hasOption("l")) {
+      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
+    }
+
+    files = getFilePaths(cmd);
+    out.println("Found " + files.length + " files to check.");
+    for (File file : files) {
+      DOM dom = new DOMBuilder(file).build();
+      if (log.count() > 0) {
+        out.println(log);
+        log.clear();
       }
-
-      files = getFilePaths(cmd);
-      out.println("Found " + files.length + " files to check.");
-      for (File file : files) {
-        DOM dom = new DOMBuilder(file).build();
-        if (log.count() > 0) {
-          out.println(log);
-          log.clear();
-        }
-      }
-
-    } catch (UnsupportedEncodingException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (FileNotFoundException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 

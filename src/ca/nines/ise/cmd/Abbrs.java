@@ -46,8 +46,7 @@ public class Abbrs extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
+  public void execute(CommandLine cmd) throws Exception {
       File[] files;
 
       Locale.setDefault(Locale.ENGLISH);
@@ -75,9 +74,6 @@ public class Abbrs extends Command {
           }
         }
       }
-    } catch (Exception ex) {
-      Logger.getLogger(Abbrs.class.getName()).log(Level.SEVERE, null, ex);
-    }
   }
 
   @Override
