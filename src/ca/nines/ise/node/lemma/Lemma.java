@@ -179,14 +179,19 @@ abstract public class Lemma {
 
   public String getTlnStart() {
     Matcher m = tlnSplitter.matcher(tln);
-    m.matches();
-    return m.group(1);
+    if (m.matches()) {
+      return m.group(1);
+    }
+    return null;
   }
 
   public String getTlnEnd() {
     Matcher m = tlnSplitter.matcher(tln);
     m.matches();
-    return m.group(2);
+    if (m.matches()) {
+      return m.group(2);
+    }
+    return null;
   }
 
   public String getAsl() {
