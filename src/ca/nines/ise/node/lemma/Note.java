@@ -17,13 +17,18 @@
 
 package ca.nines.ise.node.lemma;
 
+import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.XMLDriver;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -40,18 +45,18 @@ import org.xml.sax.SAXException;
  */
 public class Note extends Lemma {
 
-  private final Map<String, String> notes;
+  private final Map<String, DOM> notes;
 
   public static class NoteBuilder extends Lemma.LemmaBuilder implements BuilderInterface<Note> {
 
-    private final Map<String, String> notes;
+    private final Map<String, DOM> notes;
 
     private NoteBuilder() {
       super();
       notes = new HashMap<>();
     }
 
-    public NoteBuilder addNote(String level, String note) {
+    public NoteBuilder addNote(String level, DOM note) {
       notes.put(level, note);
       return this;
     }
@@ -86,7 +91,24 @@ public class Note extends Lemma {
       length = nl.getLength();
       for (int i = 0; i < length; i++) {
         Element level = (Element) nl.item(i);
-        addNote(level.getAttributeNode("n").getValue(), level.getTextContent().trim());
+        try {
+          XMLDriver xd = new XMLDriver();
+          String xmlStr = xd.serialize(level);
+          
+          DOM dom = new DOMBuilder(xmlStr).build();
+          addNote(level.getAttributeNode("n").getValue(), dom);
+          
+        } catch (ParserConfigurationException ex) {
+          Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+          Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+          Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+          Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+          Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
+        }
       }
 
       return this;
@@ -104,12 +126,12 @@ public class Note extends Lemma {
     return new NoteBuilder();
   }
 
-  private Note(String lem, int lineNumber, String source, String tln, String asl, Map<String, String> notes) {
+  private Note(String lem, int lineNumber, String source, String tln, String asl, Map<String, DOM> notes) {
     super(lem, lineNumber, source, tln, asl);
     this.notes = new HashMap<>(notes);
   }
 
-  public String getNote(String level) {
+  public DOM getNote(String level) {
     return notes.get(level);
   }
 
