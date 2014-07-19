@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.LocationData;
@@ -35,10 +34,11 @@ abstract public class Lemma {
   private final String source;
   private final String tln;
   private final String asl;
-  
-  private final static Pattern lemSplitter = Pattern.compile("(.*) ?. . . ?(.*)");
+
+  private final static Pattern lemSplitterDots = Pattern.compile("(.*) \\. \\. \\. (.*)");
+  private final static Pattern lemSplitterSlash = Pattern.compile("(.*?) ?/ ?(.*)");
   private final static Pattern tlnSplitter = Pattern.compile("([^-]*)-([^-]*)");
-  
+
   public abstract static class LemmaBuilder {
 
     protected String lem;
@@ -56,8 +56,8 @@ abstract public class Lemma {
       tln = "";
       asl = "";
     }
-    
-    public LemmaBuilder from(Node n) { 
+
+    public LemmaBuilder from(Node n) {
       LocationData loc = (LocationData) n.getUserData(LocationData.LOCATION_DATA_KEY);
       setSource(loc.getSystemId());
       setLineNumber(loc.getStartLine());
@@ -104,7 +104,7 @@ abstract public class Lemma {
       this.tln = tln;
       return this;
     }
-    
+
     public LemmaBuilder setAsl(String asl) {
       this.asl = asl;
       return this;
@@ -128,20 +128,41 @@ abstract public class Lemma {
   }
 
   public boolean isLemSplit() {
-    Matcher m = lemSplitter.matcher(lem);
-    return m.matches();
+    Matcher dots = lemSplitterDots.matcher(lem);
+    if(dots.matches()) {
+      return true;
+    }
+    Matcher slash = lemSplitterSlash.matcher(lem);
+    if(slash.matches()) {
+      return true;
+    }
+    return false;
   }
-  
+
   public String getLemStart() {
-    Matcher m = lemSplitter.matcher(lem);
-    return m.group(1);
+    Matcher dots = lemSplitterDots.matcher(lem);
+    if (dots.matches()) {
+      return dots.group(1);
+    }
+    Matcher slash = lemSplitterSlash.matcher(lem);
+    if(slash.matches()) {
+      return slash.group(1);
+    }
+    return null;
   }
-  
+
   public String getLemEnd() {
-    Matcher m = lemSplitter.matcher(lem);
-    return m.group(2);
+    Matcher dots = lemSplitterDots.matcher(lem);
+    if (dots.matches()) {
+      return dots.group(2);
+    }
+    Matcher slash = lemSplitterSlash.matcher(lem);
+    if(slash.matches()) {
+      return slash.group(2);
+    }
+    return null;
   }
-  
+
   /**
    * @return the lineNumber
    */
@@ -169,22 +190,24 @@ abstract public class Lemma {
   public String getTln() {
     return tln;
   }
-  
+
   public boolean isTlnSplit() {
     Matcher m = tlnSplitter.matcher(tln);
     return m.matches();
   }
-  
+
   public String getTlnStart() {
     Matcher m = tlnSplitter.matcher(tln);
+    m.matches();
     return m.group(1);
   }
-  
+
   public String getTlnEnd() {
     Matcher m = tlnSplitter.matcher(tln);
+    m.matches();
     return m.group(2);
   }
-  
+
   public String getAsl() {
     return asl;
   }
