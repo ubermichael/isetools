@@ -30,7 +30,6 @@ abstract public class Lemma {
 
   private final String lem;
   private final int lineNumber;
-  private final String node;
   private final String source;
   private final String tln;
   private final String asl;
@@ -39,11 +38,10 @@ abstract public class Lemma {
   private final static Pattern lemSplitterSlash = Pattern.compile("(.*?) ?/ ?(.*)");
   private final static Pattern tlnSplitter = Pattern.compile("([^-]*)-([^-]*)");
 
-  public abstract static class LemmaBuilder {
+  protected abstract static class LemmaBuilder {
 
     protected String lem;
     protected int lineNumber;
-    protected String node;
     protected String source;
     protected String tln;
     protected String asl;
@@ -51,7 +49,6 @@ abstract public class Lemma {
     protected LemmaBuilder() {
       lem = "";
       lineNumber = 0;
-      node = "";
       source = "";
       tln = "";
       asl = "";
@@ -82,14 +79,6 @@ abstract public class Lemma {
     }
 
     /**
-     * @param node the node to set
-     */
-    public LemmaBuilder setNode(String node) {
-      this.node = node;
-      return this;
-    }
-
-    /**
      * @param source the source to set
      */
     public LemmaBuilder setSource(String source) {
@@ -111,10 +100,9 @@ abstract public class Lemma {
     }
   }
 
-  protected Lemma(String lem, int lineNumber, String node, String source, String tln, String asl) {
+  protected Lemma(String lem, int lineNumber, String source, String tln, String asl) {
     this.lem = lem;
     this.lineNumber = lineNumber;
-    this.node = node;
     this.source = source;
     this.tln = tln;
     this.asl = asl;
@@ -129,11 +117,11 @@ abstract public class Lemma {
 
   public boolean isLemSplit() {
     Matcher dots = lemSplitterDots.matcher(lem);
-    if(dots.matches()) {
+    if (dots.matches()) {
       return true;
     }
     Matcher slash = lemSplitterSlash.matcher(lem);
-    if(slash.matches()) {
+    if (slash.matches()) {
       return true;
     }
     return false;
@@ -145,7 +133,7 @@ abstract public class Lemma {
       return dots.group(1);
     }
     Matcher slash = lemSplitterSlash.matcher(lem);
-    if(slash.matches()) {
+    if (slash.matches()) {
       return slash.group(1);
     }
     return null;
@@ -157,7 +145,7 @@ abstract public class Lemma {
       return dots.group(2);
     }
     Matcher slash = lemSplitterSlash.matcher(lem);
-    if(slash.matches()) {
+    if (slash.matches()) {
       return slash.group(2);
     }
     return null;
@@ -168,13 +156,6 @@ abstract public class Lemma {
    */
   public int getLineNumber() {
     return lineNumber;
-  }
-
-  /**
-   * @return the node
-   */
-  public String getNode() {
-    return node;
   }
 
   /**
