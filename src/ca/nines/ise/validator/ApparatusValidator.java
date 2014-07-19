@@ -33,9 +33,8 @@ import java.util.regex.Pattern;
  * @param <T>
  */
 abstract public class ApparatusValidator<T extends Apparatus> {
-
   private static final Pattern singleTlnPattern = Pattern.compile("\\p{Digit}+(?:\\.\\p{Digit}+)?");
-  private static final Pattern splitTlnPattern = Pattern.compile("\\p{Digit}+-\\p{Digit}+");
+  private static final Pattern splitTlnPattern = Pattern.compile("(\\p{Digit}+(?:\\.\\p{Digit}+)?) ?- ?(\\p{Digit}+(?:\\.\\p{Digit}+)?)");
   private static final Pattern splitLemPattern = Pattern.compile("(.*?) ?. . . ?(.*?)");
 
   public void validate(Lemma lem) {
