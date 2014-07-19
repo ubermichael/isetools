@@ -58,7 +58,7 @@ public class Note extends Lemma {
 
     @Override
     public Note build() {
-      return new Note(lem, lineNumber, node, source, tln, asl, notes);
+      return new Note(lem, lineNumber, source, tln, asl, notes);
     }
 
     @Override
@@ -104,8 +104,8 @@ public class Note extends Lemma {
     return new NoteBuilder();
   }
 
-  private Note(String lem, int lineNumber, String node, String source, String tln, String asl, Map<String, String> notes) {
-    super(lem, lineNumber, node, source, tln, asl);
+  private Note(String lem, int lineNumber, String source, String tln, String asl, Map<String, String> notes) {
+    super(lem, lineNumber, source, tln, asl);
     this.notes = new HashMap<>(notes);
   }
 
