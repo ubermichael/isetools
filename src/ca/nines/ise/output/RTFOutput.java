@@ -38,7 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
 import javax.xml.parsers.ParserConfigurationException;
 
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
@@ -125,6 +124,7 @@ public class RTFOutput extends Output {
     boolean inSD = false; // in stage direction
     boolean inDQ = false; // in a double quote
     boolean inS = false; // in a speech
+    boolean inHW = false;
     char part = 'i';
     
     String mode = "verse";
@@ -162,6 +162,9 @@ public class RTFOutput extends Output {
             case "FOREIGN":
               fontStack.pop();
               break;
+            case "HW":
+              inHW = false;
+              break;
             case "LD":
               startParagraph();
               break;
@@ -184,6 +187,9 @@ public class RTFOutput extends Output {
               font = new Font(fontStack.getFirst());
               font.setStyle(Font.ITALIC);
               fontStack.push(font);
+              break;
+            case "HW":
+              inHW = true;
               break;
             case "LD":
               startParagraph(ld);
@@ -217,6 +223,11 @@ public class RTFOutput extends Output {
           if (inSP) {
             addChunk(txt.toUpperCase());
             break;
+          }
+          
+          if(inHW) {
+            txt = txt.replaceFirst("[(]", "");
+            inHW = false;
           }
 
           if (inSD) {
