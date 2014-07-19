@@ -14,25 +14,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -70,7 +76,7 @@ public class XMLDriver {
 
     return doc;
   }
-  
+
   public Document drive(String source, InputStream in) throws TransformerException, IOException {
     Document doc = docBuilder.newDocument();
     DOMResult domResult = new DOMResult(doc);
@@ -93,5 +99,18 @@ public class XMLDriver {
     nullTransformer.transform(saxSource, domResult);
 
     return doc;
+  }
+
+  public String serialize(Element element) throws TransformerConfigurationException, TransformerException, UnsupportedEncodingException {
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    transformer.setOutputProperty(OutputKeys.INDENT, "no");
+    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+    DOMSource source = new DOMSource(element);
+    StreamResult stream = new StreamResult(out);
+    transformer.transform(source, stream);
+    return new String(out.toByteArray(), "UTF-8");
   }
 }
