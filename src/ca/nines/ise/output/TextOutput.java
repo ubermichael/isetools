@@ -18,7 +18,6 @@
 package ca.nines.ise.output;
 
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.log.Log;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;

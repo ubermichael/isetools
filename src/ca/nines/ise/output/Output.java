@@ -39,7 +39,7 @@ abstract public class Output {
     this(System.out);
   }
 
-  public Output(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
+  public Output(PrintStream out) {
     this.out = out;
   }
 
