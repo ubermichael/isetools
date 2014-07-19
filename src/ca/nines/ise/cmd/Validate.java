@@ -5,9 +5,11 @@
  */
 package ca.nines.ise.cmd;
 
+import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.log.Message;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
@@ -36,6 +38,9 @@ public class Validate extends Command {
     return "Validate one or more ISE SGML documents.";
   }
 
+  @ErrorCode(code = {
+    "dom.errors"
+  })
   @Override
   public void execute(CommandLine cmd) {
     try {
@@ -56,10 +61,16 @@ public class Validate extends Command {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
           DOM dom = new DOMBuilder(in).build();
-          validator.validate(dom, schema);
+          if (dom.getStatus() != DOM.DOMStatus.ERROR) {
+            validator.validate(dom, schema);
+          } else {
+            Message m = Message.builder("dom.errors")
+                    .setSource(dom.getSource())
+                    .build();
+            log.add(m);
+          }
           if (log.count() > 0) {
             out.println(log);
-            log.clear();
           }
           log.clear();
         }
