@@ -21,6 +21,7 @@ package ca.nines.ise.validator;
 import ca.nines.ise.document.Annotations;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.lemma.Note;
+import java.io.IOException;
 
 /**
  *
@@ -33,12 +34,12 @@ public class AnnotationsValidator extends ApparatusValidator<Annotations> {
   }
   
   // validate a note against the dom.
-  public void validate(DOM dom, Note n) {
+  public void validate(DOM dom, Note n) throws IOException {
     super.validate(dom, n);
     validate_levels(n);
   }
   
-  public void validate(DOM dom, Annotations a) {
+  public void validate(DOM dom, Annotations a) throws IOException {
     for (Note n : a) {
       validate(n);
       validate(dom, n);
