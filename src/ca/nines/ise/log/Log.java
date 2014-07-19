@@ -97,7 +97,7 @@ public final class Log {
   public String toString() {
     Formatter formatter = new Formatter();
 
-    for (Message message : messages) {
+    for (Message message : messages()) {
       formatter.format("%s%n", message);
     }
     return formatter.toString();
