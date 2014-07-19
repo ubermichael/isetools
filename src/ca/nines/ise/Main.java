@@ -28,7 +28,7 @@ import org.apache.commons.cli.ParseException;
  */
 public class Main {
 
-  public static final String VERSION = "0.3-dev";
+  public static final String VERSION = "0.4";
 
   public static void execute(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, Exception {
     String commandName = "help";
