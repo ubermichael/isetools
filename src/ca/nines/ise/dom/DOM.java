@@ -280,7 +280,7 @@ public class DOM implements Iterable<Node> {
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
     for (Node n : nodes) {
-      sb.append(n).append("\n");
+      sb.append(n.unicode());
     }
 
     return sb.toString();
