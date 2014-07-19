@@ -63,7 +63,7 @@ public class RTFOutput extends Output {
     this(System.out);
   }
 
-  public RTFOutput(PrintStream out) throws UnsupportedEncodingException, ParserConfigurationException {
+  public RTFOutput(PrintStream out)  {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
@@ -165,6 +165,9 @@ public class RTFOutput extends Output {
             case "HW":
               inHW = false;
               break;
+            case "I":
+              fontStack.pop();
+              break;
             case "LD":
               startParagraph();
               break;
@@ -190,6 +193,11 @@ public class RTFOutput extends Output {
               break;
             case "HW":
               inHW = true;
+              break;
+            case "I":
+              font = new Font(fontStack.getFirst());
+              font.setStyle(Font.ITALIC);
+              fontStack.push(font);
               break;
             case "LD":
               startParagraph(ld);
