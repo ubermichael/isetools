@@ -34,9 +34,9 @@ abstract public class Lemma {
   private final String tln;
   private final String asl;
 
-  private final static Pattern lemSplitterDots = Pattern.compile("(.*) \\. \\. \\. (.*)");
+  private final static Pattern lemSplitterDots = Pattern.compile("(.*?) ?\\. \\. \\. ?(.*)");
   private final static Pattern lemSplitterSlash = Pattern.compile("(.*?) ?/ ?(.*)");
-  private final static Pattern tlnSplitter = Pattern.compile("([^-]*)-([^-]*)");
+  private final static Pattern tlnSplitter = Pattern.compile("(\\p{Digit}+(?:\\.\\p{Digit}+)?) ?- ?(\\p{Digit}+(?:\\.\\p{Digit}+)?)");
 
   protected abstract static class LemmaBuilder {
 

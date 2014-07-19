@@ -42,8 +42,83 @@ public class LemmaTest {
     assertNull(lemma.getTlnStart());
     assertNull(lemma.getTlnEnd());
     assertEquals("", lemma.getAsl());
-    
+
     assertTrue(true);
+  }
+
+  @Test
+  public void testLemmaSplits() {
+    LemmaBuilderImpl b;
+    Lemma lemma;
+
+    b = new LemmaBuilderImpl();
+    b.setLem("abc . . . cde");
+    lemma = b.build();
+    assertTrue(lemma.isLemSplit());
+    assertEquals("abc", lemma.getLemStart());
+    assertEquals("cde", lemma.getLemEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setLem("abc. . .cde");
+    lemma = b.build();
+    assertTrue(lemma.isLemSplit());
+    assertEquals("abc", lemma.getLemStart());
+    assertEquals("cde", lemma.getLemEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setLem("abc / cde");
+    lemma = b.build();
+    assertTrue(lemma.isLemSplit());
+    assertEquals("abc", lemma.getLemStart());
+    assertEquals("cde", lemma.getLemEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setLem("abc/cde");
+    lemma = b.build();
+    assertTrue(lemma.isLemSplit());
+    assertEquals("abc", lemma.getLemStart());
+    assertEquals("cde", lemma.getLemEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setLem("abccde");
+    lemma = b.build();
+    assertFalse(lemma.isLemSplit());
+    assertNull(lemma.getLemStart());
+    assertNull(lemma.getLemEnd());
+  }
+
+  @Test
+  public void testTlnSplit() {
+    LemmaBuilderImpl b;
+    Lemma lemma;
+
+    b = new LemmaBuilderImpl();
+    b.setTln("33-34");
+    lemma = b.build();
+    assertTrue(lemma.isTlnSplit());
+    assertEquals("33", lemma.getTlnStart());
+    assertEquals("34", lemma.getTlnEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setTln("33 - 34");
+    lemma = b.build();
+    assertTrue(lemma.isTlnSplit());
+    assertEquals("33", lemma.getTlnStart());
+    assertEquals("34", lemma.getTlnEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setTln("33.1 - 34.2");
+    lemma = b.build();
+    assertTrue(lemma.isTlnSplit());
+    assertEquals("33.1", lemma.getTlnStart());
+    assertEquals("34.2", lemma.getTlnEnd());
+
+    b = new LemmaBuilderImpl();
+    b.setTln("33.1");
+    lemma = b.build();
+    assertFalse(lemma.isTlnSplit());
+    assertNull(lemma.getTlnStart());
+    assertNull(lemma.getTlnEnd());
   }
 
   public static class LemmaImpl extends Lemma {
@@ -61,7 +136,7 @@ public class LemmaTest {
     }
 
     protected LemmaImpl(String lem, int lineNumber, String source, String tln, String asl) {
-      super("", 0, "", "", "");
+      super(lem, lineNumber, source, tln, asl);
     }
   }
 
