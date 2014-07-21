@@ -33,7 +33,6 @@ import ca.nines.ise.grammar.ISEParser.*;
 
 import ca.nines.ise.grammar.ISEParserBaseListener;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.log.Message;
 import ca.nines.ise.node.*;
 import ca.nines.ise.util.BuilderInterface;
 
