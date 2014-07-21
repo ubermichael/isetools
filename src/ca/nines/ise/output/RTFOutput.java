@@ -64,7 +64,7 @@ public class RTFOutput extends Output {
     this(System.out);
   }
 
-  public RTFOutput(PrintStream out)  {
+  public RTFOutput(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException  {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
