@@ -39,10 +39,9 @@ public class Tester {
       Edition e = w.getEdition("M");
       DOM d = e.getDOM();
       Fragment frag = d.getTlnFragment("42", 2);
-      System.out.println(frag);
-//      Annotations a = e.getAnnotations();
-//      AnnotationsValidator av = new AnnotationsValidator();
-//      av.validate(d, a);
+      Annotation a = e.getAnnotation();
+      AnnotationValidator av = new AnnotationValidator();
+      av.validate(d, a);
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {

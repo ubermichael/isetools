@@ -141,6 +141,8 @@ public class RTFOutput extends Output {
 
     for(Node n : dom) {
       switch (n.type()) {
+        case ABBR:
+          break;
         case CHAR:
           addChunk(n.unicode());
           break;
