@@ -17,13 +17,13 @@
 
 package ca.nines.ise;
 
-import ca.nines.ise.document.Annotations;
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.document.Edition;
 import ca.nines.ise.document.Work;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.validator.AnnotationsValidator;
+import ca.nines.ise.validator.AnnotationValidator;
 import java.io.File;
 
 /**
