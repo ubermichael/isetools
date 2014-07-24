@@ -19,18 +19,12 @@ package ca.nines.ise.cmd;
 
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.log.Log;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.schema.Schema;
-import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Formatter;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
@@ -42,7 +36,7 @@ public class Abbrs extends Command {
 
   @Override
   public String description() {
-    return "Report depreciated abbreviations used in one or more ISE SGMLdocuments.";
+    return "Report depreciated abbrs in one or more ISE documents.";
   }
 
   @Override

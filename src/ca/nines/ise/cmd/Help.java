@@ -14,16 +14,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.cmd;
 
-import java.io.File;
-import java.lang.reflect.Modifier;
-import java.net.URL;
+import ca.nines.ise.Main;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
+import org.atteo.classindex.ClassIndex;
 
 /**
  *
@@ -37,9 +39,12 @@ public class Help extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd)  throws Exception{
-    
-    System.out.println("help");
+  public void execute(CommandLine cmd) throws Exception {
+
+    System.out.println("iTools " + Main.version());
+    System.out.println("General usage: java -jar path/to/isetools.jar [command] [options]");
+    System.out.println("For a specific command: java -jar path/to/isetools.jar [command] -h\n");
+    System.out.println("[command] is one of the following: ");
     listCommands();
   }
 
@@ -49,36 +54,19 @@ public class Help extends Command {
     return opts;
   }
 
-    public void listCommands() {
-      System.out.println("listing commands");
-      String packageName = this.getClass().getPackage().getName();
-      String packagePath = '/' + packageName.replace('.', '/');
-      
-      URL url = this.getClass().getResource(packagePath);
-      File dir = new File(url.getFile());
-      if (dir.exists()) {
-        String[] files = dir.list();
-        for (String file : files) {
-          if (file.endsWith(".class")) {
-            String className = file.substring(0, file.length() - 6);
-            try {
-              Class<?> cls = Class.forName(packageName + "." + className);
-              if (Modifier.isAbstract(cls.getModifiers())) {
-                continue;
-              }
-              Object o = cls.newInstance();
-              if (o instanceof Command) {
-                System.out.println("command : " + className);
-              }
-            } catch (ClassNotFoundException ex) {
-              Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-              Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-              Logger.getLogger(Help.class.getName()).log(Level.SEVERE, null, ex);
-            }
-          }
-        }
-      }
+  public void listCommands() throws InstantiationException, IllegalAccessException {
+    Formatter formatter = new Formatter(System.out);
+    formatter.format("%n%12s   %s%n%n", "command", "description");
+
+    Map<String, String> descriptions = new HashMap<>();
+    for (Class<?> cls : ClassIndex.getSubclasses(Command.class)) {
+      Command cmd = (Command) cls.newInstance();
+      descriptions.put(cls.getSimpleName().toLowerCase(), cmd.description());
     }
+    String names[] = descriptions.keySet().toArray(new String[descriptions.size()]);
+    Arrays.sort(names);
+    for (String name : names) {
+      formatter.format("%12s   %s%n", name, descriptions.get(name));
+    }
+  }
 }
