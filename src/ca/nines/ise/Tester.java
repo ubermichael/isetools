@@ -17,14 +17,12 @@
 
 package ca.nines.ise;
 
-import ca.nines.ise.document.Annotation;
-import ca.nines.ise.document.Edition;
-import ca.nines.ise.document.Work;
-import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.validator.AnnotationValidator;
-import java.io.File;
+import com.lowagie.text.Annotation;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.rtf.RtfWriter2;
 
 /**
  *
@@ -35,13 +33,17 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      Work w = new Work(new File("input/withTitlePage/Oth"));
-      Edition e = w.getEdition("M");
-      DOM d = e.getDOM();
-      Fragment frag = d.getTlnFragment("42", 2);
-      Annotation a = e.getAnnotation();
-      AnnotationValidator av = new AnnotationValidator();
-      av.validate(d, a);
+      Document doc = new Document();
+      RtfWriter2 writer = RtfWriter2.getInstance(doc, System.out);
+      doc.open();
+      
+      Paragraph p = new Paragraph();      
+      p.add(new Chunk("hello world."));
+      Annotation a = new Annotation("title", "some text.");
+      p.add(a);
+      doc.add(p);
+      doc.close();
+      
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {

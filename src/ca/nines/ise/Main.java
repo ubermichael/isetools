@@ -18,6 +18,11 @@
 package ca.nines.ise;
 
 import ca.nines.ise.cmd.Command;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -28,7 +33,12 @@ import org.apache.commons.cli.ParseException;
  */
 public class Main {
 
-  public static final String VERSION = "0.4";
+  public static String version() throws IOException {
+    InputStream stream = Main.class.getResourceAsStream("version.properties");
+    Properties prop = new Properties();
+    prop.load(stream);
+    return prop.getProperty("buildVersion");
+  }
 
   public static void execute(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, Exception {
     String commandName = "help";
@@ -55,28 +65,34 @@ public class Main {
   }
 
   public static void main(String[] args) {
+    String version = "unknown";
     try {
+      version = version();
       execute(args);
     } catch (ClassNotFoundException ex) {
       System.err.println("Cannot find command class " + args[0]);
-      System.err.println("iTools version "+ VERSION);
+      System.err.println("iTools version "+ version);
       ex.printStackTrace(System.err);
     } catch (IllegalAccessException ex) {
       System.err.println("Cannot access command class " + args[0]);
-      System.err.println("iTools version "+ VERSION);
+      System.err.println("iTools version "+ version);
       ex.printStackTrace(System.err);
     } catch (InstantiationException ex) {
       System.err.println("Cannot create command class " + args[0]);
-      System.err.println("iTools version "+ VERSION);
+      System.err.println("iTools version "+ version);
       ex.printStackTrace(System.err);
     } catch (ParseException ex) {
       System.err.println("Cannot parse command line arguments " + args[0]);
-      System.err.println("iTools version "+ VERSION);
+      System.err.println("iTools version "+ version);
+      ex.printStackTrace(System.err);
+    } catch (IOException ex) {
+      System.err.println("I/O error " + args[0]);
+      System.err.println("iTools version "+ version);
       ex.printStackTrace(System.err);
     } catch (Exception ex) {
-      System.err.println("Internal error for " + args[0]);
-      System.err.println("iTools version "+ VERSION);
+      System.err.println("Internal error " + args[0]);
+      System.err.println("iTools version "+ version);
       ex.printStackTrace(System.err);
-    }
+    } 
   }
 }
