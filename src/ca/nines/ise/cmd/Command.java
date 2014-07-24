@@ -33,11 +33,13 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.atteo.classindex.IndexSubclasses;
 
 /**
  *
  * @author michael
  */
+@IndexSubclasses
 abstract public class Command {
 
   protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();

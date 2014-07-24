@@ -21,8 +21,6 @@ import ca.nines.ise.cmd.Command;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;

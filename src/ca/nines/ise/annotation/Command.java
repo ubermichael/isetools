@@ -15,31 +15,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package ca.nines.ise.cmd;
+package ca.nines.ise.annotation;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <michael@negativespace.net>
  */
-public class Error extends Command {
-
-  @Override
-  public String description() {
-    return "Command error.";
-  }
-
-  @Override
-  public void execute(CommandLine cmd) throws Exception {
-    System.out.println("Error");
-    
-  }
-
-  @Override
-  public Options getOptions() {
-    Options opts = new Options();
-    return opts;
-  }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Command {
+  
 }
