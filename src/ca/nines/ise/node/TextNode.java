@@ -47,6 +47,11 @@ public class TextNode extends Node {
   }
 
   @Override
+  public String sgml() {
+    return text;
+  }
+
+  @Override
   public NodeType type() {
     return NodeType.TEXT;
   }

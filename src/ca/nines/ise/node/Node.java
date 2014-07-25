@@ -27,12 +27,12 @@ import java.util.Formatter;
  */
 abstract public class Node {
 
-  protected String asl = "";
+  protected String asl;
   protected int column;
   protected int line;
-  protected String source = "";
-  protected String text = "";
-  protected String tln = "";
+  protected String source;
+  protected String text;
+  protected String tln;
 
   public enum NodeType {
 
@@ -46,6 +46,12 @@ abstract public class Node {
   }
 
   public Node() {
+    this.tln = "";
+    this.column = 0;
+    this.line = 0;    
+    this.text = "";
+    this.source = "";
+    this.asl = "";
     // do nothing.
   }
 
@@ -178,7 +184,7 @@ abstract public class Node {
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
+    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\n")).toString();
   }
 
   /**
@@ -200,4 +206,6 @@ abstract public class Node {
    */
   public abstract String unicode() throws IOException;
 
+  public abstract String sgml();
+  
 }

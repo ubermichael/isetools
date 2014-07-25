@@ -36,6 +36,11 @@ public class EndNode extends TagNode {
   }
 
   @Override
+  public String sgml() {
+    return "</" + getName() + ">";
+  }
+
+  @Override
   public NodeType type() {
     return NodeType.END;
   }

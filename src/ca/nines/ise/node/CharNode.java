@@ -61,6 +61,11 @@ abstract public class CharNode extends Node {
     }
     return sb.toString();
   }
+  
+  @Override
+  public String sgml() {
+    return text;
+  }
 
   @Override
   public NodeType type() {
