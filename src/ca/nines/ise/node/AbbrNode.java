@@ -85,6 +85,11 @@ public class AbbrNode extends Node {
   }
 
   @Override
+  public String sgml() {
+    return text;
+  }
+
+  @Override
   public NodeType type() {
     return NodeType.ABBR;
   }
@@ -93,4 +98,6 @@ public class AbbrNode extends Node {
   public String unicode() {
     return getText().replaceAll("[^a-zA-Z]*", "");
   }
+  
+  
 }

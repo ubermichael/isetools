@@ -94,6 +94,21 @@ abstract public class TagNode extends Node {
   public String plain() {
     return "";
   }
+  
+  @Override
+  public String sgml() {
+    StringBuilder sb = new StringBuilder();
+    
+    sb.append("<").append(getName());
+    for(String name : getAttributeNames()) {
+      sb.append(" ").append(name).append('=').append('"').append(getAttribute(name)).append('"');
+    }
+    if(this instanceof EmptyNode) {
+      sb.append(" /");
+    }
+    sb.append(">");
+    return sb.toString();
+  }
 
   public void setAttribute(String name, String value) {
     attributes.put(name.toLowerCase(), value);

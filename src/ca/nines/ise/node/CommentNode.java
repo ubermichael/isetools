@@ -47,6 +47,11 @@ public class CommentNode extends Node {
   }
 
   @Override
+  public String sgml() {
+    return "<!-- " + text.replaceAll("(?:<!-?-?)|(?:-?-?>)", "") + " -->";
+  }
+
+  @Override
   public NodeType type() {
     return NodeType.COMMENT;
   }
