@@ -34,17 +34,6 @@ abstract public class Node {
   protected String text;
   protected String tln;
 
-  public enum NodeType {
-
-    ABBR,
-    CHAR,
-    COMMENT,
-    EMPTY,
-    END,
-    START,
-    TEXT
-  }
-
   public Node() {
     this.tln = "";
     this.column = 0;

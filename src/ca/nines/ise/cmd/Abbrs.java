@@ -20,6 +20,7 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.NodeType;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -58,7 +59,7 @@ public class Abbrs extends Command {
         for (File in : files) {
           DOM dom = new DOMBuilder(in).build();
           for(Node n : dom) {
-            if (n.type() == Node.NodeType.ABBR) {
+            if (n.type() == NodeType.ABBR) {
               formatter.format("%s:%d:%d%n", n.getSource(), n.getLine(), n.getColumn());
               formatter.format("  near TLN %s%n", n.getTLN());
               formatter.format("  %s%n", n.getText().substring(0, Math.min(64, n.getText().length())));

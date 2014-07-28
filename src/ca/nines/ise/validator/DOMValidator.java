@@ -27,7 +27,7 @@ import ca.nines.ise.validator.node.EndNodeValidator;
 import ca.nines.ise.validator.node.TextNodeValidator;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.node.Node.NodeType;
+import ca.nines.ise.node.NodeType;
 import ca.nines.ise.schema.Schema;
 import java.util.HashMap;
 import java.util.Map;
