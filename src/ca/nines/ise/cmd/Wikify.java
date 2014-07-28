@@ -19,8 +19,8 @@ package ca.nines.ise.cmd;
 
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.chr.AccentCharNode;
-import ca.nines.ise.output.Output;
-import ca.nines.ise.output.XMLOutput;
+import ca.nines.ise.writer.Writer;
+import ca.nines.ise.writer.XMLWriter;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
@@ -88,7 +88,7 @@ public class Wikify extends Command {
     // accented
     try {
       Map<String, String> cm = AccentCharNode.mapping();
-      Output xmlOut = new XMLOutput(out);
+      Writer xmlOut = new XMLWriter(out);
       CharNode cn = new AccentCharNode();
       Formatter formatter = new Formatter(out);
 

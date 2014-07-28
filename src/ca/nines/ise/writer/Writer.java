@@ -15,37 +15,34 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package ca.nines.ise.output;
+package ca.nines.ise.writer;
 
 import ca.nines.ise.dom.DOM;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  *
  * @author michael
  */
-public class TextOutput extends Output {
+abstract public class Writer {
 
-  public TextOutput() throws UnsupportedEncodingException, ParserConfigurationException {
-    super();
+  protected final PrintStream out;
+
+  // @TODO make this an interface by dropping out and the constructors.
+  
+  public Writer() throws UnsupportedEncodingException, ParserConfigurationException {
+    this(System.out);
   }
 
-  public TextOutput(PrintStream out) throws UnsupportedEncodingException, ParserConfigurationException {
-    super(out);
+  public Writer(PrintStream out) {
+    this.out = out;
   }
 
-  @Override
-  public void render(DOM dom) {
-    try {
-      out.print(dom.unicode());
-    } catch (IOException ex) {
-      Logger.getLogger(TextOutput.class.getName()).log(Level.SEVERE, null, ex);
-    }
-  }
+  abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 
 }

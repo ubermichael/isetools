@@ -1,4 +1,4 @@
-package ca.nines.ise.output;
+package ca.nines.ise.writer;
 
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
@@ -15,15 +15,15 @@ import javax.xml.parsers.ParserConfigurationException;
  *
  * @author michael
  */
-public class SGMLOutput extends Output{
+public class SGMLWriter extends Writer{
 
   private boolean expandAbbrs;
   
-  public SGMLOutput() throws ParserConfigurationException, UnsupportedEncodingException {
+  public SGMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
   }
 
-  public SGMLOutput(PrintStream out) {
+  public SGMLWriter(PrintStream out) {
     super(out);
     expandAbbrs = false;
   }

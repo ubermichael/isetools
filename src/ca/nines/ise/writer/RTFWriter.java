@@ -15,7 +15,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package ca.nines.ise.output;
+package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
@@ -47,7 +47,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author michael
  */
-public class RTFOutput extends Output {
+public class RTFWriter extends Writer {
 
   private final Document doc;
   private final RtfWriter2 writer;
@@ -60,11 +60,11 @@ public class RTFOutput extends Output {
   private RtfParagraphStyle p1;
   private RtfParagraphStyle p2;
 
-  public RTFOutput() throws UnsupportedEncodingException, ParserConfigurationException {
+  public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
 
-  public RTFOutput(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException  {
+  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException  {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);

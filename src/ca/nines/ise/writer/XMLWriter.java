@@ -1,4 +1,4 @@
-package ca.nines.ise.output;
+package ca.nines.ise.writer;
 
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
@@ -36,16 +36,16 @@ import org.w3c.dom.Text;
  *
  * @author michael
  */
-public class XMLOutput extends Output{
+public class XMLWriter extends Writer{
 
   private final DocumentBuilderFactory docFactory;
   private final DocumentBuilder docBuilder;
 
-  public XMLOutput() throws ParserConfigurationException, UnsupportedEncodingException {
+  public XMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
   }
 
-  public XMLOutput(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
+  public XMLWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
     docFactory = DocumentBuilderFactory.newInstance();
     docBuilder = docFactory.newDocumentBuilder();
