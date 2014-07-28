@@ -17,6 +17,7 @@
 
 package ca.nines.ise.node;
 
+import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
 import java.io.IOException;
 import java.util.Formatter;
@@ -30,7 +31,7 @@ abstract public class Node {
   protected String asl;
   protected int column;
   protected int line;
-  protected String source;
+  protected DOM ownerDom;
   protected String text;
   protected String tln;
 
@@ -39,7 +40,7 @@ abstract public class Node {
     this.column = 0;
     this.line = 0;    
     this.text = "";
-    this.source = "";
+    this.ownerDom = null;
     this.asl = "";
     // do nothing.
   }
@@ -48,7 +49,7 @@ abstract public class Node {
     this.asl = n.asl;
     this.column = n.column;
     this.line = n.line;
-    this.source = n.source;
+    this.ownerDom = n.ownerDom;
     this.text = n.text;
     this.tln = n.tln;
   }
@@ -57,6 +58,7 @@ abstract public class Node {
    * Expand the node into more tags, if possible and return them.
    * <p>
    * @return DOMFragment
+   * @throws java.io.IOException
    */
   abstract public Fragment expanded() throws IOException;
 
@@ -114,17 +116,19 @@ abstract public class Node {
   }
 
   /**
-   * @return the source
+   * @return the ownerDom
    */
   public String getSource() {
-    return source;
+    return ownerDom.getSource();
+  }
+  
+  public DOM getOwner() {
+    return ownerDom;
   }
 
-  /**
-   * @param source the source to set
-   */
-  public void setSource(String source) {
-    this.source = source;
+  public void setOwner(DOM dom) {
+    this.ownerDom = dom;
+    ownerDom.requestReindex();
   }
 
   /**
@@ -173,7 +177,7 @@ abstract public class Node {
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\n")).toString();
+    return formatter.format("%s:%s:%d:%d:%s", ownerDom, this.type(), line, column, this.text.replaceAll("\n", "\\n")).toString();
   }
 
   /**

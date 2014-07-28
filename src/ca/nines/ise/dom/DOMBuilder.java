@@ -275,7 +275,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   // etc.
   private Node setupNode(Node n, ParserRuleContext ctx) {
     Token t = ctx.getStart();
-    n.setSource(dom.getSource());
+    n.setOwner(dom);
     n.setLine(t.getLine());
     n.setColumn(t.getCharPositionInLine());
     n.setText(tokens.getText(ctx.getSourceInterval()));

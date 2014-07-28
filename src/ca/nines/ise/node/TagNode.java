@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
@@ -57,10 +56,16 @@ abstract public class TagNode extends Node {
   }
 
   public void clearAttributes() {
+    if (attributes.containsKey("n")) {
+      ownerDom.requestReindex();
+    }
     attributes.clear();
   }
 
   public void deleteAttribute(String name) {
+    if (attributes.containsKey("n")) {
+      ownerDom.requestReindex();
+    }
     attributes.remove(name);
   }
 
@@ -78,7 +83,7 @@ abstract public class TagNode extends Node {
   public boolean hasAttribute(String name) {
     return attributes.containsKey(name.toLowerCase());
   }
-  
+
   public String[] getAttributeNames() {
     String[] names = attributes.keySet().toArray(new String[attributes.size()]);
     Arrays.sort(names);
@@ -94,16 +99,16 @@ abstract public class TagNode extends Node {
   public String plain() {
     return "";
   }
-  
+
   @Override
   public String sgml() {
     StringBuilder sb = new StringBuilder();
-    
+
     sb.append("<").append(getName());
-    for(String name : getAttributeNames()) {
+    for (String name : getAttributeNames()) {
       sb.append(" ").append(name).append('=').append('"').append(getAttribute(name)).append('"');
     }
-    if(this instanceof EmptyNode) {
+    if (this instanceof EmptyNode) {
       sb.append(" /");
     }
     sb.append(">");
@@ -111,10 +116,21 @@ abstract public class TagNode extends Node {
   }
 
   public void setAttribute(String name, String value) {
+    if (name.equals("n")) {
+      ownerDom.requestReindex();
+    }
     attributes.put(name.toLowerCase(), value);
   }
 
   public String setName(String name) {
+    switch (name) {
+      case "ACT":
+      case "SCENE":
+      case "L":
+      case "TLN":
+        ownerDom.requestReindex();
+        break;
+    }
     return this.tagname = name;
   }
 
@@ -123,7 +139,7 @@ abstract public class TagNode extends Node {
     Formatter formatter = new Formatter();
     formatter.format("%s", super.toString());
     formatter.format(":%s(", tagname);
-    for(String name : attributes.keySet()) {
+    for (String name : attributes.keySet()) {
       formatter.format("@%s=%s ", name, attributes.get(name));
     }
     formatter.format(")");
