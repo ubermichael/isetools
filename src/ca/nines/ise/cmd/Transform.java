@@ -19,10 +19,10 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
-import ca.nines.ise.output.Output;
-import ca.nines.ise.output.RTFOutput;
-import ca.nines.ise.output.TextOutput;
-import ca.nines.ise.output.XMLOutput;
+import ca.nines.ise.writer.Writer;
+import ca.nines.ise.writer.RTFWriter;
+import ca.nines.ise.writer.TextWriter;
+import ca.nines.ise.writer.XMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -44,7 +44,7 @@ public class Transform extends Command {
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
-    Output renderer = null;
+    Writer renderer = null;
     Locale.setDefault(Locale.ENGLISH);
     out = new PrintStream(System.out, true, "UTF-8");
     if (cmd.hasOption("o")) {
@@ -52,13 +52,13 @@ public class Transform extends Command {
     }
 
     if (cmd.hasOption("text")) {
-      renderer = new TextOutput(out);
+      renderer = new TextWriter(out);
     }
     if (cmd.hasOption("xml")) {
-      renderer = new XMLOutput(out);
+      renderer = new XMLWriter(out);
     }
     if (cmd.hasOption("rtf")) {
-      renderer = new RTFOutput(out);
+      renderer = new RTFWriter(out);
     }
 
     String[] files = getArgList(cmd);

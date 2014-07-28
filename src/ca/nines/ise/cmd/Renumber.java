@@ -19,11 +19,11 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
-import ca.nines.ise.output.Output;
-import ca.nines.ise.output.RTFOutput;
-import ca.nines.ise.output.SGMLOutput;
-import ca.nines.ise.output.TextOutput;
-import ca.nines.ise.output.XMLOutput;
+import ca.nines.ise.writer.Writer;
+import ca.nines.ise.writer.RTFWriter;
+import ca.nines.ise.writer.SGMLWriter;
+import ca.nines.ise.writer.TextWriter;
+import ca.nines.ise.writer.XMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -62,7 +62,7 @@ public class Renumber extends Command {
     if (dom.getStatus() != DOMStatus.ERROR) {
       // do stuff here.
     }
-    Output out = new SGMLOutput(outputStream);
+    Writer out = new SGMLWriter(outputStream);
     out.render(dom);
   }
 
