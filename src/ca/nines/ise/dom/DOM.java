@@ -38,6 +38,7 @@ public class DOM implements Iterable<Node> {
   // @todo make all of DOM's fields final, by moving
   // all the setters to DOMBuilder, just like Message and Message.MessageBuilder.
   private final Map<String, Node> index;
+  private boolean reindex;
   private String[] lines;
 
   private String source;
@@ -55,6 +56,7 @@ public class DOM implements Iterable<Node> {
   public DOM() {
     nodes = new ArrayList<>();
     index = new HashMap<>();
+    reindex = true;
     status = DOMStatus.CLEAN;
   }
 
@@ -123,6 +125,9 @@ public class DOM implements Iterable<Node> {
   }
 
   public Node getTln(String tln) {
+    if(needsReindex()) {
+      index();
+    }
     if (index.containsKey(tln)) {
       return index.get(tln);
     }
@@ -149,6 +154,9 @@ public class DOM implements Iterable<Node> {
    */
   public Fragment getTlnFragment(String tln, int length) {
     Fragment fragment = new Fragment();
+    if(needsReindex()) {
+      index();
+    }
     Node n = getTln(tln);
     int idx = nodes.indexOf(n);
     int found = 0;
@@ -168,17 +176,9 @@ public class DOM implements Iterable<Node> {
     return fragment;
   }
 
-  public boolean hasIndex() {
-    return index.size() > 0;
-  }
-
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
    * sets the setTLN and ASL properties of each node in the DOM.
-   * <p>
-   * If you change the DOM by adding or removing nodes, or if you change the
-   * act, scene, line, or setTLN numbering in the DOM you should call this
-   * function.
    */
   public void index() {
     index.clear();
@@ -206,6 +206,13 @@ public class DOM implements Iterable<Node> {
       n.setTLN(tln);
       n.setAsl(act + "." + scene + "." + line);
     }
+  }
+
+  /**
+   * @return the reindex
+   */
+  public boolean needsReindex() {
+    return reindex;
   }
 
   /**
@@ -242,6 +249,13 @@ public class DOM implements Iterable<Node> {
    */
   public void setLines(String[] lines) {
     this.lines = lines;
+  }
+
+  /**
+   * 
+   */
+  public void requestReindex() {
+    this.reindex = true;
   }
 
   /**
