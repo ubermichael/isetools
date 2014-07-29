@@ -70,9 +70,9 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     for (T lemma : lemmas) {
       if (lemma.isTlnSplit()) {
         addToIndex(lemma.getTlnStart(), lemma);
-        addToIndex(lemma.getTlnEnd(), lemma);        
+        addToIndex(lemma.getTlnEnd(), lemma);
       } else {
-        addToIndex(lemma.getTln(), lemma);        
+        addToIndex(lemma.getTln(), lemma);
       }
     }
   }
@@ -80,9 +80,13 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   public T get(int i) {
     return lemmas.get(i);
   }
-  
+
   public List<T> get(String tln) {
-    return new ArrayList<>(index.get(tln));
+    if (index.containsKey(tln)) {
+      return new ArrayList<>(index.get(tln));
+    } else {
+      return null;
+    }
   }
 
   /**
