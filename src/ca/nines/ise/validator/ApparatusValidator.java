@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * @author michael
  * @param <T>
  */
-abstract public class ApparatusValidator<T extends Apparatus> {
+abstract public class ApparatusValidator<T extends Apparatus<? extends Lemma>> {
   private static final Pattern singleTlnPattern = Pattern.compile("\\p{Digit}+(?:\\.\\p{Digit}+)?");
   private static final Pattern splitTlnPattern = Pattern.compile("(\\p{Digit}+(?:\\.\\p{Digit}+)?) ?- ?(\\p{Digit}+(?:\\.\\p{Digit}+)?)");
   private static final Pattern splitLemPattern = Pattern.compile("(.*?) ?. . . ?(.*?)");

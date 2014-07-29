@@ -17,6 +17,7 @@
 
 package ca.nines.ise.writer;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -43,6 +44,10 @@ abstract public class Writer {
     this.out = out;
   }
 
-  abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception;
+  public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+    render(dom, Annotation.builder().build());
+  }
+
+  abstract public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 
 }

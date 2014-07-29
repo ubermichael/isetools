@@ -1,5 +1,6 @@
 package ca.nines.ise.writer;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
@@ -140,6 +141,11 @@ public class XMLWriter extends Writer{
     } catch (Exception ex) {
       ex.printStackTrace();
     }
+  }
+
+  @Override
+  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }

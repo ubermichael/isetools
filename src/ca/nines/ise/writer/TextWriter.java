@@ -17,6 +17,7 @@
 
 package ca.nines.ise.writer;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -24,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  *
@@ -46,6 +49,11 @@ public class TextWriter extends Writer {
     } catch (IOException ex) {
       Logger.getLogger(TextWriter.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
+
+  @Override
+  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }

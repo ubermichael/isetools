@@ -1,10 +1,14 @@
 package ca.nines.ise.writer;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,6 +37,11 @@ public class SGMLWriter extends Writer{
     for(Node n : dom) {
       out.print(n.sgml());
     }
+  }
+
+  @Override
+  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }

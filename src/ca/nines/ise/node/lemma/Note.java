@@ -140,6 +140,10 @@ public class Note extends Lemma {
     Arrays.sort(levels);
     return levels;
   }
+  
+  public boolean hasNoteLevel(String lvl) {
+    return notes.containsKey(lvl);
+  }
 
   @Override
   public String toString() {

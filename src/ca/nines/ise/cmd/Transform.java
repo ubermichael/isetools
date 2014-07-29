@@ -16,6 +16,7 @@
  */
 package ca.nines.ise.cmd;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
@@ -60,16 +61,20 @@ public class Transform extends Command {
     if (cmd.hasOption("rtf")) {
       renderer = new RTFWriter(out);
     }
-
-    String[] files = getArgList(cmd);
-    if (files.length > 1) {
-      System.err.println("Can only transform one file at a time.");
-      help();
+    
+    if(renderer == null) {
+      System.err.println("You must specify a transformation");
       System.exit(1);
     }
+
+    String[] files = getArgList(cmd);
     DOM dom = new DOMBuilder(new File(files[0])).build();
+    Annotation ann = Annotation.builder().build();
+    if (files.length > 1) {
+      ann = Annotation.builder().from(new File(files[1])).build();
+    }
     if (dom.getStatus() != DOMStatus.ERROR) {
-      renderer.render(dom);
+      renderer.render(dom, ann);
     }
   }
 

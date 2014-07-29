@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
@@ -22,12 +21,14 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.lemma.Note;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Footnote;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
@@ -37,6 +38,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.util.regex.Matcher;
@@ -56,15 +60,18 @@ public class RTFWriter extends Writer {
 
   private RtfParagraphStyle normal;
   private RtfParagraphStyle exit;
+  private RtfParagraphStyle footnote;
   private RtfParagraphStyle ld;
   private RtfParagraphStyle p1;
   private RtfParagraphStyle p2;
+
+  private List<Note> lemmas = null;
 
   public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
 
-  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException  {
+  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
@@ -82,7 +89,7 @@ public class RTFWriter extends Writer {
     exit.setAlignment(Element.ALIGN_RIGHT);
     exit.setStyle(Font.ITALIC);
     writer.getDocumentSettings().registerParagraphStyle(exit);
-    
+
     p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
     p1.setFirstLineIndent(-19);
     p1.setIndentLeft(19);
@@ -94,15 +101,59 @@ public class RTFWriter extends Writer {
     p2.setIndentLeft(38);
     p2.setIndentRight(49);
     writer.getDocumentSettings().registerParagraphStyle(p2);
+
+    footnote = new RtfParagraphStyle("ISE Footnote", "ISE Normal");
+    footnote.setFirstLineIndent(-19);
+    footnote.setIndentLeft(38);
+    footnote.setIndentRight(49);
+    footnote.setSize(10);
+    writer.getDocumentSettings().registerParagraphStyle(footnote);
   }
 
-  private void startParagraph() throws DocumentException {
+  private void startParagraph() throws DocumentException, IOException {
     startParagraph(normal);
   }
 
-  private void startParagraph(RtfParagraphStyle style) throws DocumentException {
-    if (!p.isEmpty() && !StringUtils.isWhitespace(p.getContent())) {
-      doc.add(p);
+  private void startParagraph(RtfParagraphStyle style) throws DocumentException, IOException {
+
+    Paragraph tmp = new Paragraph("", p.getFont());
+    Iterator iter = p.iterator();
+
+    while (iter.hasNext()) {
+      Element e = (Element) iter.next();
+      if (lemmas == null || !(e instanceof Chunk)) {
+        tmp.add(e);
+        continue;
+      }
+      Chunk c = (Chunk) e;
+      boolean match = false;
+      for (Note n : lemmas) {
+        if (!n.hasNoteLevel("1")) {
+          continue;
+        }
+        String lem;
+        if (n.isLemSplit()) {
+          lem = n.getLemEnd();
+        } else {
+          lem = n.getLem();
+        }
+        if (c.getContent().contains(lem)) {
+          match = true;
+          tmp.add(new Chunk(StringUtils.substringBefore(c.getContent(), lem)));
+          tmp.add(new Chunk(lem));
+          Footnote ftn = new Footnote(new Chunk(n.getNote("1").unicode().trim(), footnote));
+          tmp.add(ftn);
+          tmp.add(new Chunk(StringUtils.substringAfter(c.getContent(), lem)));
+        }
+      }
+      if (!match) {
+        tmp.add(c);
+      }
+    }
+
+    if (!tmp.isEmpty()
+            && !StringUtils.isWhitespace(tmp.getContent())) {
+      doc.add(tmp);
     }
     p = new Paragraph("", style);
   }
@@ -112,7 +163,7 @@ public class RTFWriter extends Writer {
       p.add(new Chunk(txt, fontStack.getFirst()));
     }
   }
-  
+
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
     render(dom, Annotation.builder().build());
@@ -131,17 +182,16 @@ public class RTFWriter extends Writer {
     boolean inS = false; // in a speech
     boolean inHW = false;
     char part = 'i';
-    
-    String mode = "verse";
 
     Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
 
     doc.open();
     startParagraph();
 
-    for(Node n : dom) {
+    for (Node n : dom) {
       switch (n.type()) {
         case ABBR:
+          addChunk(n.unicode());
           break;
         case CHAR:
           addChunk(n.unicode());
@@ -149,6 +199,20 @@ public class RTFWriter extends Writer {
         case EMPTY:
           switch (n.getName()) {
             case "TLN":
+              String tln = ((EmptyNode) n).getAttribute("n");
+              lemmas = annotation.get(tln);
+              if (inS) {
+                startParagraph(p2);
+              } else {
+                startParagraph(p1);
+              }
+              EmptyNode en1 = (EmptyNode) n;
+              if (en1.hasAttribute("part")) {
+                part = en1.getAttribute("part").charAt(0);
+              } else {
+                part = 'i';
+              }
+              break;
             case "L":
               if (inS) {
                 startParagraph(p2);
@@ -164,6 +228,7 @@ public class RTFWriter extends Writer {
               break;
           }
           break;
+
         case END:
           switch (n.getName()) {
             case "FOREIGN":
@@ -239,8 +304,8 @@ public class RTFWriter extends Writer {
             addChunk(txt.toUpperCase());
             break;
           }
-          
-          if(inHW) {
+
+          if (inHW) {
             txt = txt.replaceFirst("[(]", "");
             inHW = false;
           }
