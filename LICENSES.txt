@@ -1,0 +1,44 @@
+Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+In addition, this software includes the following libraries
+
+iText-4.2.0 for RTF document production.
+This version of iText is LGPL/MPL.
+Source: http://ymasory.github.com/iText-4.2.0/
+
+iTextRTF for RTF document production.
+This version of iTextRTF is LGPL/MPL.
+Source: http://itextrtf.sourceforge.net/
+
+Note: as of iText version 5, the license changed and is not compatible
+with GPL 2.
+
+Antlr-4.2.2 for parsing ISE SGMLish documents.
+Antlr is BSD Licensed.
+Source: https://github.com/antlr
+Website: http://www.antlr.org
+
+The following Apache Commons libraries are all licensed under the Apache
+Public License.
+
+Apache Commons CLI 1.2 for parsing command line arguments.
+http://commons.apache.org/proper/commons-cli/
+
+Apache Commons IO for making IO simpler
+http://commons.apache.org/proper/commons-io/
+
+Apache Commons Lang for some java language additions.
+http://commons.apache.org/proper/commons-lang/

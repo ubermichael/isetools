@@ -1,5 +1,6 @@
-package ca.nines.ise.output;
+package ca.nines.ise.writer;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
@@ -36,16 +37,16 @@ import org.w3c.dom.Text;
  *
  * @author michael
  */
-public class XMLOutput extends Output{
+public class XMLWriter extends Writer{
 
   private final DocumentBuilderFactory docFactory;
   private final DocumentBuilder docBuilder;
 
-  public XMLOutput() throws ParserConfigurationException, UnsupportedEncodingException {
+  public XMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
   }
 
-  public XMLOutput(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
+  public XMLWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
     docFactory = DocumentBuilderFactory.newInstance();
     docBuilder = docFactory.newDocumentBuilder();
@@ -55,7 +56,6 @@ public class XMLOutput extends Output{
   public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     // @TODO check if the DOM is expanded, and expand if necessary.
 
-    Iterator<Node> iterator = dom.expanded().iterator();
     ArrayDeque<Element> xmlStack = new ArrayDeque<>();
     Document xml = docBuilder.newDocument();
 
@@ -65,8 +65,7 @@ public class XMLOutput extends Output{
 
     int joinID = 1;
 
-    while (iterator.hasNext()) {
-      Node n = iterator.next();
+    for(Node n : dom.expanded()) {
       switch (n.type()) {
         case COMMENT:
           Comment c = xml.createComment(n.getText());
@@ -142,6 +141,11 @@ public class XMLOutput extends Output{
     } catch (Exception ex) {
       ex.printStackTrace();
     }
+  }
+
+  @Override
+  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }

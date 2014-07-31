@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.document.Corpus;
@@ -26,24 +38,19 @@ public class Works extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
-      Corpus corpus;
-      String root = "input";
-      
-      Locale.setDefault(Locale.ENGLISH);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+  public void execute(CommandLine cmd) throws Exception {
+    Corpus corpus;
+    String root = "input";
 
-      if (cmd.hasOption("l")) {
-        out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
-      }
-      
-      corpus = new Corpus(root);
-      out.println(corpus);
-      
-    } catch (Exception ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
+    Locale.setDefault(Locale.ENGLISH);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
+
+    if (cmd.hasOption("l")) {
+      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
     }
+
+    corpus = new Corpus(root);
+    out.println(corpus);
   }
 
   @Override

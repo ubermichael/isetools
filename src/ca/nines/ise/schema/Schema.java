@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.schema;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -83,7 +95,7 @@ public class Schema {
     }
 
     public SchemaBuilder addTag(Tag tag) {
-      tags.put(tag.getName(), tag);
+      tags.put(tag.getName().toLowerCase(), tag);
       return this;
     }
 
@@ -136,29 +148,33 @@ public class Schema {
     /**
      * @param edition the edition to set
      */
-    public void setEdition(String edition) {
+    public SchemaBuilder setEdition(String edition) {
       this.edition = edition;
+      return this;
     }
 
     /**
      * @param group the group to set
      */
-    public void setGroup(String group) {
+    public SchemaBuilder setGroup(String group) {
       this.group = group;
+      return this;
     }
 
     /**
      * @param lineNumber the lineNumber to set
      */
-    public void setLineNumber(int lineNumber) {
+    public SchemaBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
+      return this;
     }
 
     /**
      * @param source the source to set
      */
-    public void setSource(String source) {
+    public SchemaBuilder setSource(String source) {
       this.source = source;
+      return this;
     }
 
     public SchemaBuilder setTags(Map<String, Tag> tags) {
@@ -215,7 +231,7 @@ public class Schema {
   }
 
   public Tag getTag(String name) {
-    return tags.get(name.toUpperCase());
+    return tags.get(name.toLowerCase());
   }
 
   public String[] getTagNames() {
@@ -226,7 +242,6 @@ public class Schema {
 
   public Tag[] getTags() {
     Tag[] t = tags.values().toArray(new Tag[tags.size()]);
-
     Arrays.sort(t);
     return t;
   }

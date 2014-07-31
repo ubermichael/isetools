@@ -1,6 +1,5 @@
 
 # file types.
-
 *.class
 *.log
 
@@ -9,8 +8,18 @@
 /data
 /dist
 
+# data files
+input
+
+
 # netbeans stuff that shouldn't be in
 nbproject/private
-input
 install
+.~lock.*
+
+# generated files
+src/ca/nines/ise/version.properties
 *.rtf
+*.rtf.bz2
+lib/javadoc
+lib/src

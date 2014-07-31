@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.dom;
 
 import ca.nines.ise.log.Log;
@@ -18,12 +30,10 @@ import org.antlr.v4.runtime.Recognizer;
  */
 public class ParserErrorListener extends BaseErrorListener {
 
-  private final String[] lines;
-  private final String source;
+  private final DOM dom;
 
-  ParserErrorListener(String source, String[] lines) {
-    this.source = source;
-    this.lines = lines;    
+  ParserErrorListener(DOM dom) {
+    this.dom = dom;
   }
 
   /**
@@ -37,15 +47,16 @@ public class ParserErrorListener extends BaseErrorListener {
    * @param e
    */
   @ErrorCode(code = {
-    "lexer.syntax"
+    "parser.syntax"
   })
   @Override
   public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-    Message m = Message.builder("lexer.syntax")
+    dom.setStatus(DOM.DOMStatus.ERROR);
+    Message m = Message.builder("parser.syntax")
             .setLineNumber(line)
             .setColumnNumber(charPositionInLine)
-            .setSource(source)
-            .setLine(lines[line - 1])
+            .setSource(dom.getSource())
+            .setLine(dom.getLine(line - 1))
             .addNote(msg.substring(0, Math.min(64, msg.length())))
             .build();
     Log.addMessage(m);

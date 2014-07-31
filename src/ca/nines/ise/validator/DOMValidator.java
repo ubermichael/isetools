@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.validator;
 
 import ca.nines.ise.validator.node.EmptyNodeValidator;
@@ -15,10 +27,9 @@ import ca.nines.ise.validator.node.EndNodeValidator;
 import ca.nines.ise.validator.node.TextNodeValidator;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.node.Node.NodeType;
+import ca.nines.ise.node.NodeType;
 import ca.nines.ise.schema.Schema;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -61,15 +72,13 @@ public class DOMValidator {
    * Perform all the schema and node validations.
    * <p>
    * @param dom <p>
+   * @param schema
    * @throws Exception
    */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public void validate(DOM dom, Schema schema) throws Exception {
     NodeValidator validator;
-    Node n;
-    Iterator<Node> i = dom.iterator();
-    while (i.hasNext()) {
-      n = i.next();
+    for(Node n : dom) {
       validator = validators.get(n.type());
       if (validator == null) {
         throw new Exception("Unknown node type: " + n.type());

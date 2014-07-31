@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package ca.nines.ise.dom;
 
@@ -22,21 +33,31 @@ import java.util.Map;
  * DOM also stores all of the text used to create the DOM, so it can be accessed
  * later.
  */
-public class DOM {
+public class DOM implements Iterable<Node> {
 
   // @todo make all of DOM's fields final, by moving
   // all the setters to DOMBuilder, just like Message and Message.MessageBuilder.
-  
   private final Map<String, Node> index;
+  private boolean reindex;
   private String[] lines;
 
-  private final List<Node> nodes;
-
   private String source;
+  private DOMStatus status;
+
+  protected final List<Node> nodes;
+
+  public enum DOMStatus {
+
+    CLEAN,
+    WARNING,
+    ERROR,
+  }
 
   public DOM() {
     nodes = new ArrayList<>();
     index = new HashMap<>();
+    reindex = true;
+    status = DOMStatus.CLEAN;
   }
 
   public void add(Node n) {
@@ -49,10 +70,8 @@ public class DOM {
 
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
-    Iterator<Node> iterator = this.iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      dom.addAll(node.expanded());
+    for (Node n : nodes) {
+      dom.addAll(n.expanded());
     }
     return dom;
   }
@@ -89,24 +108,6 @@ public class DOM {
   }
 
   /**
-   * Store the text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String[] lines) {
-    this.lines = lines;
-  }
-
-  /**
-   * Store the lines of text used to create the DOM.
-   * <p>
-   * @param lines The data used to create the DOM.
-   */
-  public void setLines(String lines) {
-    this.lines = lines.split("\n");
-  }
-
-  /**
    * Either "#STRING" if the DOM was created by parsing a string, or the
    * absolute path to the file parsed to create the DOM.
    * <p>
@@ -116,28 +117,77 @@ public class DOM {
     return source;
   }
 
-  public boolean hasIndex() {
-    return index.size() > 0;
+  /**
+   * @return the status
+   */
+  public DOMStatus getStatus() {
+    return status;
+  }
+
+  public Node getTln(String tln) {
+    if(needsReindex()) {
+      index();
+    }
+    if (index.containsKey(tln)) {
+      return index.get(tln);
+    }
+    for (Node n : nodes) {
+      if (n instanceof TagNode && n.getName().toLowerCase().equals("tln")) {
+        TagNode tn = (TagNode) n;
+        if (tn.hasAttribute("n") && tn.getAttribute("n").equals(tln)) {
+          return n;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Gets a fragment of a DOM near a TLN. The fragment will include
+   * {@code length - 1} tlns after the TLN.
+   * <p>
+   * Returns an empty fragment if the TLN doesn't exist.
+   * <p>
+   * @param tln
+   * @param length <p>
+   * @return a piece of the DOM
+   */
+  public Fragment getTlnFragment(String tln, int length) {
+    Fragment fragment = new Fragment();
+    if(needsReindex()) {
+      index();
+    }
+    Node n = getTln(tln);
+    int idx = nodes.indexOf(n);
+    int found = 0;
+
+    if (n != null) {
+      for (int i = idx; i < nodes.size() && found <= length; i++) {
+        Node t = nodes.get(i);
+        if (found <= length) {
+          fragment.add(t);
+        }
+        if (t.getName().toLowerCase().equals("tln")) {
+          found++;
+        }
+      }
+      fragment.nodes.remove(fragment.nodes.size() - 1);
+    }
+    return fragment;
   }
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
    * sets the setTLN and ASL properties of each node in the DOM.
-   * <p>
-   * If you change the DOM by adding or removing nodes, or if you change the
-   * act, scene, line, or setTLN numbering in the DOM you should call this
-   * function.
    */
   public void index() {
-    Iterator<Node> i = this.iterator();
     index.clear();
     String act = "0";
     String scene = "0";
     String line = "0";
     String tln = "0";
 
-    while (i.hasNext()) {
-      Node n = i.next();
+    for (Node n : nodes) {
       switch (n.getName()) {
         case "ACT":
           act = ((TagNode) n).getAttribute("n");
@@ -159,22 +209,66 @@ public class DOM {
   }
 
   /**
+   * @return the reindex
+   */
+  public boolean needsReindex() {
+    return reindex;
+  }
+
+  /**
    * Create an return an iterator for the DOM.
    * <p>
    * @return an return an iterator for the DOM.
    */
+  @Override
   public Iterator<Node> iterator() {
     return nodes.iterator();
   }
 
   public String plain() throws IOException {
     StringBuilder sb = new StringBuilder();
-    Iterator<Node> iterator = iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      sb.append(node.plain());
+    for (Node n : nodes) {
+      sb.append(n.plain());
     }
     return sb.toString();
+  }
+
+  /**
+   * Store the lines of text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String lines) {
+    this.lines = lines.split("\n");
+  }
+
+  /**
+   * Store the text used to create the DOM.
+   * <p>
+   * @param lines The data used to create the DOM.
+   */
+  public void setLines(String[] lines) {
+    this.lines = lines;
+  }
+
+  /**
+   * 
+   */
+  public void requestReindex() {
+    this.reindex = true;
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(DOMStatus status) {
+    if (status.compareTo(this.status) > 0) {
+      this.status = status;
+    }
+  }
+
+  public int size() {
+    return nodes.size();
   }
 
   /**
@@ -188,26 +282,21 @@ public class DOM {
    * @return a string representation.
    */
   @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder();
-      
-      Iterator<Node> i = this.iterator();
-      
-      while (i.hasNext()) {
-        Node n = i.next();
-        sb.append(n).append("\n");
-      }
-      
-      return sb.toString();
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    for (Node n : nodes) {
+      sb.append(n).append("\n");
     }
+    return sb.toString();
+  }
 
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
-    Iterator<Node> iterator = iterator();
-    while (iterator.hasNext()) {
-      Node node = iterator.next();
-      sb.append(node.unicode());
+    for (Node n : nodes) {
+      sb.append(n.unicode());
     }
+
     return sb.toString();
   }
 
@@ -216,12 +305,8 @@ public class DOM {
    * <p>
    * @param source
    */
-    protected void setSource(String source) {
-      this.source = source;
-    }
-
-  public int size() {
-    return nodes.size();
+  protected void setSource(String source) {
+    this.source = source;
   }
 
 }

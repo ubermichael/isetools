@@ -1,14 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
 import java.util.Arrays;
 import java.util.Formatter;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -46,10 +56,16 @@ abstract public class TagNode extends Node {
   }
 
   public void clearAttributes() {
+    if (attributes.containsKey("n")) {
+      ownerDom.requestReindex();
+    }
     attributes.clear();
   }
 
   public void deleteAttribute(String name) {
+    if (attributes.containsKey("n")) {
+      ownerDom.requestReindex();
+    }
     attributes.remove(name);
   }
 
@@ -67,7 +83,7 @@ abstract public class TagNode extends Node {
   public boolean hasAttribute(String name) {
     return attributes.containsKey(name.toLowerCase());
   }
-  
+
   public String[] getAttributeNames() {
     String[] names = attributes.keySet().toArray(new String[attributes.size()]);
     Arrays.sort(names);
@@ -84,26 +100,47 @@ abstract public class TagNode extends Node {
     return "";
   }
 
+  @Override
+  public String sgml() {
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("<").append(getName());
+    for (String name : getAttributeNames()) {
+      sb.append(" ").append(name).append('=').append('"').append(getAttribute(name)).append('"');
+    }
+    if (this instanceof EmptyNode) {
+      sb.append(" /");
+    }
+    sb.append(">");
+    return sb.toString();
+  }
+
   public void setAttribute(String name, String value) {
+    if (name.equals("n")) {
+      ownerDom.requestReindex();
+    }
     attributes.put(name.toLowerCase(), value);
   }
 
   public String setName(String name) {
+    switch (name) {
+      case "ACT":
+      case "SCENE":
+      case "L":
+      case "TLN":
+        ownerDom.requestReindex();
+        break;
+    }
     return this.tagname = name;
   }
 
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
+    formatter.format("%s", super.toString());
     formatter.format(":%s(", tagname);
-    Iterator<String> i = attributes.keySet().iterator();
-
-    while (i.hasNext()) {
-      String name = i.next();
-      formatter.format("@%s=%s", name, attributes.get(name));
-      if (i.hasNext()) {
-        formatter.format(", ");
-      }
+    for (String name : attributes.keySet()) {
+      formatter.format("@%s=%s ", name, attributes.get(name));
     }
     formatter.format(")");
     return formatter.toString();

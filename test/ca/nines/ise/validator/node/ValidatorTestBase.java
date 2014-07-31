@@ -1,14 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.schema.Schema;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
@@ -20,9 +34,10 @@ abstract public class ValidatorTestBase extends TestBase {
 
   protected final Schema schema;
 
-  public ValidatorTestBase() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    File f = new File("/resources/data/test-schema.xml");
-    schema = new Schema(f);
+  public ValidatorTestBase() throws SAXException, IOException, XPathExpressionException, ParserConfigurationException, TransformerException {
+    String loc = "/resources/data/test-schema.xml";
+    InputStream stream = ValidatorTestBase.class.getResourceAsStream(loc);
+    schema = Schema.builder().from(loc, stream).build();
   }
 
 }

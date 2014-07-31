@@ -1,11 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <michael@negativespace.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.log;
 
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.lemma.Lemma;
 import ca.nines.ise.util.BuilderInterface;
 import java.util.ArrayList;
 import java.util.Formatter;
@@ -26,7 +39,7 @@ public class Message implements Comparable<Message> {
   static {
     ErrorCodes tmp = null;
     try {
-      tmp = new ErrorCodes();
+      tmp = ErrorCodes.defaultErrorCodes();
     } catch (Exception ex) {
       Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -46,13 +59,13 @@ public class Message implements Comparable<Message> {
 
   public static class MessageBuilder implements BuilderInterface<Message> {
 
-    private String TLN = "(unknown)";
-    private String code = "(unknown)";
+    private String TLN = "unknown";
+    private String code = "unknown";
     private int columnNumber = 0;
     private String line = "";
     private int lineNumber = 0;
     private final List<String> notes = new ArrayList<>();
-    private String source = "(unknown)";
+    private String source = "unknown";
 
     private MessageBuilder(String code) {
       this.code = code;
@@ -74,6 +87,13 @@ public class Message implements Comparable<Message> {
       setLineNumber(n.getLine());
       setSource(n.getSource());
       setTLN(n.getTLN());
+      return this;
+    }
+    
+    public MessageBuilder fromLemma(Lemma lem) {
+      setLineNumber(lem.getLineNumber());
+      setSource(lem.getSource());
+      setTLN(lem.getTln());
       return this;
     }
 
@@ -197,7 +217,9 @@ public class Message implements Comparable<Message> {
     Formatter formatter = new Formatter();
     formatter.format("%s:%d:%d:%s%n", source, lineNumber, columnNumber, code);
     formatter.format("  %s:%s%n", getSeverity(), getMessage());
-    formatter.format("  near TLN %s%n", TLN);
+    if (!TLN.equals("unknown")) {
+      formatter.format("  near TLN %s%n", TLN);
+    }
     if (!line.equals("")) {
       formatter.format("  %s%n", line);
     }
