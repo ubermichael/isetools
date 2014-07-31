@@ -51,30 +51,92 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * RTFWriter serializes a DOM into a rich text format document. It can add
+ * annotations as footnotes in the document.
+ *
+ * It uses iText from http://ymasory.github.com/iText-4.2.0/ to produce the
+ * document.
  *
  * @author michael
  */
 public class RTFWriter extends Writer {
 
+  /**
+   * iText document for the output.
+   */
   private final Document doc;
+  
+  /**
+   * iText RtfWriter for the document.
+   * 
+   */
   private final RtfWriter2 writer;
+  
+  /**
+   * Keep a stack of fonts, so that they can be more easily manipulated.
+   */
   private ArrayDeque<Font> fontStack;
+  
+  /**
+   * The current paragraph being worked on.
+   */
   private Paragraph p = new Paragraph();
 
+  /**
+   * The normal, default paragraph style.
+   */  
   private RtfParagraphStyle normal;
+  
+  /**
+   * The paragraph style for exit stage directions.
+   */
   private RtfParagraphStyle exit;
+  
+  /**
+   * Paragraph style for footnotes.
+   */
   private RtfParagraphStyle footnote;
+  
+  /**
+   * Paragraph style for a literary division.
+   */
   private RtfParagraphStyle ld;
+  
+  /**
+   * Paragraph style for the first line of a speech
+   */
   private RtfParagraphStyle p1;
+  
+  /**
+   * Paragraph style for the second and subsequent line of a speech
+   */
   private RtfParagraphStyle p2;
 
   private String currentTln;
+  /**
+   * A list of the lemmas for the current TLN.
+   * 
+   */
   private List<Note> lemmas = null;
 
+  /**
+   * Construct a writer. Output will be sent to STDOUT.
+   *
+   * @throws UnsupportedEncodingException
+   * @throws ParserConfigurationException
+   */
   public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
 
+  /**
+   * Construct a writer. Output will be sent to the corresponding printstream.
+   *
+   * @param out the destination.
+   *
+   * @throws ParserConfigurationException
+   * @throws UnsupportedEncodingException
+   */
   public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
     doc = new Document();
@@ -114,10 +176,25 @@ public class RTFWriter extends Writer {
     writer.getDocumentSettings().registerParagraphStyle(footnote);
   }
 
+  /**
+   * Start a new, normal paragraph in the document.
+   *
+   * @throws DocumentException
+   * @throws IOException
+   */
   private void startParagraph() throws DocumentException, IOException {
     startParagraph(normal);
   }
 
+  /**
+   * Start a new styled paragraph in the document. Cleans up the previous
+   * paragraph and inserts footnotes if needed.
+   *
+   * @param style The paragraph style
+   *
+   * @throws DocumentException
+   * @throws IOException
+   */
   private void startParagraph(RtfParagraphStyle style) throws DocumentException, IOException {
 
     Paragraph tmp = new Paragraph("", p.getFont());
@@ -190,17 +267,39 @@ public class RTFWriter extends Writer {
     p = new Paragraph("", style);
   }
 
+  /**
+   * Add a chunk of text to the current paragraph.
+   *
+   * @param txt The text to add.
+   */
   private void addChunk(String txt) {
     if (txt.length() > 0) {
       p.add(new Chunk(txt, fontStack.getFirst()));
     }
   }
 
+  /**
+   * Render the DOM without any annotations or footnotes.
+   *
+   * @param dom the DOM to render.
+   *
+   * @throws DocumentException
+   * @throws IOException
+   */
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
     render(dom, Annotation.builder().build());
   }
 
+  /**
+   * Render the DOM with annotations/footnotes.
+   * 
+   * @param dom the DOM to render
+   * @param annotation the annotations to render
+   * 
+   * @throws DocumentException
+   * @throws IOException 
+   */
   public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
 
     dom.index();

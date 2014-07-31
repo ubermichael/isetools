@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
@@ -10,11 +26,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
-import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -28,36 +42,53 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Text;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates and open the template
- * in the editor.
- */
 /**
+ * Serialize a DOM into XML. All output is UTF-8 encoded. 
+ * 
+ * <b>NOTE</b>: The generated XML is surrounded in &lt;root&gt; tags. This is a
+ * bug and will be fixed in the future. 
  *
  * @author michael
  */
-public class XMLWriter extends Writer{
+public class XMLWriter extends Writer {
 
-  private final DocumentBuilderFactory docFactory;
-  private final DocumentBuilder docBuilder;
-
+  /**
+   * Construct an XMLWriter and send output to System.out.
+   * 
+   * @throws ParserConfigurationException
+   * @throws UnsupportedEncodingException 
+   */
   public XMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
   }
 
+  /**
+   * Construct an XMLWriter and send the output to the print stream.
+   * 
+   * @param out the output destination.
+   * 
+   * @throws ParserConfigurationException
+   * @throws UnsupportedEncodingException 
+   */
   public XMLWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
-    docFactory = DocumentBuilderFactory.newInstance();
-    docBuilder = docFactory.newDocumentBuilder();
   }
 
+  /**
+   * Render the DOM into XML.
+   * 
+   * @param dom
+   * @throws TransformerConfigurationException
+   * @throws TransformerException
+   * @throws IOException
+   * @throws Exception 
+   */
   @Override
   public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     // @TODO check if the DOM is expanded, and expand if necessary.
 
     ArrayDeque<Element> xmlStack = new ArrayDeque<>();
-    Document xml = docBuilder.newDocument();
+    Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 
     Element e = xml.createElement("root");
     xml.appendChild(e);
@@ -65,8 +96,10 @@ public class XMLWriter extends Writer{
 
     int joinID = 1;
 
-    for(Node n : dom.expanded()) {
+    for (Node n : dom.expanded()) {
       switch (n.type()) {
+        case ABBR:
+          throw new UnsupportedOperationException("Cannot serialize depreciated abbreviation markup.");
         case COMMENT:
           Comment c = xml.createComment(n.getText());
           xmlStack.peekFirst().appendChild(c);
@@ -91,7 +124,7 @@ public class XMLWriter extends Writer{
             Element split = xmlStack.pop();
             if (split.getNodeName().equals(endNode.getName().toLowerCase())) {
               break; // while 
-            }           
+            }
             if (!split.hasAttribute("joinID")) {
               split.setAttribute("joinID", "" + joinID);
               joinID++;
@@ -143,6 +176,16 @@ public class XMLWriter extends Writer{
     }
   }
 
+  /**
+   * Unsupported.
+   * 
+   * @param dom
+   * @param ann
+   * @throws TransformerConfigurationException
+   * @throws TransformerException
+   * @throws IOException
+   * @throws Exception 
+   */
   @Override
   public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
