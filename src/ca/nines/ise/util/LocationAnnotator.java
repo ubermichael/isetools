@@ -33,7 +33,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.LocatorImpl;
 
 /**
- * Add location data to an XML node.
+ * Annotates a DOM with location data during the construction process.
  * <p>
  * http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
  * <p>
@@ -41,13 +41,38 @@ import org.xml.sax.helpers.LocatorImpl;
  */
 public class LocationAnnotator extends XMLFilterImpl {
 
+  /**
+   * Locator returned by the construction process.
+   */
   private Locator locator;
+  
+  /**
+   * The systemID of the XML.
+   */
   private final String source;
+
+  /**
+   * Stack to hold the locators which haven't been completed yet.
+   */
   private final ArrayDeque<Locator> locatorStack = new ArrayDeque<>();
+  
+  /**
+   * Stack holding incomplete elements.
+   */
   private final ArrayDeque<Element> elementStack = new ArrayDeque<>();
 
+  /**
+   * A data handler to add the location data.
+   */
   private final UserDataHandler dataHandler = new LocationDataHandler();
 
+  /**
+   * Construct a location annotator for an XMLReader and Document. The systemID
+   * is determined automatically.
+   * 
+   * @param xmlReader the reader to use the annotator
+   * @param dom the DOM to annotate
+   */
   LocationAnnotator(XMLReader xmlReader, Document dom) {
     super(xmlReader);
     source = "";
@@ -62,6 +87,14 @@ public class LocationAnnotator extends XMLFilterImpl {
     ((EventTarget) dom).addEventListener("DOMNodeInserted", modListener, true);
   }
 
+  /**
+   * Construct a location annotator for an XMLReader and Document. The systemID
+   * is NOT determined automatically.
+   * 
+   * @param source the systemID of the XML
+   * @param xmlReader the reader to use the annotator
+   * @param dom the DOM to annotate
+   */  
   LocationAnnotator(String source, XMLReader xmlReader, Document dom) {
     super(xmlReader);
     this.source = source;
@@ -76,18 +109,40 @@ public class LocationAnnotator extends XMLFilterImpl {
     ((EventTarget) dom).addEventListener("DOMNodeInserted", modListener, true);
   }
 
+  /**
+   * Add the locator to the document during the parse.
+   * 
+   * @param locator the locator to add
+   */
   @Override
   public void setDocumentLocator(Locator locator) {
     super.setDocumentLocator(locator);
     this.locator = locator;
   }
 
+  /**
+   * Handle the start tag of an element by adding locator data.
+   * 
+   * @param uri The systemID of the XML.
+   * @param localName the name of the tag. unused.
+   * @param qName the FQDN of the tag. unused.
+   * @param atts the attributes of the tag. unused.
+   * @throws SAXException 
+   */
   @Override
   public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
     super.startElement(uri, localName, qName, atts);
     locatorStack.push(new LocatorImpl(locator));
   }
 
+  /**
+   * Handle the end tag of an element by adding locator data.
+   * 
+   * @param uri The systemID of the XML.
+   * @param localName the name of the tag. unused.
+   * @param qName the FQDN of the tag. unused.
+   * @throws SAXException 
+   */
   @Override
   public void endElement(String uri, String localName, String qName) throws SAXException {
     super.endElement(uri, localName, qName);
@@ -109,9 +164,20 @@ public class LocationAnnotator extends XMLFilterImpl {
     }
   }
 
-  // Ensure location data copied to any new DOM node.
+  /**
+   * UserDataHandler to insert location data into the XML DOM.
+   */
   private class LocationDataHandler implements UserDataHandler {
 
+    /**
+     * Handle an even during a parse. An even is a start/end/empty tag or some data.
+     * 
+     * @param operation unused.
+     * @param key unused
+     * @param data unused
+     * @param src the source of the data
+     * @param dst the destination of the data
+     */
     @Override
     public void handle(short operation, String key, Object data, Node src, Node dst) {
 

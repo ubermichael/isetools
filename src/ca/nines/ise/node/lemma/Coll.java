@@ -33,6 +33,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
+ * A single collation in a collection of collations. Collations are immutable
+ * objects. Use Collation.builder() to get a builder object, and then call its
+ * .build() method.
  *
  * @author michael
  */
