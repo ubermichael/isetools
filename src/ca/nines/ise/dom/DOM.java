@@ -125,7 +125,7 @@ public class DOM implements Iterable<Node> {
   }
 
   public Node getTln(String tln) {
-    if(needsReindex()) {
+    if (needsReindex()) {
       index();
     }
     if (index.containsKey(tln)) {
@@ -154,7 +154,7 @@ public class DOM implements Iterable<Node> {
    */
   public Fragment getTlnFragment(String tln, int length) {
     Fragment fragment = new Fragment();
-    if(needsReindex()) {
+    if (needsReindex()) {
       index();
     }
     Node n = getTln(tln);
@@ -186,22 +186,28 @@ public class DOM implements Iterable<Node> {
     String scene = "0";
     String line = "0";
     String tln = "0";
+    TagNode tn;
 
     for (Node n : nodes) {
-      switch (n.getName()) {
-        case "ACT":
-          act = ((TagNode) n).getAttribute("n");
-          break;
-        case "SCENE":
-          scene = ((TagNode) n).getAttribute("n");
-          break;
-        case "L":
-          line = ((TagNode) n).getAttribute("n");
-          break;
-        case "TLN":
-          tln = ((TagNode) n).getAttribute("n");
-          index.put(tln, n);
-          break;
+      if (n instanceof TagNode) {
+        tn = (TagNode) n;
+        switch (tn.getName()) {
+          case "ACT":
+            act = tn.getAttribute("n");
+            break;
+          case "SCENE":
+            scene = tn.getAttribute("n");
+            break;
+          case "L":
+            if (tn.hasAttribute("n")) {
+              line = tn.getAttribute("n");
+            }
+            break;
+          case "TLN":
+            tln = tn.getAttribute("n");
+            index.put(tln, tn);
+            break;
+        }
       }
       n.setTLN(tln);
       n.setAsl(act + "." + scene + "." + line);
@@ -252,7 +258,7 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * 
+   *
    */
   public void requestReindex() {
     this.reindex = true;
