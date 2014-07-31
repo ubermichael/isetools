@@ -37,8 +37,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * A schema is a collection of Tags, and a little bit of metadata 
- * to describe the schema.
+ * A schema is a collection of Tags, and a little bit of metadata to describe
+ * the schema.
+ * 
+ * Schemas are immutable. Use SchemaBuilder to create them.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
@@ -48,17 +50,17 @@ public class Schema {
    * The edition for the schema
    */
   private final String edition;
-  
+
   /**
    * The group for the schema. "ise" or "qme" or "dre"
    */
   private final String group;
-  
+
   /**
    * The line number where the schema is defined.
    */
   private final int lineNumber;
-  
+
   /**
    * The source where the schema is defined.
    */
@@ -70,11 +72,10 @@ public class Schema {
   private final Map<String, Tag> tags;
 
   /**
-   * A class to construct a Schema. Schema construction is too
-   * complicated for a constructor, so use a builder.
-   * 
-   * All the setters return the SchemaBuilder object, to enable
-   * method chaining.
+   * A class to construct a Schema. Schema construction is too complicated for a
+   * constructor, so use a builder.
+   *
+   * All the setters return the SchemaBuilder object, to enable method chaining.
    */
   public static class SchemaBuilder implements BuilderInterface<Schema> {
 
@@ -189,7 +190,7 @@ public class Schema {
 
   public static Schema defaultSchema() throws IOException, SAXException, ParserConfigurationException, TransformerException {
     String loc = "/resources/schemas/default.xml";
-    InputStream in = Schema.class.getResourceAsStream(loc);    
+    InputStream in = Schema.class.getResourceAsStream(loc);
     return Schema.builder().from(loc, in).build();
   }
 
