@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,15 +43,37 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
+ * XMLDriver provides XML parsing for strings, files, and input streams. The 
+ * documents and nodes returned from XMLDriver include location information 
+ * about where the document or node came from.
  *
  * @author michael
  */
 public class XMLDriver {
 
+  /**
+   * docBuilder constructs an empty document.
+   */
   private final DocumentBuilder docBuilder;
+  
+  /**
+   * nullTransformer serializes an XML DOM into a string.
+   */
   private final Transformer nullTransformer;
+  
+  /**
+   * xmlReader consumes XML.
+   */
   private final XMLReader xmlReader;
 
+  /**
+   * Construct a driver.
+   * 
+   * @throws ParserConfigurationException
+   * @throws TransformerConfigurationException
+   * @throws SAXException
+   * @throws TransformerException 
+   */
   public XMLDriver() throws ParserConfigurationException, TransformerConfigurationException, SAXException, TransformerException {
     docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     nullTransformer = TransformerFactory.newInstance().newTransformer();
@@ -64,6 +85,15 @@ public class XMLDriver {
     xmlReader = saxParser.getXMLReader();
   }
 
+  /**
+   * Parse the file and add location information to the 
+   * document and each node in the document.
+   * 
+   * @param in
+   * @return
+   * @throws TransformerException
+   * @throws IOException 
+   */
   public Document drive(File in) throws TransformerException, IOException {
     Document doc = docBuilder.newDocument();
     DOMResult domResult = new DOMResult(doc);
@@ -77,6 +107,25 @@ public class XMLDriver {
     return doc;
   }
 
+  /**
+   * Parse an input stream and add location information to the document
+   * and the nodes in the document. {@code source} is the source of the
+   * XML. Useful for reading XML documents inside the bundled up JAR.
+   * 
+   * <pre><code>
+   * String loc = "/resources/schemas/default.xml";
+   * InputStream in = Schema.class.getResourceAsStream(loc);
+   * XMLDriver driver = new XMLDriver();
+   * Document doc = driver.drive(in);
+   * </code></pre>
+   * 
+   * @param source the source of the XML
+   * @param in the input stream
+   * @return a W3C document
+   * 
+   * @throws TransformerException
+   * @throws IOException 
+   */
   public Document drive(String source, InputStream in) throws TransformerException, IOException {
     Document doc = docBuilder.newDocument();
     DOMResult domResult = new DOMResult(doc);
@@ -89,6 +138,13 @@ public class XMLDriver {
     return doc;
   }
 
+  /**
+   * Parse a string for XML. Mostly useful for testing.
+   * 
+   * @param in
+   * @return
+   * @throws TransformerException 
+   */
   public Document drive(String in) throws TransformerException {
     Document doc = docBuilder.newDocument();
     DOMResult domResult = new DOMResult(doc);
@@ -101,6 +157,15 @@ public class XMLDriver {
     return doc;
   }
 
+  /**
+   * Serialize an Element into a string containing XML.
+   * 
+   * @param element
+   * @return
+   * @throws TransformerConfigurationException
+   * @throws TransformerException
+   * @throws UnsupportedEncodingException 
+   */
   public String serialize(Element element) throws TransformerConfigurationException, TransformerException, UnsupportedEncodingException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
 
