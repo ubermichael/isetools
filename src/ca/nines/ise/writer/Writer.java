@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
@@ -27,27 +26,58 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 
 /**
+ * Writers produce output.
  *
  * @author michael
  */
 abstract public class Writer {
 
+  /**
+   * Send all generated output to this print stream.
+   */
   protected final PrintStream out;
 
-  // @TODO make this an interface by dropping out and the constructors.
-  
+  /**
+   * Construct a writer and send output to System.out
+   * 
+   * @throws UnsupportedEncodingException
+   * @throws ParserConfigurationException 
+   */
   public Writer() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
 
+  /**
+   * Construct a writer and send output to the print stream.
+   * 
+   * @param out the output destination.
+   */
   public Writer(PrintStream out) {
     this.out = out;
   }
 
-  public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
-    render(dom, Annotation.builder().build());
-  }
+  /**
+   * Render a DOM into output.
+   * 
+   * @param dom the DOM to render.
+   * 
+   * @throws TransformerConfigurationException
+   * @throws TransformerException
+   * @throws IOException
+   * @throws Exception 
+   */
+  abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception ;
 
+  /**
+   * Render a DOM with annotations/footnotes - NOT ALL OUTPUT FORMATS SUPPORT ANNOTATIONS.
+   * 
+   * @param dom
+   * @param ann
+   * @throws TransformerConfigurationException
+   * @throws TransformerException
+   * @throws IOException
+   * @throws Exception 
+   */
   abstract public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 
 }

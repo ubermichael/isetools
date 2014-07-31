@@ -25,8 +25,6 @@ import java.util.Map;
 
 /**
  *
- * @todo should this class just extend ArrayList<T> ?
- * <p>
  * @author michael
  * @param <T>
  */
