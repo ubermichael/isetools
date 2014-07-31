@@ -1,10 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.node;
 
+import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
 import java.io.IOException;
 import java.util.Formatter;
@@ -15,25 +28,20 @@ import java.util.Formatter;
  */
 abstract public class Node {
 
-  protected String asl = "";
+  protected String asl;
   protected int column;
   protected int line;
-  protected String source = "";
-  protected String text = "";
-  protected String tln = "";
-
-  public enum NodeType {
-
-    ABBR,
-    CHAR,
-    COMMENT,
-    EMPTY,
-    END,
-    START,
-    TEXT
-  }
+  protected DOM ownerDom;
+  protected String text;
+  protected String tln;
 
   public Node() {
+    this.tln = "";
+    this.column = 0;
+    this.line = 0;    
+    this.text = "";
+    this.ownerDom = null;
+    this.asl = "";
     // do nothing.
   }
 
@@ -41,7 +49,7 @@ abstract public class Node {
     this.asl = n.asl;
     this.column = n.column;
     this.line = n.line;
-    this.source = n.source;
+    this.ownerDom = n.ownerDom;
     this.text = n.text;
     this.tln = n.tln;
   }
@@ -50,6 +58,7 @@ abstract public class Node {
    * Expand the node into more tags, if possible and return them.
    * <p>
    * @return DOMFragment
+   * @throws java.io.IOException
    */
   abstract public Fragment expanded() throws IOException;
 
@@ -107,17 +116,19 @@ abstract public class Node {
   }
 
   /**
-   * @return the source
+   * @return the ownerDom
    */
   public String getSource() {
-    return source;
+    return ownerDom.getSource();
+  }
+  
+  public DOM getOwner() {
+    return ownerDom;
   }
 
-  /**
-   * @param source the source to set
-   */
-  public void setSource(String source) {
-    this.source = source;
+  public void setOwner(DOM dom) {
+    this.ownerDom = dom;
+    ownerDom.requestReindex();
   }
 
   /**
@@ -166,7 +177,7 @@ abstract public class Node {
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%s:%d:%d:%s", source, this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
+    return formatter.format("%s:%s:%d:%d:%s", ownerDom, this.type(), line, column, this.text.replaceAll("\n", "\\n")).toString();
   }
 
   /**
@@ -188,4 +199,6 @@ abstract public class Node {
    */
   public abstract String unicode() throws IOException;
 
+  public abstract String sgml();
+  
 }

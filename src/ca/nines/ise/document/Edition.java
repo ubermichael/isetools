@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.document;
 
 import ca.nines.ise.dom.DOMBuilder;
@@ -11,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Formatter;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
@@ -45,19 +58,19 @@ public class Edition extends Document implements Comparable<Edition> {
     return editionCode.toLowerCase().compareTo(o.editionCode.toLowerCase());
   }
   
-  public File expectedAnnotationsFile() {
+  public File expectedAnnotationFile() {
     return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_annotation.xml");
   }
   
-  public File expectedCollationsFile() {
+  public File expectedCollationFile() {
     return new File(parentDir + "/apparatus/" + playCode + "_" + editionCode + "_collation.xml");
   }
 
-  public Annotations getAnnotations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public Annotation getAnnotation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
+    return Annotation.builder().from(expectedAnnotationFile()).build();
   }
 
-  public Collations getCollations() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public Collation getCollation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
@@ -66,11 +79,11 @@ public class Edition extends Document implements Comparable<Edition> {
   }
 
   public boolean hasAnnotations() {
-    return expectedAnnotationsFile().exists();
+    return expectedAnnotationFile().exists();
   }
 
   public boolean hasCollations() {
-    return expectedCollationsFile().exists();
+    return expectedCollationFile().exists();
   }
 
   @Override

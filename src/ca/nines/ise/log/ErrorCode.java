@@ -1,14 +1,31 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.log;
 
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.LocationData;
+import ca.nines.ise.util.XMLDriver;
 import java.util.Formatter;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -38,8 +55,8 @@ public class ErrorCode implements Comparable<ErrorCode> {
       code = "unknown";
       lineNumber = 0;
       message = "";
-      severity = "unknown";
-      source = "unknown";
+      severity = "";
+      source = "";
     }
 
     @Override
@@ -47,6 +64,13 @@ public class ErrorCode implements Comparable<ErrorCode> {
       return new ErrorCode(source, lineNumber, code, severity, message);
     }
 
+    public ErrorCodeBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
+      XMLDriver xd = new XMLDriver();
+      Document doc = xd.drive(str);
+      Node n = doc.getElementsByTagName("message").item(0);      
+      return from(n);
+    }
+    
     public ErrorCodeBuilder from(Node n) {
       setCode(n.getAttributes().getNamedItem("code").getNodeValue());
       setSeverity(n.getAttributes().getNamedItem("severity").getNodeValue());

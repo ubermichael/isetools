@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.node.TagNode;
@@ -11,13 +23,9 @@ import ca.nines.ise.node.TagNodeImpl;
 import ca.nines.ise.validator.node.ValidatorTestBase;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.xml.sax.SAXException;
 
 /**
@@ -26,7 +34,7 @@ import org.xml.sax.SAXException;
  */
 public class SelectAttributeValidatorTest extends ValidatorTestBase {
 
-  public SelectAttributeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+  public SelectAttributeValidatorTest() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     super();
   }
 

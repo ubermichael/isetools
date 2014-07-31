@@ -1,24 +1,31 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.log.Log;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.schema.Schema;
-import ca.nines.ise.validator.DOMValidator;
+import ca.nines.ise.node.NodeType;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Formatter;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
@@ -30,12 +37,11 @@ public class Abbrs extends Command {
 
   @Override
   public String description() {
-    return "Report depreciated abbreviations used in one or more ISE SGMLdocuments.";
+    return "Report depreciated abbrs in one or more ISE documents.";
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
+  public void execute(CommandLine cmd) throws Exception {
       File[] files;
 
       Locale.setDefault(Locale.ENGLISH);
@@ -52,11 +58,8 @@ public class Abbrs extends Command {
         out.println("Found " + files.length + " files to check.");
         for (File in : files) {
           DOM dom = new DOMBuilder(in).build();
-          dom.index();
-          Iterator<Node> iterator = dom.iterator();
-          while (iterator.hasNext()) {
-            Node n = iterator.next();
-            if (n.type() == Node.NodeType.ABBR) {
+          for(Node n : dom) {
+            if (n.type() == NodeType.ABBR) {
               formatter.format("%s:%d:%d%n", n.getSource(), n.getLine(), n.getColumn());
               formatter.format("  near TLN %s%n", n.getTLN());
               formatter.format("  %s%n", n.getText().substring(0, Math.min(64, n.getText().length())));
@@ -66,9 +69,6 @@ public class Abbrs extends Command {
           }
         }
       }
-    } catch (Exception ex) {
-      Logger.getLogger(Abbrs.class.getName()).log(Level.SEVERE, null, ex);
-    }
   }
 
   @Override

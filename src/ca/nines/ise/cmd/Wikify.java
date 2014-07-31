@@ -1,14 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.chr.AccentCharNode;
-import ca.nines.ise.output.Output;
-import ca.nines.ise.output.XMLOutput;
+import ca.nines.ise.writer.Writer;
+import ca.nines.ise.writer.XMLWriter;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
@@ -41,25 +53,20 @@ public class Wikify extends Command {
   }
 
   @Override
-  public void execute(CommandLine cmd) {
-    try {
-      Locale.setDefault(Locale.ENGLISH);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+  public void execute(CommandLine cmd) throws Exception {
+    Locale.setDefault(Locale.ENGLISH);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
-      if (cmd.hasOption("o")) {
-        out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
-      }
+    if (cmd.hasOption("o")) {
+      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
+    }
 
-      if (cmd.hasOption("chars")) {
-        wikifyCharacters(out);
-      }
+    if (cmd.hasOption("chars")) {
+      wikifyCharacters(out);
+    }
 
-      if (cmd.hasOption("schema")) {
-        wikifySchema(out);
-      }
-
-    } catch (Exception ex) {
-      Logger.getLogger(Validate.class.getName()).log(Level.SEVERE, null, ex);
+    if (cmd.hasOption("schema")) {
+      wikifySchema(out);
     }
   }
 
@@ -81,7 +88,7 @@ public class Wikify extends Command {
     // accented
     try {
       Map<String, String> cm = AccentCharNode.mapping();
-      Output xmlOut = new XMLOutput(out);
+      Writer xmlOut = new XMLWriter(out);
       CharNode cn = new AccentCharNode();
       Formatter formatter = new Formatter(out);
 
@@ -145,7 +152,7 @@ public class Wikify extends Command {
     String[] options = attr.getOptions();
     if (options.length == 0) {
       return "";
-    }
+    }    
     Iterator<String> i = Arrays.asList(options).iterator();
     while (i.hasNext()) {
       String s = i.next();

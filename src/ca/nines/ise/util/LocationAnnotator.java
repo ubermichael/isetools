@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.util;
 
 import java.util.ArrayDeque;
@@ -13,7 +25,6 @@ import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.events.MutationEvent;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -44,7 +55,7 @@ public class LocationAnnotator extends XMLFilterImpl {
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
-        EventTarget target = ((MutationEvent) e).getTarget();
+        EventTarget target = e.getTarget();
         elementStack.push((Element) target);
       }
     };
@@ -58,7 +69,7 @@ public class LocationAnnotator extends XMLFilterImpl {
     EventListener modListener = new EventListener() {
       @Override
       public void handleEvent(Event e) {
-        EventTarget target = ((MutationEvent) e).getTarget();
+        EventTarget target = e.getTarget();
         elementStack.push((Element) target);
       }
     };

@@ -23,9 +23,15 @@
         <desc>one more string attribute.</desc>
       </attribute>
     </tag>
+    <tag name="OPTATTR" where="all">
+      <desc>tag with optional attribute</desc>
+      <attribute name="ok" type="list" optional="yes">
+        <desc>optional attribute</desc>
+      </attribute>
+    </tag>
     <tag name="DEPAT" where="all">
       <desc>tag with depreciated attribute</desc>
-      <attribute name="foo" depreciated="no no no">
+      <attribute name="foo" type="string" depreciated="no no no">
         <desc>depreciated attribute</desc>
       </attribute>
     </tag>

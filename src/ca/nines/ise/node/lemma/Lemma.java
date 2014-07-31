@@ -1,17 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.LocationData;
-import java.io.IOException;
 import java.util.Formatter;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -21,38 +30,35 @@ abstract public class Lemma {
 
   private final String lem;
   private final int lineNumber;
-  private final String node;
   private final String source;
   private final String tln;
-  private final String xml;
+  private final String asl;
 
-  public abstract static class LemmaBuilder {
+  private final static Pattern lemSplitterDots = Pattern.compile("(.*?) ?\\. \\. \\. ?(.*)");
+  private final static Pattern lemSplitterSlash = Pattern.compile("(.*?) ?/ ?(.*)");
+  private final static Pattern tlnSplitter = Pattern.compile("(\\p{Digit}+(?:\\.\\p{Digit}+)?) ?- ?(\\p{Digit}+(?:\\.\\p{Digit}+)?)");
+
+  protected abstract static class LemmaBuilder {
 
     protected String lem;
     protected int lineNumber;
-    protected String node;
     protected String source;
     protected String tln;
-    protected String xml;
+    protected String asl;
 
-    public LemmaBuilder() {
+    protected LemmaBuilder() {
       lem = "";
       lineNumber = 0;
-      node = "";
       source = "";
       tln = "";
-      xml = "";
+      asl = "";
     }
-    
-    public LemmaBuilder from(Node n) throws ParserConfigurationException, XPathExpressionException {
+
+    public LemmaBuilder from(Node n) {
       LocationData loc = (LocationData) n.getUserData(LocationData.LOCATION_DATA_KEY);
       setSource(loc.getSystemId());
       setLineNumber(loc.getStartLine());
 
-      return this;
-    }
-
-    public LemmaBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
       return this;
     }
 
@@ -73,14 +79,6 @@ abstract public class Lemma {
     }
 
     /**
-     * @param node the node to set
-     */
-    public LemmaBuilder setNode(String node) {
-      this.node = node;
-      return this;
-    }
-
-    /**
      * @param source the source to set
      */
     public LemmaBuilder setSource(String source) {
@@ -96,23 +94,18 @@ abstract public class Lemma {
       return this;
     }
 
-    /**
-     * @param xml the xml to set
-     */
-    public LemmaBuilder setXml(String xml) {
-      this.xml = xml;
+    public LemmaBuilder setAsl(String asl) {
+      this.asl = asl;
       return this;
     }
-  
   }
 
-  protected Lemma(String lem, int lineNumber, String node, String source, String tln, String xml) {
+  protected Lemma(String lem, int lineNumber, String source, String tln, String asl) {
     this.lem = lem;
     this.lineNumber = lineNumber;
-    this.node = node;
     this.source = source;
     this.tln = tln;
-    this.xml = xml;
+    this.asl = asl;
   }
 
   /**
@@ -122,18 +115,47 @@ abstract public class Lemma {
     return lem;
   }
 
+  public boolean isLemSplit() {
+    Matcher dots = lemSplitterDots.matcher(lem);
+    if (dots.matches()) {
+      return true;
+    }
+    Matcher slash = lemSplitterSlash.matcher(lem);
+    if (slash.matches()) {
+      return true;
+    }
+    return false;
+  }
+
+  public String getLemStart() {
+    Matcher dots = lemSplitterDots.matcher(lem);
+    if (dots.matches()) {
+      return dots.group(1);
+    }
+    Matcher slash = lemSplitterSlash.matcher(lem);
+    if (slash.matches()) {
+      return slash.group(1);
+    }
+    return null;
+  }
+
+  public String getLemEnd() {
+    Matcher dots = lemSplitterDots.matcher(lem);
+    if (dots.matches()) {
+      return dots.group(2);
+    }
+    Matcher slash = lemSplitterSlash.matcher(lem);
+    if (slash.matches()) {
+      return slash.group(2);
+    }
+    return null;
+  }
+
   /**
    * @return the lineNumber
    */
   public int getLineNumber() {
     return lineNumber;
-  }
-
-  /**
-   * @return the node
-   */
-  public String getNode() {
-    return node;
   }
 
   /**
@@ -150,16 +172,35 @@ abstract public class Lemma {
     return tln;
   }
 
-  /**
-   * @return the xml
-   */
-  public String getXml() {
-    return xml;
+  public boolean isTlnSplit() {
+    Matcher m = tlnSplitter.matcher(tln);
+    return m.matches();
   }
-  
+
+  public String getTlnStart() {
+    Matcher m = tlnSplitter.matcher(tln);
+    if (m.matches()) {
+      return m.group(1);
+    }
+    return null;
+  }
+
+  public String getTlnEnd() {
+    Matcher m = tlnSplitter.matcher(tln);
+    m.matches();
+    if (m.matches()) {
+      return m.group(2);
+    }
+    return null;
+  }
+
+  public String getAsl() {
+    return asl;
+  }
+
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%s @%s (%s)", source, lineNumber, tln, lem).toString();
+    return formatter.format("%s:%s @%s[%s] (%s)", source, lineNumber, tln, asl, lem).toString();
   }
 }

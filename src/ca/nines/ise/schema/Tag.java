@@ -1,8 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.schema;
 
 import ca.nines.ise.schema.Attribute.AttributeBuilder;
@@ -104,7 +116,7 @@ public class Tag implements Comparable<Tag> {
      * @return TagBuilder
      */
     public TagBuilder addAttribute(Attribute attr) {
-      attributes.put(attr.getName(), attr);
+      attributes.put(attr.getName().toLowerCase(), attr);
       return this;
     }
 
@@ -144,7 +156,10 @@ public class Tag implements Comparable<Tag> {
         setDepreciated(tmp.getTextContent());
       }
 
-      setDesc(((Element) n).getElementsByTagName("desc").item(0).getTextContent());
+      tmp = ((Element)n).getElementsByTagName("desc").item(0);
+      if(tmp != null) {
+        setDesc(tmp.getTextContent());
+      }
 
       NodeList list = ((Element) n).getElementsByTagName("attribute");
       int length = list.getLength();
@@ -397,6 +412,16 @@ public class Tag implements Comparable<Tag> {
   }
 
   /**
+   * Returns true if the tag contains the named attribute.
+   * 
+   * @param name
+   * @return 
+   */
+  public boolean hasAttribute(String name) {
+    return attributes.containsKey(name.toLowerCase());
+  }
+  
+  /**
    * True if the tag is depreciated.
    * 
    * @return boolean
@@ -433,9 +458,7 @@ public class Tag implements Comparable<Tag> {
 
     formatter.format("%s:%s%n", source, lineNumber);
     formatter.format("%s:%s:%s%n", name, empty, depreciated);
-    Iterator<Attribute> i = attributes.values().iterator();
-    while (i.hasNext()) {
-      Attribute a = i.next();
+    for(Attribute a : attributes.values()) {
       formatter.format("%s", a);
     }
 
