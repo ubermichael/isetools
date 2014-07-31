@@ -39,8 +39,11 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.util.regex.Matcher;
@@ -65,6 +68,7 @@ public class RTFWriter extends Writer {
   private RtfParagraphStyle p1;
   private RtfParagraphStyle p2;
 
+  private String currentTln;
   private List<Note> lemmas = null;
 
   public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
@@ -118,6 +122,7 @@ public class RTFWriter extends Writer {
 
     Paragraph tmp = new Paragraph("", p.getFont());
     Iterator iter = p.iterator();
+    Map<Integer, Note> positions = new HashMap<>();
 
     while (iter.hasNext()) {
       Element e = (Element) iter.next();
@@ -125,8 +130,11 @@ public class RTFWriter extends Writer {
         tmp.add(e);
         continue;
       }
+
       Chunk c = (Chunk) e;
+      String txt = c.getContent();
       boolean match = false;
+
       for (Note n : lemmas) {
         if (!n.hasNoteLevel("1")) {
           continue;
@@ -137,22 +145,46 @@ public class RTFWriter extends Writer {
         } else {
           lem = n.getLem();
         }
-        if (c.getContent().contains(lem)) {
+
+        int lemPos = txt.indexOf(lem) + lem.length();
+        if (lemPos >= 0) {
+          positions.put(Integer.valueOf(lemPos), n);
           match = true;
-          tmp.add(new Chunk(StringUtils.substringBefore(c.getContent(), lem)));
-          tmp.add(new Chunk(lem));
-          Footnote ftn = new Footnote(new Chunk(n.getNote("1").unicode().trim(), footnote));
-          tmp.add(ftn);
-          tmp.add(new Chunk(StringUtils.substringAfter(c.getContent(), lem)));
+        } else {
+          if (!n.isLemSplit() || n.getTlnEnd().equals(currentTln)) {
+            System.err.println("Cannot match lemma to document.");
+            System.err.println(n);
+          }
         }
       }
-      if (!match) {
+
+      if (match) {
+        Integer[] ptns = positions.keySet().toArray(new Integer[positions.size()]);
+        Arrays.sort(ptns);
+        int p = 0, q = 0;
+        for (Integer i : ptns) {
+          p = i.intValue();
+          try {
+            tmp.add(new Chunk(txt.substring(q, p)));
+            //Footnote ftn = new Footnote(new Chunk(positions.get(i).getNote("1").unicode().trim(), footnote));
+            //tmp.add(ftn);
+            tmp.add(new Chunk("*"));
+            q = p;
+          } catch (Exception exc) {
+            System.err.println("Cannot position lemma in document at TLN " + currentTln);
+            System.err.println(positions.get(i));
+          }
+        }
+        if (p < txt.length()) {
+          tmp.add(new Chunk(txt.substring(p)));
+        }
+      } else {
         tmp.add(c);
       }
+      positions.clear();
     }
 
-    if (!tmp.isEmpty()
-            && !StringUtils.isWhitespace(tmp.getContent())) {
+    if (!tmp.isEmpty() && !StringUtils.isWhitespace(tmp.getContent())) {
       doc.add(tmp);
     }
     p = new Paragraph("", style);
@@ -199,8 +231,8 @@ public class RTFWriter extends Writer {
         case EMPTY:
           switch (n.getName()) {
             case "TLN":
-              String tln = ((EmptyNode) n).getAttribute("n");
-              lemmas = annotation.get(tln);
+              currentTln = ((EmptyNode) n).getAttribute("n");
+              lemmas = annotation.get(currentTln);
               if (inS) {
                 startParagraph(p2);
               } else {
