@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
@@ -29,19 +28,39 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 
 /**
+ * TextWriter creates a text representation of a DOM.
  *
  * @author michael
  */
 public class TextWriter extends Writer {
 
+  /**
+   * Construct a text writer and send output to System.out.
+   * 
+   * @throws UnsupportedEncodingException
+   * @throws ParserConfigurationException 
+   */
   public TextWriter() throws UnsupportedEncodingException, ParserConfigurationException {
-    super();
+    this(System.out);
   }
 
+  /**
+   * Construct a text writer and send output to a print stream.
+   * 
+   * @param out the output destination
+   * 
+   * @throws UnsupportedEncodingException
+   * @throws ParserConfigurationException 
+   */
   public TextWriter(PrintStream out) throws UnsupportedEncodingException, ParserConfigurationException {
     super(out);
   }
 
+  /**
+   * Render the DOM into text.
+   * 
+   * @param dom 
+   */
   @Override
   public void render(DOM dom) {
     try {
@@ -51,6 +70,17 @@ public class TextWriter extends Writer {
     }
   }
 
+  /**
+   * Unsupported.
+   * 
+   * @param dom the DOM to render
+   * @param ann annotations
+   * 
+   * @throws TransformerConfigurationException
+   * @throws TransformerException
+   * @throws IOException
+   * @throws Exception 
+   */
   @Override
   public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
     throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
