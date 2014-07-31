@@ -150,7 +150,11 @@ public class Note extends Lemma {
     Formatter formatter = new Formatter();
     formatter.format("%s%n", super.toString());
     for (String lvl : getNoteLevels()) {
-      formatter.format("    %s:%s%n", lvl, getNote(lvl));
+      try {
+        formatter.format("    %s:%s%n", lvl, getNote(lvl).unicode());
+      } catch (IOException ex) {
+        Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
     return formatter.toString();
   }
