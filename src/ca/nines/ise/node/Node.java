@@ -177,7 +177,7 @@ abstract public class Node {
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
-    return formatter.format("%s:%s:%d:%d:%s", ownerDom, this.type(), line, column, this.text.replaceAll("\n", "\\n")).toString();
+    return formatter.format("%s:%s:%d:%d:%s", ownerDom.getSource(), this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
   }
 
   /**

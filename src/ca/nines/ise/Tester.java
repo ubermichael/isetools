@@ -35,7 +35,8 @@ public class Tester {
       DOM dom = new DOMBuilder(new File("Oth_M.txt")).build();
       Annotation notes = Annotation.builder().from(new File("Oth_M_annotation.xml")).build();
       RTFWriter w = new RTFWriter();
-      w.render(dom, notes);
+      System.out.println(w.preprocess(dom, notes));
+      //w.render(dom, notes);
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {
