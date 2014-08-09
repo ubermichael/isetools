@@ -32,7 +32,7 @@ public class TagNodeImpl extends TagNode {
   }
 
   @Override
-  public Node.NodeType type() {
+  public NodeType type() {
     return null;
   }
 
