@@ -56,7 +56,7 @@ abstract public class TagNode extends Node {
   }
 
   public void clearAttributes() {
-    if (attributes.containsKey("n")) {
+    if (attributes.containsKey("n") && ownerDom != null) {
       ownerDom.requestReindex();
     }
     attributes.clear();
@@ -116,7 +116,7 @@ abstract public class TagNode extends Node {
   }
 
   public void setAttribute(String name, String value) {
-    if (name.equals("n")) {
+    if (name.equals("n") && ownerDom != null) {
       ownerDom.requestReindex();
     }
     attributes.put(name.toLowerCase(), value);
