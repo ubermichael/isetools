@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.DOM;
@@ -38,7 +37,7 @@ abstract public class Node {
   public Node() {
     this.tln = "";
     this.column = 0;
-    this.line = 0;    
+    this.line = 0;
     this.text = "";
     this.ownerDom = null;
     this.asl = "";
@@ -58,6 +57,7 @@ abstract public class Node {
    * Expand the node into more tags, if possible and return them.
    * <p>
    * @return DOMFragment
+   * <p>
    * @throws java.io.IOException
    */
   abstract public Fragment expanded() throws IOException;
@@ -119,9 +119,13 @@ abstract public class Node {
    * @return the ownerDom
    */
   public String getSource() {
-    return ownerDom.getSource();
+    if (ownerDom != null) {
+      return ownerDom.getSource();
+    } else {
+      return "";
+    }
   }
-  
+
   public DOM getOwner() {
     return ownerDom;
   }
@@ -200,5 +204,5 @@ abstract public class Node {
   public abstract String unicode() throws IOException;
 
   public abstract String sgml();
-  
+
 }
