@@ -89,7 +89,8 @@ public class Note extends Lemma {
      */
     @Override
     public Note build() {
-      return new Note(lem, lineNumber, source, tln, asl, notes);
+      id = NEXT_ID.incrementAndGet();
+      return new Note(lem, lineNumber, source, tln, asl, id, notes);
     }
 
     /**
@@ -185,8 +186,8 @@ public class Note extends Lemma {
    * @param asl
    * @param notes 
    */
-  private Note(String lem, int lineNumber, String source, String tln, String asl, Map<String, DOM> notes) {
-    super(lem, lineNumber, source, tln, asl);
+  private Note(String lem, int lineNumber, String source, String tln, String asl, long id, Map<String, DOM> notes) {
+    super(lem, lineNumber, source, tln, asl, id);
     this.notes = new HashMap<>(notes);
   }
 

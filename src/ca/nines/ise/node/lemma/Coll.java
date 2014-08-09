@@ -84,7 +84,8 @@ public class Coll extends Lemma {
 
     @Override
     public Coll build() {
-      return new Coll(lem, lineNumber, source, tln, lemResp, lemNote, asl, readings, readingNotes);
+      id = NEXT_ID.incrementAndGet();      
+      return new Coll(lem, lineNumber, source, tln, lemResp, lemNote, asl, id, readings, readingNotes);
     }
 
     /**
@@ -109,8 +110,8 @@ public class Coll extends Lemma {
     return new CollBuilder();
   }
 
-  private Coll(String lem, int lineNumber, String source, String tln, String lemResp, String lemNote, String asl,  Map<String, String> readings, Map<String, String> readingNotes) {
-    super(lem, lineNumber, source, tln, asl);
+  private Coll(String lem, int lineNumber, String source, String tln, String lemResp, String lemNote, String asl, long id, Map<String, String> readings, Map<String, String> readingNotes) {
+    super(lem, lineNumber, source, tln, asl, id);
     this.lemResp = lemResp;
     this.lemNote = lemNote;
     this.readings = new HashMap<>(readings);

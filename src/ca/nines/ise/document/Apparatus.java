@@ -32,7 +32,8 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
 
   private final List<T> lemmas;
   private final String source;
-  private final Map<String, List<T>> index;
+  private final Map<String, List<T>> tlnIndex;
+  private final Map<Long, T> idIndex;
 
   public abstract static class ApparatusBuilder<T extends Lemma> {
 
@@ -54,18 +55,20 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   }
 
   private void addToIndex(String tln, T lemma) {
-    if (index.get(tln) == null) {
-      index.put(tln, new ArrayList<T>());
+    if (tlnIndex.get(tln) == null) {
+      tlnIndex.put(tln, new ArrayList<T>());
     }
-    index.get(tln).add(lemma);
+    tlnIndex.get(tln).add(lemma);
   }
 
   protected Apparatus(String source, List<T> lemmas) {
     this.source = source;
     this.lemmas = new ArrayList<>(lemmas);
-    this.index = new HashMap<>();
+    this.tlnIndex = new HashMap<>();
+    this.idIndex = new HashMap<>();
 
     for (T lemma : lemmas) {
+      idIndex.put(Long.valueOf(lemma.getId()), lemma);
       if (lemma.isTlnSplit()) {
         addToIndex(lemma.getTlnStart(), lemma);
         addToIndex(lemma.getTlnEnd(), lemma);
@@ -80,11 +83,15 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   }
 
   public List<T> get(String tln) {
-    if (index.containsKey(tln)) {
-      return new ArrayList<>(index.get(tln));
+    if (tlnIndex.containsKey(tln)) {
+      return new ArrayList<>(tlnIndex.get(tln));
     } else {
       return null;
     }
+  }
+  
+  public T find(long id) {
+    return idIndex.get(Long.valueOf(id));
   }
 
   /**

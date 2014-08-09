@@ -311,7 +311,7 @@ public class DOM implements Iterable<Node> {
    * <p>
    * @param source
    */
-  protected void setSource(String source) {
+  public void setSource(String source) {
     this.source = source;
   }
 

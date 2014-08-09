@@ -18,6 +18,7 @@ package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.LocationData;
 import java.util.Formatter;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.w3c.dom.Node;
@@ -28,8 +29,9 @@ import org.w3c.dom.Node;
  *
  * @author michael
  */
-abstract public class Lemma {
-
+abstract public class Lemma {  
+  long id;
+  
   /**
    * The piece of text being annotated/collated
    */
@@ -103,6 +105,16 @@ abstract public class Lemma {
      * The act/scene/line where of the location of the lemma in the document.
      */
     protected String asl;
+    
+    /**
+     * The ID of the lemma.
+     */
+    protected long id;
+    
+    /**
+     * Generate thread-safe identifiers.
+     */
+    static final AtomicLong NEXT_ID = new AtomicLong(0);
 
     protected LemmaBuilder() {
       lem = "";
@@ -193,12 +205,13 @@ abstract public class Lemma {
    * @param tln
    * @param asl 
    */
-  protected Lemma(String lem, int lineNumber, String source, String tln, String asl) {
+  protected Lemma(String lem, int lineNumber, String source, String tln, String asl, long id) {
     this.lem = lem;
     this.lineNumber = lineNumber;
     this.source = source;
     this.tln = tln;
     this.asl = asl;
+    this.id = id;
   }
 
   /**
@@ -332,6 +345,10 @@ abstract public class Lemma {
    */
   public String getAsl() {
     return asl;
+  }
+  
+  public long getId() {
+    return id;
   }
 
   /**

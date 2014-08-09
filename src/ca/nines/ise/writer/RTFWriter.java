@@ -18,9 +18,11 @@ package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.lemma.Note;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -53,10 +55,10 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * RTFWriter serializes a DOM into a rich text format document. It can add
  * annotations as footnotes in the document.
- *
+ * <p>
  * It uses iText from http://ymasory.github.com/iText-4.2.0/ to produce the
  * document.
- *
+ * <p>
  * @author michael
  */
 public class RTFWriter extends Writer {
@@ -65,18 +67,18 @@ public class RTFWriter extends Writer {
    * iText document for the output.
    */
   private final Document doc;
-  
+
   /**
    * iText RtfWriter for the document.
-   * 
+   * <p>
    */
   private final RtfWriter2 writer;
-  
+
   /**
    * Keep a stack of fonts, so that they can be more easily manipulated.
    */
   private ArrayDeque<Font> fontStack;
-  
+
   /**
    * The current paragraph being worked on.
    */
@@ -84,29 +86,29 @@ public class RTFWriter extends Writer {
 
   /**
    * The normal, default paragraph style.
-   */  
+   */
   private RtfParagraphStyle normal;
-  
+
   /**
    * The paragraph style for exit stage directions.
    */
   private RtfParagraphStyle exit;
-  
+
   /**
    * Paragraph style for footnotes.
    */
   private RtfParagraphStyle footnote;
-  
+
   /**
    * Paragraph style for a literary division.
    */
   private RtfParagraphStyle ld;
-  
+
   /**
    * Paragraph style for the first line of a speech
    */
   private RtfParagraphStyle p1;
-  
+
   /**
    * Paragraph style for the second and subsequent line of a speech
    */
@@ -114,7 +116,7 @@ public class RTFWriter extends Writer {
 
   /**
    * A list of the lemmas for the current TLN.
-   * 
+   * <p>
    */
   private String currentTln;
 
@@ -122,7 +124,7 @@ public class RTFWriter extends Writer {
 
   /**
    * Construct a writer. Output will be sent to STDOUT.
-   *
+   * <p>
    * @throws UnsupportedEncodingException
    * @throws ParserConfigurationException
    */
@@ -132,9 +134,9 @@ public class RTFWriter extends Writer {
 
   /**
    * Construct a writer. Output will be sent to the corresponding printstream.
-   *
+   * <p>
    * @param out the destination.
-   *
+   * <p>
    * @throws ParserConfigurationException
    * @throws UnsupportedEncodingException
    */
@@ -179,7 +181,7 @@ public class RTFWriter extends Writer {
 
   /**
    * Start a new, normal paragraph in the document.
-   *
+   * <p>
    * @throws DocumentException
    * @throws IOException
    */
@@ -190,9 +192,9 @@ public class RTFWriter extends Writer {
   /**
    * Start a new styled paragraph in the document. Cleans up the previous
    * paragraph and inserts footnotes if needed.
-   *
+   * <p>
    * @param style The paragraph style
-   *
+   * <p>
    * @throws DocumentException
    * @throws IOException
    */
@@ -270,7 +272,7 @@ public class RTFWriter extends Writer {
 
   /**
    * Add a chunk of text to the current paragraph.
-   *
+   * <p>
    * @param txt The text to add.
    */
   private void addChunk(String txt) {
@@ -280,10 +282,79 @@ public class RTFWriter extends Writer {
   }
 
   /**
+   * Preprocess the DOM, inserting a new node for each annotation location.
+   * <p>
+   * @param dom
+   * @param annotation <p>
+   * @return
+   */
+  public DOM preprocess(DOM dom, Annotation annotation) throws IOException {
+    DOM d = new DOM();
+    String tln;
+    List<Note> notes;
+    Map<Integer, Note> positions = new HashMap<>();
+
+    d.setSource(dom.getSource());
+
+    for (Node n : dom) {
+      if (n.getName().equals("TLN")) {
+
+        tln = ((TagNode) n).getAttribute("n");
+        notes = annotation.get(tln);
+        if (notes == null) {
+          continue;
+        }
+
+        Fragment frag = dom.getTlnFragment(currentTln, 1);
+        String txt = frag.unicode();
+
+        for (Note note : notes) {
+          if (!note.hasNoteLevel("1")) {
+            continue;
+          }
+          String lem;
+          if (note.isLemSplit()) {
+            lem = note.getLemEnd();
+          } else {
+            lem = note.getLem();
+          }
+          int lemPos = txt.indexOf(lem);
+          if (lemPos < 0) {
+            System.err.println("Cannot match lemma to document.");
+            continue;
+          }
+          positions.put(Integer.valueOf(lemPos), note);
+        }
+
+        if (positions.size() > 0) {
+          Integer ptns[] = positions.keySet().toArray(new Integer[positions.size()]);
+          Arrays.sort(ptns);
+          int p = 0, q = 0;
+          for(Integer i : ptns) {
+            p = i.intValue();
+            if(p < txt.length()) {
+              
+            }
+          }
+        }
+
+        d.add(n);
+        TagNode marker = new EmptyNode(n);
+        marker.setName("locator");
+        d.add(marker);
+
+        continue; // don't add the node twice.      
+      }
+      d.add(n);
+    }
+    return d;
+  }
+
+  /**
    * Render the DOM without any annotations or footnotes.
-   *
+   * <p>
    * @param dom the DOM to render.
-   *
+   * <p>
    * @throws DocumentException
    * @throws IOException
    */
@@ -294,12 +365,12 @@ public class RTFWriter extends Writer {
 
   /**
    * Render the DOM with annotations/footnotes.
-   * 
-   * @param dom the DOM to render
+   * <p>
+   * @param dom        the DOM to render
    * @param annotation the annotations to render
-   * 
+   * <p>
    * @throws DocumentException
-   * @throws IOException 
+   * @throws IOException
    */
   public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
 
