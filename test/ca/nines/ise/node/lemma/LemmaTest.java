@@ -127,16 +127,16 @@ public class LemmaTest {
 
       @Override
       public LemmaImpl build() {
-        return new LemmaImpl(lem, lineNumber, source, tln, asl);
+        return new LemmaImpl(lem, lineNumber, source, tln, asl, id);
       }
     }
 
     private LemmaImpl() {
-      super("", 0, "", "", "");
+      super("", 0, "", "", "", 0);
     }
 
-    protected LemmaImpl(String lem, int lineNumber, String source, String tln, String asl) {
-      super(lem, lineNumber, source, tln, asl);
+    protected LemmaImpl(String lem, int lineNumber, String source, String tln, String asl, long id) {
+      super(lem, lineNumber, source, tln, asl, id);
     }
   }
 
