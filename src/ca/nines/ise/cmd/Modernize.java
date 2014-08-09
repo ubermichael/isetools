@@ -52,29 +52,10 @@ public class Modernize extends Command {
       out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")), true, "UTF-8");
     }
 
-    if (cmd.hasOption("text")) {
-      renderer = new TextWriter(out);
-    }
-    if (cmd.hasOption("xml")) {
-      renderer = new XMLWriter(out);
-    }
-    if (cmd.hasOption("rtf")) {
-      renderer = new RTFWriter(out);
-    }
-    
-    if(renderer == null) {
-      System.err.println("You must specify a transformation");
-      System.exit(1);
-    }
-
     String[] files = getArgList(cmd);
     DOM dom = new DOMBuilder(new File(files[0])).build();
-    Annotation ann = Annotation.builder().build();
-    if (files.length > 1) {
-      ann = Annotation.builder().from(new File(files[1])).build();
-    }
     if (dom.getStatus() != DOMStatus.ERROR) {
-      renderer.render(dom, ann);
+      renderer.render(dom);
     }
   }
 
@@ -82,9 +63,6 @@ public class Modernize extends Command {
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("o", true, "Send output to file.");
-    opts.addOption("xml", false, "Transform output to XML.");
-    opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
-    opts.addOption("rtf", false, "Transform output to an RTF document.");
     return opts;
   }
 
