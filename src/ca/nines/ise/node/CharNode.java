@@ -49,7 +49,7 @@ abstract public class CharNode extends Node {
 
   @Override
   public String plain() throws IOException {
-    return expanded().plain();
+    return innerText().replaceAll("[^a-zA-Z]*", "");
   }
 
   @Override
