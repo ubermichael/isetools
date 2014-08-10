@@ -19,7 +19,9 @@ package ca.nines.ise;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.transformer.Formatter;
 import ca.nines.ise.transformer.Modernizer;
+import ca.nines.ise.transformer.Normalizer;
 import ca.nines.ise.writer.SGMLWriter;
 import ca.nines.ise.writer.Writer;
 import java.io.File;
@@ -35,9 +37,17 @@ public class Tester {
     try {
       DOM dom = new DOMBuilder(new File("1H6_F1.txt")).build();
       Modernizer m = new Modernizer();
-      DOM mod = m.transform(dom);
+      dom = m.transform(dom);
+      
+      Normalizer n = new Normalizer();
+      dom = n.transform(dom);
+      
+      Formatter f = new Formatter();
+      dom = f.transform(dom);
+      
       Writer renderer = new SGMLWriter();
-      renderer.render(mod);      
+      renderer.render(dom);      
+      
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {

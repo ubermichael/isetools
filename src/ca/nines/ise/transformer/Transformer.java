@@ -27,16 +27,16 @@ import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 import java.io.IOException;
-import java.util.Iterator;
+import org.apache.commons.collections4.iterators.PeekingIterator;
 
 /**
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 abstract public class Transformer {
+  private PeekingIterator<Node> iterator;
 
-  private DOM dom;
-  private Iterator<Node> iterator;
+  DOM dom;
 
   abstract public void abbreviation(AbbrNode n);
 
@@ -58,7 +58,7 @@ abstract public class Transformer {
 
   abstract public void empty_ornament(EmptyNode n);
 
-  abstract public void empty_prop(StartNode n);
+  abstract public void empty_prop(EmptyNode n);
 
   abstract public void empty_qln(EmptyNode n);
 
@@ -69,130 +69,6 @@ abstract public class Transformer {
   abstract public void empty_tln(EmptyNode n);
 
   abstract public void empty_wln(EmptyNode n);
-
-  abstract public void start_abbr(StartNode n);
-
-  abstract public void start_act(StartNode n);
-
-  abstract public void start_add(StartNode n);
-
-  abstract public void start_ambig(StartNode n);
-
-  abstract public void start_backmatter(StartNode n);
-
-  abstract public void start_bll(StartNode n);
-
-  abstract public void start_blockquote(StartNode n);
-
-  abstract public void start_c(StartNode n);
-
-  abstract public void start_cl(StartNode n);
-
-  abstract public void start_col(StartNode n);
-
-  abstract public void start_cw(StartNode n);
-
-  abstract public void start_div(StartNode n);
-
-  abstract public void start_em(StartNode n);
-
-  abstract public void start_epilogue(StartNode n);
-
-  abstract public void start_fontgroup(StartNode n);
-
-  abstract public void start_foreign(StartNode n);
-
-  abstract public void start_frontmatter(StartNode n);
-
-  abstract public void start_h1(StartNode n);
-
-  abstract public void start_h2(StartNode n);
-
-  abstract public void start_h3(StartNode n);
-
-  abstract public void start_h4(StartNode n);
-
-  abstract public void start_h5(StartNode n);
-
-  abstract public void start_h6(StartNode n);
-
-  abstract public void start_hw(StartNode n);
-
-  abstract public void start_i(StartNode n);
-
-  abstract public void start_iembed(StartNode n);
-
-  abstract public void start_indent(StartNode n);
-
-  abstract public void start_iseheader(StartNode n);
-
-  abstract public void start_j(StartNode n);
-
-  abstract public void start_ld(StartNode n);
-
-  abstract public void start_lem(StartNode n);
-
-  abstract public void start_linegroup(StartNode n);
-
-  abstract public void start_link(StartNode n);
-
-  abstract public void start_ls(StartNode n);
-
-  abstract public void start_marg(StartNode n);
-
-  abstract public void start_mode(StartNode n);
-
-  abstract public void start_ornament(StartNode n);
-
-  abstract public void start_page(StartNode n);
-
-  abstract public void start_poem(StartNode n);
-
-  abstract public void start_prologue(StartNode n);
-
-  abstract public void start_prop(StartNode n);
-
-  abstract public void start_prosequote(StartNode n);
-
-  abstract public void start_quote(StartNode n);
-
-  abstract public void start_r(StartNode n);
-
-  abstract public void start_ra(StartNode n);
-
-  abstract public void start_rdg(StartNode n);
-
-  abstract public void start_rt(StartNode n);
-
-  abstract public void start_s(StartNode n);
-
-  abstract public void start_sc(StartNode n);
-
-  abstract public void start_scene(StartNode n);
-
-  abstract public void start_sd(StartNode n);
-
-  abstract public void start_section(StartNode n);
-
-  abstract public void start_sig(StartNode n);
-
-  abstract public void start_sp(StartNode n);
-
-  abstract public void start_stanza(StartNode n);
-
-  abstract public void start_sub(StartNode n);
-
-  abstract public void start_sup(StartNode n);
-
-  abstract public void start_swash(StartNode n);
-
-  abstract public void start_titlehead(StartNode n);
-
-  abstract public void start_titlepage(StartNode n);
-
-  abstract public void start_versequote(StartNode n);
-
-  abstract public void start_work(StartNode n);
 
   abstract public void end_abbr(EndNode n);
 
@@ -270,6 +146,8 @@ abstract public class Transformer {
 
   abstract public void end_page(EndNode n);
 
+  abstract public void end_pn(EndNode n);
+
   abstract public void end_poem(EndNode n);
 
   abstract public void end_prologue(EndNode n);
@@ -318,13 +196,140 @@ abstract public class Transformer {
 
   abstract public void end_work(EndNode n);
 
-  abstract public void text(TextNode n);
+  abstract public void start_abbr(StartNode n);
+
+  abstract public void start_act(StartNode n);
+
+  abstract public void start_add(StartNode n);
+
+  abstract public void start_ambig(StartNode n);
+
+  abstract public void start_backmatter(StartNode n);
+
+  abstract public void start_bll(StartNode n);
+
+  abstract public void start_blockquote(StartNode n);
+
+  abstract public void start_c(StartNode n);
+
+  abstract public void start_cl(StartNode n);
+
+  abstract public void start_col(StartNode n);
+
+  abstract public void start_cw(StartNode n);
+
+  abstract public void start_div(StartNode n);
+
+  abstract public void start_em(StartNode n);
+
+  abstract public void start_epilogue(StartNode n);
+
+  abstract public void start_fontgroup(StartNode n);
+
+  abstract public void start_foreign(StartNode n);
+
+  abstract public void start_frontmatter(StartNode n);
+
+  abstract public void start_h1(StartNode n);
+
+  abstract public void start_h2(StartNode n);
+
+  abstract public void start_h3(StartNode n);
+
+  abstract public void start_h4(StartNode n);
+
+  abstract public void start_h5(StartNode n);
+
+  abstract public void start_h6(StartNode n);
+
+  abstract public void start_hw(StartNode n);
+
+  abstract public void start_i(StartNode n);
+
+  abstract public void start_iembed(StartNode n);
+
+  abstract public void start_ilink(StartNode n);
+
+  abstract public void start_indent(StartNode n);
+
+  abstract public void start_iseheader(StartNode n);
+
+  abstract public void start_j(StartNode n);
+
+  abstract public void start_ld(StartNode n);
+
+  abstract public void start_lem(StartNode n);
+
+  abstract public void start_linegroup(StartNode n);
+
+  abstract public void start_ls(StartNode n);
+
+  abstract public void start_marg(StartNode n);
+
+  abstract public void start_mode(StartNode n);
+
+  abstract public void start_ornament(StartNode n);
+
+  abstract public void start_page(StartNode n);
+
+  abstract public void start_pn(StartNode n);
+
+  abstract public void start_poem(StartNode n);
+
+  abstract public void start_prologue(StartNode n);
+
+  abstract public void start_prop(StartNode n);
+
+  abstract public void start_prosequote(StartNode n);
+
+  abstract public void start_quote(StartNode n);
+
+  abstract public void start_r(StartNode n);
+
+  abstract public void start_ra(StartNode n);
+
+  abstract public void start_rdg(StartNode n);
+
+  abstract public void start_rt(StartNode n);
+
+  abstract public void start_s(StartNode n);
+
+  abstract public void start_sc(StartNode n);
+
+  abstract public void start_scene(StartNode n);
+
+  abstract public void start_sd(StartNode n);
+
+  abstract public void start_section(StartNode n);
+
+  abstract public void start_sig(StartNode n);
+
+  abstract public void start_sp(StartNode n);
+
+  abstract public void start_stanza(StartNode n);
+
+  abstract public void start_sub(StartNode n);
+
+  abstract public void start_sup(StartNode n);
+
+  abstract public void start_swash(StartNode n);
+
+  abstract public void start_titlehead(StartNode n);
+
+  abstract public void start_titlepage(StartNode n);
+
+  abstract public void start_versequote(StartNode n);
+
+  public abstract void start_work(StartNode n);
+
+  public abstract void text(TextNode n);
 
   public final DOM transform(DOM dom) throws IOException {
     this.dom = new DOM();
     this.dom.setLines(dom.getLines());
     this.dom.setSource(dom.getSource());
-    iterator = dom.iterator();
+    iterator = new PeekingIterator(dom.iterator());
+    
     while (iterator.hasNext()) {
       Node n = iterator.next();
       dispatch(n);
@@ -358,8 +363,55 @@ abstract public class Transformer {
     }
   }
 
+  private void dispatch_empty(EmptyNode n) {
+    switch (n.getName().toLowerCase()) {
+      case "bl":
+        empty_bl(n);
+        break;
+      case "br":
+        empty_br(n);
+        break;
+      case "l":
+        empty_l(n);
+        break;
+      case "lb":
+        empty_lb(n);
+        break;
+      case "link":
+        empty_link(n);
+        break;
+      case "meta":
+        empty_meta(n);
+        break;
+      case "ornament":
+        empty_ornament(n);
+        break;
+      case "prop":
+        empty_prop(n);
+        break;
+      case "qln":
+        empty_qln(n);
+        break;
+      case "rule":
+        empty_rule(n);
+        break;
+      case "space":
+        empty_space(n);
+        break;
+      case "tln":
+        empty_tln(n);
+        break;
+      case "wln":
+        empty_wln(n);
+        break;
+      default:
+        // @TODO throw an error here.
+        break;
+    }
+  }
+
   private void dispatch_end(EndNode n) {
-    switch (n.getName()) {
+    switch (n.getName().toLowerCase()) {
       case "abbr":
         end_abbr(n);
         break;
@@ -474,6 +526,9 @@ abstract public class Transformer {
       case "page":
         end_page(n);
         break;
+      case "pn":
+        end_pn(n);
+        break;
       case "poem":
         end_poem(n);
         break;
@@ -552,12 +607,8 @@ abstract public class Transformer {
     }
   }
 
-  private void dispatch_empty(EmptyNode n) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
   private void dispatch_start(StartNode n) {
-    switch (n.getName()) {
+    switch (n.getName().toLowerCase()) {
       case "abbr":
         start_abbr(n);
         break;
@@ -636,6 +687,9 @@ abstract public class Transformer {
       case "iembed":
         start_iembed(n);
         break;
+      case "ilink":
+        start_ilink(n);
+        break;
       case "indent":
         start_indent(n);
         break;
@@ -654,9 +708,6 @@ abstract public class Transformer {
       case "linegroup":
         start_linegroup(n);
         break;
-      case "link":
-        start_link(n);
-        break;
       case "ls":
         start_ls(n);
         break;
@@ -671,6 +722,9 @@ abstract public class Transformer {
         break;
       case "page":
         start_page(n);
+        break;
+      case "pn":
+        start_pn(n);
         break;
       case "poem":
         start_poem(n);
@@ -747,12 +801,17 @@ abstract public class Transformer {
       default:
         // @TODO throw an error here.
         break;
-    }  }
+    }
+  }
 
-  protected void skipTo(Iterator<Node> it, NodeType nt, String nodeName) {
-    while (it.hasNext()) {
-      Node n = it.next();
-      if ((n.type() == nt) && (n.getName().equals(nodeName))) {
+  protected Node peek() {
+    return iterator.peek();
+  }
+  
+  void skipTo(NodeType nt, String nodeName) {
+    while (iterator.hasNext()) {
+      Node n = iterator.next();
+      if ((n.type() == nt) && (n.getName().toLowerCase().equals(nodeName.toLowerCase()))) {
         return;
       }
     }

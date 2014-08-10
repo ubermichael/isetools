@@ -16,118 +16,279 @@
  */
 package ca.nines.ise.transformer;
 
-import ca.nines.ise.dom.DOM;
+import ca.nines.ise.node.AbbrNode;
+import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.CommentNode;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.NodeType;
-import ca.nines.ise.node.TagNode;
+import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
-import java.io.IOException;
-import java.util.Iterator;
 
 /**
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
-public class Modernizer extends Transformer {
+public class Modernizer extends IdentityTransform {
+
+  boolean inHW = false;
 
   @Override
-  public DOM transform(DOM dom) throws IOException {
-    DOM mod = new DOM();
-    boolean inHW = false;
-    Node n;
-    mod.setLines(dom.getLines());
-    mod.setSource(dom.getSource());
-    for (Iterator<Node> it = dom.iterator(); it.hasNext();) {
-      Node node = it.next();
-      switch (node.getName()) {
-        case "#ABBR":
-        case "#CHAR":
-          String txt = "";
-          switch (node.getText()) {
-            case "{#}":
-              txt = " ";
-              break;
-            case "{ }":
-              break;
-            default:
-              txt = node.plain();
-          }
-          n = new TextNode(node);
-          n.setText(txt);
-          mod.add(new TextNode(n));
-          break;
-        case "#COMMENT":
-          break;
-        case "HW":
-          if (node.type() == NodeType.START) {
-            inHW = true;
-          }
-          break;
-        case "BLL":
-          break;
-        case "BR":
-        case "C":
-        case "COL":
-          break;
-        case "CW":
-          skipTo(it, NodeType.END, "CW");
-          break;
-        case "FONTGROUP":
-        case "J":
-        case "L":
-        case "LS":
-        case "ORNAMENT":
-        case "PAGE":
-        case "PN":
-        case "QLN":
-        case "R":
-        case "RA":
-          break;
-        case "RT":
-          skipTo(it, NodeType.END, "RT");
-          break;
-        case "RULE":
-          break;
-        case "SP":
-          mod.add(node);
-          n = new TextNode(node);
-          n.setText(((TagNode) node).getAttribute("norm"));
-          mod.add(n);
-          n = new EndNode(node);
-          ((TagNode) n).setName("SP");
-          mod.add(n);
-          skipTo(it, NodeType.END, "SP");
-          break;
-        case "SC":
-          break;
-        case "SIG":
-          skipTo(it, NodeType.END, "SIG");
-          break;
-        case "TLN":
-          n = new EmptyNode(node);
-          ((TagNode) n).setName("L");
-          ((TagNode) n).setAttribute("n", "");
-          mod.add(n);
-          mod.add(node);
-          break;
-        case "#TEXT":
-          if (inHW) {
-            n = new TextNode(node);
-            n.setText(node.getText().replaceFirst("[(]", ""));
-            inHW = false;
-            mod.add(n);
-            break;
-          }
-          mod.add(node);
-          break;
-        default:
-          mod.add(node);
-      }
-    }
-    return mod;
+  public void abbreviation(AbbrNode n) {
+    TextNode t = new TextNode(n);
+    t.setText(n.plain());
+    dom.add(t);
+  }
 
+  @Override
+  public void character(CharNode n) {
+    String txt;
+    switch (n.getText()) {
+      case "{#}":
+        txt = " ";
+        break;
+      case "{ }":
+        txt = "";
+        break;
+      default:
+        txt = n.plain();
+        break;
+    }
+    TextNode t = new TextNode(n);
+    t.setText(txt);
+    dom.add(t);
+  }
+
+  @Override
+  public void comment(CommentNode n) {
+    // do nothing.
+  }
+
+  @Override
+  public void empty_l(EmptyNode n) {
+    
+  }
+
+  @Override
+  public void empty_ornament(EmptyNode n) {
+    
+  }
+
+  @Override
+  public void empty_rule(EmptyNode n) {
+    
+  }
+
+  @Override
+  public void empty_space(EmptyNode n) {
+    
+  }
+
+  @Override
+  public void empty_tln(EmptyNode n) {
+    EmptyNode l = new EmptyNode(n);
+    l.setName("L");
+    l.setAttribute("n", "");
+    dom.add(l);
+    dom.add(n);
+  }
+
+  @Override
+  public void end_bll(EndNode n) {
+
+  }
+
+  @Override
+  public void end_c(EndNode n) {
+
+  }
+
+  @Override
+  public void end_col(EndNode n) {
+
+  }
+
+  @Override
+  public void end_cw(EndNode n) {
+    skipTo(NodeType.END, "cw");
+  }
+
+  @Override
+  public void end_fontgroup(EndNode n) {
+
+  }
+
+  @Override
+  public void end_hw(EndNode n) {
+    inHW = true;
+  }
+
+  @Override
+  public void end_i(EndNode n) {
+
+  }
+
+  @Override
+  public void end_j(EndNode n) {
+
+  }
+
+  @Override
+  public void end_ls(EndNode n) {
+
+  }
+
+  @Override
+  public void end_marg(EndNode n) {
+
+  }
+
+  @Override
+  public void end_ornament(EndNode n) {
+
+  }
+
+  @Override
+  public void end_page(EndNode n) {
+
+  }
+
+  @Override
+  public void end_pn(EndNode n) {
+    skipTo(NodeType.END, "pn");
+  }
+
+  @Override
+  public void end_r(EndNode n) {
+
+  }
+
+  @Override
+  public void end_ra(EndNode n) {
+
+  }
+
+  @Override
+  public void end_rt(EndNode n) {
+
+  }
+
+  @Override
+  public void end_sc(EndNode n) {
+
+  }
+
+  @Override
+  public void start_bll(StartNode n) {
+
+  }
+
+  @Override
+  public void start_c(StartNode n) {
+
+  }
+
+  @Override
+  public void start_col(StartNode n) {
+
+  }
+
+  @Override
+  public void start_cw(StartNode n) {
+    skipTo(NodeType.END, "cw");
+  }
+
+  @Override
+  public void start_fontgroup(StartNode n) {
+
+  }
+
+  @Override
+  public void start_hw(StartNode n) {
+    inHW = true;
+  }
+
+  @Override
+  public void start_i(StartNode n) {
+
+  }
+
+  @Override
+  public void start_j(StartNode n) {
+
+  }
+
+  @Override
+  public void start_ls(StartNode n) {
+
+  }
+
+  @Override
+  public void start_marg(StartNode n) {
+
+  }
+
+  @Override
+  public void start_ornament(StartNode n) {
+
+  }
+
+  @Override
+  public void start_page(StartNode n) {
+
+  }
+
+  @Override
+  public void start_pn(StartNode n) {
+    skipTo(NodeType.END, "pn");
+  }
+
+  @Override
+  public void start_r(StartNode n) {
+
+  }
+
+  @Override
+  public void start_ra(StartNode n) {
+
+  }
+
+  @Override
+  public void start_rt(StartNode n) {
+    skipTo(NodeType.END, "rt");
+  }
+
+  @Override
+  public void start_sc(StartNode n) {
+
+  }
+
+  @Override
+  public void start_sig(StartNode n) {
+    skipTo(NodeType.END, "SIG");
+  }
+
+  @Override
+  public void start_sp(StartNode n) {
+    dom.add(n);
+    Node txt = new TextNode(n);
+    txt.setText(n.getAttribute("norm"));
+    dom.add(txt);
+    EndNode end = new EndNode(n);
+    end.setName("SP");
+    dom.add(end);
+    skipTo(NodeType.END, "sp");
+  }
+
+  @Override
+  public void text(TextNode n) {
+    TextNode txt = new TextNode(n);
+    if (inHW) {
+      txt.setText(n.getText().replaceFirst("[(]", ""));
+      inHW = false;
+    }
+    dom.add(txt);
   }
 
 }

@@ -21,7 +21,9 @@ import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TextNode;
+import ca.nines.ise.transformer.Formatter;
 import ca.nines.ise.transformer.Modernizer;
+import ca.nines.ise.transformer.Normalizer;
 import ca.nines.ise.writer.Writer;
 import ca.nines.ise.writer.SGMLWriter;
 import java.io.File;
@@ -62,10 +64,14 @@ public class Modernize extends Command {
     }
 
     Modernizer m = new Modernizer();
+    Normalizer n = new Normalizer();
+    Formatter f = new Formatter();
     
-    DOM mod = m.transform(dom);
+    dom = m.transform(dom);
+    dom = n.transform(dom);
+    dom = f.transform(dom);
     
-    renderer.render(mod);
+    renderer.render(dom);
   }
 
   @Override
