@@ -23,3 +23,5 @@ src/ca/nines/ise/version.properties
 *.rtf.bz2
 lib/javadoc
 lib/src
+
+*.bz2
