@@ -16,16 +16,19 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
+import ca.nines.ise.node.Node;
+import ca.nines.ise.node.TextNode;
+import ca.nines.ise.transformer.Formatter;
+import ca.nines.ise.transformer.Modernizer;
+import ca.nines.ise.transformer.Normalizer;
 import ca.nines.ise.writer.Writer;
-import ca.nines.ise.writer.RTFWriter;
-import ca.nines.ise.writer.TextWriter;
-import ca.nines.ise.writer.XMLWriter;
+import ca.nines.ise.writer.SGMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
 import org.apache.commons.cli.CommandLine;
@@ -45,46 +48,36 @@ public class Modernize extends Command {
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
-    Writer renderer = null;
+    Writer renderer;
     Locale.setDefault(Locale.ENGLISH);
     out = new PrintStream(System.out, true, "UTF-8");
     if (cmd.hasOption("o")) {
       out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")), true, "UTF-8");
     }
 
-    if (cmd.hasOption("text")) {
-      renderer = new TextWriter(out);
-    }
-    if (cmd.hasOption("xml")) {
-      renderer = new XMLWriter(out);
-    }
-    if (cmd.hasOption("rtf")) {
-      renderer = new RTFWriter(out);
-    }
-    
-    if(renderer == null) {
-      System.err.println("You must specify a transformation");
-      System.exit(1);
-    }
-
+    renderer = new SGMLWriter(out);
     String[] files = getArgList(cmd);
     DOM dom = new DOMBuilder(new File(files[0])).build();
-    Annotation ann = Annotation.builder().build();
-    if (files.length > 1) {
-      ann = Annotation.builder().from(new File(files[1])).build();
+    if (dom.getStatus() == DOMStatus.ERROR) {
+      System.err.println("Document contains errors. Cannot continue.");
+      System.exit(-1);
     }
-    if (dom.getStatus() != DOMStatus.ERROR) {
-      renderer.render(dom, ann);
-    }
+
+    Modernizer m = new Modernizer();
+    Normalizer n = new Normalizer();
+    Formatter f = new Formatter();
+    
+    dom = m.transform(dom);
+    dom = n.transform(dom);
+    dom = f.transform(dom);
+    
+    renderer.render(dom);
   }
 
   @Override
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("o", true, "Send output to file.");
-    opts.addOption("xml", false, "Transform output to XML.");
-    opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
-    opts.addOption("rtf", false, "Transform output to an RTF document.");
     return opts;
   }
 
