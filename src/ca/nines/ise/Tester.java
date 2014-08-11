@@ -16,11 +16,14 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.writer.RTFWriter;
+import ca.nines.ise.transformer.Formatter;
+import ca.nines.ise.transformer.Modernizer;
+import ca.nines.ise.transformer.Normalizer;
+import ca.nines.ise.writer.SGMLWriter;
+import ca.nines.ise.writer.Writer;
 import java.io.File;
 
 /**
@@ -32,11 +35,19 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new DOMBuilder(new File("Oth_M.txt")).build();
-      Annotation notes = Annotation.builder().from(new File("Oth_M_annotation.xml")).build();
-      RTFWriter w = new RTFWriter();
-      System.out.println(w.preprocess(dom, notes));
-      //w.render(dom, notes);
+      DOM dom = new DOMBuilder(new File("1H6_F1.txt")).build();
+      Modernizer m = new Modernizer();
+      dom = m.transform(dom);
+      
+      Normalizer n = new Normalizer();
+      dom = n.transform(dom);
+      
+      Formatter f = new Formatter();
+      dom = f.transform(dom);
+      
+      Writer renderer = new SGMLWriter();
+      renderer.render(dom);      
+      
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {

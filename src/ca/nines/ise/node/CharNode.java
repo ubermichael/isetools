@@ -48,8 +48,8 @@ abstract public class CharNode extends Node {
   public abstract CharType getCharType();
 
   @Override
-  public String plain() throws IOException {
-    return expanded().plain();
+  public String plain() {
+    return innerText().replaceAll("[^a-zA-Z]*", "");
   }
 
   @Override
