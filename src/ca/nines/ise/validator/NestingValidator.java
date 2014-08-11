@@ -43,7 +43,7 @@ public class NestingValidator {
       return;
     }
 
-    Message m = Message.builder("validator.nesting.split")
+    Message m = Message.builder("validator.nesting.split_tag")
             .fromNode(n)
             .addNote("Tag " + n.getName() + " splits other tags.")
             .build();
@@ -60,7 +60,7 @@ public class NestingValidator {
     }
 
     if (nodeStack.isEmpty()) {
-      m = Message.builder("validator.nesting.missing_start_tag")
+      m = Message.builder("validator.nesting.missing_start")
               .fromNode(n)
               .addNote("Cannot find start tag that corresponds to end tag " + n.getName())
               .build();
