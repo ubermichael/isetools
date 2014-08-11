@@ -70,9 +70,6 @@ public class Renumber extends Command {
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("o", true, "Send output to file.");
-    opts.addOption("xml", false, "Transform output to XML.");
-    opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
-    opts.addOption("rtf", false, "Transform output to an RTF document.");
     return opts;
   }
 
