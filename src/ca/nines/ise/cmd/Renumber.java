@@ -19,11 +19,9 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
+import ca.nines.ise.transformer.Renumberer;
 import ca.nines.ise.writer.Writer;
-import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
-import ca.nines.ise.writer.TextWriter;
-import ca.nines.ise.writer.XMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -51,7 +49,6 @@ public class Renumber extends Command {
       outputStream = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")), true, "UTF-8");
     }
 
-
     String[] files = getArgList(cmd);
     if (files.length > 1) {
       System.err.println("Can only renumber one file at a time.");
@@ -60,7 +57,34 @@ public class Renumber extends Command {
     }
     DOM dom = new DOMBuilder(new File(files[0])).build();
     if (dom.getStatus() != DOMStatus.ERROR) {
-      // do stuff here.
+      Renumberer r = new Renumberer();
+      if (cmd.hasOption("l")) {
+        r.setRenumberLine(true);
+      }
+      if (cmd.hasOption("qln")) {
+        r.setRenumberQln(true);
+      }
+      if (cmd.hasOption("tln")) {
+        r.setRenumberTln(true);
+      }
+      if (cmd.hasOption("wln")) {
+        r.setRenumberWln(true);
+      }
+      if (cmd.hasOption("act")) {
+        r.setRenumberAct(true);
+      }
+      if (cmd.hasOption("scene")) {
+        r.setRenumberScene(true);
+      }
+      if (cmd.hasOption("stanza")) {
+        r.setRenumberStanza(true);
+      }
+      if (cmd.hasOption("page")) {
+        r.setRenumberPage(true);
+      }
+      
+      dom = r.transform(dom);
+      
     }
     Writer out = new SGMLWriter(outputStream);
     out.render(dom);
@@ -70,6 +94,14 @@ public class Renumber extends Command {
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("o", true, "Send output to file.");
+    opts.addOption("l", false, "Renumber L tags.");
+    opts.addOption("qln", false, "Renumber QLN tags.");
+    opts.addOption("wln", false, "Renumber WLN tags.");
+    opts.addOption("act", false, "Renumber ACT tags.");
+    opts.addOption("scene", false, "Renumber SCENE tags.");
+    opts.addOption("stanza", false, "Renumber STANZA tags.");
+    opts.addOption("page", false, "Renumber PAGE tags.");
+
     return opts;
   }
 
