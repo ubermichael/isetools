@@ -31,6 +31,8 @@ public class Renumberer extends IdentityTransform {
 
   private int act = 1;
   private int line = 1;
+  private int lined = 1;
+  
   private int page = 1;
 
   private int qln = 0;
@@ -54,13 +56,60 @@ public class Renumberer extends IdentityTransform {
   private boolean renumberTln = false;
   private boolean renumberWln = false;
 
+  private boolean inSplit = false;
+  
   @Override
-  public void empty_l(EmptyNode n) {
+  public void empty_l(EmptyNode n) {    
+    boolean inSD;    
+    Node tmp;
+    
     if (renumberLine) {
-
-      throw new UnsupportedOperationException("Cannot renumber L tags yet.");
       
+      // is this line part of a  split.
+      if(n.hasAttribute("part") && n.getAttribute("part").equals("i")) {
+        inSplit = true;
+      }
+      
+      // look ahead to see if this line is a stage direction
+      inSD = false;
+      int i = n.getPosition() + 1;
+      while(i < dom.size()) {
+        i++;
+        tmp = dom.get(i);
+        if(tmp.getName().equals("SD")) {
+          inSD = true;
+          break;
+        }
+        if(tmp.getName().equals("L")) {
+          inSD = false;
+          break;
+        }
+      }
+      
+      if(inSD) {
+        if(inSplit) {
+          n.setAttribute("n", "");
+        } else {
+          if(line > 0) {
+            line--;
+          }
+          n.setAttribute("n", line + "." + lined);
+          lined++;
+        }
+      } else {
+        n.setAttribute("n", String.valueOf(line));
+        lined = 1;
+      }
+      
+      if(n.hasAttribute("part") && n.getAttribute("part").equals("f")) {
+        inSplit = false;
+      }
+      
+      if( ! inSplit) {
+        line++;
+      }
     }
+    dom.add(n);
   }
 
   @Override
@@ -76,6 +125,7 @@ public class Renumberer extends IdentityTransform {
         tlnd = 1;
       }
     }
+    dom.add(n);
   }
 
   @Override
@@ -91,6 +141,7 @@ public class Renumberer extends IdentityTransform {
         qlnd = 1;
       }
     }
+    dom.add(n);
   }
 
   @Override
@@ -106,6 +157,7 @@ public class Renumberer extends IdentityTransform {
         wlnd = 1;
       }
     }
+    dom.add(n);
   }
 
   /**
@@ -171,6 +223,7 @@ public class Renumberer extends IdentityTransform {
       act++;
     }
     scene = 1;
+    dom.add(n);
   }
 
   @Override
@@ -179,6 +232,7 @@ public class Renumberer extends IdentityTransform {
       n.setAttribute("n", String.valueOf(page));
       page++;
     }
+    dom.add(n);
   }
 
   @Override
@@ -201,6 +255,7 @@ public class Renumberer extends IdentityTransform {
     if(tn.getAttribute("n").startsWith("0")) {
       line = 0;
     }
+    dom.add(n);
   }
 
   @Override
@@ -209,6 +264,7 @@ public class Renumberer extends IdentityTransform {
       n.setAttribute("n", String.valueOf(stanza));
       stanza++;
     }
+    dom.add(n);
   }
 
   @Override
