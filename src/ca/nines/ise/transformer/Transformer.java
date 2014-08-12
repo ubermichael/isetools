@@ -324,7 +324,7 @@ abstract public class Transformer {
 
   public abstract void text(TextNode n);
 
-  public final DOM transform(DOM dom) throws IOException {
+  public DOM transform(DOM dom) throws IOException {
     this.dom = new DOM();
     this.dom.setLines(dom.getLines());
     this.dom.setSource(dom.getSource());
