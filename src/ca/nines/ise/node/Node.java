@@ -30,6 +30,7 @@ abstract public class Node {
   protected String asl;
   protected int column;
   protected int line;
+  protected int position;
   protected DOM ownerDom;
   protected String text;
   protected String tln;
@@ -38,6 +39,7 @@ abstract public class Node {
     this.tln = "";
     this.column = 0;
     this.line = 0;
+    this.position = 0;
     this.text = "";
     this.ownerDom = null;
     this.asl = "";
@@ -48,6 +50,7 @@ abstract public class Node {
     this.asl = n.asl;
     this.column = n.column;
     this.line = n.line;
+    this.position = 0;
     this.ownerDom = n.ownerDom;
     this.text = n.text;
     this.tln = n.tln;
@@ -67,6 +70,13 @@ abstract public class Node {
    */
   public String getAsl() {
     return asl;
+  }
+
+  /**
+   * @return the position
+   */
+  public int getPosition() {
+    return position;
   }
 
   /**
@@ -140,6 +150,13 @@ abstract public class Node {
    */
   public String getTLN() {
     return tln;
+  }
+
+  /**
+   * @param position the position to set
+   */
+  public void setPosition(int position) {
+    this.position = position;
   }
 
   /**

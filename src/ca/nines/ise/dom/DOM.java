@@ -175,42 +175,55 @@ public class DOM implements Iterable<Node> {
     }
     return fragment;
   }
+  
+  public Node find_forward(Node node, String name) {
+    index();
+    for(int i = node.getPosition(); i < size(); i++) {
+      if(nodes.get(i).getName().equals(name)) {
+        return nodes.get(i);
+      }
+    }
+    return null;
+  }
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
-   * sets the setTLN and ASL properties of each node in the DOM.
+   * sets the position, TLN, and ASL properties of each node in the DOM.
    */
   public void index() {
-    index.clear();
-    String act = "0";
-    String scene = "0";
-    String line = "0";
-    String tln = "0";
-    TagNode tn;
-
-    for (Node n : nodes) {
-      if (n instanceof TagNode) {
-        tn = (TagNode) n;
-        switch (tn.getName()) {
-          case "ACT":
-            act = tn.getAttribute("n");
-            break;
-          case "SCENE":
-            scene = tn.getAttribute("n");
-            break;
-          case "L":
-            if (tn.hasAttribute("n")) {
-              line = tn.getAttribute("n");
-            }
-            break;
-          case "TLN":
-            tln = tn.getAttribute("n");
-            index.put(tln, tn);
-            break;
+    if (needsReindex()) {
+      index.clear();
+      String act = "0";
+      String scene = "0";
+      String line = "0";
+      String tln = "0";
+      TagNode tn;
+      for (int i = 0; i < nodes.size(); i++) {
+        Node n = nodes.get(i);
+        if (n instanceof TagNode) {
+          tn = (TagNode) n;
+          switch (tn.getName()) {
+            case "ACT":
+              act = tn.getAttribute("n");
+              break;
+            case "SCENE":
+              scene = tn.getAttribute("n");
+              break;
+            case "L":
+              if (tn.hasAttribute("n")) {
+                line = tn.getAttribute("n");
+              }
+              break;
+            case "TLN":
+              tln = tn.getAttribute("n");
+              index.put(tln, tn);
+              break;
+          }
         }
+        n.setPosition(i);
+        n.setTLN(tln);
+        n.setAsl(act + "." + scene + "." + line);
       }
-      n.setTLN(tln);
-      n.setAsl(act + "." + scene + "." + line);
     }
   }
 
