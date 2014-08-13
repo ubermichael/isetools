@@ -28,15 +28,36 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
+ * ErrorCode models a single error code. Error codes map a short string code to
+ * a proper error message.
  *
  * @author michael
  */
 public class ErrorCode implements Comparable<ErrorCode> {
 
+  /**
+   * Error code.
+   */
   private final String code;
+  
+  /**
+   * the line number where the code is defined.
+   */
   private final int lineNumber;
+  
+  /**
+   * the fancy-pants message description.
+   */
   private final String message;
+  
+  /**
+   * The severity of the message: fatal, error, warning, or unknown.
+   */
   private final String severity;
+  
+  /**
+   * The location where the code was defined.
+   */
   private final String source;
 
   public static ErrorCodeBuilder builder() {
