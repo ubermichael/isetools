@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -39,39 +38,71 @@ public class ErrorCode implements Comparable<ErrorCode> {
    * Error code.
    */
   private final String code;
-  
+
   /**
    * the line number where the code is defined.
    */
   private final int lineNumber;
-  
+
   /**
    * the fancy-pants message description.
    */
   private final String message;
-  
+
   /**
    * The severity of the message: fatal, error, warning, or unknown.
    */
   private final String severity;
-  
+
   /**
    * The location where the code was defined.
    */
   private final String source;
 
+  /**
+   * Construct a builder.
+   *
+   * @return ErrorCodeBuilder
+   */
   public static ErrorCodeBuilder builder() {
     return new ErrorCodeBuilder();
   }
 
+  /**
+   * ErrorCodeBuilder implements the Builder design pattern.
+   */
   public static class ErrorCodeBuilder implements BuilderInterface<ErrorCode> {
 
+    /**
+     * The error code.
+     */
     private String code;
+
+    /**
+     * The line number where the error code is defined.
+     */
     private int lineNumber;
+
+    /**
+     * The human-readable error message.
+     */
     private String message;
+
+    /**
+     * The severity of the message.
+     */
     private String severity;
+
+    /**
+     * The source of the error code.
+     */
     private String source;
 
+    /**
+     * Construct an ErrorCodeBuilder.
+     *
+     * Use ErrorCode.builder() instead.
+     */
     private ErrorCodeBuilder() {
       code = "unknown";
       lineNumber = 0;
@@ -80,18 +111,39 @@ public class ErrorCode implements Comparable<ErrorCode> {
       source = "";
     }
 
+    /**
+     * Once the data for an error code is collected, build the ErrorCode.
+     *
+     * @return
+     */
     @Override
     public ErrorCode build() {
       return new ErrorCode(source, lineNumber, code, severity, message);
     }
 
+    /**
+     * Collect error code data from a string.
+     *
+     * @param str the String to parse
+     * @return ErrorCodeBuidler to enable method chaining.
+     *
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     public ErrorCodeBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(str);
-      Node n = doc.getElementsByTagName("message").item(0);      
+      Node n = doc.getElementsByTagName("message").item(0);
       return from(n);
     }
-    
+
+    /**
+     * Collect error code data from an XML Node.
+     *
+     * @param n the XML node containing the data.
+     * @return ErrorCodeBuidler to enable method chaining.
+     */
     public ErrorCodeBuilder from(Node n) {
       setCode(n.getAttributes().getNamedItem("code").getNodeValue());
       setSeverity(n.getAttributes().getNamedItem("severity").getNodeValue());
@@ -103,7 +155,10 @@ public class ErrorCode implements Comparable<ErrorCode> {
     }
 
     /**
+     * Set the error code
+     *
      * @param code the code to set
+     * @return ErrorCodeBuidler to enable method chaining.
      */
     public ErrorCodeBuilder setCode(String code) {
       this.code = code;
@@ -111,7 +166,10 @@ public class ErrorCode implements Comparable<ErrorCode> {
     }
 
     /**
+     * Set the error code's line number.
+     *
      * @param lineNumber the lineNumber to set
+     * @return ErrorCodeBuidler to enable method chaining.
      */
     public ErrorCodeBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
@@ -119,7 +177,10 @@ public class ErrorCode implements Comparable<ErrorCode> {
     }
 
     /**
+     * Set the error code's human-readable version.
+     *
      * @param message the message to set
+     * @return ErrorCodeBuidler to enable method chaining.
      */
     public ErrorCodeBuilder setMessage(String message) {
       this.message = message;
@@ -127,7 +188,10 @@ public class ErrorCode implements Comparable<ErrorCode> {
     }
 
     /**
+     * Set the severity of the error.
+     *
      * @param severity the severity to set
+     * @return ErrorCodeBuidler to enable method chaining.
      */
     public ErrorCodeBuilder setSeverity(String severity) {
       this.severity = severity;
@@ -135,7 +199,10 @@ public class ErrorCode implements Comparable<ErrorCode> {
     }
 
     /**
+     * Set the source of the error code.
+     *
      * @param source the source to set
+     * @return ErrorCodeBuidler to enable method chaining.
      */
     public ErrorCodeBuilder setSource(String source) {
       this.source = source;
@@ -144,7 +211,7 @@ public class ErrorCode implements Comparable<ErrorCode> {
 
   }
 
-  public ErrorCode(String source, int lineNumber, String code, String severity, String message) {
+  private ErrorCode(String source, int lineNumber, String code, String severity, String message) {
     this.source = source;
     this.lineNumber = lineNumber;
     this.code = code;
@@ -152,12 +219,21 @@ public class ErrorCode implements Comparable<ErrorCode> {
     this.message = message;
   }
 
+  /**
+   * Compare one error code to another.
+   *
+   * @param o the ErrorCode to compare to
+   * @return a number consistent with the compareTo contract. Yes, I'm lazy and
+   * don't want to write it out.
+   */
   @Override
   public int compareTo(ErrorCode o) {
     return this.code.compareTo(o.code);
   }
 
   /**
+   * Get the Error's code.
+   *
    * @return the code
    */
   public String getCode() {
@@ -165,6 +241,8 @@ public class ErrorCode implements Comparable<ErrorCode> {
   }
 
   /**
+   * Get the line number where the error is defined.
+   *
    * @return the lineNumber
    */
   public int getLineNumber() {
@@ -172,6 +250,8 @@ public class ErrorCode implements Comparable<ErrorCode> {
   }
 
   /**
+   * Get the human readable version of the error.
+   *
    * @return the message
    */
   public String getMessage() {
@@ -179,6 +259,8 @@ public class ErrorCode implements Comparable<ErrorCode> {
   }
 
   /**
+   * Get the human readable severity.
+   *
    * @return the severity
    */
   public String getSeverity() {
@@ -186,12 +268,20 @@ public class ErrorCode implements Comparable<ErrorCode> {
   }
 
   /**
+   * Get the source of the error message, where it was defined.
+   *
    * @return the source
    */
   public String getSource() {
     return source;
   }
 
+  /**
+   * Return a string representation of the error message. Only useful for
+   * debugging.
+   *
+   * @return
+   */
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
