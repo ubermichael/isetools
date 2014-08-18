@@ -139,7 +139,7 @@ public class Annotation extends Apparatus<Note> {
 
   /**
    * Construct an AnnotationBuilder and return it.
-   * @return 
+   * @return AnnotationBuilder object
    */
   public static AnnotationBuilder builder() {
     return new AnnotationBuilder();

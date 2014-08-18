@@ -367,7 +367,7 @@ public class Message implements Comparable<Message> {
   /**
    * Return a string representation of the message. Mostly useful for debugging.
    *
-   * @return
+   * @return a string representation of a message.
    */
   @Override
   public String toString() {

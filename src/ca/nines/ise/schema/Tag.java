@@ -123,7 +123,7 @@ public class Tag implements Comparable<Tag> {
     /**
      * Build a Tag and return it.
      *
-     * @return
+     * @return the constructed tag.
      */
     @Override
     public Tag build() {
@@ -175,7 +175,7 @@ public class Tag implements Comparable<Tag> {
      * Construct a tag from an XML String.
      *
      * @param str
-     * @return
+     * @return TagBuilder to enable method chaining.
      * @throws SAXException
      * @throws ParserConfigurationException
      * @throws TransformerException
@@ -191,7 +191,7 @@ public class Tag implements Comparable<Tag> {
      * Set the attributes for the tag.
      *
      * @param attributes the attributes to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setAttributes(Map<String, Attribute> attributes) {
       this.attributes = new HashMap<>(attributes);
@@ -202,7 +202,7 @@ public class Tag implements Comparable<Tag> {
      * Set the depreciation message.
      *
      * @param depreciated the depreciated to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setDepreciated(String depreciated) {
       this.depreciated = depreciated;
@@ -213,7 +213,7 @@ public class Tag implements Comparable<Tag> {
      * Set the tag's description.
      *
      * @param desc the desc to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setDesc(String desc) {
       this.desc = desc;
@@ -224,7 +224,7 @@ public class Tag implements Comparable<Tag> {
      * Set the tag's empty status.
      *
      * @param empty the empty to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setEmpty(String empty) {
       this.empty = empty;
@@ -235,7 +235,7 @@ public class Tag implements Comparable<Tag> {
      * Set the tag's line number
      *
      * @param lineNumber the lineNumber to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
@@ -246,7 +246,7 @@ public class Tag implements Comparable<Tag> {
      * Set the name of the tag.
      *
      * @param name the name to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setName(String name) {
       this.name = name;
@@ -257,7 +257,7 @@ public class Tag implements Comparable<Tag> {
      * Set the source of the tag.
      *
      * @param source the source to set
-     * @return TagBuilder
+     * @return TagBuilder to enable method chaining.
      */
     public TagBuilder setSource(String source) {
       this.source = source;
@@ -269,7 +269,7 @@ public class Tag implements Comparable<Tag> {
   /**
    * Return TagBuilder instance.
    *
-   * @return
+   * @return TagBuilder for constructing Tags.
    */
   public static TagBuilder builder() {
     return new TagBuilder();
@@ -415,7 +415,7 @@ public class Tag implements Comparable<Tag> {
    * Returns true if the tag contains the named attribute.
    * 
    * @param name
-   * @return 
+   * @return true if the attribute is defined, false otherwise.
    */
   public boolean hasAttribute(String name) {
     return attributes.containsKey(name.toLowerCase());
@@ -441,7 +441,8 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Return true if the tag must be empty, or if it may be empty.
-   * @return 
+   * 
+   * @return true if the tag may be empty.
    */
   public boolean maybeEmpty() {
     return empty.equals("yes") || empty.equals("optional");
@@ -450,7 +451,7 @@ public class Tag implements Comparable<Tag> {
   /**
    * Turn the tag into a string. Useful only for debugging.
    * 
-   * @return String
+   * @return String representation of the Tag.
    */
   @Override
   public String toString() {

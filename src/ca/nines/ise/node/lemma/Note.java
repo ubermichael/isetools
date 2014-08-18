@@ -170,7 +170,7 @@ public class Note extends Lemma {
 
   /**
    * Create and return a NoteBuilder
-   * @return 
+   * @return NoteBuilder to enable method chaining
    */
   public static NoteBuilder builder() {
     return new NoteBuilder();
