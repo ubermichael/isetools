@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.node.Node;
@@ -34,6 +33,9 @@ import java.util.logging.Logger;
  */
 public class Message implements Comparable<Message> {
 
+  /**
+   * A collection of error codes and error messages
+   */
   private static final ErrorCodes errorCodes;
 
   static {
@@ -45,43 +47,129 @@ public class Message implements Comparable<Message> {
     }
     errorCodes = tmp;
   }
+
+  /**
+   * The TLN where the message was generated
+   */
   private final String TLN;
+
+  /**
+   * The code of the message
+   */
   private final String code;
+
+  /**
+   * The column number where the message occurred.
+   */
   private final int columnNumber;
+
+  /**
+   * The text content of the line where the error occurred.
+   */
   private final String line;
+
+  /**
+   * The line number causing the message
+   */
   private final int lineNumber;
+
+  /**
+   * A list of notes with the message
+   */
   private final List<String> notes;
+
+  /**
+   * The source of the data causing the message
+   */
   private final String source;
 
+  /**
+   * Construct a MessageBuilder for the message code
+   *
+   * @param code for the message
+   * @return MessageBuilder
+   */
   public static MessageBuilder builder(String code) {
     return new MessageBuilder(code);
   }
 
+  /**
+   * MessageBuilder constructs messages for the Log, in the Builder pattern.
+   */
   public static class MessageBuilder implements BuilderInterface<Message> {
 
+    /**
+     * The TLN where the Message was built.
+     */
     private String TLN = "unknown";
+
+    /**
+     * The code for the message.
+     */
     private String code = "unknown";
+
+    /**
+     * The column number where the message was generated.
+     */
     private int columnNumber = 0;
+
+    /**
+     * The text line where the message was generated.
+     */
     private String line = "";
+
+    /**
+     * The line number where the message was generated.
+     */
     private int lineNumber = 0;
+
+    /**
+     * A list of notes with the message.
+     */
     private final List<String> notes = new ArrayList<>();
+
+    /**
+     * The source of the data which generated the message.
+     */
     private String source = "unknown";
 
+    /**
+     * Construct a MessageBuilder. Use Message.builder(code) to get one.
+     *
+     * @param code
+     */
     private MessageBuilder(String code) {
       this.code = code;
     }
 
+    /**
+     * Add a note to a message.
+     *
+     * @param note to add
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder addNote(String note) {
       notes.add(note);
       return this;
     }
 
+    /**
+     * Build a message from the collected data.
+     *
+     * @return Message as constructed.
+     */
     @Override
     public Message build() {
       Message m = new Message(code, TLN, lineNumber, columnNumber, line, source, notes);
       return m;
     }
 
+    /**
+     * Build a message from a Node
+     *
+     * @param n from which to build the message
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder fromNode(Node n) {
       setColumnNumber(n.getColumn());
       setLineNumber(n.getLine());
@@ -89,7 +177,13 @@ public class Message implements Comparable<Message> {
       setTLN(n.getTLN());
       return this;
     }
-    
+
+    /**
+     * Build a message from a Lemma
+     *
+     * @param lem from which to build the message
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder fromLemma(Lemma lem) {
       setLineNumber(lem.getLineNumber());
       setSource(lem.getSource());
@@ -97,33 +191,75 @@ public class Message implements Comparable<Message> {
       return this;
     }
 
+    /**
+     * Set the column number for the message.
+     *
+     * @param columnNumber
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder setColumnNumber(int columnNumber) {
       this.columnNumber = columnNumber;
       return this;
     }
 
+    /**
+     * Set the content line for the message
+     *
+     * @param line the Content causing the line
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder setLine(String line) {
       this.line = line;
       return this;
     }
 
+    /**
+     * Set the line number for the message.
+     *
+     * @param lineNumber of the message
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder setLineNumber(int lineNumber) {
       this.lineNumber = lineNumber;
       return this;
     }
 
+    /**
+     * Set the source of the message.
+     *
+     * @param source of the message
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder setSource(String source) {
       this.source = source;
       return this;
     }
 
+    /**
+     * TLN where the message was generated.
+     *
+     * @param TLN of the message
+     * @return MessageBuilder to enable method chaining
+     */
     public MessageBuilder setTLN(String TLN) {
       this.TLN = TLN;
       return this;
     }
   }
 
-  Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source, List<String> notes) {
+  /**
+   * Construct a message. Use Message.builder() to get a builder and use that to
+   * do stuff.
+   *
+   * @param code Message code
+   * @param TLN Message TLN
+   * @param lineNumber Message line number
+   * @param columnNumber Message column number
+   * @param line Message line (the textual content of the line)
+   * @param source Source of the message data
+   * @param notes Notes associated with the message
+   */
+  private Message(String code, String TLN, int lineNumber, int columnNumber, String line, String source, List<String> notes) {
     this.code = code;
     this.TLN = TLN;
     this.lineNumber = lineNumber;
@@ -133,6 +269,17 @@ public class Message implements Comparable<Message> {
     this.notes = notes;
   }
 
+  /**
+   * Compare two messages based on
+   * <ol>
+   * <li>Source</li>
+   * <li>Line number</li>
+   * <li>Column number</li>
+   * </ol>
+   *
+   * @param o the message to compare to
+   * @return an int consistent with the compareTo contract.
+   */
   @Override
   public int compareTo(Message o) {
     if (!this.source.equals(o.source)) {
@@ -172,6 +319,11 @@ public class Message implements Comparable<Message> {
     return lineNumber;
   }
 
+  /**
+   * Find the text equivalent of the message, as defined in the error code.
+   *
+   * @return a string describing the error message.
+   */
   public String getMessage() {
     if (errorCodes != null && errorCodes.hasErrorCode(code)) {
       return errorCodes.getErrorCode(code).getMessage();
@@ -212,6 +364,11 @@ public class Message implements Comparable<Message> {
     return TLN;
   }
 
+  /**
+   * Return a string representation of the message. Mostly useful for debugging.
+   *
+   * @return
+   */
   @Override
   public String toString() {
     Formatter formatter = new Formatter();

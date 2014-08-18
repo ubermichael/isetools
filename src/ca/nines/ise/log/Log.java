@@ -31,8 +31,14 @@ import java.util.List;
  */
 public final class Log {
 
+  /**
+   * The singleton instance.
+   */
   private static final Log instance = new Log();
 
+  /**
+   * The messages in the log.
+   */
   private static final List<Message> messages = new ArrayList<>();
 
   // @todo why do i have instance methods at all? They aren't necessary.
@@ -50,6 +56,9 @@ public final class Log {
     return instance;
   }
 
+  /**
+   * Log is a singleton: use getInstance to build it.
+   */
   private Log() {
   }
 
@@ -69,10 +78,21 @@ public final class Log {
     messages.clear();
   }
 
+  /**
+   * Count the log messages.
+   * 
+   * @return the number of messages in the log.
+   */
   public int count() {
     return messages.size();
   }
 
+  /**
+   * return the i-th message in the log.
+   * 
+   * @param i
+   * @return Message in the log
+   */
   public Message get(int i) {
     return messages.get(i);
   }
