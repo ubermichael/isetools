@@ -26,11 +26,19 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
+ * Main entry point into the application. Parses the command line arguments
+ * and chooses a Command subclass to execute.
  *
  * @author michael
  */
 public class Main {
 
+  /**
+   * Get version information for the application.
+   * 
+   * @return String version
+   * @throws IOException 
+   */
   public static String version() throws IOException {
     InputStream stream = Main.class.getResourceAsStream("version.properties");
     Properties prop = new Properties();
@@ -38,6 +46,16 @@ public class Main {
     return prop.getProperty("buildVersion");
   }
 
+  /**
+   * Execute a command.
+   * 
+   * @param args arguments from the command line
+   * @throws ClassNotFoundException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   * @throws ParseException
+   * @throws Exception 
+   */
   public static void execute(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, Exception {
     String commandName = "help";
     Command cmd;
@@ -62,6 +80,11 @@ public class Main {
     cmd.execute(cmdline);
   }
 
+  /**
+   * Entry function.
+   * 
+   * @param args from the command line.
+   */
   public static void main(String[] args) {
     String version = "unknown";
     try {

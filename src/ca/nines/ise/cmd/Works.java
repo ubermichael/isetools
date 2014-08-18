@@ -21,22 +21,27 @@ import ca.nines.ise.document.Corpus;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Works lists all of the available works in a corpus.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Works extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "List the documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     Corpus corpus;
@@ -53,6 +58,9 @@ public class Works extends Command {
     out.println(corpus);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

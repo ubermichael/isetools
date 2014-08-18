@@ -19,8 +19,6 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
-import ca.nines.ise.node.Node;
-import ca.nines.ise.node.TextNode;
 import ca.nines.ise.transformer.Formatter;
 import ca.nines.ise.transformer.Modernizer;
 import ca.nines.ise.transformer.Normalizer;
@@ -28,23 +26,29 @@ import ca.nines.ise.writer.Writer;
 import ca.nines.ise.writer.SGMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Create a modern version of an old-spelling transcription.
  *
  * @author michael
  */
 public class Modernize extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Transform an ISE SGML document another format.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
@@ -74,6 +78,9 @@ public class Modernize extends Command {
     renderer.render(dom);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -81,6 +88,9 @@ public class Modernize extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options] file";

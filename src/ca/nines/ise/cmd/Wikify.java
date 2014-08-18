@@ -42,16 +42,23 @@ import org.apache.commons.cli.Options;
 import org.xml.sax.SAXException;
 
 /**
+ * Create a wiki version of the schema or error codes.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Wikify extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Create a wikified version of the schema.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     Locale.setDefault(Locale.ENGLISH);
@@ -70,6 +77,9 @@ public class Wikify extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -79,6 +89,9 @@ public class Wikify extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options]";
@@ -126,7 +139,7 @@ public class Wikify extends Command {
     }
   }
 
-  public static void wikifySchemaAttrInfo(PrintStream out, Tag tag) {
+  private static void wikifySchemaAttrInfo(PrintStream out, Tag tag) {
     if (tag.countAttributes() == 0) {
       return;
     }
@@ -147,7 +160,7 @@ public class Wikify extends Command {
     out.println();
   }
 
-  public static String wikifySchemaAttrOptions(PrintStream out, Attribute attr) {
+  private static String wikifySchemaAttrOptions(PrintStream out, Attribute attr) {
     StringBuilder sb = new StringBuilder();
     String[] options = attr.getOptions();
     if (options.length == 0) {
@@ -164,7 +177,7 @@ public class Wikify extends Command {
     return sb.toString();
   }
 
-  public static void wikifyTagInfo(PrintStream out, Tag tag) {
+  private static void wikifyTagInfo(PrintStream out, Tag tag) {
     System.out.println("== " + tag.getName() + "==\n");
     System.out.println(tag.getDescription() + "\n");
     System.out.println(" Empty::");

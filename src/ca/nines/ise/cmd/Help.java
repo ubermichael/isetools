@@ -21,23 +21,28 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.atteo.classindex.ClassIndex;
 
 /**
+ * Help!
  *
  * @author michael
  */
 public class Help extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Display useful help messages.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
 
@@ -48,13 +53,16 @@ public class Help extends Command {
     listCommands();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
     return opts;
   }
 
-  public void listCommands() throws InstantiationException, IllegalAccessException {
+  private void listCommands() throws InstantiationException, IllegalAccessException {
     Formatter formatter = new Formatter(System.out);
     formatter.format("%n%12s   %s%n%n", "command", "description");
 

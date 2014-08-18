@@ -20,10 +20,7 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.writer.Writer;
-import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
-import ca.nines.ise.writer.TextWriter;
-import ca.nines.ise.writer.XMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -32,16 +29,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Renumber tags in a document.
  *
  * @author michael
  */
 public class Renumber extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Transform an ISE SGML document another format.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream outputStream;
@@ -66,6 +70,9 @@ public class Renumber extends Command {
     out.render(dom);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -76,6 +83,9 @@ public class Renumber extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options] file";
