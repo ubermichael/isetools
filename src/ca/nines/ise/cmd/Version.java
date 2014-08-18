@@ -22,18 +22,25 @@ import java.io.InputStream;
 import java.util.Properties;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-//import org.antlr.v4.runtime.RuntimeMetaData;
+
 /**
+ * Print version information.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Version extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Print version information.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     InputStream stream = Main.class.getResourceAsStream("version.properties");
@@ -45,6 +52,9 @@ public class Version extends Command {
     System.out.println("Host runtime: " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch"));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

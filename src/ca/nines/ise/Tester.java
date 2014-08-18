@@ -27,6 +27,7 @@ import ca.nines.ise.writer.Writer;
 import java.io.File;
 
 /**
+ * Tester is just a sample application to run experimental code.
  *
  * @author michael
  */

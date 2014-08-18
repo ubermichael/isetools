@@ -32,16 +32,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Transform a document into HTML, XML, Text, or RTF.
  *
  * @author michael
  */
 public class Transform extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Transform an ISE SGML document another format.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
@@ -78,6 +85,9 @@ public class Transform extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -88,6 +98,9 @@ public class Transform extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options] file";

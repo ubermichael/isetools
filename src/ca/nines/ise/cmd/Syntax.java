@@ -21,18 +21,14 @@ import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Check the syntax of a document, without validating it.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */

@@ -30,16 +30,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Find the old-style abbreviations in one or more documents.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Abbrs extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Report depreciated abbrs in one or more ISE documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
       File[] files;
@@ -71,6 +78,9 @@ public class Abbrs extends Command {
       }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

@@ -22,9 +22,7 @@ import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.AnnotationValidator;
-import ca.nines.ise.validator.DOMValidator;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -33,16 +31,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Validate annotations against a document.
  *
  * @author michael
  */
 public class Annotations extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Validate annotations for an ISE document.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @ErrorCode(code = {
     "dom.errors"
   })
@@ -86,6 +91,9 @@ public class Annotations extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

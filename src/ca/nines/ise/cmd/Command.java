@@ -14,11 +14,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.cmd;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,18 +34,43 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.atteo.classindex.IndexSubclasses;
 
 /**
+ * Base class for all executable commands.
  *
  * @author michael
  */
 @IndexSubclasses
 abstract public class Command {
 
+  /**
+   * Mapping of command names to Command objects.
+   */
   protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();
 
+  /**
+   * Get a description of the executable command.
+   *
+   * @return string description
+   */
   abstract public String description();
 
+  /**
+   * Execute a command.
+   *
+   * @param cmd CommandLine with the parameters to execute.
+   *
+   * @throws Exception
+   */
   abstract public void execute(CommandLine cmd) throws Exception;
 
+  /**
+   * Construct a CommandLine object for an executable command by parsing the
+   * java command line parameters.
+   *
+   * @param opts
+   * @param args
+   * @return parsed CommandLine object
+   * @throws ParseException
+   */
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
     CommandLineParser parser = new BasicParser();
@@ -55,6 +78,13 @@ abstract public class Command {
     return cmd;
   }
 
+  /**
+   * Any extra command line arguments (after options are parsed) are considered
+   * file paths passed to the command. 
+   *
+   * @param cmd CommandLine with the arguments.
+   * @return list of File objects.
+   */
   public File[] getFilePaths(CommandLine cmd) {
     Collection<File> fileList = new ArrayList<>();
 
@@ -77,6 +107,12 @@ abstract public class Command {
     return files;
   }
 
+  /**
+   * Get a list of arguments available to the command.
+   * 
+   * @param cmd
+   * @return list of arguments.
+   */
   public String[] getArgList(CommandLine cmd) {
     List<?> argList = cmd.getArgList();
     argList = argList.subList(1, argList.size());
@@ -84,19 +120,32 @@ abstract public class Command {
     return args;
   }
 
+  /**
+   * Show help information for a command.
+   */
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
     Options opts = getOptions();
     System.out.println(description());
     if (opts.getOptions().size() > 0) {
-      formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage() , opts);
+      formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage(), opts);
     } else {
       System.out.println(this.getClass().getSimpleName().toLowerCase() + " " + getUsage());
     }
   }
 
+  /**
+   * Get a list of options for the command.
+   * 
+   * @return Options for the command.
+   */
   public abstract Options getOptions();
 
+  /**
+   * Return a string describing the command usage.
+   * 
+   * @return string describing the command usage.
+   */
   public String getUsage() {
     return "[options] [files]";
   }
