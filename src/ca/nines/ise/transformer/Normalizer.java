@@ -20,6 +20,8 @@ import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.TextNode;
 
 /**
+ * Normalizer combines adjacent text nodes into a single node, and normalizes
+ * spaces and newlines.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -27,6 +29,11 @@ public class Normalizer extends IdentityTransform {
 
   private StringBuilder sb = new StringBuilder();
 
+  /**
+   * Visit one or more text nodes.
+   * 
+   * @param n 
+   */
   @Override
   public void text(TextNode n) {
     sb.append(n.getText());

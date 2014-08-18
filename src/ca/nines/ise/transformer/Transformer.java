@@ -30,300 +30,1029 @@ import java.io.IOException;
 import org.apache.commons.collections4.iterators.PeekingIterator;
 
 /**
+ * Transformers change on DOM into another DOM. 
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Transformer {
+  
+  /**
+   * Iterator which can look ahead by one node.
+   */
   private PeekingIterator<Node> iterator;
 
+  /**
+   * DOM being constructed.
+   */
   DOM dom;
 
+  /**
+   * Visit an abbreviation node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void abbreviation(AbbrNode n);
 
+  /**
+   * Visit a character node.
+   * @param n Node to visit 
+   */
   abstract public void character(CharNode n);
 
+  /**
+   * Visit a comment node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void comment(CommentNode n);
 
+  /**
+   * Visit a bl tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_bl(EmptyNode n);
 
+  /**
+   * Visit an empty br tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_br(EmptyNode n);
 
+  /**
+   * Visit an empty l tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_l(EmptyNode n);
 
+  /**
+   * Visit an empty lb tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_lb(EmptyNode n);
 
+  /**
+   * Visit an empty link tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_link(EmptyNode n);
 
+  /**
+   * Visit an empty meta tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_meta(EmptyNode n);
 
+  /**
+   * Visit an empty ornament tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_ornament(EmptyNode n);
 
+  /**
+   * Visit an empty prop tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_prop(EmptyNode n);
 
+  /**
+   * Visit an empty qln tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_qln(EmptyNode n);
 
+  /**
+   * Visit an empty rule tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_rule(EmptyNode n);
 
+  /**
+   * Visit an empty space tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_space(EmptyNode n);
 
+  /**
+   * Visit an empty tln tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_tln(EmptyNode n);
 
+  /**
+   * Visit an empty wln tag node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void empty_wln(EmptyNode n);
 
+  /**
+   * Visit an end abbr node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_abbr(EndNode n);
 
+  /**
+   * Visit an end act node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_act(EndNode n);
 
+  /**
+   * Visit an end add node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_add(EndNode n);
 
+  /**
+   * Visit an end ambig node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_ambig(EndNode n);
 
+  /**
+   * Visit an end backmatter node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_backmatter(EndNode n);
 
+  /**
+   * Visit an end bll node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_bll(EndNode n);
 
+  /**
+   * Visit an end blockquote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_blockquote(EndNode n);
 
+  /**
+   * Visit an end c node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_c(EndNode n);
 
+  /**
+   * Visit an end cl node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_cl(EndNode n);
 
+  /**
+   * Visit an end col node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_col(EndNode n);
 
+  /**
+   * Visit an end cw node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_cw(EndNode n);
 
+  /**
+   * Visit an end div node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_div(EndNode n);
 
+  /**
+   * Visit an end em node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_em(EndNode n);
 
+  /**
+   * Visit an end epilogue node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_epilogue(EndNode n);
 
+  /**
+   * Visit an end fontgroup node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_fontgroup(EndNode n);
 
+  /**
+   * Visit an end foreign node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_foreign(EndNode n);
 
+  /**
+   * Visit an end frontmatter node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_frontmatter(EndNode n);
 
+  /**
+   * Visit an end h1 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_h1(EndNode n);
 
+  /**
+   * Visit an end h2 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_h2(EndNode n);
 
+  /**
+   * Visit an end h3 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_h3(EndNode n);
 
+  /**
+   * Visit an end h4 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_h4(EndNode n);
 
+  /**
+   * Visit an end h5 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_h5(EndNode n);
 
+  /**
+   * Visit an end h6 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_h6(EndNode n);
 
+  /**
+   * Visit an end hw node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_hw(EndNode n);
 
+  /**
+   * Visit an end i node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_i(EndNode n);
 
+  /**
+   * Visit an end iembed node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_iembed(EndNode n);
 
+  /**
+   * Visit an end indent node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_indent(EndNode n);
 
+  /**
+   * Visit an end iseheader node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_iseheader(EndNode n);
 
+  /**
+   * Visit an end j node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_j(EndNode n);
 
+  /**
+   * Visit an end ld node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_ld(EndNode n);
 
+  /**
+   * Visit an end lem node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_lem(EndNode n);
 
+  /**
+   * Visit an end linegroup node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_linegroup(EndNode n);
 
+  /**
+   * Visit an end link node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_link(EndNode n);
 
+  /**
+   * Visit an end ls node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_ls(EndNode n);
 
+  /**
+   * Visit an end marg node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_marg(EndNode n);
 
+  /**
+   * Visit an end mode node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_mode(EndNode n);
 
+  /**
+   * Visit an end ornament node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_ornament(EndNode n);
 
+  /**
+   * Visit an end page node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_page(EndNode n);
 
+  /**
+   * Visit an end pn node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_pn(EndNode n);
 
+  /**
+   * Visit an end poem node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_poem(EndNode n);
 
+  /**
+   * Visit an end prologue node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_prologue(EndNode n);
 
+  /**
+   * Visit an end prop node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_prop(EndNode n);
 
+  /**
+   * Visit an end prosequote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_prosequote(EndNode n);
 
+  /**
+   * Visit an end quote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_quote(EndNode n);
 
+  /**
+   * Visit an end r node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_r(EndNode n);
 
+  /**
+   * Visit an end ra node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_ra(EndNode n);
 
+  /**
+   * Visit an end rdg node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_rdg(EndNode n);
 
+  /**
+   * Visit an end rt node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_rt(EndNode n);
 
+  /**
+   * Visit an end s node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_s(EndNode n);
 
+  /**
+   * Visit an end sc node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_sc(EndNode n);
 
+  /**
+   * Visit an end scene node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_scene(EndNode n);
 
+  /**
+   * Visit an end sd node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_sd(EndNode n);
 
+  /**
+   * Visit an end section node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_section(EndNode n);
 
+  /**
+   * Visit an end sig node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_sig(EndNode n);
 
+  /**
+   * Visit an end sp node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_sp(EndNode n);
 
+  /**
+   * Visit an end stanza node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_stanza(EndNode n);
 
+  /**
+   * Visit an end sub node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_sub(EndNode n);
 
+  /**
+   * Visit an end sup node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_sup(EndNode n);
 
+  /**
+   * Visit an end swash node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_swash(EndNode n);
 
+  /**
+   * Visit an end titlhead node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_titlehead(EndNode n);
 
+  /**
+   * Visit an end titlepage node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_titlepage(EndNode n);
 
+  /**
+   * Visit an end versequote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_versequote(EndNode n);
 
+  /**
+   * Visit an end work node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void end_work(EndNode n);
 
+  /**
+   * Visit an start abbr node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_abbr(StartNode n);
 
+  /**
+   * Visit an start act node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_act(StartNode n);
 
+  /**
+   * Visit an start add node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_add(StartNode n);
 
+  /**
+   * Visit an start ambig node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_ambig(StartNode n);
 
+  /**
+   * Visit an start backmatter node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_backmatter(StartNode n);
 
+  /**
+   * Visit an start bll node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_bll(StartNode n);
 
+  /**
+   * Visit an start blockquote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_blockquote(StartNode n);
 
+  /**
+   * Visit an start c node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_c(StartNode n);
 
+  /**
+   * Visit an start cl node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_cl(StartNode n);
 
+  /**
+   * Visit an start col node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_col(StartNode n);
 
+  /**
+   * Visit an start cw node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_cw(StartNode n);
 
+  /**
+   * Visit an start div node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_div(StartNode n);
 
+  /**
+   * Visit an start em node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_em(StartNode n);
 
+  /**
+   * Visit an start epilogue node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_epilogue(StartNode n);
 
+  /**
+   * Visit an start fontgroup node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_fontgroup(StartNode n);
 
+  /**
+   * Visit an start foreign node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_foreign(StartNode n);
 
+  /**
+   * Visit an start frontmatter node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_frontmatter(StartNode n);
 
+  /**
+   * Visit an start h1 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_h1(StartNode n);
 
+  /**
+   * Visit an start h2 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_h2(StartNode n);
 
+  /**
+   * Visit an start h3 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_h3(StartNode n);
 
+  /**
+   * Visit an start h4 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_h4(StartNode n);
 
+  /**
+   * Visit an start h5 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_h5(StartNode n);
 
+  /**
+   * Visit an start h6 node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_h6(StartNode n);
 
+  /**
+   * Visit an start hw node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_hw(StartNode n);
 
+  /**
+   * Visit an start i node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_i(StartNode n);
 
+  /**
+   * Visit an start iembed node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_iembed(StartNode n);
 
-  abstract public void start_ilink(StartNode n);
-
+  /**
+   * Visit an start indent node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_indent(StartNode n);
 
+  /**
+   * Visit an start iseheader node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_iseheader(StartNode n);
 
+  /**
+   * Visit an start j node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_j(StartNode n);
 
+  /**
+   * Visit an start ld node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_ld(StartNode n);
 
+  /**
+   * Visit an start lem node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_lem(StartNode n);
 
+  /**
+   * Visit an start linegroup node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_linegroup(StartNode n);
 
+  /**
+   * Visit an start link node.
+   * 
+   * @param n Node to visit 
+   */
+  abstract public void start_link(StartNode n);
+
+  /**
+   * Visit an start ls node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_ls(StartNode n);
 
+  /**
+   * Visit an start marg node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_marg(StartNode n);
 
+  /**
+   * Visit an start mode node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_mode(StartNode n);
 
+  /**
+   * Visit an start ornament node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_ornament(StartNode n);
 
+  /**
+   * Visit an start page node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_page(StartNode n);
 
+  /**
+   * Visit an start pn node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_pn(StartNode n);
 
+  /**
+   * Visit an start poem node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_poem(StartNode n);
 
+  /**
+   * Visit an start prologue node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_prologue(StartNode n);
 
+  /**
+   * Visit an start prop node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_prop(StartNode n);
 
+  /**
+   * Visit an start prosequote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_prosequote(StartNode n);
 
+  /**
+   * Visit an start quote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_quote(StartNode n);
 
+  /**
+   * Visit an start r node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_r(StartNode n);
 
+  /**
+   * Visit an start ra node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_ra(StartNode n);
 
+  /**
+   * Visit an start rdg node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_rdg(StartNode n);
 
+  /**
+   * Visit an start rt node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_rt(StartNode n);
 
+  /**
+   * Visit an start s node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_s(StartNode n);
 
+  /**
+   * Visit an start sc node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_sc(StartNode n);
 
+  /**
+   * Visit an start scene node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_scene(StartNode n);
 
+  /**
+   * Visit an start sd node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_sd(StartNode n);
 
+  /**
+   * Visit an start section node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_section(StartNode n);
 
+  /**
+   * Visit an start sig node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_sig(StartNode n);
 
+  /**
+   * Visit an start sp node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_sp(StartNode n);
 
+  /**
+   * Visit an start stanza node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_stanza(StartNode n);
 
+  /**
+   * Visit an start sub node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_sub(StartNode n);
 
+  /**
+   * Visit an start sup node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_sup(StartNode n);
 
+  /**
+   * Visit an start swash node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_swash(StartNode n);
 
+  /**
+   * Visit an start titlhead node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_titlehead(StartNode n);
 
+  /**
+   * Visit an start titlepage node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_titlepage(StartNode n);
 
+  /**
+   * Visit an start versequote node.
+   * 
+   * @param n Node to visit 
+   */
   abstract public void start_versequote(StartNode n);
 
-  public abstract void start_work(StartNode n);
+  /**
+   * Visit an start work node.
+   * 
+   * @param n Node to visit 
+   */
+  abstract public void start_work(StartNode n);
 
+  /**
+   * Visit a text node.
+   * 
+   * @param n Node to visit 
+   */
   public abstract void text(TextNode n);
 
+  /**
+   * Transform a DOM into another DOM.
+   * 
+   * @param dom
+   * @return the new, transformed dom.
+   * @throws IOException 
+   */
   public DOM transform(DOM dom) throws IOException {
     this.dom = new DOM();
     this.dom.setLines(dom.getLines());
@@ -337,6 +1066,11 @@ abstract public class Transformer {
     return this.dom;
   }
 
+  /**
+   * Figure out what to do, based on the node being visited.
+   * 
+   * @param n Node to visit Node being visited
+   */
   private void dispatch(Node n) {
     switch (n.type()) {
       case ABBR:
@@ -363,6 +1097,11 @@ abstract public class Transformer {
     }
   }
 
+  /**
+   * Call the right method for an empty node.
+   * 
+   * @param n Node to visit EmptyNode being visited
+   */
   private void dispatch_empty(EmptyNode n) {
     switch (n.getName().toLowerCase()) {
       case "bl":
@@ -410,6 +1149,11 @@ abstract public class Transformer {
     }
   }
 
+  /**
+   * Call the right method for an end node.
+   * 
+   * @param n Node to visit EndNode being visited.
+   */
   private void dispatch_end(EndNode n) {
     switch (n.getName().toLowerCase()) {
       case "abbr":
@@ -607,6 +1351,11 @@ abstract public class Transformer {
     }
   }
 
+  /**
+   * call the right method for a start node.
+   * 
+   * @param n Node to visit StartNode being visited.
+   */
   private void dispatch_start(StartNode n) {
     switch (n.getName().toLowerCase()) {
       case "abbr":
@@ -687,9 +1436,6 @@ abstract public class Transformer {
       case "iembed":
         start_iembed(n);
         break;
-      case "ilink":
-        start_ilink(n);
-        break;
       case "indent":
         start_indent(n);
         break;
@@ -707,6 +1453,9 @@ abstract public class Transformer {
         break;
       case "linegroup":
         start_linegroup(n);
+        break;
+      case "link":
+        start_link(n);
         break;
       case "ls":
         start_ls(n);

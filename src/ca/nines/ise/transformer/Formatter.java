@@ -17,15 +17,13 @@
 
 package ca.nines.ise.transformer;
 
-import ca.nines.ise.node.AbbrNode;
-import ca.nines.ise.node.CharNode;
-import ca.nines.ise.node.CommentNode;
-import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 
 /**
+ * Formatter strips out newlines between nodes and adds them back at appropriate
+ * places to make the SGML easier to read.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
