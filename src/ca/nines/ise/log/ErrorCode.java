@@ -114,7 +114,7 @@ public class ErrorCode implements Comparable<ErrorCode> {
     /**
      * Once the data for an error code is collected, build the ErrorCode.
      *
-     * @return
+     * @return constructed ErrorCode.
      */
     @Override
     public ErrorCode build() {
@@ -289,7 +289,7 @@ public class ErrorCode implements Comparable<ErrorCode> {
    * Return a string representation of the error message. Only useful for
    * debugging.
    *
-   * @return
+   * @return a string representation of the error code.
    */
   @Override
   public String toString() {

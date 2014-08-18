@@ -90,7 +90,7 @@ public class XMLDriver {
    * document and each node in the document.
    * 
    * @param in
-   * @return
+   * @return the parsed Document
    * @throws TransformerException
    * @throws IOException 
    */
@@ -142,7 +142,7 @@ public class XMLDriver {
    * Parse a string for XML. Mostly useful for testing.
    * 
    * @param in
-   * @return
+   * @return the parsed document
    * @throws TransformerException 
    */
   public Document drive(String in) throws TransformerException {
@@ -161,7 +161,7 @@ public class XMLDriver {
    * Serialize an Element into a string containing XML.
    * 
    * @param element
-   * @return
+   * @return a String representation of the element.
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws UnsupportedEncodingException 

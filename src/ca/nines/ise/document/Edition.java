@@ -132,7 +132,7 @@ public class Edition extends Document implements Comparable<Edition> {
    * Get the Collation object for the edition if it exists or throw exceptions
    * if the file doesn't exist. Use hasCollations() to check for existence.
    * 
-   * @return
+   * @return Collation for the edition.
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
@@ -175,7 +175,7 @@ public class Edition extends Document implements Comparable<Edition> {
    * Return a string representation of the edition. Really only useful for
    * debugging.
    * 
-   * @return 
+   * @return a string representation.
    */
   @Override
   public String toString() {

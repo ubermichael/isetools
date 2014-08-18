@@ -565,7 +565,7 @@ public class Attribute implements Comparable<Attribute> {
   /**
    * Stringify the attribute. Only useful for development and debugging.
    *
-   * @return
+   * @return String representation of the Attribute.
    */
   @Override
   public String toString() {

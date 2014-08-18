@@ -170,7 +170,7 @@ public class Work extends Document implements Comparable<Work> {
    * Return a string representation of a work. Really only useful for 
    * debugging.
    * 
-   * @return 
+   * @return a string representation of the work.
    */
   @Override
   public String toString() {

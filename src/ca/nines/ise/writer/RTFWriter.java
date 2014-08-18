@@ -286,7 +286,7 @@ public class RTFWriter extends Writer {
    * <p>
    * @param dom
    * @param annotation <p>
-   * @return
+   * @return DOM processed DOM.
    */
   public DOM preprocess(DOM dom, Annotation annotation) throws IOException {
     DOM d = new DOM();
