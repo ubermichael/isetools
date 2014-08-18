@@ -27,6 +27,11 @@ package ca.nines.ise.exceptions;
 @SuppressWarnings("serial")
 public class AttributeTypeException extends Exception {
 
+  /**
+   * Build an exception.
+   * 
+   * @param msg 
+   */
   public AttributeTypeException(String msg) {
     super(msg);
   }

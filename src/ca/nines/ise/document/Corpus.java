@@ -28,24 +28,50 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
+ * A corpus is a collection of works.
  *
  * @author michael
  */
 public class Corpus {
 
+  /**
+   * The directory containing the works.
+   */
   private final File root;
 
+  /**
+   * A list of works, keyed on play code.
+   */
   // @todo write a case-insensitive wrapper around Map<String, ?>
   private final Map<String, Work> works = new HashMap<>();
 
+  /**
+   * Construct a corpus object from a file path
+   * 
+   * @param root of the corpus
+   */
   public Corpus(String root) {
     this(new File(root));
   }
 
+  /**
+   * Construct a corpus object from a directory.
+   * 
+   * @param root of the corpus
+   */
   public Corpus(File root) {
     this.root = root;
   }
 
+  /**
+   * Fetch a Work from the corpus.
+   * 
+   * @param code the play code to search for
+   * 
+   * @return Work found
+   * 
+   * @throws IOException if something goes boom.
+   */
   public Work getWork(String code) throws IOException {
     File w;
 
@@ -65,6 +91,13 @@ public class Corpus {
     return works.get(code);
   }
 
+  /**
+   * Get a list of all the works available
+   * 
+   * @return Work[] list of works
+   * 
+   * @throws IOException 
+   */
   public Work[] getWorks() throws IOException {
     File[] dirs = ArrayUtils.addAll(
             new File(root.getCanonicalFile() + "/noTitlePage").listFiles(),
@@ -91,6 +124,11 @@ public class Corpus {
     return list;
   }
 
+  /**
+   * Create a string representation of a corpus. Mostly useful for debugging.
+   * 
+   * @return Stringified corpus
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
