@@ -14,23 +14,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
-import ca.nines.ise.node.TagNode;
-import ca.nines.ise.node.lemma.Note;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
-import com.lowagie.text.Footnote;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
@@ -40,12 +37,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.util.regex.Matcher;
@@ -53,94 +44,27 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * RTFWriter serializes a DOM into a rich text format document. It can add
- * annotations as footnotes in the document.
- * <p>
- * It uses iText from http://ymasory.github.com/iText-4.2.0/ to produce the
- * document.
- * <p>
+ *
  * @author michael
  */
 public class RTFWriter extends Writer {
 
-  /**
-   * iText document for the output.
-   */
   private final Document doc;
-
-  /**
-   * iText RtfWriter for the document.
-   * <p>
-   */
   private final RtfWriter2 writer;
-
-  /**
-   * Keep a stack of fonts, so that they can be more easily manipulated.
-   */
   private ArrayDeque<Font> fontStack;
-
-  /**
-   * The current paragraph being worked on.
-   */
   private Paragraph p = new Paragraph();
 
-  /**
-   * The normal, default paragraph style.
-   */
   private RtfParagraphStyle normal;
-
-  /**
-   * The paragraph style for exit stage directions.
-   */
   private RtfParagraphStyle exit;
-
-  /**
-   * Paragraph style for footnotes.
-   */
-  private RtfParagraphStyle footnote;
-
-  /**
-   * Paragraph style for a literary division.
-   */
   private RtfParagraphStyle ld;
-
-  /**
-   * Paragraph style for the first line of a speech
-   */
   private RtfParagraphStyle p1;
-
-  /**
-   * Paragraph style for the second and subsequent line of a speech
-   */
   private RtfParagraphStyle p2;
 
-  /**
-   * A list of the lemmas for the current TLN.
-   * <p>
-   */
-  private String currentTln;
-
-  private List<Note> lemmas = null;
-
-  /**
-   * Construct a writer. Output will be sent to STDOUT.
-   * <p>
-   * @throws UnsupportedEncodingException
-   * @throws ParserConfigurationException
-   */
   public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
   }
 
-  /**
-   * Construct a writer. Output will be sent to the corresponding printstream.
-   * <p>
-   * @param out the destination.
-   * <p>
-   * @throws ParserConfigurationException
-   * @throws UnsupportedEncodingException
-   */
-  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
+  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException  {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
@@ -158,7 +82,7 @@ public class RTFWriter extends Writer {
     exit.setAlignment(Element.ALIGN_RIGHT);
     exit.setStyle(Font.ITALIC);
     writer.getDocumentSettings().registerParagraphStyle(exit);
-
+    
     p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
     p1.setFirstLineIndent(-19);
     p1.setIndentLeft(19);
@@ -170,208 +94,30 @@ public class RTFWriter extends Writer {
     p2.setIndentLeft(38);
     p2.setIndentRight(49);
     writer.getDocumentSettings().registerParagraphStyle(p2);
-
-    footnote = new RtfParagraphStyle("ISE Footnote", "ISE Normal");
-    footnote.setFirstLineIndent(-19);
-    footnote.setIndentLeft(38);
-    footnote.setIndentRight(49);
-    footnote.setSize(10);
-    writer.getDocumentSettings().registerParagraphStyle(footnote);
   }
 
-  /**
-   * Start a new, normal paragraph in the document.
-   * <p>
-   * @throws DocumentException
-   * @throws IOException
-   */
-  private void startParagraph() throws DocumentException, IOException {
+  private void startParagraph() throws DocumentException {
     startParagraph(normal);
   }
 
-  /**
-   * Start a new styled paragraph in the document. Cleans up the previous
-   * paragraph and inserts footnotes if needed.
-   * <p>
-   * @param style The paragraph style
-   * <p>
-   * @throws DocumentException
-   * @throws IOException
-   */
-  private void startParagraph(RtfParagraphStyle style) throws DocumentException, IOException {
-
-    Paragraph tmp = new Paragraph("", p.getFont());
-    Iterator iter = p.iterator();
-    Map<Integer, Note> positions = new HashMap<>();
-
-    while (iter.hasNext()) {
-      Element e = (Element) iter.next();
-      if (lemmas == null || !(e instanceof Chunk)) {
-        tmp.add(e);
-        continue;
-      }
-
-      Chunk c = (Chunk) e;
-      String txt = c.getContent();
-      boolean match = false;
-
-      for (Note n : lemmas) {
-        if (!n.hasNoteLevel("1")) {
-          continue;
-        }
-        String lem;
-        if (n.isLemSplit()) {
-          lem = n.getLemEnd();
-        } else {
-          lem = n.getLem();
-        }
-
-        int lemPos = txt.indexOf(lem) + lem.length();
-        if (lemPos >= 0) {
-          positions.put(Integer.valueOf(lemPos), n);
-          match = true;
-        } else {
-          if (!n.isLemSplit() || n.getTlnEnd().equals(currentTln)) {
-            System.err.println("Cannot match lemma to document.");
-            System.err.println(n);
-          }
-        }
-      }
-
-      if (match) {
-        Integer[] ptns = positions.keySet().toArray(new Integer[positions.size()]);
-        Arrays.sort(ptns);
-        int p = 0, q = 0;
-        for (Integer i : ptns) {
-          p = i.intValue();
-          try {
-            tmp.add(new Chunk(txt.substring(q, p)));
-            //Footnote ftn = new Footnote(new Chunk(positions.get(i).getNote("1").unicode().trim(), footnote));
-            //tmp.add(ftn);
-            tmp.add(new Chunk("*"));
-            q = p;
-          } catch (Exception exc) {
-            System.err.println("Cannot position lemma in document at TLN " + currentTln);
-            System.err.println(positions.get(i));
-          }
-        }
-        if (p < txt.length()) {
-          tmp.add(new Chunk(txt.substring(p)));
-        }
-      } else {
-        tmp.add(c);
-      }
-      positions.clear();
-    }
-
-    if (!tmp.isEmpty() && !StringUtils.isWhitespace(tmp.getContent())) {
-      doc.add(tmp);
+  private void startParagraph(RtfParagraphStyle style) throws DocumentException {
+    if (!p.isEmpty() && !StringUtils.isWhitespace(p.getContent())) {
+      doc.add(p);
     }
     p = new Paragraph("", style);
   }
 
-  /**
-   * Add a chunk of text to the current paragraph.
-   * <p>
-   * @param txt The text to add.
-   */
   private void addChunk(String txt) {
     if (txt.length() > 0) {
       p.add(new Chunk(txt, fontStack.getFirst()));
     }
   }
-
-  /**
-   * Preprocess the DOM, inserting a new node for each annotation location.
-   * <p>
-   * @param dom
-   * @param annotation <p>
-   * @return
-   */
-  public DOM preprocess(DOM dom, Annotation annotation) throws IOException {
-    DOM d = new DOM();
-    String tln;
-    List<Note> notes;
-    Map<Integer, Note> positions = new HashMap<>();
-
-    d.setSource(dom.getSource());
-
-    for (Node n : dom) {
-      if (n.getName().equals("TLN")) {
-
-        tln = ((TagNode) n).getAttribute("n");
-        notes = annotation.get(tln);
-        if (notes == null) {
-          continue;
-        }
-
-        Fragment frag = dom.getTlnFragment(currentTln, 1);
-        String txt = frag.unicode();
-
-        for (Note note : notes) {
-          if (!note.hasNoteLevel("1")) {
-            continue;
-          }
-          String lem;
-          if (note.isLemSplit()) {
-            lem = note.getLemEnd();
-          } else {
-            lem = note.getLem();
-          }
-          int lemPos = txt.indexOf(lem);
-          if (lemPos < 0) {
-            System.err.println("Cannot match lemma to document.");
-            continue;
-          }
-          positions.put(Integer.valueOf(lemPos), note);
-        }
-
-        if (positions.size() > 0) {
-          Integer ptns[] = positions.keySet().toArray(new Integer[positions.size()]);
-          Arrays.sort(ptns);
-          int p = 0, q = 0;
-          for(Integer i : ptns) {
-            p = i.intValue();
-            if(p < txt.length()) {
-              
-            }
-          }
-        }
-
-        d.add(n);
-        TagNode marker = new EmptyNode(n);
-        marker.setName("locator");
-        d.add(marker);
-
-        continue; // don't add the node twice.      
-      }
-      d.add(n);
-    }
-    return d;
-  }
-
-  /**
-   * Render the DOM without any annotations or footnotes.
-   * <p>
-   * @param dom the DOM to render.
-   * <p>
-   * @throws DocumentException
-   * @throws IOException
-   */
+  
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
     render(dom, Annotation.builder().build());
   }
 
-  /**
-   * Render the DOM with annotations/footnotes.
-   * <p>
-   * @param dom        the DOM to render
-   * @param annotation the annotations to render
-   * <p>
-   * @throws DocumentException
-   * @throws IOException
-   */
   public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
 
     dom.index();
@@ -385,16 +131,17 @@ public class RTFWriter extends Writer {
     boolean inS = false; // in a speech
     boolean inHW = false;
     char part = 'i';
+    
+    String mode = "verse";
 
     Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
 
     doc.open();
     startParagraph();
 
-    for (Node n : dom) {
+    for(Node n : dom) {
       switch (n.type()) {
         case ABBR:
-          addChunk(n.unicode());
           break;
         case CHAR:
           addChunk(n.unicode());
@@ -402,20 +149,6 @@ public class RTFWriter extends Writer {
         case EMPTY:
           switch (n.getName()) {
             case "TLN":
-              currentTln = ((EmptyNode) n).getAttribute("n");
-              lemmas = annotation.get(currentTln);
-              if (inS) {
-                startParagraph(p2);
-              } else {
-                startParagraph(p1);
-              }
-              EmptyNode en1 = (EmptyNode) n;
-              if (en1.hasAttribute("part")) {
-                part = en1.getAttribute("part").charAt(0);
-              } else {
-                part = 'i';
-              }
-              break;
             case "L":
               if (inS) {
                 startParagraph(p2);
@@ -431,7 +164,6 @@ public class RTFWriter extends Writer {
               break;
           }
           break;
-
         case END:
           switch (n.getName()) {
             case "FOREIGN":
@@ -507,8 +239,8 @@ public class RTFWriter extends Writer {
             addChunk(txt.toUpperCase());
             break;
           }
-
-          if (inHW) {
+          
+          if(inHW) {
             txt = txt.replaceFirst("[(]", "");
             inHW = false;
           }
