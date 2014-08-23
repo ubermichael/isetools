@@ -39,7 +39,7 @@ public class Version extends Command {
     InputStream stream = Main.class.getResourceAsStream("version.properties");
     Properties prop = new Properties();
     prop.load(stream);
-    System.out.println("iTools version " + prop.getProperty("buildVersion"));
+    System.out.println("iTools version " + prop.getProperty("buildVersion") + " from branch " + prop.getProperty("buildBranch"));
     System.out.println("Compiled with javac " + prop.getProperty("javaCompilerVersion"));
     System.out.println("Java runtime: " + System.getProperty("java.version") + " from " + System.getProperty("java.vendor"));
     System.out.println("Host runtime: " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch"));

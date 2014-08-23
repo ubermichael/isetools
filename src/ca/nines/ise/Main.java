@@ -35,7 +35,7 @@ public class Main {
     InputStream stream = Main.class.getResourceAsStream("version.properties");
     Properties prop = new Properties();
     prop.load(stream);
-    return prop.getProperty("buildVersion");
+    return prop.getProperty("buildVersion")+ " " + prop.getProperty("buildBranch");
   }
 
   public static void execute(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, Exception {
