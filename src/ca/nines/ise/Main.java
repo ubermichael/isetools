@@ -81,6 +81,7 @@ public class Main {
       ex.printStackTrace(System.err);
     } catch (ParseException ex) {
       System.err.println("Cannot parse command line arguments " + args[0]);
+      System.err.println(ex.getMessage());
       System.err.println("iTools version "+ version);
       ex.printStackTrace(System.err);
     } catch (IOException ex) {
