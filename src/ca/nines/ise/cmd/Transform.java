@@ -20,6 +20,8 @@ import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
+import ca.nines.ise.log.Log;
+import ca.nines.ise.log.Message;
 import ca.nines.ise.writer.Writer;
 import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.TextWriter;
@@ -45,12 +47,14 @@ public class Transform extends Command {
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
-    Writer renderer = null;
     Locale.setDefault(Locale.ENGLISH);
     out = new PrintStream(System.out, true, "UTF-8");
     if (cmd.hasOption("o")) {
       out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")), true, "UTF-8");
     }
+
+    Log log = Log.getInstance();
+    Writer renderer = null;
 
     if (cmd.hasOption("text")) {
       renderer = new TextWriter(out);
@@ -61,21 +65,27 @@ public class Transform extends Command {
     if (cmd.hasOption("rtf")) {
       renderer = new RTFWriter(out);
     }
-    
-    if(renderer == null) {
+
+    if (renderer == null) {
       System.err.println("You must specify a transformation");
       System.exit(1);
+      return;
     }
 
     String[] files = getArgList(cmd);
     DOM dom = new DOMBuilder(new File(files[0])).build();
-    Annotation ann = Annotation.builder().build();
-    if (files.length > 1) {
-      ann = Annotation.builder().from(new File(files[1])).build();
-    }
     if (dom.getStatus() != DOMStatus.ERROR) {
-      renderer.render(dom, ann);
+      renderer.render(dom);
+    } else {
+      Message m = Message.builder("dom.errors")
+              .setSource(dom.getSource())
+              .build();
+      log.add(m);
     }
+    if (log.count() > 0) {
+      out.println(log);
+    }
+    log.clear();
   }
 
   @Override
