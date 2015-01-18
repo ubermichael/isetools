@@ -118,6 +118,7 @@ public class RTFWriter extends Writer {
     render(dom, Annotation.builder().build());
   }
 
+  @Override
   public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
 
     dom.index();
