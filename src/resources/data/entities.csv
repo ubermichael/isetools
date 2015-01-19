@@ -1,0 +1,255 @@
+Name,Decimal,Hexadecimal,Character,Code point,Description
+quot,34,22,"""",U+0022,quotation mark 
+amp,38,26,&,U+0026,ampersand
+apos,39,27,',U+0027,apostrophe 
+lt,60,3C,<,U+003C,less-than sign
+gt,62,3E,>,U+003E,greater-than sign
+nbsp,160,A0, ,U+00A0,no-break space 
+iexcl,161,A1,¡,U+00A1,inverted exclamation mark
+cent,162,A2,¢,U+00A2,cent sign
+pound,163,A3,£,U+00A3,pound sign
+curren,164,A4,¤,U+00A4,currency sign
+yen,165,A5,¥,U+00A5,yen sign 
+brvbar,166,A6,¦,U+00A6,broken bar 
+sect,167,A7,§,U+00A7,section sign
+uml,168,A8,¨,U+00A8,diaeresis 
+copy,169,A9,©,U+00A9,copyright symbol
+ordf,170,AA,ª,U+00AA,feminine ordinal indicator
+laquo,171,AB,«,U+00AB,left-pointing double angle quotation mark 
+not,172,AC,¬,U+00AC,not sign
+shy,173,AD, ,U+00AD,soft hyphen 
+reg,174,AE,®,U+00AE,registered sign 
+macr,175,AF,¯,U+00AF,macron 
+deg,176,B0,°,U+00B0,degree symbol
+plusmn,177,B1,±,U+00B1,plus-minus sign 
+sup2,178,B2,²,U+00B2,superscript two 
+sup3,179,B3,³,U+00B3,superscript three 
+acute,180,B4,´,U+00B4,acute accent 
+micro,181,B5,µ,U+00B5,micro sign
+para,182,B6,¶,U+00B6,pilcrow sign 
+middot,183,B7,·,U+00B7,middle dot 
+cedil,184,B8,¸,U+00B8,cedilla 
+sup1,185,B9,¹,U+00B9,superscript one 
+ordm,186,BA,º,U+00BA,masculine ordinal indicator
+raquo,187,BB,»,U+00BB,right-pointing double angle quotation mark 
+frac14,188,BC,¼,U+00BC,vulgar fraction one quarter 
+frac12,189,BD,½,U+00BD,vulgar fraction one half 
+frac34,190,BE,¾,U+00BE,vulgar fraction three quarters
+iquest,191,BF,¿,U+00BF,inverted question mark 
+Agrave,192,C0,À,U+00C0,Latin capital letter A with grave accent 
+Aacute,193,C1,Á,U+00C1,Latin capital letter A with acute accent
+Acirc,194,C2,Â,U+00C2,Latin capital letter A with circumflex
+Atilde,195,C3,Ã,U+00C3,Latin capital letter A with tilde
+Auml,196,C4,Ä,U+00C4,Latin capital letter A with diaeresis
+Aring,197,C5,Å,U+00C5,Latin capital letter A with ring above
+AElig,198,C6,Æ,U+00C6,Latin capital letter AE 
+Ccedil,199,C7,Ç,U+00C7,Latin capital letter C with cedilla
+Egrave,200,C8,È,U+00C8,Latin capital letter E with grave accent
+Eacute,201,C9,É,U+00C9,Latin capital letter E with acute accent
+Ecirc,202,CA,Ê,U+00CA,Latin capital letter E with circumflex
+Euml,203,CB,Ë,U+00CB,Latin capital letter E with diaeresis
+Igrave,204,CC,Ì,U+00CC,Latin capital letter I with grave accent
+Iacute,205,CD,Í,U+00CD,Latin capital letter I with acute accent
+Icirc,206,CE,Î,U+00CE,Latin capital letter I with circumflex
+Iuml,207,CF,Ï,U+00CF,Latin capital letter I with diaeresis
+ETH,208,D0,Ð,U+00D0,Latin capital letter Eth
+Ntilde,209,D1,Ñ,U+00D1,Latin capital letter N with tilde
+Ograve,210,D2,Ò,U+00D2,Latin capital letter O with grave accent
+Oacute,211,D3,Ó,U+00D3,Latin capital letter O with acute accent
+Ocirc,212,D4,Ô,U+00D4,Latin capital letter O with circumflex
+Otilde,213,D5,Õ,U+00D5,Latin capital letter O with tilde
+Ouml,214,D6,Ö,U+00D6,Latin capital letter O with diaeresis
+times,215,D7,×,U+00D7,multiplication sign
+Oslash,216,D8,Ø,U+00D8,Latin capital letter O with stroke
+Ugrave,217,D9,Ù,U+00D9,Latin capital letter U with grave accent
+Uacute,218,DA,Ú,U+00DA,Latin capital letter U with acute accent
+Ucirc,219,DB,Û,U+00DB,Latin capital letter U with circumflex
+Uuml,220,DC,Ü,U+00DC,Latin capital letter U with diaeresis
+Yacute,221,DD,Ý,U+00DD,Latin capital letter Y with acute accent
+THORN,222,DE,Þ,U+00DE,Latin capital letter THORN
+szlig,223,DF,ß,U+00DF,Latin small letter sharp s 
+agrave,224,E0,à,U+00E0,Latin small letter a with grave accent
+aacute,225,E1,á,U+00E1,Latin small letter a with acute accent
+acirc,226,E2,â,U+00E2,Latin small letter a with circumflex
+atilde,227,E3,ã,U+00E3,Latin small letter a with tilde
+auml,228,E4,ä,U+00E4,Latin small letter a with diaeresis
+aring,229,E5,å,U+00E5,Latin small letter a with ring above
+aelig,230,E6,æ,U+00E6,Latin small letter ae 
+ccedil,231,E7,ç,U+00E7,Latin small letter c with cedilla
+egrave,232,E8,è,U+00E8,Latin small letter e with grave accent
+eacute,233,E9,é,U+00E9,Latin small letter e with acute accent
+ecirc,234,EA,ê,U+00EA,Latin small letter e with circumflex
+euml,235,EB,ë,U+00EB,Latin small letter e with diaeresis
+igrave,236,EC,ì,U+00EC,Latin small letter i with grave accent
+iacute,237,ED,í,U+00ED,Latin small letter i with acute accent
+icirc,238,EE,î,U+00EE,Latin small letter i with circumflex
+iuml,239,EF,ï,U+00EF,Latin small letter i with diaeresis
+eth,240,F0,ð,U+00F0,Latin small letter eth
+ntilde,241,F1,ñ,U+00F1,Latin small letter n with tilde
+ograve,242,F2,ò,U+00F2,Latin small letter o with grave accent
+oacute,243,F3,ó,U+00F3,Latin small letter o with acute accent
+ocirc,244,F4,ô,U+00F4,Latin small letter o with circumflex
+otilde,245,F5,õ,U+00F5,Latin small letter o with tilde
+ouml,246,F6,ö,U+00F6,Latin small letter o with diaeresis
+divide,247,F7,÷,U+00F7,division sign 
+oslash,248,F8,ø,U+00F8,Latin small letter o with stroke 
+ugrave,249,F9,ù,U+00F9,Latin small letter u with grave accent
+uacute,250,FA,ú,U+00FA,Latin small letter u with acute accent
+ucirc,251,FB,û,U+00FB,Latin small letter u with circumflex
+uuml,252,FC,ü,U+00FC,Latin small letter u with diaeresis
+yacute,253,FD,ý,U+00FD,Latin small letter y with acute accent
+thorn,254,FE,þ,U+00FE,Latin small letter thorn
+yuml,255,FF,ÿ,U+00FF,Latin small letter y with diaeresis
+OElig,338,152,Œ,U+0152,Latin capital ligature oe
+oelig,339,153,œ,U+0153,Latin small ligature oe
+Scaron,352,160,Š,U+0160,Latin capital letter s with caron
+scaron,353,161,š,U+0161,Latin small letter s with caron
+Yuml,376,178,Ÿ,U+0178,Latin capital letter y with diaeresis
+fnof,402,192,ƒ,U+0192,Latin small letter f with hook
+circ,710,2C6,ˆ,U+02C6,modifier letter circumflex accent
+tilde,732,2DC,˜,U+02DC,small tilde
+Alpha,913,391,Α,U+0391,Greek capital letter Alpha
+Beta,914,392,Β,U+0392,Greek capital letter Beta
+Gamma,915,393,Γ,U+0393,Greek capital letter Gamma
+Delta,916,394,Δ,U+0394,Greek capital letter Delta
+Epsilon,917,395,Ε,U+0395,Greek capital letter Epsilon
+Zeta,918,396,Ζ,U+0396,Greek capital letter Zeta
+Eta,919,397,Η,U+0397,Greek capital letter Eta
+Theta,920,398,Θ,U+0398,Greek capital letter Theta
+Iota,921,399,Ι,U+0399,Greek capital letter Iota
+Kappa,922,39A,Κ,U+039A,Greek capital letter Kappa
+Lambda,923,39B,Λ,U+039B,Greek capital letter Lambda
+Mu,924,39C,Μ,U+039C,Greek capital letter Mu
+Nu,925,39D,Ν,U+039D,Greek capital letter Nu
+Xi,926,39E,Ξ,U+039E,Greek capital letter Xi
+Omicron,927,39F,Ο,U+039F,Greek capital letter Omicron
+Pi,928,3A0,Π,U+03A0,Greek capital letter Pi
+Rho,929,3A1,Ρ,U+03A1,Greek capital letter Rho
+Sigma,931,3A3,Σ,U+03A3,Greek capital letter Sigma
+Tau,932,3A4,Τ,U+03A4,Greek capital letter Tau
+Upsilon,933,3A5,Υ,U+03A5,Greek capital letter Upsilon
+Phi,934,3A6,Φ,U+03A6,Greek capital letter Phi
+Chi,935,3A7,Χ,U+03A7,Greek capital letter Chi
+Psi,936,3A8,Ψ,U+03A8,Greek capital letter Psi
+Omega,937,3A9,Ω,U+03A9,Greek capital letter Omega
+alpha,945,3B1,α,U+03B1,Greek small letter alpha
+beta,946,3B2,β,U+03B2,Greek small letter beta
+gamma,947,3B3,γ,U+03B3,Greek small letter gamma
+delta,948,3B4,δ,U+03B4,Greek small letter delta
+epsilon,949,3B5,ε,U+03B5,Greek small letter epsilon
+zeta,950,3B6,ζ,U+03B6,Greek small letter zeta
+eta,951,3B7,η,U+03B7,Greek small letter eta
+theta,952,3B8,θ,U+03B8,Greek small letter theta
+iota,953,3B9,ι,U+03B9,Greek small letter iota
+kappa,954,3BA,κ,U+03BA,Greek small letter kappa
+lambda,955,3BB,λ,U+03BB,Greek small letter lambda
+mu,956,3BC,μ,U+03BC,Greek small letter mu
+nu,957,3BD,ν,U+03BD,Greek small letter nu
+xi,958,3BE,ξ,U+03BE,Greek small letter xi
+omicron,959,3BF,ο,U+03BF,Greek small letter omicron
+pi,960,3C0,π,U+03C0,Greek small letter pi
+rho,961,3C1,ρ,U+03C1,Greek small letter rho
+sigmaf,962,3C2,ς,U+03C2,Greek small letter final sigma
+sigma,963,3C3,σ,U+03C3,Greek small letter sigma
+tau,964,3C4,τ,U+03C4,Greek small letter tau
+upsilon,965,3C5,υ,U+03C5,Greek small letter upsilon
+phi,966,3C6,φ,U+03C6,Greek small letter phi
+chi,967,3C7,χ,U+03C7,Greek small letter chi
+psi,968,3C8,ψ,U+03C8,Greek small letter psi
+omega,969,3C9,ω,U+03C9,Greek small letter omega
+thetasym,977,3D1,ϑ,U+03D1,Greek theta symbol
+upsih,978,3D2,ϒ,U+03D2,Greek Upsilon with hook symbol
+piv,982,3D6,ϖ,U+03D6,Greek pi symbol
+ensp,8194,2002, ,U+2002,en space
+emsp,8195,2003, ,U+2003,em space
+thinsp,8201,2009, ,U+2009,thin space
+zwnj,8204,200C, ,U+200C,zero-width non-joiner
+zwj,8205,200D, ,U+200D,zero-width joiner
+lrm,8206,200E, ,U+200E,left-to-right mark
+rlm,8207,200F, ,U+200F,right-to-left mark
+ndash,8211,2013,–,U+2013,en dash
+mdash,8212,2014,—,U+2014,em dash
+lsquo,8216,2018,‘,U+2018,left single quotation mark
+rsquo,8217,2019,’,U+2019,right single quotation mark
+sbquo,8218,201A,‚,U+201A,single low-9 quotation mark
+ldquo,8220,201C,“,U+201C,left double quotation mark
+rdquo,8221,201D,”,U+201D,right double quotation mark
+bdquo,8222,201E,„,U+201E,double low-9 quotation mark
+dagger,8224,2020,†,U+2020,"dagger, obelisk"
+Dagger,8225,2021,‡,U+2021,"double dagger, double obelisk"
+bull,8226,2022,•,U+2022,bullet 
+hellip,8230,2026,…,U+2026,horizontal ellipsis 
+permil,8240,2030,‰,U+2030,per mille sign
+prime,8242,2032,′,U+2032,prime 
+Prime,8243,2033,″,U+2033,double prime 
+lsaquo,8249,2039,‹,U+2039,single left-pointing angle quotation mark
+rsaquo,8250,203A,›,U+203A,single right-pointing angle quotation mark
+oline,8254,203E,‾,U+203E,overline 
+frasl,8260,2044,⁄,U+2044,fraction slash 
+euro,8364,20AC,€,U+20AC,euro sign
+image,8465,2111,ℑ,U+2111,black-letter capital I 
+weierp,8472,2118,℘,U+2118,script capital P 
+real,8476,211C,ℜ,U+211C,black-letter capital R 
+trade,8482,2122,™,U+2122,trademark symbol
+alefsym,8501,2135,ℵ,U+2135,alef symbol 
+larr,8592,2190,←,U+2190,leftwards arrow
+uarr,8593,2191,↑,U+2191,upwards arrow
+rarr,8594,2192,→,U+2192,rightwards arrow
+darr,8595,2193,↓,U+2193,downwards arrow
+harr,8596,2194,↔,U+2194,left right arrow
+crarr,8629,21B5,↵,U+21B5,downwards arrow with corner leftwards 
+lArr,8656,21D0,⇐,U+21D0,leftwards double arrow
+uArr,8657,21D1,⇑,U+21D1,upwards double arrow
+rArr,8658,21D2,⇒,U+21D2,rightwards double arrow
+dArr,8659,21D3,⇓,U+21D3,downwards double arrow
+hArr,8660,21D4,⇔,U+21D4,left right double arrow
+forall,8704,2200,∀,U+2200,for all
+part,8706,2202,∂,U+2202,partial differential
+exist,8707,2203,∃,U+2203,there exists
+empty,8709,2205,∅,U+2205,empty set 
+nabla,8711,2207,∇,U+2207,del or nabla 
+isin,8712,2208,∈,U+2208,element of
+notin,8713,2209,∉,U+2209,not an element of
+ni,8715,220B,∋,U+220B,contains as member
+prod,8719,220F,∏,U+220F,n-ary product 
+sum,8721,2211,∑,U+2211,n-ary summation
+minus,8722,2212,−,U+2212,minus sign
+lowast,8727,2217,∗,U+2217,asterisk operator
+radic,8730,221A,√,U+221A,square root 
+prop,8733,221D,∝,U+221D,proportional to
+infin,8734,221E,∞,U+221E,infinity
+ang,8736,2220,∠,U+2220,angle
+and,8743,2227,∧,U+2227,logical and 
+or,8744,2228,∨,U+2228,logical or 
+cap,8745,2229,∩,U+2229,intersection 
+cup,8746,222A,∪,U+222A,union 
+int,8747,222B,∫,U+222B,integral
+there4,8756,2234,∴,U+2234,therefore sign
+sim,8764,223C,∼,U+223C,tilde operator 
+cong,8773,2245,≅,U+2245,congruent to
+asymp,8776,2248,≈,U+2248,almost equal to 
+ne,8800,2260,≠,U+2260,not equal to
+equiv,8801,2261,≡,U+2261,identical to; sometimes used for 'equivalent to'
+le,8804,2264,≤,U+2264,less-than or equal to
+ge,8805,2265,≥,U+2265,greater-than or equal to
+sub,8834,2282,⊂,U+2282,subset of
+sup,8835,2283,⊃,U+2283,superset of
+nsub,8836,2284,⊄,U+2284,not a subset of
+sube,8838,2286,⊆,U+2286,subset of or equal to
+supe,8839,2287,⊇,U+2287,superset of or equal to
+oplus,8853,2295,⊕,U+2295,circled plus 
+otimes,8855,2297,⊗,U+2297,circled times 
+perp,8869,22A5,⊥,U+22A5,up tack 
+sdot,8901,22C5,⋅,U+22C5,dot operator
+vellip,8942,22EE,⋮,U+22EE,vertical ellipsis
+lceil,8968,2308,⌈,U+2308,left ceiling 
+rceil,8969,2309,⌉,U+2309,right ceiling
+lfloor,8970,230A,⌊,U+230A,left floor 
+rfloor,8971,230B,⌋,U+230B,right floor
+lang,9001,2329,〈,U+2329,left-pointing angle bracket 
+rang,9002,232A,〉,U+232A,right-pointing angle bracket 
+loz,9674,25CA,◊,U+25CA,lozenge
+spades,9824,2660,♠,U+2660,black spade suit
+clubs,9827,2663,♣,U+2663,black club suit 
+hearts,9829,2665,♥,U+2665,black heart suit 
+diams,9830,2666,♦,U+2666,black diamond suit

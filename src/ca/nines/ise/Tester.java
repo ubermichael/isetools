@@ -35,19 +35,8 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new DOMBuilder(new File("1H6_F1.txt")).build();
-      Modernizer m = new Modernizer();
-      dom = m.transform(dom);
-      
-      Normalizer n = new Normalizer();
-      dom = n.transform(dom);
-      
-      Formatter f = new Formatter();
-      dom = f.transform(dom);
-      
-      Writer renderer = new SGMLWriter();
-      renderer.render(dom);      
-      
+      DOM dom = new DOMBuilder("foo{&#xA3}{&#xa3}{&#x00A3}{&pound}bar").build();
+      System.out.print(dom);
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {

@@ -63,6 +63,7 @@ charNested
 
 character
   : charAccent
+  | charCodePoint
   | charDigraph 
   | charLigature
   | charNested

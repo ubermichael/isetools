@@ -25,7 +25,9 @@ CHAR_UNICODE
   ;
 
 CHAR_CODEPOINT
-  : '{\\u' [0-9a-fA-F]+ '}'
+  : '{&#x' [0-9a-fA-F]+ '}'
+  | '{&#' [0-9]+ '}'
+  | '{&' [a-zA-Z0-9]+ '}'
   ;
 
 CHAR_DIGRAPH 

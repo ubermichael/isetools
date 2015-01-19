@@ -34,6 +34,7 @@ import ca.nines.ise.grammar.ISEParser.*;
 import ca.nines.ise.grammar.ISEParserBaseListener;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.*;
+import ca.nines.ise.node.chr.CodePointCharNode;
 import ca.nines.ise.util.BuilderInterface;
 
 import java.io.File;
@@ -184,7 +185,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   @Override
   public void enterCharCodePoint(CharCodePointContext ctx) {
-    UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
+    CodePointCharNode n = (CodePointCharNode) setupNode(new CodePointCharNode(), ctx);
     dom.add(n);
   }
 
