@@ -1,5 +1,5 @@
 Name,Decimal,Hexadecimal,Character,Code point,Description
-quot,34,22,"""",U+0022,quotation mark 
+quot,34,22,,U+0022,quotation mark 
 amp,38,26,&,U+0026,ampersand
 apos,39,27,',U+0027,apostrophe 
 lt,60,3C,<,U+003C,less-than sign
@@ -163,8 +163,6 @@ piv,982,3D6,ϖ,U+03D6,Greek pi symbol
 ensp,8194,2002, ,U+2002,en space
 emsp,8195,2003, ,U+2003,em space
 thinsp,8201,2009, ,U+2009,thin space
-zwnj,8204,200C, ,U+200C,zero-width non-joiner
-zwj,8205,200D, ,U+200D,zero-width joiner
 lrm,8206,200E, ,U+200E,left-to-right mark
 rlm,8207,200F, ,U+200F,right-to-left mark
 ndash,8211,2013,–,U+2013,en dash

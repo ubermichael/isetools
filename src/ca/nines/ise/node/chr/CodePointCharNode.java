@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -33,26 +32,41 @@ public class CodePointCharNode extends CharNode {
 
   private static final Pattern unicodePattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
 
+  private static final Pattern hexEntity = Pattern.compile("&#x(\\p{XDigit}+)");
+  private static final Pattern decimalEntity = Pattern.compile("&#(\\p{Digit}+)");
+  private static final Pattern namedEntity = Pattern.compile("&(\\p{Alnum}+)");
+
+  private Fragment expandNumeric(String value, int base) {
+    int codePoint = Integer.parseInt(value, base);
+    char[] c = Character.toChars(codePoint);
+    String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
+    return wrap("CODEPOINT", str);
+  }
+
   @Override
   public Fragment expanded() {
-    Matcher matcher = unicodePattern.matcher(innerText());
-    try {
-      if (matcher.matches()) {
-        String hex = matcher.group(1);
-        int codePoint = Integer.parseInt(hex, 16);
-        char[] c = Character.toChars(codePoint);
-        String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
-        return wrap("CODEPOINT", str);
-      }
-    } catch (IllegalArgumentException e) {
-      Message m = Message.builder("char.codepoint.unknown")
-              .fromNode(this)
-              .addNote("Cannot parse " + innerText() + " as a hexidecimal code point.")
-              .build();
-      Log.getInstance().add(m);
-    }
 
-    return wrap("CODEPOINT", (String) null);
+    Matcher m;
+    String value;
+
+    m = hexEntity.matcher(innerText());
+    if (m.matches()) {
+      return expandNumeric(m.group(1), 16);
+    }
+    m = decimalEntity.matcher(innerText());
+    if (m.matches()) {
+      return expandNumeric(m.group(1), 10);
+    }
+    m = namedEntity.matcher(innerText());
+    if (m.matches()) {
+      return wrap("CODEPOINT", "NA");
+    }
+    Message message = Message.builder("char.codepoint.unknown")
+            .fromNode(this)
+            .addNote("Cannot parse " + innerText() + " as a code point.")
+            .build();
+    Log.getInstance().add(message);
+    return null;
   }
 
   /**

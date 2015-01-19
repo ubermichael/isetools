@@ -16,15 +16,9 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.transformer.Formatter;
-import ca.nines.ise.transformer.Modernizer;
-import ca.nines.ise.transformer.Normalizer;
-import ca.nines.ise.writer.SGMLWriter;
-import ca.nines.ise.writer.Writer;
-import java.io.File;
+import ca.nines.ise.util.CodePoint;
+import ca.nines.ise.util.CodePointTable;
 
 /**
  *
@@ -35,8 +29,11 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-      DOM dom = new DOMBuilder("foo{&#xA3}{&#xa3}{&#x00A3}{&pound}bar").build();
-      System.out.print(dom);
+	  CodePointTable tbl = CodePointTable.defaultCodePointTable();
+	  for(String name : tbl.names()) {
+		CodePoint cp = tbl.getCodePoint(name);
+		System.out.println(cp);
+	  }
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {
