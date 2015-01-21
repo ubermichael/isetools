@@ -78,7 +78,7 @@ public class CodePointTable {
 	return new CodePointTableBuilder();
   }
 
-  public static CodePointTable defaultCodePointTable() throws ParserConfigurationException, IOException {
+  public static CodePointTable defaultCodePointTable() throws IOException {
 	String loc = "/resources/data/entities.csv";
 	InputStream in = CodePointTable.class.getResourceAsStream(loc);
 	return builder().from(in).build();
@@ -99,7 +99,7 @@ public class CodePointTable {
 	return table.size();
   }
 
-  public String[] names() {
+  public String[] getCodePoints() {
 	String names[] = table.keySet().toArray(new String[table.size()]);
 	Arrays.sort(names);
 	return names;

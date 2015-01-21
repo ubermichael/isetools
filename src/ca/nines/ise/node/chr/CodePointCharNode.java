@@ -20,6 +20,8 @@ import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.CharNode;
+import ca.nines.ise.util.CodePointTable;
+import java.io.IOException;
 import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,25 +32,33 @@ import java.util.regex.Pattern;
  */
 public class CodePointCharNode extends CharNode {
 
-  private static final Pattern unicodePattern = Pattern.compile("\\\\u(\\p{XDigit}+)");
-
   private static final Pattern hexEntity = Pattern.compile("&#x(\\p{XDigit}+)");
   private static final Pattern decimalEntity = Pattern.compile("&#(\\p{Digit}+)");
   private static final Pattern namedEntity = Pattern.compile("&(\\p{Alnum}+)");
 
+  private static CodePointTable tbl = null;
+  
   private Fragment expandNumeric(String value, int base) {
     int codePoint = Integer.parseInt(value, base);
     char[] c = Character.toChars(codePoint);
     String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
     return wrap("CODEPOINT", str);
   }
+  
+  private Fragment expandNamed(String value) throws IOException {
+	if(tbl == null) {
+	  tbl = CodePointTable.defaultCodePointTable();
+	}
+	return wrap("CODEPOINT", tbl.getCodePoint(value).getValue());
+  }
 
   @Override
-  public Fragment expanded() {
+  public Fragment expanded() throws IOException {
 
     Matcher m;
-    String value;
 
+	// @TODO these should be refactored into classes, and the parser
+	// should distinguish them.
     m = hexEntity.matcher(innerText());
     if (m.matches()) {
       return expandNumeric(m.group(1), 16);
@@ -59,7 +69,7 @@ public class CodePointCharNode extends CharNode {
     }
     m = namedEntity.matcher(innerText());
     if (m.matches()) {
-      return wrap("CODEPOINT", "NA");
+      return expandNamed(m.group(1));
     }
     Message message = Message.builder("char.codepoint.unknown")
             .fromNode(this)
