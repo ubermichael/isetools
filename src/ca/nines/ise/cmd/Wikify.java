@@ -24,6 +24,8 @@ import ca.nines.ise.writer.XMLWriter;
 import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
+import ca.nines.ise.util.CodePoint;
+import ca.nines.ise.util.CodePointTable;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -68,6 +70,10 @@ public class Wikify extends Command {
     if (cmd.hasOption("schema")) {
       wikifySchema(out);
     }
+	
+	if(cmd.hasOption("codepoints")) {
+	  wikifyCodepoints(out);
+	}
   }
 
   @Override
@@ -76,6 +82,7 @@ public class Wikify extends Command {
     opts.addOption("o", true, "Send output to file");
     opts.addOption("chars", false, "Generate output for special characters");
     opts.addOption("schema", false, "Generate output for default schema");
+	opts.addOption("codepoints", false, "Generate output for named codepoints");
     return opts;
   }
 
@@ -172,6 +179,19 @@ public class Wikify extends Command {
     System.out.println(" Depreciated::");
     System.out.println("  " + (tag.isDepreciated() ? tag.getDepreciated() : "no"));
     System.out.println("\n");
+  }
+
+  private void wikifyCodepoints(PrintStream out) throws IOException {
+	CodePointTable tbl = CodePointTable.defaultCodePointTable();
+	Formatter fmt = new Formatter(out);
+	fmt.format("|| Name || Char || Decimal || Hex || Code Point || Description ||\n");
+	for(String name : tbl.getCodePoints()) {
+		CodePoint cp = tbl.getCodePoint(name);
+		fmt.format("|| %s || %s || %s || %s || %s || %s ||\n", 
+				cp.getName(), cp.getValue(), cp.dec(), cp.hex(), 
+				cp.unicodePoint(), cp.description().toLowerCase());
+	  }
+	out.println();
   }
 
 }

@@ -40,27 +40,27 @@ public class CodePointCharNodeTest extends TestBase {
   @Test
   public void testExpanded() throws IOException {
     // leading zeros
-    testExpansion("{\\u007A}", "z"); // extended latin
-    testExpansion("{\\u0106}", "\u0106"); // extended latin
-    testExpansion("{\\u03A6}", "\u03A6"); // greek PHI
-    testExpansion("{\\u042F}", "\u042F"); // cyrillic YA.
+    testExpansion("{&#x007A}", "z"); // extended latin
+    testExpansion("{&#x0106}", "\u0106"); // extended latin
+    testExpansion("{&#x03A6}", "\u03A6"); // greek PHI
+    testExpansion("{&#x042F}", "\u042F"); // cyrillic YA.
     
     // no leading zeros
-    testExpansion("{\\u7A}", "z"); // extended latin
-    testExpansion("{\\u106}", "\u0106"); // extended latin
-    testExpansion("{\\u3A6}", "\u03A6"); // greek PHI
-    testExpansion("{\\u42F}", "\u042F"); // cyrillic YA.
+    testExpansion("{&#x7A}", "z"); // extended latin
+    testExpansion("{&#x106}", "\u0106"); // extended latin
+    testExpansion("{&#x3A6}", "\u03A6"); // greek PHI
+    testExpansion("{&#x42F}", "\u042F"); // cyrillic YA.
 
     // lower case
-    testExpansion("{\\u7a}", "z"); // extended latin
-    testExpansion("{\\u3a6}", "\u03A6"); // greek PHI
-    testExpansion("{\\u42f}", "\u042F"); // cyrillic YA.
+    testExpansion("{&#x7a}", "z"); // extended latin
+    testExpansion("{&#x3a6}", "\u03A6"); // greek PHI
+    testExpansion("{&#x42f}", "\u042F"); // cyrillic YA.
 
     // higher characters
-    testExpansion("{\\u6c34}", "\u6C34"); // CJK ideograph water
+    testExpansion("{&#x6c34}", "\u6C34"); // CJK ideograph water
     
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testExpansion("{\\u1D11E}", new String(Character.toChars(0x1d11e))); 
+    testExpansion("{&#x1D11E}", new String(Character.toChars(0x1d11e))); 
   }
 
   private void testExpansion(String text, String unicode) throws IOException {
