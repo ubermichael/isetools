@@ -16,6 +16,8 @@
  */
 package ca.nines.ise;
 
+import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.util.CodePoint;
 import ca.nines.ise.util.CodePointTable;
@@ -29,11 +31,8 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-	  CodePointTable tbl = CodePointTable.defaultCodePointTable();
-	  for(String name : tbl.names()) {
-		CodePoint cp = tbl.getCodePoint(name);
-		System.out.println(cp);
-	  }
+	  DOM dom = new DOMBuilder("foo{&#xa7}bar{&eacute}baz{&#167}").build();
+	  System.out.println(dom.unicode());
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     } finally {
