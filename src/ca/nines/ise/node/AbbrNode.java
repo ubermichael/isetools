@@ -25,14 +25,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Abbreviation node. Abbreviation markup is depreciated in ISE documents.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class AbbrNode extends Node {
 
+  /**
+   * Long abbrs are two characters separated by a caret.
+   */
   private static final Pattern longAbbrPattern = Pattern.compile("^([a-zA-Z])\\^([a-zA-Z])$");
+  
+  /**
+   * Short abbrs are one ore more ascii letters.
+   */
   private static final Pattern shortAbbrPattern = Pattern.compile("^([a-zA-Z]+)$");
 
+  /**
+   * Expand the node into tag nodes.
+   * 
+   * @return 
+   */
   @ErrorCode(code = {
     "abbr.expand.syntax"
   })
@@ -79,21 +92,34 @@ public class AbbrNode extends Node {
     return fragment;
   }
 
+  /**
+   * The plain-text version of an abbr is just the ascii letters.
+   * @return 
+   */
   @Override
   public String plain() {
     return getText().replaceAll("[^a-zA-Z]*", "");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String sgml() {
     return text;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.ABBR;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String unicode() {
     return getText().replaceAll("[^a-zA-Z]*", "");

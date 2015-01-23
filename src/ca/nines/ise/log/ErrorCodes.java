@@ -34,32 +34,65 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * Collection of ErrorCode objects, indexed by code.
  *
  * @author michael
  */
 public class ErrorCodes {
 
+  /**
+   * List of ErrorCode objects indexed by code.
+   */
   private final Map<String, ErrorCode> list;
 
+  /**
+   * Build the list of error codes.
+   */
   public static class ErrorCodesBuilder implements BuilderInterface<ErrorCodes> {
 
-    private Map<String, ErrorCode> list;
+	/**
+	 * List of ErrorCode objects in progress.
+	 */
+    private final Map<String, ErrorCode> list;
 
+	/**
+	 * Use ErrorCodes.builder() to get a builder.
+	 */
     private ErrorCodesBuilder() {
       list = new HashMap<>();
       list.put("unknown", ErrorCode.builder().setCode("unknown").build());
     }
 
+	/**
+	 * Add an error code to the list.
+	 * 
+	 * @param ec
+	 * @return ErrorCodesBuilder
+	 */
     public ErrorCodesBuilder addErrorCode(ErrorCode ec) {
       list.put(ec.getCode(), ec);
       return this;
     }
 
+	/**
+	 * Build and return the error codes list.
+	 * 
+	 * @return ErrorCodes
+	 */
     @Override
     public ErrorCodes build() {
       return new ErrorCodes(list);
     }
 
+	/**
+	 * Add error codes from a string.
+	 * 
+	 * @param str
+	 * @return ErrorCodesBuilder
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws TransformerException 
+	 */
     public ErrorCodesBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(str);
@@ -67,6 +100,17 @@ public class ErrorCodes {
       return from(n);
     }
 
+	/**
+	 * Add error codes from an InputStream, located at loc.
+	 * 
+	 * @param loc
+	 * @param in
+	 * @return ErrorCodesBuilder
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws TransformerException
+	 * @throws IOException 
+	 */
     public ErrorCodesBuilder from(String loc, InputStream in) throws ParserConfigurationException, SAXException, TransformerException, IOException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(loc, in);
@@ -74,6 +118,12 @@ public class ErrorCodes {
       return from(n);
     }
 
+	/**
+	 * Add error codes from an XML Node.
+	 * 
+	 * @param in
+	 * @return ErrorCodesBuilder
+	 */
     public ErrorCodesBuilder from(Node in) {
       NodeList nl = ((Element) in).getElementsByTagName("message");
       int length = nl.getLength();
@@ -84,6 +134,16 @@ public class ErrorCodes {
       return this;
     }
 
+	/**
+	 * Add error codes from an XML file.
+	 * 
+	 * @param in
+	 * @return ErrorCodesBuilder
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws TransformerException
+	 * @throws IOException 
+	 */
     public ErrorCodesBuilder from(File in) throws ParserConfigurationException, SAXException, TransformerException, IOException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(in);
@@ -93,20 +153,42 @@ public class ErrorCodes {
 
   }
 
+  /**
+   * Create and return a builder.
+   * @return 
+   */
   public static ErrorCodesBuilder builder() {
     return new ErrorCodesBuilder();
   }
 
+  /**
+   * Build the default set of error codes.
+   * 
+   * @return ErrorCodesBuilder
+   * @throws IOException
+   * @throws TransformerException
+   * @throws SAXException
+   * @throws ParserConfigurationException 
+   */
   public static ErrorCodes defaultErrorCodes() throws IOException, TransformerException, SAXException, ParserConfigurationException {
     String loc = "/resources/data/errors.xml";
     InputStream in = ErrorCodes.class.getResourceAsStream(loc);
     return builder().from(loc, in).build();
   }
 
+  /**
+   * Use #builder to get an ErrorCodeBuilder.
+   * @param list 
+   */
   private ErrorCodes(Map<String, ErrorCode> list) {
     this.list = new HashMap<>(list);
   }
 
+  /**
+   * Get an error code from a code.
+   * @param code
+   * @return ErrorCode
+   */
   public ErrorCode getErrorCode(String code) {
     if (list.containsKey(code)) {
       return list.get(code);
@@ -114,20 +196,37 @@ public class ErrorCodes {
     return list.get("unknown");
   }
 
+  /**
+   * Get a list of error codes sorted by code.
+   * @return ErrorCode[]
+   */
   public ErrorCode[] getErrorCodes() {
     ErrorCode[] codes = list.values().toArray(new ErrorCode[list.size()]);
     Arrays.sort(codes);
     return codes;
   }
 
+  /**
+   * Check if the list contains an error code.
+   * @param code
+   * @return boolean
+   */
   public boolean hasErrorCode(String code) {
     return list.containsKey(code);
   }
-  
+
+  /**
+   * Get the size of the error codes.
+   * @return int
+   */
   public int size() {
     return list.size();
   }
 
+  /**
+   * Return a human-readable list of error codes.
+   * @return 
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

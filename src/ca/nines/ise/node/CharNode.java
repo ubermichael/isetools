@@ -21,16 +21,27 @@ import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.chr.AccentCharNode;
+import ca.nines.ise.node.chr.CodePointCharNode;
+import ca.nines.ise.node.chr.DigraphCharNode;
+import ca.nines.ise.node.chr.LigatureCharNode;
+import ca.nines.ise.node.chr.NestedCharNode;
+import ca.nines.ise.node.chr.SpaceCharNode;
+import ca.nines.ise.node.chr.TypographicCharNode;
+import ca.nines.ise.node.chr.UnicodeCharNode;
 import java.io.IOException;
 
 /**
+ * Char nodes. There are many char node sub-types. Has many convenience methods
+ * to create the subtypes.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class CharNode extends Node {
 
+  /**
+   * Character types.
+   */
   public enum CharType {
-
     ACCENT,
     CODEPOINT,
     DIGRAPH,
@@ -41,17 +52,34 @@ abstract public class CharNode extends Node {
     NESTED
   };
 
+  /**
+   * Get the name of a character type.
+   * @return 
+   */
   public String getCharName() {
     return getCharType().name();
   }
 
+  /**
+   * Get the character node's character type.
+   * @return 
+   */
   public abstract CharType getCharType();
 
+  /**
+   * Return the plain text equivalent of a character node, which is just
+   * the ascii characters used to build the character.
+   * @return 
+   */
   @Override
   public String plain() {
     return innerText().replaceAll("[^a-zA-Z]*", "");
   }
 
+  /**
+   * Return a human-friendly string representation.
+   * @return 
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -62,25 +90,44 @@ abstract public class CharNode extends Node {
     return sb.toString();
   }
   
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String sgml() {
     return text;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.CHAR;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String unicode() throws IOException {
     return expanded().unicode();
   }
 
+  /**
+   * Return the text inside the curly-brace markup.
+   * @return 
+   */
   protected String innerText() {
     return text.replaceAll("^\\{|\\}$", "");
   }
 
+  /**
+   * Create a fragment which is a node wrapping a piece of text.
+   * @param tagName
+   * @param content
+   * @return 
+   */
   protected Fragment wrap(String tagName, String content) {
     Fragment dom = new Fragment();
     TagNode node;
@@ -109,6 +156,13 @@ abstract public class CharNode extends Node {
     return dom;
   }
 
+  /**
+   * Wrap a fragment in a new tag called tagName.
+   * 
+   * @param tagName
+   * @param fragment
+   * @return 
+   */
   protected Fragment wrap(String tagName, Fragment fragment) {
     Fragment dom = new Fragment();
     TagNode node;
@@ -127,35 +181,75 @@ abstract public class CharNode extends Node {
     return dom;
   }
 
+  /**
+   * Convenience method to return a new AccentCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode accentChar() {
     return new AccentCharNode();
   }
 
+  /**
+   * Convenience method to return a new CodePointCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode codePoint() {
-    return null;
+    return new CodePointCharNode();
   }
 
+  /**
+   * Convenience method to return a new DigraphCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode digraphChar() {
-    return null;
+    return new DigraphCharNode();
   }
 
+  /**
+   * Convenience method to return a new LigatureCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode ligatureChar() {
-    return null;
+    return new LigatureCharNode();
   }
 
+  /**
+   * Convenience method to return a new NestedCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode nestedChar() {
-    return null;
+    return new NestedCharNode();
   }
 
+  /**
+   * Convenience method to return a new SpaceCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode spaceChar() {
-    return null;
+    return new SpaceCharNode();
   }
 
+  /**
+   * Convenience method to return a new TypographicCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode typographicChar() {
-    return null;
+    return new TypographicCharNode();
   }
 
+  /**
+   * Convenience method to return a new UnicodeCharNode.
+   * 
+   * @return CharNode
+   */
   public static CharNode unicodeChar() {
-    return null;
+    return new UnicodeCharNode();
   }
 }

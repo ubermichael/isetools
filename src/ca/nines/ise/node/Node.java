@@ -22,19 +22,50 @@ import java.io.IOException;
 import java.util.Formatter;
 
 /**
+ * A node is a piece of a DOM.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Node {
 
+  /**
+   * The act/scene/line numbers of the node.
+   */
   protected String asl;
+  
+  /**
+   * column number.
+   */
   protected int column;
+  
+  /**
+   * line number.
+   */
   protected int line;
+  
+  /**
+   * position of the node from the start of the file.
+   */
   protected int position;
+  
+  /**
+   * DOM to which this node belongs.
+   */
   protected DOM ownerDom;
+  
+  /**
+   * Text parsed to create the node.
+   */
   protected String text;
+  
+  /**
+   * TLN of the node.
+   */
   protected String tln;
 
+  /**
+   * Construct a new, blank node.
+   */
   public Node() {
     this.tln = "";
     this.column = 0;
@@ -46,6 +77,11 @@ abstract public class Node {
     // do nothing.
   }
 
+  /**
+   * Copy constructor node. clone() sucks. All node types must implement this.
+   * 
+   * @param n 
+   */
   public Node(Node n) {
     this.asl = n.asl;
     this.column = n.column;
@@ -136,10 +172,18 @@ abstract public class Node {
     }
   }
 
+  /**
+   * Get the DOM which owns this node.
+   * @return 
+   */
   public DOM getOwner() {
     return ownerDom;
   }
 
+  /**
+   * Set the owner DOM.
+   * @param dom 
+   */
   public void setOwner(DOM dom) {
     this.ownerDom = dom;
     ownerDom.requestReindex();

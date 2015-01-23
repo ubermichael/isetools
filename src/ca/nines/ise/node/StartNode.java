@@ -18,23 +18,36 @@
 package ca.nines.ise.node;
 
 /**
+ * Start node type.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class StartNode extends TagNode {
 
+  /**
+   * {@inheritDoc}
+   */
   public StartNode() {
     super();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public StartNode(Node n) {
     super(n);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public StartNode(String tagname) {
     super(tagname);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.START;
