@@ -1,6 +1,4 @@
 /**
- * ca.nines.ise.validator.node contains one validator for each of the node
- * types. In future in might contain one validator for each of the Char types 
- * as well.
+ * Node validators, one validator for each type of node.
  */
 package ca.nines.ise.validator.node;

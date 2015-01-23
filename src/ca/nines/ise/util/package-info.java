@@ -1,5 +1,4 @@
 /**
- * ca.nines.ise.util is a collection of useful utilities, mostly related to
- * XML processing.
+ * Utilities for the ISE tools, mostly involving data formats.
  */
 package ca.nines.ise.util;

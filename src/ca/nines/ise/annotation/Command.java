@@ -23,6 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * DEPRECIATED - Annotates classes as commands so that the list of commands may be generated
+ * automatically. 
+ * 
+ * @see ca.nines.ise.cmd.Help#listCommands() which now uses ClassIndex.
+ * 
+ * @see org.atteo.classindex.ClassIndex
  *
  * @author Michael Joyce <michael@negativespace.net>
  */

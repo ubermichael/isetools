@@ -118,7 +118,7 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * @return the status
+   * @return DOMStatus
    */
   public DOMStatus getStatus() {
     return status;
@@ -293,10 +293,6 @@ public class DOM implements Iterable<Node> {
   /**
    * Produce a string representation of the DOM by stringifying all of the nodes
    * in the DOM.
-   * <p>
-   * For serialization into SGML, text, or XML see elsewhere.
-   * <p>
-   * @todo figure out where the elsewhere is.
    * <p>
    * @return a string representation.
    */

@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.document;
 
 import ca.nines.ise.node.lemma.Coll;
@@ -28,41 +27,92 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
+ * STUB A file containing collations for an Edition.
  *
  * @author michael
  */
 public class Collation extends Apparatus<Coll> {
 
+  /**
+   * Construct a Collation from a Node, String, or File.
+   */
   public static class CollationBuilder extends ApparatusBuilder<Coll> implements BuilderInterface<Collation> {
 
-    private CollationBuilder() {
-    }
-    
-    @Override
-    public Collation build() {
-      return new Collation(source, lemmas);
-    }
+	/**
+	 * Use Collation.builder() to get a CollationBuilder object.
+	 */
+	private CollationBuilder() {
+	}
 
-    public CollationBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
-      return this;
-    }
+	/**
+	 * Once the collation data has been processed, build them into a Collation
+	 * object.
+	 *
+	 * @return Collation
+	 */
+	@Override
+	public Collation build() {
+	  return new Collation(source, lemmas);
+	}
 
-    public CollationBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return this;
-    }
+	/**
+	 * STUB Parse collations in an XML node.
+	 * 
+	 * @param in
+	 * @return CollationBuilder.
+	 * @throws ParserConfigurationException
+	 * @throws XPathExpressionException 
+	 */
+	public CollationBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
+	  return this;
+	}
 
-    public CollationBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
-      return this;
-    }
+	/**
+	 * STUB Parse collations in a string.
+	 * @param in
+	 * @return CollationBuilder
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws XPathExpressionException 
+	 */
+	public CollationBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+	  return this;
+	}
+
+	/**
+	 * STUB Parse collations in a file.
+	 * 
+	 * @param in
+	 * @return CollationBuilder
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws XPathExpressionException 
+	 */
+	public CollationBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+	  return this;
+	}
 
   }
 
+  /**
+   * Get a new, clean collation builder.
+   * 
+   * @return CollationBuilder
+   */
   public static CollationBuilder builder() {
-    return new CollationBuilder();
+	return new CollationBuilder();
   }
-  
+
+  /**
+   * Use a collation builder to get the collations.
+   * 
+   * @param source
+   * @param lemmas 
+   */
   private Collation(String source, List<Coll> lemmas) {
-    super(source, lemmas);
+	super(source, lemmas);
   }
 
 }

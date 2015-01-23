@@ -35,6 +35,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * STUB A collection of Note objects for annotations.
  *
  * @author michael
  */

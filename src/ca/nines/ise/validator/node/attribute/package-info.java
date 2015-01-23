@@ -1,5 +1,4 @@
 /**
- * ca.nines.ise.validator.node.attribute contains one validator for each of the 
- * attribute types.
+ * Attribute validators, one for each attribute type.
  */
 package ca.nines.ise.validator.node.attribute;

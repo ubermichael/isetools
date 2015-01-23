@@ -23,11 +23,17 @@ import ca.nines.ise.util.CodePoint;
 import ca.nines.ise.util.CodePointTable;
 
 /**
+ * Dumb main class to test out experimental stuff.
  *
  * @author michael
  */
 public class Tester {
 
+  /**
+   * Experiment runner.
+   * 
+   * @param args command line arguments.
+   */
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {

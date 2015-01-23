@@ -33,16 +33,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Check the syntax of one or more documents.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Syntax extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Syntax check one or more ISE SGML documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     File[] files;
@@ -66,6 +73,9 @@ public class Syntax extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

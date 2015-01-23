@@ -123,7 +123,7 @@ public class Tag implements Comparable<Tag> {
     /**
      * Build a Tag and return it.
      *
-     * @return
+     * @return Tag
      */
     @Override
     public Tag build() {
@@ -175,7 +175,7 @@ public class Tag implements Comparable<Tag> {
      * Construct a tag from an XML String.
      *
      * @param str
-     * @return
+     * @return TagBuilder
      * @throws SAXException
      * @throws ParserConfigurationException
      * @throws TransformerException
@@ -269,7 +269,7 @@ public class Tag implements Comparable<Tag> {
   /**
    * Return TagBuilder instance.
    *
-   * @return
+   * @return TagBuilder
    */
   public static TagBuilder builder() {
     return new TagBuilder();
@@ -415,7 +415,7 @@ public class Tag implements Comparable<Tag> {
    * Returns true if the tag contains the named attribute.
    * 
    * @param name
-   * @return 
+   * @return  boolean
    */
   public boolean hasAttribute(String name) {
     return attributes.containsKey(name.toLowerCase());
@@ -441,7 +441,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Return true if the tag must be empty, or if it may be empty.
-   * @return 
+   * @return boolean
    */
   public boolean maybeEmpty() {
     return empty.equals("yes") || empty.equals("optional");

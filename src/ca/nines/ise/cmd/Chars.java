@@ -30,16 +30,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Report the special characters used in one or more documents.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Chars extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Report on the special characters used in one or more documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     File[] files;
@@ -84,6 +91,9 @@ public class Chars extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

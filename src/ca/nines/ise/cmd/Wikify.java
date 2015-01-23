@@ -44,16 +44,24 @@ import org.apache.commons.cli.Options;
 import org.xml.sax.SAXException;
 
 /**
+ * Create trac-friendly wiki pages describing some aspect of the toolset, based
+ * on the code and annotations.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class Wikify extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Create a wikified version of the schema.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     Locale.setDefault(Locale.ENGLISH);
@@ -76,6 +84,9 @@ public class Wikify extends Command {
 	}
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -86,6 +97,9 @@ public class Wikify extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options]";
@@ -124,6 +138,17 @@ public class Wikify extends Command {
     // nested
   }
 
+  /**
+   * Produce a wikified version of the schema.
+   * 
+   * @param out destination
+   * 
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @throws XPathExpressionException
+   * @throws TransformerException 
+   */
   private void wikifySchema(PrintStream out) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     Schema schema = Schema.defaultSchema();
 
@@ -133,7 +158,13 @@ public class Wikify extends Command {
     }
   }
 
-  public static void wikifySchemaAttrInfo(PrintStream out, Tag tag) {
+  /**
+   * Wikify a tag.
+   * 
+   * @param out
+   * @param tag 
+   */
+  private static void wikifySchemaAttrInfo(PrintStream out, Tag tag) {
     if (tag.countAttributes() == 0) {
       return;
     }
@@ -147,14 +178,21 @@ public class Wikify extends Command {
                  attr.isEmpty(),
                  attr.isRenumberable(),
                  attr.getDepreciated(),
-                 wikifySchemaAttrOptions(out, attr)
+                 wikifySchemaAttrOptions(attr)
       );
       fmt.format("{{{#!td%n}}}%n{{{#!td colspan=7%n%s%n}}}%n|-------------------%n", attr.getDescription());
     }
     out.println();
   }
 
-  public static String wikifySchemaAttrOptions(PrintStream out, Attribute attr) {
+  /**
+   * Wikify a schema attribute's options.
+   * 
+   * @param out
+   * @param attr
+   * @return String
+   */
+  private static String wikifySchemaAttrOptions(Attribute attr) {
     StringBuilder sb = new StringBuilder();
     String[] options = attr.getOptions();
     if (options.length == 0) {
@@ -171,7 +209,13 @@ public class Wikify extends Command {
     return sb.toString();
   }
 
-  public static void wikifyTagInfo(PrintStream out, Tag tag) {
+  /**
+   * Wikify a tag and its attributes.
+   * 
+   * @param out
+   * @param tag 
+   */
+  private static void wikifyTagInfo(PrintStream out, Tag tag) {
     System.out.println("== " + tag.getName() + "==\n");
     System.out.println(tag.getDescription() + "\n");
     System.out.println(" Empty::");
@@ -181,6 +225,12 @@ public class Wikify extends Command {
     System.out.println("\n");
   }
 
+  /**
+   * Turn the list of entity names into a wiki table.
+   * 
+   * @param out
+   * @throws IOException 
+   */
   private void wikifyCodepoints(PrintStream out) throws IOException {
 	CodePointTable tbl = CodePointTable.defaultCodePointTable();
 	Formatter fmt = new Formatter(out);

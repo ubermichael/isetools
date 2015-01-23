@@ -32,16 +32,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Validate a document or documents.
  *
  * @author michael
  */
 public class Validate extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Validate one or more ISE SGML documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @ErrorCode(code = {
     "dom.errors"
   })
@@ -82,6 +89,9 @@ public class Validate extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

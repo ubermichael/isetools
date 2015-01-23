@@ -28,21 +28,46 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Encapsulate all information about a work: file path, editions, annotations, 
+ * collations and so on in a single place.
  *
  * @author michael
  */
 public class Work extends Document implements Comparable<Work> {
 
+  /**
+   * Map edition codes (M) to Editions (Romeo Modern).
+   */
   private final Map<String, Edition> editions;
+  
+  /**
+   * Play code for the work (Rom, Ham, 1H4).
+   */
   private final String playCode;
+  
+  /**
+   * File path to the root directory of the work.
+   */
   private final File root;
 
+  /**
+   * Construct a work from file path to the root directory.
+   * 
+   * @param file
+   * @throws IOException 
+   */
   public Work(File file) throws IOException {
     this.editions = new HashMap<>();
     this.root = file;
     this.playCode = root.getName();
   }
 
+  /**
+   * Add an edition to the work.
+   * 
+   * @param file
+   * @throws IOException 
+   */
   public void addEdition(File file) throws IOException {
     String filename = file.getName();
     if(validName(filename)) {
@@ -51,11 +76,24 @@ public class Work extends Document implements Comparable<Work> {
     }
   }
 
+  /**
+   * Compare two works' play codes in a case-insensitive manner.
+   * 
+   * @param o
+   * @return int
+   */
   @Override
   public int compareTo(Work o) {
     return playCode.toLowerCase().compareTo(o.playCode.toLowerCase());
   }
 
+  /**
+   * Get an edition for the work. 
+   * 
+   * @param code
+   * @return Edition
+   * @throws IOException if the edition does not exist.
+   */
   public Edition getEdition(String code) throws IOException {
     if (editions.containsKey(code)) {
       return editions.get(code);
@@ -69,6 +107,12 @@ public class Work extends Document implements Comparable<Work> {
     throw new FileNotFoundException("Cannot find " + editionPath + " in " + root.getCanonicalPath());
   }
 
+  /**
+   * Return a list of editions for available for the work.
+   * 
+   * @return Edition[]
+   * @throws IOException 
+   */
   public Edition[] getEditions() throws IOException {
     File files[] = root.listFiles(new FilenameFilter() {
       @Override
@@ -90,7 +134,10 @@ public class Work extends Document implements Comparable<Work> {
   }
 
   /**
-   * @return the root
+   * Get the root file system path.
+   * 
+   * @return String
+   * @throws IOException 
    */
   public String getPath() throws IOException {
     return root.getCanonicalPath();
@@ -103,10 +150,21 @@ public class Work extends Document implements Comparable<Work> {
     return playCode;
   }
 
+  /**
+   * Return true if the work has a title page.
+   * 
+   * @return boolean
+   * @throws IOException 
+   */
   public boolean hasTitlePage() throws IOException {
     return root.getCanonicalPath().contains("withTitlePage");
   }
 
+  /**
+   * Stringify the work in a human-readable way.
+   * 
+   * @return String
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -30,14 +30,18 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Renumber the \@n attributes in one or more tags in a document, following some very arcane rules.
  *
  * @author michael
  */
 public class Renumber extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
-    return "Transform an ISE SGML document another format.";
+    return "Renumber the @n attributes in a tag.";
   }
 
   @Override
@@ -90,6 +94,9 @@ public class Renumber extends Command {
     out.render(dom);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -105,6 +112,9 @@ public class Renumber extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options] file";
