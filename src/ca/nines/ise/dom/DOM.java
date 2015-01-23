@@ -35,24 +35,49 @@ import java.util.Map;
  */
 public class DOM implements Iterable<Node> {
 
-  // @todo make all of DOM's fields final, by moving
-  // all the setters to DOMBuilder, just like Message and Message.MessageBuilder.
+  /**
+   * An index of TLNs => Nodes
+   */
   private final Map<String, Node> index;
+  
+  /**
+   * Does the DOM need to be reindexed.
+   */
   private boolean reindex;
+  
+  /**
+   * Lines of text from the source input.
+   */
   private String[] lines;
 
+  /**
+   * The source of data for this DOM.
+   */
   private String source;
+  
+  /**
+   * The status of the DOM.
+   */
   private DOMStatus status;
 
+  /**
+   * The Nodes in the DOM, in document order.
+   */
   protected final List<Node> nodes;
 
   public enum DOMStatus {
-
+	/**
+	 * The status of the document, indicating if the document parsed cleanly, 
+	 * with warnings, or with errors.
+	 */
     CLEAN,
     WARNING,
     ERROR,
   }
 
+  /**
+   * Construct a new, empty DOM.
+   */
   public DOM() {
     nodes = new ArrayList<>();
     index = new HashMap<>();
@@ -60,14 +85,32 @@ public class DOM implements Iterable<Node> {
     status = DOMStatus.CLEAN;
   }
 
+  /**
+   * Append a node to the DOM.
+   * 
+   * @param n 
+   */
   public void add(Node n) {
     nodes.add(n);
   }
 
+  /**
+   * Add all the nodes in a DOM to this DOM. Does not clone or copy the nodes.
+   * They exist in both DOMs.
+   * 
+   * @param dom 
+   */
   public void addAll(DOM dom) {
     nodes.addAll(dom.nodes);
   }
 
+  /**
+   * Return an expanded DOM, where all Char and ABBR nodes are expanded into 
+   * fully tagged equivalents.
+   * 
+   * @return
+   * @throws IOException 
+   */
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
     for (Node n : nodes) {
@@ -103,6 +146,10 @@ public class DOM implements Iterable<Node> {
     return lines[n];
   }
 
+  /**
+   * Get all lines from the original source data.
+   * @return 
+   */
   public String[] getLines() {
     return lines;
   }
@@ -118,12 +165,21 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
+   * Get the status of the DOM,
+   * 
    * @return DOMStatus
    */
   public DOMStatus getStatus() {
     return status;
   }
 
+  /**
+   * Find the Node named TLN with attribute n equal to the parameter. Returns 
+   * null if the node does not exist.
+   * 
+   * @param tln
+   * @return Node or null
+   */
   public Node getTln(String tln) {
     if (needsReindex()) {
       index();
@@ -176,6 +232,13 @@ public class DOM implements Iterable<Node> {
     return fragment;
   }
   
+  /**
+   * Start at node, and look forward in the DOM to find a node called name.
+   * 
+   * @param node
+   * @param name
+   * @return Node or null
+   */
   public Node find_forward(Node node, String name) {
     index();
     for(int i = node.getPosition(); i < size(); i++) {
@@ -224,11 +287,12 @@ public class DOM implements Iterable<Node> {
         n.setTLN(tln);
         n.setAsl(act + "." + scene + "." + line);
       }
+	  reindex = false;
     }
   }
 
   /**
-   * @return the reindex
+   * @return returns true if the DOM should be reindexed.
    */
   public boolean needsReindex() {
     return reindex;
@@ -271,13 +335,15 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   *
+   * Force the DOM to be reindexed the next time an index operation is performed.
    */
   public void requestReindex() {
     this.reindex = true;
   }
 
   /**
+   * Set the status of the DOM.
+   * 
    * @param status the status to set
    */
   public void setStatus(DOMStatus status) {
@@ -286,6 +352,11 @@ public class DOM implements Iterable<Node> {
     }
   }
 
+  /**
+   * Return the size of the DOM - the number of nodes it contains.
+   * 
+   * @return int
+   */
   public int size() {
     return nodes.size();
   }
@@ -306,6 +377,13 @@ public class DOM implements Iterable<Node> {
     return sb.toString();
   }
 
+  /**
+   * Produce a string by concatenating the unicode version of each text, char, and
+   * abbr node.
+   * 
+   * @return
+   * @throws IOException 
+   */
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();
     for (Node n : nodes) {
