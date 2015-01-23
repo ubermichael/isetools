@@ -18,23 +18,36 @@
 package ca.nines.ise.node;
 
 /**
+ * Empty nodes.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class EmptyNode extends TagNode {
 
+  /**
+   * {@inheritDoc}
+   */
   public EmptyNode() {
     super();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public EmptyNode(Node n) {
     super(n);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public EmptyNode(String tagname) {
     super(tagname);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.EMPTY;

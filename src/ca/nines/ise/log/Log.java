@@ -23,20 +23,30 @@ import java.util.Formatter;
 import java.util.List;
 
 /**
- * Log collects error messages generated during parsing and validation.
+ * Log collects error messages generated during parsing and 
+ * validation.
  * <p>
- * Log is a singleton: use getInstance() to get an object, rather than new().
+ * Log is a singleton: use getInstance() to get an object, 
+ * rather than new().
  * <p>
  * @author michael
  */
 public final class Log {
 
+  /**
+   * Singleton instance.
+   */
   private static final Log instance = new Log();
 
+  /**
+   * List of messages.
+   */
   private static final List<Message> messages = new ArrayList<>();
 
-  // @todo why do i have instance methods at all? They aren't necessary.
-  // I never pass log objects around.
+  /**
+   * Convenience method to add a message to the log.
+   * @param m 
+   */
   public static void addMessage(Message m) {
     instance.add(m);
   }
@@ -50,7 +60,11 @@ public final class Log {
     return instance;
   }
 
+  /**
+   * Log is a singleton. Use #getInstance().
+   */
   private Log() {
+	// do nothing.
   }
 
   /**
@@ -69,10 +83,21 @@ public final class Log {
     messages.clear();
   }
 
+  /**
+   * Count the messages.
+   * 
+   * @return int
+   */
   public int count() {
     return messages.size();
   }
 
+  /**
+   * Get the i-th message in the log.
+   * 
+   * @param i
+   * @return Message
+   */
   public Message get(int i) {
     return messages.get(i);
   }

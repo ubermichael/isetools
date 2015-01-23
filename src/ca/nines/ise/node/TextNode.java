@@ -20,19 +20,29 @@ package ca.nines.ise.node;
 import ca.nines.ise.dom.Fragment;
 
 /**
+ * Text content node type.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class TextNode extends Node {
 
+  /**
+   * {@inheritDoc}
+   */
   public TextNode() {
     super();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public TextNode(Node n) {
     super(n);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Fragment expanded() {
     Fragment f = new Fragment();
@@ -41,21 +51,33 @@ public class TextNode extends Node {
     return f;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String plain() {
     return text;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String sgml() {
     return text;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.TEXT;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String unicode() {
     return text;

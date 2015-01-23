@@ -20,19 +20,29 @@ package ca.nines.ise.node;
 import ca.nines.ise.dom.Fragment;
 
 /**
+ * Comment node
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class CommentNode extends Node {
 
+  /**
+   * {@inheritDoc}
+   */
   public CommentNode() {
     super();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public CommentNode(Node node) {
     super(node);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Fragment expanded() {
     CommentNode node = new CommentNode(this);
@@ -41,21 +51,33 @@ public class CommentNode extends Node {
     return f;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String plain() {
     return "";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String sgml() {
     return "<!-- " + text.replaceAll("(?:<!-?-?)|(?:-?-?>)", "") + " -->";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.COMMENT;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String unicode() {
     return "";

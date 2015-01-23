@@ -18,28 +18,44 @@
 package ca.nines.ise.node;
 
 /**
+ * End tag node.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class EndNode extends TagNode {
 
+  /**
+   * {@inheritDoc}
+   */
   public EndNode() {
     super();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public EndNode(Node n) {
     super(n);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public EndNode(String tagname) {
     super(tagname);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String sgml() {
     return "</" + getName() + ">";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public NodeType type() {
     return NodeType.END;

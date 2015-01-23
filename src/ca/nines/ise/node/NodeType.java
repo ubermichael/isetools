@@ -17,6 +17,7 @@
 package ca.nines.ise.node;
 
 /**
+ * Node types.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */

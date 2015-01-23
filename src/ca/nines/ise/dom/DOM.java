@@ -98,6 +98,9 @@ public class DOM implements Iterable<Node> {
    * Add all the nodes in a DOM to this DOM. Does not clone or copy the nodes.
    * They exist in both DOMs.
    * 
+   * TODO this is a seriously dumb thing to do. In particular it doesn't 
+   * call node.setOwner().
+   * 
    * @param dom 
    */
   public void addAll(DOM dom) {

@@ -28,29 +28,79 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
+ * Human-readable error message from an error code.
  *
  * @author michael
  */
 public class ErrorCode implements Comparable<ErrorCode> {
 
+  /**
+   * Error code.
+   */
   private final String code;
+
+  /**
+   * Location where the error code is defined.
+   */
   private final int lineNumber;
+  
+  /**
+   * Human readable error message.
+   */
   private final String message;
+  
+  /**
+   * Severity of the error. 
+   */
   private final String severity;
+  
+  /**
+   * Source where the error message is defined.
+   */
   private final String source;
 
+  /**
+   * Get an ErrorCodeBuilder
+   * 
+   * @return ErrorCodeBuilder 
+   */
   public static ErrorCodeBuilder builder() {
     return new ErrorCodeBuilder();
   }
 
+  /**
+   * Error code builder. 
+   */
   public static class ErrorCodeBuilder implements BuilderInterface<ErrorCode> {
 
+	/**
+	 * Error code.
+	 */
     private String code;
+	
+	/**
+	 * Error code line number where it is defined.
+	 */
     private int lineNumber;
+	
+	/**
+	 * Error message
+	 */
     private String message;
+	
+	/**
+	 * Error severity.
+	 */
     private String severity;
+	
+	/**
+	 * Location where the error code/message is defined.
+	 */
     private String source;
 
+	/**
+	 * Use ErrorCode#builder() to get a builder.
+	 */
     private ErrorCodeBuilder() {
       code = "unknown";
       lineNumber = 0;
@@ -59,11 +109,24 @@ public class ErrorCode implements Comparable<ErrorCode> {
       source = "";
     }
 
+	/**
+	 * Construct and return an error code.
+	 * @return ErrorCode
+	 */
     @Override
     public ErrorCode build() {
       return new ErrorCode(source, lineNumber, code, severity, message);
     }
 
+	/**
+	 * Construct an error code from an XML string.
+	 * 
+	 * @param str
+	 * @return ErrorCodeBuilder
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws TransformerException 
+	 */
     public ErrorCodeBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(str);
@@ -71,6 +134,11 @@ public class ErrorCode implements Comparable<ErrorCode> {
       return from(n);
     }
     
+	/**
+	 * Build an error code from an XML node.
+	 * @param n
+	 * @return ErrorCodeBuilder
+	 */
     public ErrorCodeBuilder from(Node n) {
       setCode(n.getAttributes().getNamedItem("code").getNodeValue());
       setSeverity(n.getAttributes().getNamedItem("severity").getNodeValue());
@@ -123,7 +191,17 @@ public class ErrorCode implements Comparable<ErrorCode> {
 
   }
 
-  public ErrorCode(String source, int lineNumber, String code, String severity, String message) {
+  /**
+   * Use ErrorCodeBuilder (by way of ErrorCode#builder()) to create
+   * ErrorCode objects.
+   * 
+   * @param source
+   * @param lineNumber
+   * @param code
+   * @param severity
+   * @param message 
+   */
+  private ErrorCode(String source, int lineNumber, String code, String severity, String message) {
     this.source = source;
     this.lineNumber = lineNumber;
     this.code = code;
@@ -131,6 +209,11 @@ public class ErrorCode implements Comparable<ErrorCode> {
     this.message = message;
   }
 
+  /**
+   * Compare ErrorCodes based on the code.
+   * @param o
+   * @return 
+   */
   @Override
   public int compareTo(ErrorCode o) {
     return this.code.compareTo(o.code);
@@ -171,6 +254,10 @@ public class ErrorCode implements Comparable<ErrorCode> {
     return source;
   }
 
+  /**
+   * Return a string representation of an ErrorCode.
+   * @return String
+   */
   @Override
   public String toString() {
     Formatter formatter = new Formatter();
