@@ -279,54 +279,91 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     dom.add(n);
   }
 
+  /**
+   * Enter a typographic character node. Constructs a node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterCharTypographic(CharTypographicContext ctx) {
     TypographicCharNode n = (TypographicCharNode) setupNode(new TypographicCharNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter a unicode character node. Creates a node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterCharUnicode(CharUnicodeContext ctx) {
     UnicodeCharNode n = (UnicodeCharNode) setupNode(new UnicodeCharNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter a comment markup. Creates a new node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterComment(CommentContext ctx) {
     CommentNode n = (CommentNode) setupNode(new CommentNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter text content. Creates a new node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterContent(ContentContext ctx) {
     TextNode n = (TextNode) setupNode(new TextNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the empty tag state. Creates a new node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterEmptyTag(EmptyTagContext ctx) {
     EmptyNode n = (EmptyNode) setupNode(new EmptyNode(), ctx);
     currentTag = n;
   }
 
+  /**
+   * Enter the end tag state. Creates a new node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterEndTag(EndTagContext ctx) {
     EndNode n = (EndNode) setupNode(new EndNode(), ctx);
     currentTag = n;
   }
 
+  /**
+   * Enter the start tag state. Creates a new node from the context.
+   * @param ctx 
+   */
   @Override
   public void enterStartTag(StartTagContext ctx) {
     StartNode n = (StartNode) setupNode(new StartNode(), ctx);
     currentTag = n;
   }
 
+  /**
+   * Enter the tag name state. Sets the current tag's name.
+   * @param ctx 
+   */
   @Override
   public void enterTagName(TagNameContext ctx) {
     String name = ctx.TAG_NAME().getText();
     currentTag.setName(name);
   }
 
+  /**
+   * Leaves any tag state. Adds the current tag to the dom, if there is one. 
+   * Sets the currentTag and currentAttrName to null.
+   * @param ctx 
+   */
   @Override
   public void exitTag(TagContext ctx) {
     if (currentTag == null) {
@@ -338,6 +375,13 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     currentAttrName = null;
   }
 
+  /**
+   * Set up a newly created node with information from the context.
+   * 
+   * @param n
+   * @param ctx
+   * @return Node
+   */
   // @TODO turn this into Node.Builder and provide a Node.builder()
   // etc.
   private Node setupNode(Node n, ParserRuleContext ctx) {
