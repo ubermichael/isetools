@@ -28,7 +28,16 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
 /**
+ * ErrorProcessor should be able to generate a list of error messages and the
+ * classes/methods that generate them. Requires using the \@ErrorCode annotation
+ * like this:
+ * 
+ * <pre>
+ *   \@ErrorCode(code={"Error1", "Error2"})
+ * </pre>
  *
+ * Still highly experimental.
+ * 
  * @author michael
  */
 @SupportedAnnotationTypes({
@@ -36,11 +45,23 @@ import javax.tools.Diagnostic;
 })
 public class ErrorProcessor extends AbstractProcessor {
 
+  /**
+   * Returns the supported source version. I don't know what this does.
+   * 
+   * @return SourceVersion
+   */
   @Override
   public SourceVersion getSupportedSourceVersion() {
     return SourceVersion.latestSupported();
   }
 
+  /**
+   * Proceess a set of annotations and produce some output.
+   * 
+   * @param annotations
+   * @param roundEnv
+   * @return boolean true
+   */
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     Messager messager = processingEnv.getMessager();

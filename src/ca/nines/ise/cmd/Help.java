@@ -28,16 +28,23 @@ import org.apache.commons.cli.Options;
 import org.atteo.classindex.ClassIndex;
 
 /**
+ * Describes the commands available and how they can be used.
  *
  * @author michael
  */
 public class Help extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Display useful help messages.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
 
@@ -48,12 +55,21 @@ public class Help extends Command {
     listCommands();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
     return opts;
   }
 
+  /**
+   * Format a list of commands and send it to System.out.
+   * 
+   * @throws InstantiationException
+   * @throws IllegalAccessException 
+   */
   public void listCommands() throws InstantiationException, IllegalAccessException {
     Formatter formatter = new Formatter(System.out);
     formatter.format("%n%12s   %s%n%n", "command", "description");

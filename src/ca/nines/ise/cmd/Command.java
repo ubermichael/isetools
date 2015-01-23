@@ -35,18 +35,44 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.atteo.classindex.IndexSubclasses;
 
 /**
+ * Superclass for all executable commands.
  *
  * @author michael
  */
 @IndexSubclasses
 abstract public class Command {
 
+  /**
+   * List of commands, which are subclasses of Command. Subclass indexing
+   * is provided by ClassIndex.
+   * 
+   * @see org.atteo.classindex.IndexSubclasses
+   */
   protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();
 
+  /**
+   * Return a description of the command.
+   * 
+   * @return String
+   */
   abstract public String description();
 
+  /**
+   * Execute a command.
+   * 
+   * @param cmd
+   * @throws Exception 
+   */
   abstract public void execute(CommandLine cmd) throws Exception;
 
+  /**
+   * Parse the command line args[] array and return the result.
+   * 
+   * @param opts
+   * @param args
+   * @return CommandLine
+   * @throws ParseException 
+   */
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
     CommandLineParser parser = new BasicParser();
@@ -54,6 +80,12 @@ abstract public class Command {
     return cmd;
   }
 
+  /**
+   * Get a list of file paths from the command line arguments.
+   * 
+   * @param cmd
+   * @return File[]
+   */
   public File[] getFilePaths(CommandLine cmd) {
     Collection<File> fileList = new ArrayList<>();
 
@@ -76,6 +108,12 @@ abstract public class Command {
     return files;
   }
 
+  /**
+   * Get a list of arguments for the command.
+   * 
+   * @param cmd
+   * @return String[]
+   */
   public String[] getArgList(CommandLine cmd) {
     List<?> argList = cmd.getArgList();
     argList = argList.subList(1, argList.size());
@@ -83,6 +121,10 @@ abstract public class Command {
     return args;
   }
 
+  /**
+   * Turn the description and arguments list into nicely formatted
+   * help and usage documentation.
+   */
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
     Options opts = getOptions();
@@ -94,8 +136,18 @@ abstract public class Command {
     }
   }
 
+  /**
+   * Generates the Options for the command.
+   * 
+   * @return Options
+   */
   public abstract Options getOptions();
 
+  /**
+   * Generate a brief usage of the command.
+   * 
+   * @return String
+   */
   public String getUsage() {
     return "[options] [files]";
   }

@@ -23,6 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Error code annotation, for use in documenting code and in generating lists
+ * of error messages. Use it like this in source code:
+ * 
+ * <pre>
+ *   \@ErrorCode(code={"Error1", "Error2"})
+ * </pre>
  *
  * @author michael
  */

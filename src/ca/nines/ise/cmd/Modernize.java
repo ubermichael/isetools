@@ -35,16 +35,23 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Modernize an old-spelling edition.
  *
  * @author michael
  */
 public class Modernize extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
-    return "Transform an ISE SGML document another format.";
+    return "Modernize the markup of an old-spelling edition.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
@@ -74,6 +81,9 @@ public class Modernize extends Command {
     renderer.render(dom);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();
@@ -81,6 +91,9 @@ public class Modernize extends Command {
     return opts;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getUsage() {
     return "[options] file";

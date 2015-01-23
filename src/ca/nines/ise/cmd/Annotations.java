@@ -33,16 +33,24 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
+ * Validate an ISE annotations xml file against an ISE SGHMLish document, 
+ * checking that the lemmas match up.
  *
  * @author michael
  */
 public class Annotations extends Command {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String description() {
     return "Validate annotations for an ISE document.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @ErrorCode(code = {
     "dom.errors"
   })
@@ -86,6 +94,9 @@ public class Annotations extends Command {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Options getOptions() {
     Options opts = new Options();

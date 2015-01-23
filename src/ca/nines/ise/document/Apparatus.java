@@ -24,36 +24,83 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Common functionality for Annotation and Collation collections.
  *
  * @author michael
  * @param <T>
  */
 abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
 
+  /**
+   * List of notes or colls.
+   */
   private final List<T> lemmas;
+  
+  /**
+   * Source of the data
+   */
   private final String source;
+  
+  /**
+   * Index mapping TLNs to lemmas.
+   */
   private final Map<String, List<T>> tlnIndex;
+  
+  /**
+   * Maps IDs to lemmas. IDs are used in the RTF transformer.
+   */
   private final Map<Long, T> idIndex;
 
+  /**
+   * Builder for creating Apparatus objects.
+   * 
+   * @param <T> 
+   */
   public abstract static class ApparatusBuilder<T extends Lemma> {
 
+	/**
+	 * List of lemmas.
+	 */
     protected List<T> lemmas;
+	
+	/**
+	 * Source of the data.
+	 */
     protected String source;
 
+	/**
+	 * Constructor.
+	 */
     public ApparatusBuilder() {
       lemmas = new ArrayList<>();
       source = "";
     }
 
+	/**
+	 * Add a lemma to the list.
+	 * 
+	 * @param t 
+	 */
     public void addLemma(T t) {
       lemmas.add(t);
     }
 
+	/**
+	 * Set the source of the lemmas.
+	 * 
+	 * @param source 
+	 */
     public void setSource(String source) {
       this.source = source;
     }
   }
 
+  /**
+   * Add a lemma to the TLN index.
+   * 
+   * @param tln
+   * @param lemma 
+   */
   private void addToIndex(String tln, T lemma) {
     if (tlnIndex.get(tln) == null) {
       tlnIndex.put(tln, new ArrayList<T>());
@@ -61,6 +108,12 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     tlnIndex.get(tln).add(lemma);
   }
 
+  /**
+   * Protected constructor. Child classes should have private constructors.
+   * 
+   * @param source
+   * @param lemmas 
+   */
   protected Apparatus(String source, List<T> lemmas) {
     this.source = source;
     this.lemmas = new ArrayList<>(lemmas);
@@ -68,7 +121,7 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     this.idIndex = new HashMap<>();
 
     for (T lemma : lemmas) {
-      idIndex.put(Long.valueOf(lemma.getId()), lemma);
+      idIndex.put(lemma.getId(), lemma);
       if (lemma.isTlnSplit()) {
         addToIndex(lemma.getTlnStart(), lemma);
         addToIndex(lemma.getTlnEnd(), lemma);
@@ -78,10 +131,22 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     }
   }
 
+  /**
+   * Return the i-th lemma.
+   * 
+   * @param i
+   * @return T
+   */
   public T get(int i) {
     return lemmas.get(i);
   }
 
+  /**
+   * Get a list of lemmas for a TLN.
+   * 
+   * @param tln
+   * @return List
+   */
   public List<T> get(String tln) {
     if (tlnIndex.containsKey(tln)) {
       return new ArrayList<>(tlnIndex.get(tln));
@@ -90,8 +155,14 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     }
   }
   
+  /**
+   * WTF is this?
+   * 
+   * @param id
+   * @return Lemma
+   */
   public T find(long id) {
-    return idIndex.get(Long.valueOf(id));
+    return idIndex.get(id);
   }
 
   /**
@@ -101,15 +172,29 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     return source;
   }
 
+  /**
+   * Create and return an iterator for the lemmas.
+   * @return Iterator
+   */
   @Override
   public Iterator<T> iterator() {
     return lemmas.iterator();
   }
 
+  /**
+   * Return the size of the lemma list.
+   * 
+   * @return int
+   */
   public int size() {
     return lemmas.size();
   }
 
+  /**
+   * Create and return a human readable string describing the lemmas.
+   * 
+   * @return String
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
