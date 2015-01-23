@@ -78,14 +78,34 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
  */
 public class DOMBuilder extends ISEParserBaseListener implements BuilderInterface<DOM> {
 
+  /**
+   * Input Stream for the Antlr parser.
+   */
   private final ANTLRInputStream ais;
+  
+  /**
+   * Name of the attribute being parsed.
+   */
   private String currentAttrName;
 
+  /**
+   * The tag currently being processed.
+   */
   private TagNode currentTag;
+  
+  /**
+   * The DOM being constructed.
+   */
   private final DOM dom = new DOM();
+  
+  /**
+   * A stream of tokens, as found by Antlr's lexer.
+   */
   private TokenStream tokens;
 
   /**
+   * Constructs a DOMBuilder from an InputStream, recording the source of 
+   * the input. The input will be run through a DOMStream before parsing.
    *
    * @param in
    * @param source <p>
@@ -99,8 +119,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   }
 
   /**
-   * Constructs a BuilderInterface from a string. The resulting DOM source will
-   * be "#STRING".
+   * Constructs a DOMBuilder from a string. The resulting DOM source will
+   * be "#STRING". The input will be run through a DOMStream before parsing.
    * <p>
    * @param in The string to parse.
    * <p>
@@ -115,7 +135,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Constructs a BuilderInterface from a File. The resulting DOM source will
-   * return the absolute path to the file.
+   * return the absolute path to the file. The input will be run through a DOMStream before parsing.
    * <p>
    * @param in The file to read and parse.
    * <p>
@@ -158,17 +178,32 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     return dom;
   }
 
+  /**
+   * Enter an abbreviation node. Create a new Abbr node from the context.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterAbbr(AbbrContext ctx) {
     AbbrNode n = (AbbrNode) setupNode(new AbbrNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the attribute name state. Saves the attribute name for later.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterAttributeName(AttributeNameContext ctx) {
     currentAttrName = ctx.TAG_NAME().getText();
   }
 
+  /**
+   * Enter the attribute value state. Sets the attribute in the currentTag.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterAttributeValue(AttributeValueContext ctx) {
     String value = ctx.ATTRIBUTE_VALUE().getText();
@@ -177,36 +212,67 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     currentAttrName = null;
   }
 
+  /**
+   * Enters the character accent state. Creates an AccentCharNode from the context.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterCharAccent(CharAccentContext ctx) {
     CharNode n = (CharNode) setupNode(CharNode.accentChar(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the code point state. Builds a CodePointCharNode from the context.
+   * @param ctx 
+   */
   @Override
   public void enterCharCodePoint(CharCodePointContext ctx) {
     CodePointCharNode n = (CodePointCharNode) setupNode(new CodePointCharNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the digraph state. Constructs a DigraphCharNode node from the context.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterCharDigraph(CharDigraphContext ctx) {
     DigraphCharNode n = (DigraphCharNode) setupNode(new DigraphCharNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the ligature character state. Constructs a LigatureCharNode from the
+   * the parser context.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterCharLigature(CharLigatureContext ctx) {
     LigatureCharNode n = (LigatureCharNode) setupNode(new LigatureCharNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the nested character node. Constructs a NestedCharNode from the
+   * context.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterCharNested(CharNestedContext ctx) {
     NestedCharNode n = (NestedCharNode) setupNode(new NestedCharNode(), ctx);
     dom.add(n);
   }
 
+  /**
+   * Enter the character space mode. Constructs a node from the context.
+   * 
+   * @param ctx 
+   */
   @Override
   public void enterCharSpace(CharSpaceContext ctx) {
     SpaceCharNode n = (SpaceCharNode) setupNode(new SpaceCharNode(), ctx);

@@ -37,6 +37,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BOMInputStream;
 
 /**
+ * DOMStream determines an input stream's encoding and throws an error if it
+ * is not UTF-8. It will also correct any typographic quotes to straight quotes,
+ * and normalizes the input to NFKC.
+ * 
  * @author michael
  */
 public class DOMStream {
@@ -47,9 +51,11 @@ public class DOMStream {
   private final ArrayList<String> lines;
 
   /**
-   *
+   * Construct a DOMStream from an input stream and record the source of the input
+   * data.
+   * 
    * @param in
-   * @param source <p>
+   * @param source
    * @throws java.io.IOException
    */
   public DOMStream(InputStream in, String source) throws IOException {
@@ -105,11 +111,11 @@ public class DOMStream {
   }
 
   /**
-   * Constructs a MessageBuilder from a string. The resulting DOM source will be
+   * Constructs a DOMString from a string. The resulting DOM source will be
    * "#STRING".
-   * <p>
+   * 
    * @param input The string to parse.
-   * <p>
+   * 
    * @throws java.io.IOException
    */
   public DOMStream(String input) throws IOException {
@@ -119,9 +125,9 @@ public class DOMStream {
   /**
    * Constructs a MessageBuilder from a File. The resulting DOM source will
    * return the absolute path to the file.
-   * <p>
+   * 
    * @param input The file to read and parse.
-   * <p>
+   * 
    * @throws FileNotFoundException if the file cannot be found.
    * @throws IOException           if the file cannot be read.
    */
@@ -129,18 +135,37 @@ public class DOMStream {
     this(new FileInputStream(input), input.getCanonicalPath());
   }
 
+  /**
+   * Return the byte order mark, if there is one.
+   * @return ByteOrderMark
+   */
   public ByteOrderMark getBOM() {
     return bom;
   }
 
+  /**
+   * Return the processed content of the file.
+   * 
+   * @return String
+   */
   public String getContent() {
     return content;
   }
 
+  /**
+   * Return the file's encoding.
+   * 
+   * @return String
+   */
   public String getEncoding() {
     return encoding;
   }
 
+  /**
+   * Return the list of lines found in the input.
+   * 
+   * @return 
+   */
   public String[] getLines() {
     return lines.toArray(new String[lines.size()]);
   }

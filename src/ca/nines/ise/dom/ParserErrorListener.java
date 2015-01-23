@@ -25,13 +25,21 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
 /**
- * ParserErrorListener intercepts parser errors and generates error messages in
+ * ParserErrorListener intercepts antlr parser errors and generates error messages in
  * the log. Used by MessageBuilder.
  */
 public class ParserErrorListener extends BaseErrorListener {
 
+  /**
+   * The DOM being constructed.
+   */
   private final DOM dom;
 
+  /**
+   * Create a parser error.
+   * 
+   * @param dom 
+   */
   ParserErrorListener(DOM dom) {
     this.dom = dom;
   }
