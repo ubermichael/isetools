@@ -24,22 +24,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Named unicode typographic characters. 
+ * 
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TypographicCharNode extends CharNode {
 
   private static final HashMap<String, String> charMap = new HashMap<>();
 
+  /**
+   * Mapping.
+   */
   static {
     charMap.put("{w}", "vv");
     charMap.put("{W}", "VV");
   }
 
+  /**
+   * @return copy of the mapping.
+   */
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
 
+  /**
+   * Expand the char into a Fragment, which is a TYPEFORM tag with 
+   * the unicode content.
+   * 
+   * @return Fragment
+   */
   @Override
   public Fragment expanded() {
     Fragment dom = wrap("TYPEFORM", charMap.get(text));

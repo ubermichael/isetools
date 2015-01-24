@@ -24,13 +24,17 @@ import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.EmptyNode;
 
 /**
+ * Non-standard space characters.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class SpaceCharNode extends CharNode {
 
-  // doesn't make sense to use wrap() here.
-
+  /**
+   * Turn a space character into a fragment.
+   * 
+   * @return Fragment
+   */
   @Override
   public Fragment expanded() {
     Fragment dom = new Fragment();
@@ -65,7 +69,8 @@ public class SpaceCharNode extends CharNode {
 
   /**
    * @return the charType
-   */  @Override
+   */  
+  @Override
   public CharNode.CharType getCharType() {
     return CharType.SPACE;
   }

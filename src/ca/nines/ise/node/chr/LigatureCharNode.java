@@ -21,11 +21,17 @@ import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.CharNode;
 
 /**
+ * Two or more characters ligatured together.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class LigatureCharNode extends CharNode {
 
+  /**
+   * Expand the ligature to a DOM fragment.
+   * 
+   * @return 
+   */
   @Override
   public Fragment expanded() {
     return wrap("LIG", this.innerText());
