@@ -25,11 +25,18 @@ import ca.nines.ise.node.Node;
 import java.io.IOException;
 
 /**
+ * Special characters nested together to make a ligature.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class NestedCharNode extends CharNode {
 
+  /**
+   * Expand the characters into a DOM Fragment.
+   * 
+   * @return Fragment.
+   * @throws IOException if the inner characters cannot be parsed.
+   */
   @Override
   public Fragment expanded() throws IOException {
     Fragment dom = new Fragment();

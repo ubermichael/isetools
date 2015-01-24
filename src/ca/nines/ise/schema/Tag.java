@@ -24,7 +24,6 @@ import ca.nines.ise.util.XMLDriver;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;

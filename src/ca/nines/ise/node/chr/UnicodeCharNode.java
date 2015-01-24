@@ -23,13 +23,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Named unicode characters. 
+ * 
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class UnicodeCharNode extends CharNode {
 
+  /**
+   * List of named unicode characters.
+   */
   private static final HashMap<String, String> charMap = new HashMap<>();
 
+  /**
+   * Build the character map.
+   */
   static {
     charMap.put("{s}", "\u017F");
     charMap.put("{P}", "\u00B6");
@@ -41,10 +48,19 @@ public class UnicodeCharNode extends CharNode {
     charMap.put("{TH}", "\u00de");
   }
 
+  /**
+   * Return a copy of the mapping.
+   * 
+   * @return 
+   */
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
 
+  /**
+   * Expand the character into unicode text, wrapped in a UNICODE tag.
+   * @return 
+   */
   @Override
   public Fragment expanded() {
     return wrap("UNICODE", charMap.get(text));

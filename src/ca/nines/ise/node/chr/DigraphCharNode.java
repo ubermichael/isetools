@@ -23,13 +23,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Digraph characters are like ligatures but are not ligatures.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
 public class DigraphCharNode extends CharNode {
 
+  /**
+   * Mapping.
+   */
   private static final HashMap<String, String> charMap = new HashMap<>();
 
+  /**
+   * Construct the mapping.
+   */
   static {
     charMap.put("{ae}", "\u00e6");
     charMap.put("{AE}", "\u00c6");
@@ -38,11 +45,20 @@ public class DigraphCharNode extends CharNode {
     charMap.put("{qp}", "\u0239");
     charMap.put("{db}", "\u0238");
   }
-  
+
+  /**
+   * Return a copy of the mapping.
+   * @return 
+   */
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
 
+  /**
+   * Expand the digraph into a fragment.
+   * 
+   * @return Fragment
+   */
   @Override
   public Fragment expanded() {
     return wrap("DIGRAPH", charMap.get(text));

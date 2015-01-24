@@ -27,17 +27,39 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Numeric and named character entities, similar to SGML entities.
  *
  * @author Michael Joyce <michael@negativespatternace.net>
  */
 public class CodePointCharNode extends CharNode {
 
+  /**
+   * Extract the hex code from markup.
+   */
   private static final Pattern hexEntity = Pattern.compile("&#x(\\p{XDigit}+)");
+  
+  /**
+   * Extract the decimal value from the markup.
+   */
   private static final Pattern decimalEntity = Pattern.compile("&#(\\p{Digit}+)");
+  
+  /**
+   * Extract the name from the markup.
+   */
   private static final Pattern namedEntity = Pattern.compile("&(\\p{Alnum}+)");
 
+  /**
+   * Mapping from names to code points.
+   */
   private static CodePointTable tbl = null;
   
+  /**
+   * Expand a numeric code poitn into a fragment.
+   * 
+   * @param value
+   * @param base
+   * @return Fragment
+   */
   private Fragment expandNumeric(String value, int base) {
     int codePoint = Integer.parseInt(value, base);
     char[] c = Character.toChars(codePoint);
@@ -45,6 +67,13 @@ public class CodePointCharNode extends CharNode {
     return wrap("CODEPOINT", str);
   }
   
+  /**
+   * Expand a named entity into a fragment.
+   * 
+   * @param value
+   * @return Fragment.
+   * @throws IOException 
+   */
   private Fragment expandNamed(String value) throws IOException {
 	if(tbl == null) {
 	  tbl = CodePointTable.defaultCodePointTable();
@@ -52,6 +81,12 @@ public class CodePointCharNode extends CharNode {
 	return wrap("CODEPOINT", tbl.getCodePoint(value).getValue());
   }
 
+  /**
+   * Expand the character into a Fragment.
+   * 
+   * @return Fragment
+   * @throws IOException 
+   */
   @Override
   public Fragment expanded() throws IOException {
 
