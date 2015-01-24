@@ -27,6 +27,8 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 
 /**
+ * Turn an old-spelling ISE document into a modern one, by modernizing the
+ * tags only. Actual spelling changes are the responsibility of the editors.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */

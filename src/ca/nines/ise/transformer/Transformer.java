@@ -30,6 +30,7 @@ import java.io.IOException;
 import org.apache.commons.collections4.iterators.PeekingIterator;
 
 /**
+ * Transformer base class, to transform an ISE DOM into another ISE DOM.
  *
  * @author Michael Joyce <michael@negativespace.net>
  */
