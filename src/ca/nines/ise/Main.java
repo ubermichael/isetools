@@ -68,13 +68,22 @@ public class Main {
       commandName = args[0];
     }
     String commandPkg = "ca.nines.ise.cmd." + commandName.substring(0, 1).toUpperCase() + commandName.substring(1);
-    cmd = (Command) Class.forName(commandPkg).newInstance();
-
+	
+	cmd = new ca.nines.ise.cmd.Help();
+	try {
+      cmd = (Command) Class.forName(commandPkg).newInstance();
+	} catch(ClassNotFoundException e) {
+	  System.err.println("Uknown command: " + commandName);
+	  cmd.execute(null);
+	  System.exit(-1);
+	}
+	
     opts = cmd.getOptions();
     opts.addOption("h", false, "Show command options");
+	opts.addOption("help", false, "Show command options");
     cmdline = cmd.getCommandLine(opts, args);
 
-    if (cmdline.hasOption("h")) {
+    if (cmdline.hasOption("h") || cmdline.hasOption("help")) {
       cmd.help();
       return;
     }
