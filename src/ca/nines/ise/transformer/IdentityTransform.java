@@ -26,6 +26,8 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 
 /**
+ * Base class for transformers which don't need ot make many changes - leaves
+ * all nodes unchanged.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */

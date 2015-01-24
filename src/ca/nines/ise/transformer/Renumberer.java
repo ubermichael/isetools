@@ -24,6 +24,8 @@ import ca.nines.ise.node.TagNode;
 import java.io.IOException;
 
 /**
+ * Renumbering transformer - changes the \@n attribute of
+ * act, scene, line, page, qln, tln, wln as necessary.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */

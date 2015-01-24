@@ -25,6 +25,8 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 
 /**
+ * Base class for transformers which drops everything - subclasses can override
+ * methods as needed for output.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */

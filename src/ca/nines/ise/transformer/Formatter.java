@@ -26,6 +26,7 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 
 /**
+ * Reformat an ISE DOM by inserting newlines in smart spots.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
