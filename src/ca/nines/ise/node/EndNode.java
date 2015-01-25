@@ -25,21 +25,21 @@ package ca.nines.ise.node;
 public class EndNode extends TagNode {
 
   /**
-   * {@inheritDoc}
+   * Construct an end node.
    */
   public EndNode() {
     super();
   }
 
   /**
-   * {@inheritDoc}
+   * Copy constructor.
    */
   public EndNode(Node n) {
     super(n);
   }
 
   /**
-   * {@inheritDoc}
+   * Construct an end node with a name.
    */
   public EndNode(String tagname) {
     super(tagname);

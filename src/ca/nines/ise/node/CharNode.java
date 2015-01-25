@@ -54,7 +54,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Get the name of a character type.
-   * @return 
+   * @return the character type name.
    */
   public String getCharName() {
     return getCharType().name();
@@ -62,23 +62,23 @@ abstract public class CharNode extends Node {
 
   /**
    * Get the character node's character type.
-   * @return 
+   * @return character type enum.
    */
   public abstract CharType getCharType();
 
   /**
    * Return the plain text equivalent of a character node, which is just
-   * the ascii characters used to build the character.
-   * @return 
+   * the ascii letters used to build the character.
+   * @return plain-text equivalent.
    */
   @Override
   public String plain() {
-    return innerText().replaceAll("[^a-zA-Z]*", "");
+    return innerText().replaceAll("[^-a-zA-Z]*", "");
   }
 
   /**
    * Return a human-friendly string representation.
-   * @return 
+   * @return debugging string.
    */
   @Override
   public String toString() {
@@ -116,7 +116,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Return the text inside the curly-brace markup.
-   * @return 
+   * @return string stripped of the initial { and final }.
    */
   protected String innerText() {
     return text.replaceAll("^\\{|\\}$", "");
@@ -126,7 +126,7 @@ abstract public class CharNode extends Node {
    * Create a fragment which is a node wrapping a piece of text.
    * @param tagName
    * @param content
-   * @return 
+   * @return Fragment wrapping content.
    */
   protected Fragment wrap(String tagName, String content) {
     Fragment dom = new Fragment();
@@ -161,7 +161,7 @@ abstract public class CharNode extends Node {
    * 
    * @param tagName
    * @param fragment
-   * @return 
+   * @return Fragment with fragment wrappend in a new tag.
    */
   protected Fragment wrap(String tagName, Fragment fragment) {
     Fragment dom = new Fragment();

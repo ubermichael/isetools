@@ -174,7 +174,8 @@ abstract public class Node {
 
   /**
    * Get the DOM which owns this node.
-   * @return 
+   * 
+   * @return DOM to which this node belongs.
    */
   public DOM getOwner() {
     return ownerDom;

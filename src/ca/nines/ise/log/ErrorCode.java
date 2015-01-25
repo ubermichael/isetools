@@ -212,7 +212,7 @@ public class ErrorCode implements Comparable<ErrorCode> {
   /**
    * Compare ErrorCodes based on the code.
    * @param o
-   * @return 
+   * @return -1, 0, or 1 based on the lexicographic ordering of the error codes.
    */
   @Override
   public int compareTo(ErrorCode o) {

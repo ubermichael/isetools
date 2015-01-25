@@ -27,14 +27,14 @@ import ca.nines.ise.dom.Fragment;
 public class CommentNode extends Node {
 
   /**
-   * {@inheritDoc}
+   * Create a comment node.
    */
   public CommentNode() {
     super();
   }
 
   /**
-   * {@inheritDoc}
+   * Copy-constructor. Because clone() sucks.
    */
   public CommentNode(Node node) {
     super(node);

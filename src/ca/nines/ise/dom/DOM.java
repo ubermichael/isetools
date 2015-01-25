@@ -111,7 +111,7 @@ public class DOM implements Iterable<Node> {
    * Return an expanded DOM, where all Char and ABBR nodes are expanded into 
    * fully tagged equivalents.
    * 
-   * @return
+   * @return expanded DOM
    * @throws IOException 
    */
   public DOM expanded() throws IOException {
@@ -151,7 +151,7 @@ public class DOM implements Iterable<Node> {
 
   /**
    * Get all lines from the original source data.
-   * @return 
+   * @return String[] of the lines in the source
    */
   public String[] getLines() {
     return lines;
@@ -384,7 +384,7 @@ public class DOM implements Iterable<Node> {
    * Produce a string by concatenating the unicode version of each text, char, and
    * abbr node.
    * 
-   * @return
+   * @return String with only the the unicode representation of the DOM.
    * @throws IOException 
    */
   public String unicode() throws IOException {

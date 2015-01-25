@@ -155,7 +155,7 @@ public class ErrorCodes {
 
   /**
    * Create and return a builder.
-   * @return 
+   * @return object to build the error codes.
    */
   public static ErrorCodesBuilder builder() {
     return new ErrorCodesBuilder();
@@ -225,7 +225,7 @@ public class ErrorCodes {
 
   /**
    * Return a human-readable list of error codes.
-   * @return 
+   * @return debug string.
    */
   @Override
   public String toString() {

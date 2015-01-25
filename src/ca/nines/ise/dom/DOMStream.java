@@ -164,7 +164,7 @@ public class DOMStream {
   /**
    * Return the list of lines found in the input.
    * 
-   * @return 
+   * @return String[]
    */
   public String[] getLines() {
     return lines.toArray(new String[lines.size()]);

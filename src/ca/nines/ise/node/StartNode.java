@@ -25,21 +25,21 @@ package ca.nines.ise.node;
 public class StartNode extends TagNode {
 
   /**
-   * {@inheritDoc}
+   * Construct a start node.
    */
   public StartNode() {
     super();
   }
 
   /**
-   * {@inheritDoc}
+   * Copy constructor.
    */
   public StartNode(Node n) {
     super(n);
   }
 
   /**
-   * {@inheritDoc}
+   * Create a start node with a name.
    */
   public StartNode(String tagname) {
     super(tagname);
