@@ -30,7 +30,7 @@ import org.atteo.classindex.ClassIndex;
 /**
  * Describes the commands available and how they can be used.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Help extends Command {
 

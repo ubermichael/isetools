@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class CharNodeTest extends TestBase {
 

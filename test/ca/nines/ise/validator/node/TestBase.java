@@ -25,7 +25,7 @@ import org.junit.Before;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TestBase {
 

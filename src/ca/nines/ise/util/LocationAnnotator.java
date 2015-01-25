@@ -37,7 +37,7 @@ import org.xml.sax.helpers.LocatorImpl;
  * <p>
  * http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
  * <p>
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class LocationAnnotator extends XMLFilterImpl {
 

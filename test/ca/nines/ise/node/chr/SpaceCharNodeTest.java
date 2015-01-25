@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class SpaceCharNodeTest extends TestBase {
 

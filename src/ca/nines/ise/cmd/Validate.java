@@ -34,7 +34,7 @@ import org.apache.commons.cli.Options;
 /**
  * Validate a document or documents.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Validate extends Command {
 

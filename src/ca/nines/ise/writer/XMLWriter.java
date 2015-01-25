@@ -48,7 +48,7 @@ import org.w3c.dom.Text;
  * <b>NOTE</b>: The generated XML is surrounded in &lt;root&gt; tags. This is a
  * bug and will be fixed in the future. 
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class XMLWriter extends Writer {
 

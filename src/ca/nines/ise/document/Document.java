@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 /**
  * ISE Document class - metadata about a document.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Document {
 

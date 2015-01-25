@@ -27,7 +27,7 @@ import org.w3c.dom.Node;
  * Lemma is the base for annotations and collations. Lemmas are immutable
  * objects. Use LemmaBuilder to construct them.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Lemma {  
   long id;

@@ -38,7 +38,7 @@ import javax.tools.Diagnostic;
  *
  * Still highly experimental.
  * 
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 @SupportedAnnotationTypes({
   "ErrorCode"

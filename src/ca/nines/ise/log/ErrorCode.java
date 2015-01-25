@@ -30,7 +30,7 @@ import org.xml.sax.SAXException;
 /**
  * Human-readable error message from an error code.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class ErrorCode implements Comparable<ErrorCode> {
 

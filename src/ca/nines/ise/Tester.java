@@ -25,7 +25,7 @@ import ca.nines.ise.util.CodePointTable;
 /**
  * Dumb main class to test out experimental stuff.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Tester {
 

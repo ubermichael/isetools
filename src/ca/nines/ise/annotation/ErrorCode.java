@@ -21,6 +21,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.annotation.Documented;
 
 /**
  * Error code annotation, for use in documenting code and in generating lists
@@ -30,10 +31,11 @@ import java.lang.annotation.Target;
  *   \@ErrorCode(code={"Error1", "Error2"})
  * </pre>
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Documented
 public @interface ErrorCode {
 
   String[] code() default "";

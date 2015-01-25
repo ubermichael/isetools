@@ -27,7 +27,7 @@ import java.util.Formatter;
  *
  * see http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class LocationData {
 

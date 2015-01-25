@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  * @param <T>
  */
 abstract public class ApparatusValidator<T extends Apparatus<? extends Lemma>> {
