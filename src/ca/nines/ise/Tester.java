@@ -37,7 +37,7 @@ public class Tester {
   public static void main(String[] args) {
     Log log = Log.getInstance();
     try {
-	  DOM dom = new DOMBuilder("foo{&#xa7}bar{&eacute}baz{&#167}").build();
+	  DOM dom = new DOMBuilder("foo-.--.---.{w}.{-}.{--}.{---}.{-------}").build();
 	  System.out.println(dom.unicode());
     } catch (Exception ex) {
       ex.printStackTrace(System.err);

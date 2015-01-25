@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -24,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Named unicode typographic characters. 
- * 
+ * Named unicode typographic characters.
+ *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TypographicCharNode extends CharNode {
@@ -36,28 +35,33 @@ public class TypographicCharNode extends CharNode {
    * Mapping.
    */
   static {
-    charMap.put("{w}", "vv");
-    charMap.put("{W}", "VV");
+	charMap.put("{w}", "vv");
+	charMap.put("{W}", "VV");
   }
 
   /**
    * @return copy of the mapping.
    */
   public static Map<String, String> mapping() {
-    return new HashMap<>(charMap);
+	return new HashMap<>(charMap);
   }
 
   /**
-   * Expand the char into a Fragment, which is a TYPEFORM tag with 
-   * the unicode content.
-   * 
+   * Expand the char into a Fragment, which is a TYPEFORM tag with the unicode
+   * content.
+   *
    * @return Fragment
    */
   @Override
   public Fragment expanded() {
-    Fragment dom = wrap("TYPEFORM", charMap.get(text));
-    ((TagNode) dom.get(0)).setAttribute("t", this.innerText());
-    return dom;
+	Fragment dom;
+	if (charMap.containsKey(text)) {
+	  dom = wrap("TYPEFORM", charMap.get(text));
+	} else {
+	  dom = wrap("TYPEFORM", this.innerText());
+	}
+	((TagNode) dom.get(0)).setAttribute("t", this.innerText());
+	return dom;
   }
 
   /**
@@ -65,7 +69,7 @@ public class TypographicCharNode extends CharNode {
    */
   @Override
   public CharType getCharType() {
-    return CharType.TYPOGRAPHIC;
+	return CharType.TYPOGRAPHIC;
   }
 
 }
