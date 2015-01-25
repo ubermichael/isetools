@@ -16,11 +16,13 @@
  */
 package ca.nines.ise;
 
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
+import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.util.CodePoint;
-import ca.nines.ise.util.CodePointTable;
+import ca.nines.ise.node.Node;
+import ca.nines.ise.node.lemma.Note;
 
 /**
  * Dumb main class to test out experimental stuff.
@@ -31,21 +33,55 @@ public class Tester {
 
   /**
    * Experiment runner.
-   * 
+   *
    * @param args command line arguments.
    */
   public static void main(String[] args) {
-    Log log = Log.getInstance();
-    try {
-	  DOM dom = new DOMBuilder("foo{&#xa7}bar{&eacute}baz{&#167}").build();
-	  System.out.println(dom.unicode());
-    } catch (Exception ex) {
-      ex.printStackTrace(System.err);
-    } finally {
-      if (log.count() > 0) {
-        System.err.println("");
-        System.err.println(log);
-      }
-    }
+	Log log = Log.getInstance();
+	try {
+	  DOM dom = new DOMBuilder("Pretext<TLN n='1'/>Hello world.<TLN n='2'/>Hi there.<TLN n='3'>You look nice today.").build();
+	  Annotation ann = Annotation.builder().from(""
+			  + "<annotations>\n"
+			  + "<note>\n"
+			  + "<ln tln='1'/>\n"
+			  + "<lem>world.</lem>\n"
+			  + "<level n='2'>\n"
+			  + ".\n"
+			  + "</level>\n"
+			  + "</note>\n"
+			  + "<note>\n"
+			  + "<ln tln='1'/>\n"
+			  + "<lem>Hi</lem>\n"
+			  + "<level n='1'>\n"
+			  + "Exclamation of impatience.\n"
+			  + "</level>\n"
+			  + "</note>"	
+			  + "<note>\n"
+			  + "<ln tln='2'/>\n"
+			  + "<lem>look nice</lem>\n"
+			  + "<level n='2'>\n"
+			  + "fancy.\n"
+			  + "</level>\n"
+			  + "</note>"
+			  + "</annotations>").build();
+	  Tester.preproces(dom, ann);
+	  System.out.println(dom);	  
+	  //System.out.println(ann);
+	} catch (Exception ex) {
+	  ex.printStackTrace(System.err);
+	} finally {
+	  if (log.count() > 0) {
+		System.err.println("");
+		System.err.println(log);
+	  }
+	}
+  }
+
+  private static void preproces(DOM dom, Annotation ann) {
+	for(Note note : ann) {
+	  Fragment frag = dom.getTlnFragment(note.getTln(), 2);	  
+	  Node tln = dom.getTln(note.getTln());
+	  // locate the footnote
+	}
   }
 }
