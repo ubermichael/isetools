@@ -57,7 +57,7 @@ CHAR_DIGRAPH
 CHAR_SPACE 
   :  
     ( '{ }'         // extra space
-    | '{-}'         // shy space
+    | '{-}'         // soft hyphen
     | '{#}'         // missing space
     )
   ;
@@ -77,6 +77,7 @@ CHAR_TYPOGRAPHIC
   :
     ( '{w}'         // two v characters for a w. No unicode equivalent.
     | '{W}'         // two V characters for a W. No unicode equivalent.
+    | '{-' '-'+ '}' // run of hyphens. No unicode equivalent.
     )
   ;
 
