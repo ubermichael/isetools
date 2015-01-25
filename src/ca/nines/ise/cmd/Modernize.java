@@ -37,7 +37,7 @@ import org.apache.commons.cli.Options;
 /**
  * Modernize an old-spelling edition.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Modernize extends Command {
 

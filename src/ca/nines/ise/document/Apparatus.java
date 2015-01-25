@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Common functionality for Annotation and Collation collections.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  * @param <T>
  */
 abstract public class Apparatus<T extends Lemma> implements Iterable<T> {

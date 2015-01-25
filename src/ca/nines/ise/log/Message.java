@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  * Message captures all the information about a parse, validation, or other
  * error.
  * <p>
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Message implements Comparable<Message> {
 
@@ -357,7 +357,7 @@ public class Message implements Comparable<Message> {
   /**
    * Return a nicely formatted, human readable string.
    * 
-   * @return 
+   * @return debug string
    */
   @Override
   public String toString() {

@@ -36,7 +36,7 @@ import org.apache.commons.cli.Options;
  * Validate an ISE annotations xml file against an ISE SGHMLish document, 
  * checking that the lemmas match up.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Annotations extends Command {
 

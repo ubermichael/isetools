@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
  * objects. Use Collation.builder() to get a builder object, and then call its
  * .build() method.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Coll extends Lemma {
 

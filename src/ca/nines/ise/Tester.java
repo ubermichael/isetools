@@ -27,7 +27,7 @@ import ca.nines.ise.node.lemma.Note;
 /**
  * Dumb main class to test out experimental stuff.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Tester {
 
@@ -83,5 +83,5 @@ public class Tester {
 	  Node tln = dom.getTln(note.getTln());
 	  // locate the footnote
 	}
-  }
+  }	
 }

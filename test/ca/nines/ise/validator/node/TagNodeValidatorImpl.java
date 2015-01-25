@@ -23,7 +23,7 @@ import ca.nines.ise.schema.Schema;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TagNodeValidatorImpl extends TagNodeValidator<TagNode> {
 

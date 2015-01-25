@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class ValidatorTestBase extends TestBase {
 

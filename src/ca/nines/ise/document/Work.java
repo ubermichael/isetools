@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * Encapsulate all information about a work: file path, editions, annotations, 
  * collations and so on in a single place.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Work extends Document implements Comparable<Work> {
 

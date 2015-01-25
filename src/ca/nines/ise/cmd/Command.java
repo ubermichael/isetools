@@ -37,7 +37,7 @@ import org.atteo.classindex.IndexSubclasses;
 /**
  * Superclass for all executable commands.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 @IndexSubclasses
 abstract public class Command {

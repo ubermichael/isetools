@@ -27,14 +27,14 @@ import ca.nines.ise.dom.Fragment;
 public class TextNode extends Node {
 
   /**
-   * {@inheritDoc}
+   * Create an empty text node.
    */
   public TextNode() {
     super();
   }
 
   /**
-   * {@inheritDoc}
+   * Copy constructor.
    */
   public TextNode(Node n) {
     super(n);

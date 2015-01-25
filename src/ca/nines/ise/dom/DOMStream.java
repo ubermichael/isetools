@@ -41,7 +41,7 @@ import org.apache.commons.io.input.BOMInputStream;
  * is not UTF-8. It will also correct any typographic quotes to straight quotes,
  * and normalizes the input to NFKC.
  * 
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class DOMStream {
 
@@ -164,7 +164,7 @@ public class DOMStream {
   /**
    * Return the list of lines found in the input.
    * 
-   * @return 
+   * @return String[]
    */
   public String[] getLines() {
     return lines.toArray(new String[lines.size()]);

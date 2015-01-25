@@ -51,7 +51,7 @@ public class UnicodeCharNode extends CharNode {
   /**
    * Return a copy of the mapping.
    * 
-   * @return 
+   * @return copy of the character map, mapping input text to output unicode.
    */
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
@@ -59,9 +59,9 @@ public class UnicodeCharNode extends CharNode {
 
   /**
    * Expand the character into unicode text, wrapped in a UNICODE tag.
-   * @return 
+   * @return expanded fragment wrapped in a UNICODE tag. 
    */
-  @Override
+  @Override 
   public Fragment expanded() {
     return wrap("UNICODE", charMap.get(text));
   }

@@ -30,7 +30,7 @@ public class LigatureCharNode extends CharNode {
   /**
    * Expand the ligature to a DOM fragment.
    * 
-   * @return 
+   * @return expanded fragment, wrapped in a LIG.
    */
   @Override
   public Fragment expanded() {

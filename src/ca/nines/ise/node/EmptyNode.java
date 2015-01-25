@@ -25,21 +25,21 @@ package ca.nines.ise.node;
 public class EmptyNode extends TagNode {
 
   /**
-   * {@inheritDoc}
+   * Construct an empty node.
    */
   public EmptyNode() {
     super();
   }
 
   /**
-   * {@inheritDoc}
+   * Copy constructor.
    */
   public EmptyNode(Node n) {
     super(n);
   }
 
   /**
-   * {@inheritDoc}
+   * Construct an empty node with a name.
    */
   public EmptyNode(String tagname) {
     super(tagname);

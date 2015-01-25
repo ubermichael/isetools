@@ -44,7 +44,7 @@ public class AbbrNode extends Node {
   /**
    * Expand the node into tag nodes.
    * 
-   * @return 
+   * @return Fragment with the expanded nodes.
    */
   @ErrorCode(code = {
     "abbr.expand.syntax"
@@ -94,7 +94,8 @@ public class AbbrNode extends Node {
 
   /**
    * The plain-text version of an abbr is just the ascii letters.
-   * @return 
+   * 
+   * @return String containing only ascii letters.
    */
   @Override
   public String plain() {

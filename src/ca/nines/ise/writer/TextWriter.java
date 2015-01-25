@@ -30,7 +30,7 @@ import javax.xml.transform.TransformerException;
 /**
  * TextWriter creates a text representation of a DOM.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TextWriter extends Writer {
 

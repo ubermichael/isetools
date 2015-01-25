@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
 /**
  * STUB A collection of Note objects for annotations.
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Annotation extends Apparatus<Note> {
 

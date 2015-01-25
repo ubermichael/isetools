@@ -40,7 +40,7 @@ abstract public class TagNode extends Node {
   protected String tagname;
 
   /**
-   * {@inheritDoc}
+   * Construct a tag node with no name or attributes.
    */
   public TagNode() {
     super();
@@ -49,14 +49,14 @@ abstract public class TagNode extends Node {
   }
 
   /**
-   * {@inheritDoc}
+   * Copy constructor.
    */
   public TagNode(Node n) {
     super(n);
   }
 
   /**
-   * {@inheritDoc}
+   * Copy constructor.
    */
   public TagNode(TagNode n) {
     super(n);
@@ -65,7 +65,7 @@ abstract public class TagNode extends Node {
   }
 
   /**
-   * {@inheritDoc}
+   * Create a new tag node with a name.
    */
   public TagNode(String tagname) {
     this.tagname = tagname;
@@ -124,7 +124,7 @@ abstract public class TagNode extends Node {
   /**
    * Return a list of attribute names, in their original cases.
    * 
-   * @return 
+   * @return String of sorted original-case attribute names.
    */
   public String[] getAttributeNames() {
     String[] names = attributes.keySet().toArray(new String[attributes.size()]);

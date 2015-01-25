@@ -74,7 +74,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
  * <p>
  * @see ParserErrorListener
  * <p>
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class DOMBuilder extends ISEParserBaseListener implements BuilderInterface<DOM> {
 

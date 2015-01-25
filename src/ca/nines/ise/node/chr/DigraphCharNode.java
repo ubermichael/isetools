@@ -48,7 +48,8 @@ public class DigraphCharNode extends CharNode {
 
   /**
    * Return a copy of the mapping.
-   * @return 
+   * 
+   * @return Map<> duplicate.
    */
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);

@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class AbbrNodeTest extends TestBase {
 

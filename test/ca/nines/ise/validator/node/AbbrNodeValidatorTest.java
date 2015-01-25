@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author michael
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class AbbrNodeValidatorTest extends ValidatorTestBase {
 
