@@ -231,7 +231,6 @@ public class DOM implements Iterable<Node> {
           found++;
         }
       }
-      fragment.nodes.remove(fragment.nodes.size() - 1);
     }
     return fragment;
   }
