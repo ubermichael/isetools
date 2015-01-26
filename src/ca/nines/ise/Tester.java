@@ -16,13 +16,10 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
-import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.node.Node;
-import ca.nines.ise.node.lemma.Note;
+import java.io.File;
 
 /**
  * Dumb main class to test out experimental stuff.
@@ -39,34 +36,8 @@ public class Tester {
   public static void main(String[] args) {
 	Log log = Log.getInstance();
 	try {
-	  DOM dom = new DOMBuilder("Pretext<TLN n='1'/>Hello world.<TLN n='2'/>Hi there.<TLN n='3'>You look nice today.").build();
-	  Annotation ann = Annotation.builder().from(""
-			  + "<annotations>\n"
-			  + "<note>\n"
-			  + "<ln tln='1'/>\n"
-			  + "<lem>world.</lem>\n"
-			  + "<level n='2'>\n"
-			  + ".\n"
-			  + "</level>\n"
-			  + "</note>\n"
-			  + "<note>\n"
-			  + "<ln tln='1'/>\n"
-			  + "<lem>Hi</lem>\n"
-			  + "<level n='1'>\n"
-			  + "Exclamation of impatience.\n"
-			  + "</level>\n"
-			  + "</note>"	
-			  + "<note>\n"
-			  + "<ln tln='2'/>\n"
-			  + "<lem>look nice</lem>\n"
-			  + "<level n='2'>\n"
-			  + "fancy.\n"
-			  + "</level>\n"
-			  + "</note>"
-			  + "</annotations>").build();
-	  Tester.preproces(dom, ann);
+	  DOM dom = new DOMBuilder(new File("input/withTitlePage/Oth/Oth_M.txt")).build();
 	  System.out.println(dom);	  
-	  //System.out.println(ann);
 	} catch (Exception ex) {
 	  ex.printStackTrace(System.err);
 	} finally {
@@ -77,11 +48,4 @@ public class Tester {
 	}
   }
 
-  private static void preproces(DOM dom, Annotation ann) {
-	for(Note note : ann) {
-	  Fragment frag = dom.getTlnFragment(note.getTln(), 2);	  
-	  Node tln = dom.getTln(note.getTln());
-	  // locate the footnote
-	}
-  }	
 }

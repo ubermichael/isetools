@@ -19,9 +19,12 @@ package ca.nines.ise.writer;
 
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TextNode;
+import ca.nines.ise.node.lemma.Note;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -113,6 +116,32 @@ public class RTFWriter extends Writer {
     }
   }
   
+  private void preprocess(DOM dom, Annotation ann) throws IOException {
+	int i = 0;
+	for(Note note : ann) {
+	  Fragment frag = dom.getTlnFragment(note.getTln(), 2);
+	  Node tln = dom.getTln(note.getTln());
+	  int offset = frag.unicode().indexOf(note.getLem());
+	  if(offset == -1) {
+		//System.out.println("Lemma not found.");
+		continue;
+	  }
+	  offset += note.getLem().length();
+	  Node n = tln;
+	  while(offset > 0) {
+		n = dom.get(n.getPosition()+ 1);
+		if(n instanceof TextNode) {
+		  offset -= n.getText().length();
+		}
+	  }
+	  String txt = n.getText();
+	  EmptyNode fn = new EmptyNode("FNLOC");
+	  fn.setAttribute("ref", "" + note.getId());
+	  dom.splitTextNode((TextNode)n, txt.length()+offset, fn);
+	}
+  }	
+  
+  
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
     render(dom, Annotation.builder().build());
@@ -120,8 +149,8 @@ public class RTFWriter extends Writer {
 
   @Override
   public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
-
-    dom.index();
+	this.preprocess(dom, annotation);
+	
     fontStack = new ArrayDeque<>();
     fontStack.push(FontFactory.getFont("Times New Roman", 12, Color.BLACK));
     Font font;
@@ -149,6 +178,14 @@ public class RTFWriter extends Writer {
           break;
         case EMPTY:
           switch (n.getName()) {
+			case "FNLOC":
+			  EmptyNode fnloc = (EmptyNode)n;
+			  Note note = annotation.get(Integer.parseInt(fnloc.getAttribute("ref")) - 1);
+			  if( ! note.hasNoteLevel("1")) {
+				break;
+			  }
+			  addChunk("[<" + note.getNote("1").unicode().trim() + ">]");
+			  break;
             case "TLN":
             case "L":
               if (inS) {

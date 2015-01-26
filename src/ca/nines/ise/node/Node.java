@@ -44,7 +44,7 @@ abstract public class Node {
   protected int line;
   
   /**
-   * position of the node from the start of the file.
+   * position of the node from the start of the DOM.
    */
   protected int position;
   

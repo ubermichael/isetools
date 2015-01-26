@@ -18,6 +18,7 @@ package ca.nines.ise.dom;
 
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TagNode;
+import ca.nines.ise.node.TextNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -317,6 +318,29 @@ public class DOM implements Iterable<Node> {
       sb.append(n.plain());
     }
     return sb.toString();
+  }
+  
+  /**
+   * Split text node o into new nodes at position p, and put n between them.
+   * 
+   * @param oldText
+   * @param newNode 
+   * @param pos
+   */
+  public void splitTextNode(TextNode oldText, int pos, Node newNode) {
+	TextNode beforeNode = new TextNode(oldText);
+	beforeNode.setText(oldText.getText().substring(0, pos));
+	
+	TextNode afterNode = new TextNode(oldText);
+	afterNode.setText(oldText.getText().substring(pos));
+	
+	newNode.setOwner(this);
+	
+	nodes.remove(oldText.getPosition());
+	nodes.add(oldText.getPosition(), afterNode);
+	nodes.add(oldText.getPosition(), newNode);
+	nodes.add(oldText.getPosition(), beforeNode);
+	index(); // positions/indexes have changed.
   }
 
   /**
