@@ -95,7 +95,8 @@ public class Transform extends Command {
 	  log.add(m);
 	}
 	if (log.count() > 0) {
-	  out.println(log);
+	  System.err.println(log.count() + " errors or warnings.");
+	  System.err.println(log);
 	}
 	log.clear();
   }

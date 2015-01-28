@@ -17,9 +17,13 @@
 
 package ca.nines.ise.writer;
 
+import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.Fragment;
+import ca.nines.ise.log.Log;
+import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
@@ -31,6 +35,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Footnote;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
@@ -116,17 +121,41 @@ public class RTFWriter extends Writer {
     }
   }
   
+  private void footnote(Note note) throws IOException, DocumentException {
+	Footnote fn = new Footnote(note.getNote("1").unicode().trim());
+	p.add(fn);
+  }
+  
+  @ErrorCode(code={"rtfwriter.note.notfound"})
   private void preprocess(DOM dom, Annotation ann) throws IOException {
 	int i = 0;
 	for(Note note : ann) {
-	  Fragment frag = dom.getTlnFragment(note.getTln(), 2);
-	  Node tln = dom.getTln(note.getTln());
-	  int offset = frag.unicode().indexOf(note.getLem());
+	  
+	  String lemmaSrc = note.getLem();
+	  if(note.isLemSplit()) {
+		lemmaSrc = note.getLemEnd();
+	  }
+	  
+	  String lemmaStr = new DOMBuilder(lemmaSrc).build().unicode();
+			  
+	  String tlnStr = note.getTln();
+	  if(note.isTlnSplit()) {
+		tlnStr = note.getTlnEnd();
+	  }
+	  
+	  Fragment frag = dom.getTlnFragment(tlnStr, 2);	  
+	  Node tln = dom.getTln(tlnStr);
+	  int offset = frag.unicode().indexOf(lemmaStr);
 	  if(offset == -1) {
-		//System.out.println("Lemma not found.");
+		Message m = Message.builder("rtfwriter.note.notfound")
+				.addNote("Cannot find lemma '" + lemmaStr + "' near TLN " + tlnStr)
+				.addNote("lemSplit: " + note.isLemSplit() + " tlnSplit: " + note.isTlnSplit())
+				.addNote(note.toString())
+				.build();
+		Log.addMessage(m);
 		continue;
 	  }
-	  offset += note.getLem().length();
+	  offset += lemmaStr.length();
 	  Node n = tln;
 	  while(offset > 0) {
 		n = dom.get(n.getPosition()+ 1);
@@ -184,7 +213,8 @@ public class RTFWriter extends Writer {
 			  if( ! note.hasNoteLevel("1")) {
 				break;
 			  }
-			  addChunk("[<" + note.getNote("1").unicode().trim() + ">]");
+			  this.footnote(note);
+			  //addChunk("[<" + note.getNote("1").unicode().trim() + ">]");
 			  break;
             case "TLN":
             case "L":
