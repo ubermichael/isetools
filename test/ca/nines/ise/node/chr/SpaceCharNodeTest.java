@@ -22,14 +22,34 @@ import ca.nines.ise.node.CharNode;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.validator.node.TestBase;
 import java.io.IOException;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class SpaceCharNodeTest extends TestBase {
+
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+  }
+
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+  }
+
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
 
   // @TODO move this up a level, to an abstract CharTestBase
   // along with the common code for checking line, col, etc.
@@ -104,6 +124,34 @@ public class SpaceCharNodeTest extends TestBase {
     assertEquals(42, node.getColumn());
     assertEquals(420, node.getLine());
     assertEquals("11.3", node.getTLN());
+  }
+
+  /**
+   * Test of expanded method, of class SpaceCharNode.
+   */
+  @Test
+  public void testExpanded() {
+	System.out.println("expanded");
+	SpaceCharNode instance = new SpaceCharNode();
+	Fragment expResult = null;
+	Fragment result = instance.expanded();
+	assertEquals(expResult, result);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
+  }
+
+  /**
+   * Test of getCharType method, of class SpaceCharNode.
+   */
+  @Test
+  public void testGetCharType() {
+	System.out.println("getCharType");
+	SpaceCharNode instance = new SpaceCharNode();
+	CharNode.CharType expResult = null;
+	CharNode.CharType result = instance.getCharType();
+	assertEquals(expResult, result);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
   }
   
 }

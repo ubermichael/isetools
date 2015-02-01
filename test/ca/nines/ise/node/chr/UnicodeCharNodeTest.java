@@ -25,6 +25,7 @@ import ca.nines.ise.validator.node.TestBase;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.Iterator;
+import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,6 +38,22 @@ import static org.junit.Assert.*;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class UnicodeCharNodeTest extends TestBase {
+
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+  }
+
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+  }
+
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
 
     /**
    * Test of expanded method, of class DigraphCharNode.
@@ -97,6 +114,33 @@ public class UnicodeCharNodeTest extends TestBase {
     assertEquals("11.3", node.getTLN());
     assertEquals("UNICODE", node.getName());
     checkLog(errors);
+  }
+
+  /**
+   * Test of mapping method, of class UnicodeCharNode.
+   */
+  @Test
+  public void testMapping() {
+	System.out.println("mapping");
+	Map<String, String> expResult = null;
+	Map<String, String> result = UnicodeCharNode.mapping();
+	assertEquals(expResult, result);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
+  }
+
+  /**
+   * Test of getCharType method, of class UnicodeCharNode.
+   */
+  @Test
+  public void testGetCharType() {
+	System.out.println("getCharType");
+	UnicodeCharNode instance = new UnicodeCharNode();
+	CharNode.CharType expResult = null;
+	CharNode.CharType result = instance.getCharType();
+	assertEquals(expResult, result);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
   }
 
 }

@@ -25,14 +25,35 @@ import ca.nines.ise.validator.node.TestBase;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.Iterator;
+import java.util.Map;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class TypographicCharNodeTest extends TestBase {
+
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+  }
+
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+  }
+
+  @Before
+  public void setUp() throws Exception {
+  }
+
+  @After
+  public void tearDown() throws Exception {
+  }
   /**
    * Test of expanded method, of class DigraphCharNode.
    * <p>
@@ -87,6 +108,33 @@ public class TypographicCharNodeTest extends TestBase {
     assertEquals("11.3", node.getTLN());
     assertEquals("TYPEFORM", node.getName());
     checkLog(errors);
+  }
+
+  /**
+   * Test of mapping method, of class TypographicCharNode.
+   */
+  @Test
+  public void testMapping() {
+	System.out.println("mapping");
+	Map<String, String> expResult = null;
+	Map<String, String> result = TypographicCharNode.mapping();
+	assertEquals(expResult, result);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
+  }
+
+  /**
+   * Test of getCharType method, of class TypographicCharNode.
+   */
+  @Test
+  public void testGetCharType() {
+	System.out.println("getCharType");
+	TypographicCharNode instance = new TypographicCharNode();
+	CharNode.CharType expResult = null;
+	CharNode.CharType result = instance.getCharType();
+	assertEquals(expResult, result);
+	// TODO review the generated test code and remove the default call to fail.
+	fail("The test case is a prototype.");
   }
 
 }

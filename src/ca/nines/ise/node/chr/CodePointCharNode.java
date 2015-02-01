@@ -20,6 +20,7 @@ import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.CharNode;
+import ca.nines.ise.util.CodePoint;
 import ca.nines.ise.util.CodePointTable;
 import java.io.IOException;
 import java.text.Normalizer;
@@ -37,12 +38,12 @@ public class CodePointCharNode extends CharNode {
    * Extract the hex code from markup.
    */
   private static final Pattern hexEntity = Pattern.compile("&#x(\\p{XDigit}+)");
-  
+
   /**
    * Extract the decimal value from the markup.
    */
   private static final Pattern decimalEntity = Pattern.compile("&#(\\p{Digit}+)");
-  
+
   /**
    * Extract the name from the markup.
    */
@@ -52,66 +53,77 @@ public class CodePointCharNode extends CharNode {
    * Mapping from names to code points.
    */
   private static CodePointTable tbl = null;
-  
+
   /**
    * Expand a numeric code poitn into a fragment.
-   * 
+   *
    * @param value
    * @param base
    * @return Fragment
    */
   private Fragment expandNumeric(String value, int base) {
-    int codePoint = Integer.parseInt(value, base);
-    char[] c = Character.toChars(codePoint);
-    String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
-    return wrap("CODEPOINT", str);
+	int codePoint = Integer.parseInt(value, base);
+	char[] c = Character.toChars(codePoint);
+	String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
+	return wrap("CODEPOINT", str);
   }
-  
+
   /**
-   * Expand a named entity into a fragment.
-   * 
+   * Expand a named entity into a fragment. Unknown named characters will be 
+   * replaced with U+FFFD, and an error will be logged.
+   *
    * @param value
    * @return Fragment.
-   * @throws IOException 
+   * @throws IOException
    */
   private Fragment expandNamed(String value) throws IOException {
-	if(tbl == null) {
+	if (tbl == null) {
 	  tbl = CodePointTable.defaultCodePointTable();
 	}
-	return wrap("CODEPOINT", tbl.getCodePoint(value).getValue());
+	CodePoint cp = tbl.getCodePoint(value);
+	if (cp == null) {
+	  Message message = Message.builder("char.codepoint.unknown")
+			  .fromNode(this)
+			  .addNote("The named character " + innerText() + " is not defined.")
+			  .build();
+	  Log.getInstance().add(message);
+	  return wrap("CODEPOINT", "\uFFFD");
+	} else {
+	  return wrap("CODEPOINT", cp.getValue());
+	}
   }
 
   /**
    * Expand the character into a Fragment.
-   * 
+   *
    * @return Fragment
-   * @throws IOException 
+   * @throws IOException
    */
   @Override
   public Fragment expanded() throws IOException {
 
-    Matcher m;
+	Matcher m;
 
 	// @TODO these should be refactored into classes, and the parser
 	// should distinguish them.
-    m = hexEntity.matcher(innerText());
-    if (m.matches()) {
-      return expandNumeric(m.group(1), 16);
-    }
-    m = decimalEntity.matcher(innerText());
-    if (m.matches()) {
-      return expandNumeric(m.group(1), 10);
-    }
-    m = namedEntity.matcher(innerText());
-    if (m.matches()) {
-      return expandNamed(m.group(1));
-    }
-    Message message = Message.builder("char.codepoint.unknown")
-            .fromNode(this)
-            .addNote("Cannot parse " + innerText() + " as a code point.")
-            .build();
-    Log.getInstance().add(message);
-    return null;
+	m = hexEntity.matcher(innerText());
+	if (m.matches()) {
+	  return expandNumeric(m.group(1), 16);
+	}
+	m = decimalEntity.matcher(innerText());
+	if (m.matches()) {
+	  return expandNumeric(m.group(1), 10);
+	}
+	m = namedEntity.matcher(innerText());
+	if (m.matches()) {
+	  return expandNamed(m.group(1));
+	}
+	Message message = Message.builder("char.codepoint.unknown")
+			.fromNode(this)
+			.addNote("Cannot parse " + innerText() + " as a code point.")
+			.build();
+	Log.getInstance().add(message);
+	return null;
   }
 
   /**
@@ -119,7 +131,7 @@ public class CodePointCharNode extends CharNode {
    */
   @Override
   public CharType getCharType() {
-    return CharType.CODEPOINT;
+	return CharType.CODEPOINT;
   }
 
 }

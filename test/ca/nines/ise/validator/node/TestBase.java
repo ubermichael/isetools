@@ -27,12 +27,12 @@ import org.junit.Before;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class TestBase {
+abstract public class TestBase {
 
   protected final Log log;
 
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     log.clear();
   }
 
