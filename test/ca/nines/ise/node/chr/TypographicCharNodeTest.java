@@ -110,31 +110,4 @@ public class TypographicCharNodeTest extends TestBase {
     checkLog(errors);
   }
 
-  /**
-   * Test of mapping method, of class TypographicCharNode.
-   */
-  @Test
-  public void testMapping() {
-	System.out.println("mapping");
-	Map<String, String> expResult = null;
-	Map<String, String> result = TypographicCharNode.mapping();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of getCharType method, of class TypographicCharNode.
-   */
-  @Test
-  public void testGetCharType() {
-	System.out.println("getCharType");
-	TypographicCharNode instance = new TypographicCharNode();
-	CharNode.CharType expResult = null;
-	CharNode.CharType result = instance.getCharType();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-  }
-
 }

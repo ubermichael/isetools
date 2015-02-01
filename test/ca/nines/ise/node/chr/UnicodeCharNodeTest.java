@@ -116,31 +116,4 @@ public class UnicodeCharNodeTest extends TestBase {
     checkLog(errors);
   }
 
-  /**
-   * Test of mapping method, of class UnicodeCharNode.
-   */
-  @Test
-  public void testMapping() {
-	System.out.println("mapping");
-	Map<String, String> expResult = null;
-	Map<String, String> result = UnicodeCharNode.mapping();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of getCharType method, of class UnicodeCharNode.
-   */
-  @Test
-  public void testGetCharType() {
-	System.out.println("getCharType");
-	UnicodeCharNode instance = new UnicodeCharNode();
-	CharNode.CharType expResult = null;
-	CharNode.CharType result = instance.getCharType();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-  }
-
 }

@@ -126,32 +126,4 @@ public class SpaceCharNodeTest extends TestBase {
     assertEquals("11.3", node.getTLN());
   }
 
-  /**
-   * Test of expanded method, of class SpaceCharNode.
-   */
-  @Test
-  public void testExpanded() {
-	System.out.println("expanded");
-	SpaceCharNode instance = new SpaceCharNode();
-	Fragment expResult = null;
-	Fragment result = instance.expanded();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-  }
-
-  /**
-   * Test of getCharType method, of class SpaceCharNode.
-   */
-  @Test
-  public void testGetCharType() {
-	System.out.println("getCharType");
-	SpaceCharNode instance = new SpaceCharNode();
-	CharNode.CharType expResult = null;
-	CharNode.CharType result = instance.getCharType();
-	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-  }
-  
 }

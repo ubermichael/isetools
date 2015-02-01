@@ -67,6 +67,7 @@ public class RTFWriter extends Writer {
   private RtfParagraphStyle ld;
   private RtfParagraphStyle p1;
   private RtfParagraphStyle p2;
+  private RtfParagraphStyle fnStyle;
 
   public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
@@ -102,6 +103,13 @@ public class RTFWriter extends Writer {
     p2.setIndentLeft(38);
     p2.setIndentRight(49);
     writer.getDocumentSettings().registerParagraphStyle(p2);
+	
+	fnStyle = new RtfParagraphStyle("ISE Footnote", "ISE Normal");
+	fnStyle.setFirstLineIndent(-19);
+	fnStyle.setIndentLeft(38);
+	fnStyle.setIndentRight(0);
+	fnStyle.setSize(10);
+	writer.getDocumentSettings().registerParagraphStyle(fnStyle);
   }
 
   private void startParagraph() throws DocumentException {
@@ -122,7 +130,11 @@ public class RTFWriter extends Writer {
   }
   
   private void footnote(Note note) throws IOException, DocumentException {
-	Footnote fn = new Footnote(note.getNote("1").unicode().trim());
+	Footnote fn = new Footnote();
+	Paragraph fp = new Paragraph("", fnStyle);
+	fp.add(new Chunk("\t"));
+	fp.add(new Chunk(note.getNote("1").unicode().trim()));
+	fn.add(fp);
 	p.add(fn);
   }
   
@@ -137,13 +149,14 @@ public class RTFWriter extends Writer {
 	  }
 	  
 	  String lemmaStr = new DOMBuilder(lemmaSrc).build().unicode();
-			  
 	  String tlnStr = note.getTln();
+	  int length = 2;
 	  if(note.isTlnSplit()) {
-		tlnStr = note.getTlnEnd();
+		tlnStr = note.getTlnStart();
+		length = 6;
 	  }
 	  
-	  Fragment frag = dom.getTlnFragment(tlnStr, 2);	  
+	  Fragment frag = dom.getTlnFragment(tlnStr, length);	  
 	  Node tln = dom.getTln(tlnStr);
 	  int offset = frag.unicode().indexOf(lemmaStr);
 	  if(offset == -1) {
