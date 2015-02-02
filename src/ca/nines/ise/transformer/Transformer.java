@@ -329,7 +329,7 @@ abstract public class Transformer {
     this.dom = new DOM();
     this.dom.setLines(dom.getLines());
     this.dom.setSource(dom.getSource());
-    iterator = new PeekingIterator(dom.iterator());
+    iterator = new PeekingIterator<>(dom.iterator());
     
     while (iterator.hasNext()) {
       Node n = iterator.next();
