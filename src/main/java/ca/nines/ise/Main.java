@@ -42,10 +42,11 @@ public class Main {
    * @throws IOException 
    */
   public static String version() throws IOException {
-    InputStream stream = Main.class.getResourceAsStream("version.properties");
-    Properties prop = new Properties();
-    prop.load(stream);
-    return prop.getProperty("buildVersion")+ " " + prop.getProperty("buildBranch");
+//    InputStream stream = Main.class.getResourceAsStream("version.properties");
+//    Properties prop = new Properties();
+//    prop.load(stream);
+//    return prop.getProperty("buildVersion")+ " " + prop.getProperty("buildBranch");
+      return "unknown";
   }
 
   /**
@@ -97,8 +98,11 @@ public class Main {
    * @param args command line arguments.
    */
   public static void main(String[] args) {
-    String version = "unknown";
+    String version = "unknown";    
     try {
+      if(args.length == 0) {
+          args = new String[]{"help"};
+      }
       version = version();
       execute(args);
     } catch (ClassNotFoundException ex) {
