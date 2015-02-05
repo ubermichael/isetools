@@ -1,27 +1,21 @@
-
 # file types.
 *.class
 *.log
-
-# directories
-/build
-/data
-/dist
+*.rtf
+*.rtf.bz2
+*.rtf.gz
+*.pdf
 
 # data files
 input
 
+# maven specific stuff.
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
 
-# netbeans stuff that shouldn't be in
-nbproject/private
-install
-.~lock.*
-
-# generated files
-src/ca/nines/ise/version.properties
-*.rtf
-*.rtf.bz2
-lib/javadoc
-lib/src
-
-*.bz2
+# netbeans specific stuff.
+nb-configuration.xml
