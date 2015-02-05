@@ -35,7 +35,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
-import com.lowagie.text.Footnote;
+//import com.lowagie.text.Footnote;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
@@ -130,12 +130,12 @@ public class RTFWriter extends Writer {
   }
   
   private void footnote(Note note) throws IOException, DocumentException {
-	Footnote fn = new Footnote();
-	Paragraph fp = new Paragraph("", fnStyle);
-	fp.add(new Chunk("\t"));
-	fp.add(new Chunk(note.getNote("1").unicode().trim()));
-	fn.add(fp);
-	p.add(fn);
+//	Footnote fn = new Footnote();
+//	Paragraph fp = new Paragraph("", fnStyle);
+//	fp.add(new Chunk("\t"));
+//	fp.add(new Chunk(note.getNote("1").unicode().trim()));
+//	fn.add(fp);
+//	p.add(fn);
   }
   
   @ErrorCode(code={"rtfwriter.note.notfound"})
