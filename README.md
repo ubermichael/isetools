@@ -3,7 +3,7 @@
 Data parsing, validation, and transformation tools for the [Internet Shakespeare 
 Editions](http://internetshakespeare.uvic.ca).
 
-== License
+== License & Copyright
 
 Copyright (C) 2014-2015 Michael Joyce <ubermichael@gmail.com>
 
