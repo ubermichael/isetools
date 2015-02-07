@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.util.XMLDriver;
@@ -67,7 +66,7 @@ public class ErrorCodeTest {
     assertEquals(a.getSeverity(), "error");
     assertEquals(a.getSource(), "");
   }
-  
+
   @Test
   public void testBuilderFromNode() throws ParserConfigurationException, SAXException, TransformerException {
     String data = "<message code=\"test.error\" severity=\"error\">\n"
@@ -82,7 +81,6 @@ public class ErrorCodeTest {
     assertEquals(a.getSeverity(), "error");
     assertEquals(a.getSource(), "");
   }
-  
 
   /**
    * Test of compareTo method, of class ErrorCode.

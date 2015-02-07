@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import java.util.ArrayList;
@@ -23,11 +22,9 @@ import java.util.Formatter;
 import java.util.List;
 
 /**
- * Log collects error messages generated during parsing and 
- * validation.
+ * Log collects error messages generated during parsing and validation.
  * <p>
- * Log is a singleton: use getInstance() to get an object, 
- * rather than new().
+ * Log is a singleton: use getInstance() to get an object, rather than new().
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -45,7 +42,8 @@ public final class Log {
 
   /**
    * Convenience method to add a message to the log.
-   * @param m 
+   *
+   * @param m
    */
   public static void addMessage(Message m) {
     instance.add(m);
@@ -64,7 +62,7 @@ public final class Log {
    * Log is a singleton. Use #getInstance().
    */
   private Log() {
-	// do nothing.
+    // do nothing.
   }
 
   /**
@@ -85,7 +83,7 @@ public final class Log {
 
   /**
    * Count the messages.
-   * 
+   *
    * @return int
    */
   public int count() {
@@ -94,7 +92,7 @@ public final class Log {
 
   /**
    * Get the i-th message in the log.
-   * 
+   *
    * @param i
    * @return Message
    */

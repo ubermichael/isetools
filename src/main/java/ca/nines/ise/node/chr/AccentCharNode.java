@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -46,12 +45,12 @@ public class AccentCharNode extends CharNode {
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);
   }
-  
+
   @Override
   public Fragment expanded() {
     char[] cs = super.innerText().toCharArray();
 
-    String accent = charMap.get(innerText().substring(0,1));
+    String accent = charMap.get(innerText().substring(0, 1));
     if (accent == null) {
       accent = "\uFFFD";
       Message m = Message.builder("char.accent.unknown")

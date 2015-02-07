@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.dom.DOM;
@@ -52,8 +51,8 @@ public class Note extends Lemma {
   private final Map<String, DOM> notes;
 
   /**
-   * Notes are immutable, so NoteBuilder constructs them. Use Note.builder() to get a
-   * builder object.
+   * Notes are immutable, so NoteBuilder constructs them. Use Note.builder() to
+   * get a builder object.
    */
   public static class NoteBuilder extends Lemma.LemmaBuilder implements BuilderInterface<Note> {
 
@@ -72,7 +71,7 @@ public class Note extends Lemma {
 
     /**
      * Add a note for this annotation.
-     * 
+     *
      * @param level the level of the note
      * @param note the text of the note (ISE SGML)
      * @return NoteBuilder to enable method chaining
@@ -84,7 +83,7 @@ public class Note extends Lemma {
 
     /**
      * Construct and return the note.
-     * 
+     *
      * @return the note
      */
     @Override
@@ -95,7 +94,7 @@ public class Note extends Lemma {
 
     /**
      * Construct a note from an XML node.
-     * 
+     *
      * @param in the node to construct the note from
      * @return NoteBuilder to enable method chaining
      */
@@ -127,10 +126,10 @@ public class Note extends Lemma {
         try {
           XMLDriver xd = new XMLDriver();
           String xmlStr = xd.serialize(level);
-          
+
           DOM dom = new DOMBuilder(xmlStr).build();
           addNote(level.getAttributeNode("n").getValue(), dom);
-          
+
         } catch (ParserConfigurationException ex) {
           Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
@@ -149,16 +148,16 @@ public class Note extends Lemma {
 
     /**
      * Construct a Note from a string
-     * 
+     *
      * @param in the string from which to construct the note
      * @return NoteBuilder to enable method chaining
-     * 
+     *
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      * @throws XPathExpressionException
      * @throws TransformerConfigurationException
-     * @throws TransformerException 
+     * @throws TransformerException
      */
     public NoteBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
       Document doc = new XMLDriver().drive(in);
@@ -170,6 +169,7 @@ public class Note extends Lemma {
 
   /**
    * Create and return a NoteBuilder
+   *
    * @return NoteBuilder
    */
   public static NoteBuilder builder() {
@@ -178,13 +178,13 @@ public class Note extends Lemma {
 
   /**
    * Construct a note. Only called by a NoteBuilder
-   * 
+   *
    * @param lem
    * @param lineNumber
    * @param source
    * @param tln
    * @param asl
-   * @param notes 
+   * @param notes
    */
   private Note(String lem, int lineNumber, String source, String tln, String asl, long id, Map<String, DOM> notes) {
     super(lem, lineNumber, source, tln, asl, id);
@@ -193,7 +193,7 @@ public class Note extends Lemma {
 
   /**
    * Get a note for a particular level.
-   * 
+   *
    * @param level the level of the requested note
    * @return the DOM for the note
    */
@@ -202,9 +202,9 @@ public class Note extends Lemma {
   }
 
   /**
-   * Get a list of the levels available for this annotation sorted
-   * in lexicographic order.
-   * 
+   * Get a list of the levels available for this annotation sorted in
+   * lexicographic order.
+   *
    * @return a list of levels
    */
   public String[] getNoteLevels() {
@@ -212,12 +212,12 @@ public class Note extends Lemma {
     Arrays.sort(levels);
     return levels;
   }
-  
+
   /**
    * Check if the annotation has a note for a level
-   * 
+   *
    * @param lvl the level to check
-   * 
+   *
    * @return true if the annotation has a note for the level
    */
   public boolean hasNoteLevel(String lvl) {
@@ -226,7 +226,7 @@ public class Note extends Lemma {
 
   /**
    * Stringify the annotation. Mostly useful for debugging.
-   * 
+   *
    * @return a stringish representation of the annotation.
    */
   @Override

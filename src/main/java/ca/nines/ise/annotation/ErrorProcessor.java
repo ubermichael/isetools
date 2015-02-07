@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.annotation;
 
 import java.util.Set;
@@ -31,13 +30,13 @@ import javax.tools.Diagnostic;
  * ErrorProcessor should be able to generate a list of error messages and the
  * classes/methods that generate them. Requires using the \@ErrorCode annotation
  * like this:
- * 
+ *
  * <pre>
  *   \@ErrorCode(code={"Error1", "Error2"})
  * </pre>
  *
  * Still highly experimental.
- * 
+ *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 @SupportedAnnotationTypes({
@@ -47,7 +46,7 @@ public class ErrorProcessor extends AbstractProcessor {
 
   /**
    * Returns the supported source version. I don't know what this does.
-   * 
+   *
    * @return SourceVersion
    */
   @Override
@@ -56,8 +55,8 @@ public class ErrorProcessor extends AbstractProcessor {
   }
 
   /**
-   * Proceess a set of annotations and produce some output.
-   * 
+   * Process a set of annotations and produce some output.
+   *
    * @param annotations
    * @param roundEnv
    * @return boolean true

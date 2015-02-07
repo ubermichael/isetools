@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.document;
 
 import ca.nines.ise.node.lemma.Note;
@@ -46,7 +45,7 @@ public class Annotation extends Apparatus<Note> {
     private AnnotationBuilder() {
       super();
     }
-    
+
     @Override
     public Annotation build() {
       return new Annotation(source, lemmas);
@@ -58,7 +57,7 @@ public class Annotation extends Apparatus<Note> {
 
       NodeList nl = ((Element) in).getElementsByTagName("note");
       int length = nl.getLength();
-      for(int i = 0; i < length; i++) {
+      for (int i = 0; i < length; i++) {
         addLemma(Note.builder().from(nl.item(i)).build());
       }
       return this;
@@ -66,17 +65,17 @@ public class Annotation extends Apparatus<Note> {
 
     public AnnotationBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
       org.w3c.dom.Document doc = new XMLDriver().drive(in);
-      return from(doc.getElementsByTagName("annotations").item(0));      
+      return from(doc.getElementsByTagName("annotations").item(0));
     }
 
     public AnnotationBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerConfigurationException, TransformerException {
       org.w3c.dom.Document doc = new XMLDriver().drive(in);
-      return from(doc.getElementsByTagName("annotations").item(0));      
+      return from(doc.getElementsByTagName("annotations").item(0));
     }
-    
+
     public AnnotationBuilder from(String source, InputStream stream) throws ParserConfigurationException, TransformerConfigurationException, SAXException, TransformerException, IOException, XPathExpressionException {
       org.w3c.dom.Document doc = new XMLDriver().drive(source, stream);
-      return from(doc.getElementsByTagName("annotations").item(0));      
+      return from(doc.getElementsByTagName("annotations").item(0));
     }
 
   }
@@ -84,7 +83,7 @@ public class Annotation extends Apparatus<Note> {
   public static AnnotationBuilder builder() {
     return new AnnotationBuilder();
   }
-  
+
   private Annotation(String source, List<Note> lemmas) {
     super(source, lemmas);
   }

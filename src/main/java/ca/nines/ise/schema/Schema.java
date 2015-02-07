@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.schema;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -39,7 +38,7 @@ import org.xml.sax.SAXException;
 /**
  * A schema is a collection of Tags, and a little bit of metadata to describe
  * the schema.
- * 
+ *
  * Schemas are immutable. Use SchemaBuilder to create them.
  *
  * @author Michael Joyce <ubermichael@gmail.com>

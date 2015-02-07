@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import java.io.IOException;
@@ -41,7 +40,7 @@ public class DigraphCharNodeTest extends CharNodeTestBase {
     testExpansion("{db}", "\u0238", new DigraphCharNode());
     testExpansion("{pd}", "\uFFFD", new DigraphCharNode(), new String[]{"char.digraph.unknown"});
   }
-  
+
   @Test
   public void textUnicodify() throws IOException {
     testUnicodify("{ae}", "\u00e6", new DigraphCharNode());
@@ -52,5 +51,5 @@ public class DigraphCharNodeTest extends CharNodeTestBase {
     testUnicodify("{db}", "\u0238", new DigraphCharNode());
     testUnicodify("{pd}", "\uFFFD", new DigraphCharNode(), new String[]{"char.digraph.unknown"});
   }
-  
+
 }

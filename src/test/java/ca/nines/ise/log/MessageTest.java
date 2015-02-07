@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import org.junit.Test;
@@ -76,12 +75,12 @@ public class MessageTest {
     b = Message.builder("m1").setSource("bar").setLineNumber(5).build();
     assertTrue(a.compareTo(b) < 0);
     assertTrue(b.compareTo(a) > 0);
-    
+
     a = Message.builder("m1").setSource("bar").setLineNumber(3).setColumnNumber(43).build();
     b = Message.builder("m1").setSource("bar").setLineNumber(3).setColumnNumber(384).build();
     assertTrue(a.compareTo(b) < 0);
     assertTrue(b.compareTo(a) > 0);
-    
+
     a = Message.builder("m1").setSource("bar").setLineNumber(3).setColumnNumber(43).build();
     b = Message.builder("m1").setSource("bar").setLineNumber(3).setColumnNumber(43).build();
     assertTrue(a.compareTo(b) == 0);

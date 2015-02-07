@@ -14,18 +14,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.util;
 
 import java.util.Formatter;
 
 /**
- * Location data to add to an XML node. 
- * 
+ * Location data to add to an XML node.
+ *
  * All location data is added during the parsing process in a user data
  * attribute for each node.
  *
- * see http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
+ * see
+ * http://javacoalface.blogspot.ca/2011/04/line-and-column-numbers-in-xml-dom.html
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -45,17 +45,17 @@ public class LocationData {
    * The line number of the start tag.
    */
   private final int startLine;
-  
+
   /**
    * The column of the start tag.
    */
   private final int startColumn;
-  
+
   /**
    * The line of the end tag.
    */
   private final int endLine;
-  
+
   /**
    * The column of the end tag,
    */
@@ -72,7 +72,7 @@ public class LocationData {
 
   /**
    * The systemID (usually a file path) for the XML data.
-   * 
+   *
    * @return a description of the source of the XML data
    */
   public String getSystemId() {
@@ -81,7 +81,7 @@ public class LocationData {
 
   /**
    * Gets line number of the start tag
-   * 
+   *
    * @return line number
    */
   public int getStartLine() {
@@ -90,7 +90,7 @@ public class LocationData {
 
   /**
    * Gets the column number of the start tag
-   * 
+   *
    * @return the column number
    */
   public int getStartColumn() {
@@ -99,7 +99,7 @@ public class LocationData {
 
   /**
    * Gets the line number of the end tag
-   * 
+   *
    * @return end line number
    */
   public int getEndLine() {
@@ -108,7 +108,7 @@ public class LocationData {
 
   /**
    * Gets the column number of the end tag
-   * 
+   *
    * @return end column number
    */
   public int getEndColumn() {
@@ -117,7 +117,7 @@ public class LocationData {
 
   /**
    * Stringifies the location data. Really only useful for debugging.
-   * 
+   *
    * @return a mostly-useless string.
    */
   @Override

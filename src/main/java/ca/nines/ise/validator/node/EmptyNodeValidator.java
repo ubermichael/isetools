@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
@@ -42,10 +41,11 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
 
   /**
    * Validate the end node.
-   * 
+   *
    * @param n EmptyNode to validate.
    * @param schema Schema to validate against.
-   * @throws ca.nines.ise.exceptions.AttributeTypeException for unknown attribute types. 
+   * @throws ca.nines.ise.exceptions.AttributeTypeException for unknown
+   * attribute types.
    */
   @ErrorCode(code = {
     "validator.tag.unknown",

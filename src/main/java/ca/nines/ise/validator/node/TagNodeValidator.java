@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.exceptions.AttributeTypeException;
@@ -57,13 +56,14 @@ abstract public class TagNodeValidator<T extends TagNode> implements NodeValidat
 
   /**
    * Validate a tag node.
-   * 
+   *
    * @param node The tag node to validate.
    * @param schema The schema to validate against.
-   * @throws ca.nines.ise.exceptions.AttributeTypeException if the node contains an attribute of an unknown type.
+   * @throws ca.nines.ise.exceptions.AttributeTypeException if the node contains
+   * an attribute of an unknown type.
    */
   @Override
-  abstract public void validate(T node, Schema schema) throws AttributeTypeException ;
+  abstract public void validate(T node, Schema schema) throws AttributeTypeException;
 
   /**
    * Validate an attribute, by calling one of the validate_attribute_*
@@ -75,10 +75,11 @@ abstract public class TagNodeValidator<T extends TagNode> implements NodeValidat
    * <li>The attribute type (as defined in the schema) must be defined.</li>
    * </ul>
    * <p>
-   * @param n    TagNode to validate
+   * @param n TagNode to validate
    * @param attr attribute to validate against
-   * <p> 
-   * @throws ca.nines.ise.exceptions.AttributeTypeException if the attribute type is unknown.
+   * <p>
+   * @throws ca.nines.ise.exceptions.AttributeTypeException if the attribute
+   * type is unknown.
    */
   @ErrorCode(code = {
     "validator.attribute.unknowntype"
@@ -106,9 +107,9 @@ abstract public class TagNodeValidator<T extends TagNode> implements NodeValidat
    * Additionally, each of the attributes defined as required for the tag must
    * be present.
    * <p>
-   * <b>Warning</b>: validate_attributes will silently ignore nodes which do not have a
-   * definition in the schema. It is the responsibility of calling classes to
-   * check that the schema contains a definition or the node.
+   * <b>Warning</b>: validate_attributes will silently ignore nodes which do not
+   * have a definition in the schema. It is the responsibility of calling
+   * classes to check that the schema contains a definition or the node.
    * <p>
    * @param n TagNode to validate
    * @param schema Schema to validate against

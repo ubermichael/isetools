@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -32,7 +31,7 @@ public class SpaceCharNode extends CharNode {
 
   /**
    * Turn a space character into a fragment.
-   * 
+   *
    * @return Fragment
    */
   @Override
@@ -69,7 +68,7 @@ public class SpaceCharNode extends CharNode {
 
   /**
    * @return the charType
-   */  
+   */
   @Override
   public CharNode.CharType getCharType() {
     return CharType.SPACE;

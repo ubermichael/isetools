@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -55,8 +54,9 @@ public class UnicodeCharNodeTest extends TestBase {
   public void tearDown() throws Exception {
   }
 
-    /**
+  /**
    * Test of expanded method, of class DigraphCharNode.
+   *
    * @throws java.io.IOException
    */
   @Test
@@ -71,11 +71,11 @@ public class UnicodeCharNodeTest extends TestBase {
     testExpansion("{pd}", "\uFFFD", new String[]{"char.unicode.unknown"});
   }
 
-    private void testExpansion(String text, String unicode) throws IOException {
+  private void testExpansion(String text, String unicode) throws IOException {
     testExpansion(text, unicode, new String[]{});
     checkLog();
   }
-  
+
   private void testExpansion(String text, String unicode, String[] errors) throws IOException {
     CharNode charNode = new UnicodeCharNode();
     charNode.setText(text);

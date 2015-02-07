@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.dom.DOMBuilder;
@@ -49,33 +48,33 @@ public class Abbrs extends Command {
    */
   @Override
   public void execute(CommandLine cmd) throws Exception {
-      File[] files;
+    File[] files;
 
-      Locale.setDefault(Locale.ENGLISH);
-      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+    Locale.setDefault(Locale.ENGLISH);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
-      if (cmd.hasOption("l")) {
-        out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
-      }
+    if (cmd.hasOption("l")) {
+      out = new PrintStream(new FileOutputStream(cmd.getOptionValue("l")), true, "UTF-8");
+    }
 
-      files = getFilePaths(cmd);
-      Formatter formatter = new Formatter(out);
+    files = getFilePaths(cmd);
+    Formatter formatter = new Formatter(out);
 
-      if (files != null) {
-        out.println("Found " + files.length + " files to check.");
-        for (File in : files) {
-          DOM dom = new DOMBuilder(in).build();
-          for(Node n : dom) {
-            if (n.type() == NodeType.ABBR) {
-              formatter.format("%s:%d:%d%n", n.getSource(), n.getLine(), n.getColumn());
-              formatter.format("  near TLN %s%n", n.getTLN());
-              formatter.format("  %s%n", n.getText().substring(0, Math.min(64, n.getText().length())));
-              formatter.format("  %s%n", dom.getLine(n.getLine() - 1));
-              formatter.format("%n");
-            }
+    if (files != null) {
+      out.println("Found " + files.length + " files to check.");
+      for (File in : files) {
+        DOM dom = new DOMBuilder(in).build();
+        for (Node n : dom) {
+          if (n.type() == NodeType.ABBR) {
+            formatter.format("%s:%d:%d%n", n.getSource(), n.getLine(), n.getColumn());
+            formatter.format("  near TLN %s%n", n.getTLN());
+            formatter.format("  %s%n", n.getText().substring(0, Math.min(64, n.getText().length())));
+            formatter.format("  %s%n", dom.getLine(n.getLine() - 1));
+            formatter.format("%n");
           }
         }
       }
+    }
   }
 
   /**

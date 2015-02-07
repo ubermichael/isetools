@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.writer;
 
 import ca.nines.ise.annotation.ErrorCode;
@@ -73,7 +72,7 @@ public class RTFWriter extends Writer {
     this(System.out);
   }
 
-  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException  {
+  public RTFWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
@@ -91,7 +90,7 @@ public class RTFWriter extends Writer {
     exit.setAlignment(Element.ALIGN_RIGHT);
     exit.setStyle(Font.ITALIC);
     writer.getDocumentSettings().registerParagraphStyle(exit);
-    
+
     p1 = new RtfParagraphStyle("ISE p1", "ISE Normal");
     p1.setFirstLineIndent(-19);
     p1.setIndentLeft(19);
@@ -103,13 +102,13 @@ public class RTFWriter extends Writer {
     p2.setIndentLeft(38);
     p2.setIndentRight(49);
     writer.getDocumentSettings().registerParagraphStyle(p2);
-	
-	fnStyle = new RtfParagraphStyle("ISE Footnote", "ISE Normal");
-	fnStyle.setFirstLineIndent(-19);
-	fnStyle.setIndentLeft(38);
-	fnStyle.setIndentRight(0);
-	fnStyle.setSize(10);
-	writer.getDocumentSettings().registerParagraphStyle(fnStyle);
+
+    fnStyle = new RtfParagraphStyle("ISE Footnote", "ISE Normal");
+    fnStyle.setFirstLineIndent(-19);
+    fnStyle.setIndentLeft(38);
+    fnStyle.setIndentRight(0);
+    fnStyle.setSize(10);
+    writer.getDocumentSettings().registerParagraphStyle(fnStyle);
   }
 
   private void startParagraph() throws DocumentException {
@@ -128,7 +127,7 @@ public class RTFWriter extends Writer {
       p.add(new Chunk(txt, fontStack.getFirst()));
     }
   }
-  
+
   private void footnote(Note note) throws IOException, DocumentException {
 //	Footnote fn = new Footnote();
 //	Paragraph fp = new Paragraph("", fnStyle);
@@ -137,53 +136,52 @@ public class RTFWriter extends Writer {
 //	fn.add(fp);
 //	p.add(fn);
   }
-  
-  @ErrorCode(code={"rtfwriter.note.notfound"})
+
+  @ErrorCode(code = {"rtfwriter.note.notfound"})
   private void preprocess(DOM dom, Annotation ann) throws IOException {
-	int i = 0;
-	for(Note note : ann) {
-	  
-	  String lemmaSrc = note.getLem();
-	  if(note.isLemSplit()) {
-		lemmaSrc = note.getLemEnd();
-	  }
-	  
-	  String lemmaStr = new DOMBuilder(lemmaSrc).build().unicode();
-	  String tlnStr = note.getTln();
-	  int length = 2;
-	  if(note.isTlnSplit()) {
-		tlnStr = note.getTlnStart();
-		length = 6;
-	  }
-	  
-	  Fragment frag = dom.getTlnFragment(tlnStr, length);	  
-	  Node tln = dom.getTln(tlnStr);
-	  int offset = frag.unicode().indexOf(lemmaStr);
-	  if(offset == -1) {
-		Message m = Message.builder("rtfwriter.note.notfound")
-				.addNote("Cannot find lemma '" + lemmaStr + "' near TLN " + tlnStr)
-				.addNote("lemSplit: " + note.isLemSplit() + " tlnSplit: " + note.isTlnSplit())
-				.addNote(note.toString())
-				.build();
-		Log.addMessage(m);
-		continue;
-	  }
-	  offset += lemmaStr.length();
-	  Node n = tln;
-	  while(offset > 0) {
-		n = dom.get(n.getPosition()+ 1);
-		if(n instanceof TextNode) {
-		  offset -= n.getText().length();
-		}
-	  }
-	  String txt = n.getText();
-	  EmptyNode fn = new EmptyNode("FNLOC");
-	  fn.setAttribute("ref", "" + note.getId());
-	  dom.splitTextNode((TextNode)n, txt.length()+offset, fn);
-	}
-  }	
-  
-  
+    int i = 0;
+    for (Note note : ann) {
+
+      String lemmaSrc = note.getLem();
+      if (note.isLemSplit()) {
+        lemmaSrc = note.getLemEnd();
+      }
+
+      String lemmaStr = new DOMBuilder(lemmaSrc).build().unicode();
+      String tlnStr = note.getTln();
+      int length = 2;
+      if (note.isTlnSplit()) {
+        tlnStr = note.getTlnStart();
+        length = 6;
+      }
+
+      Fragment frag = dom.getTlnFragment(tlnStr, length);
+      Node tln = dom.getTln(tlnStr);
+      int offset = frag.unicode().indexOf(lemmaStr);
+      if (offset == -1) {
+        Message m = Message.builder("rtfwriter.note.notfound")
+                .addNote("Cannot find lemma '" + lemmaStr + "' near TLN " + tlnStr)
+                .addNote("lemSplit: " + note.isLemSplit() + " tlnSplit: " + note.isTlnSplit())
+                .addNote(note.toString())
+                .build();
+        Log.addMessage(m);
+        continue;
+      }
+      offset += lemmaStr.length();
+      Node n = tln;
+      while (offset > 0) {
+        n = dom.get(n.getPosition() + 1);
+        if (n instanceof TextNode) {
+          offset -= n.getText().length();
+        }
+      }
+      String txt = n.getText();
+      EmptyNode fn = new EmptyNode("FNLOC");
+      fn.setAttribute("ref", "" + note.getId());
+      dom.splitTextNode((TextNode) n, txt.length() + offset, fn);
+    }
+  }
+
   @Override
   public void render(DOM dom) throws DocumentException, IOException {
     render(dom, Annotation.builder().build());
@@ -191,8 +189,8 @@ public class RTFWriter extends Writer {
 
   @Override
   public void render(DOM dom, Annotation annotation) throws DocumentException, IOException {
-	this.preprocess(dom, annotation);
-	
+    this.preprocess(dom, annotation);
+
     fontStack = new ArrayDeque<>();
     fontStack.push(FontFactory.getFont("Times New Roman", 12, Color.BLACK));
     Font font;
@@ -203,7 +201,7 @@ public class RTFWriter extends Writer {
     boolean inS = false; // in a speech
     boolean inHW = false;
     char part = 'i';
-    
+
     String mode = "verse";
 
     Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
@@ -211,7 +209,7 @@ public class RTFWriter extends Writer {
     doc.open();
     startParagraph();
 
-    for(Node n : dom) {
+    for (Node n : dom) {
       switch (n.type()) {
         case ABBR:
           break;
@@ -220,15 +218,15 @@ public class RTFWriter extends Writer {
           break;
         case EMPTY:
           switch (n.getName()) {
-			case "FNLOC":
-			  EmptyNode fnloc = (EmptyNode)n;
-			  Note note = annotation.get(Integer.parseInt(fnloc.getAttribute("ref")) - 1);
-			  if( ! note.hasNoteLevel("1")) {
-				break;
-			  }
-			  this.footnote(note);
-			  //addChunk("[<" + note.getNote("1").unicode().trim() + ">]");
-			  break;
+            case "FNLOC":
+              EmptyNode fnloc = (EmptyNode) n;
+              Note note = annotation.get(Integer.parseInt(fnloc.getAttribute("ref")) - 1);
+              if (!note.hasNoteLevel("1")) {
+                break;
+              }
+              this.footnote(note);
+              //addChunk("[<" + note.getNote("1").unicode().trim() + ">]");
+              break;
             case "TLN":
             case "L":
               if (inS) {
@@ -320,8 +318,8 @@ public class RTFWriter extends Writer {
             addChunk(txt.toUpperCase());
             break;
           }
-          
-          if(inHW) {
+
+          if (inHW) {
             txt = txt.replaceFirst("[(]", "");
             inHW = false;
           }

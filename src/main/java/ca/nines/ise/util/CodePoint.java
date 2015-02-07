@@ -33,42 +33,42 @@ public class CodePoint {
   private final int value;
 
   public CodePoint(String name, int value) {
-	this.name = name;
-	this.value = value;
+    this.name = name;
+    this.value = value;
   }
 
   /**
    * @return the name
    */
   public String getName() {
-	return name;
+    return name;
   }
 
   /**
    * @return the value
    */
   public String getValue() {
-	return new String(Character.toChars(value));
+    return new String(Character.toChars(value));
   }
-  
+
   public int dec() {
-	return value;
+    return value;
   }
-  
+
   public String hex() {
-	return String.format("%04x", value);
+    return String.format("%04x", value);
   }
-  
+
   public String unicodePoint() {
-	return String.format("U+%s", hex());
+    return String.format("U+%s", hex());
   }
-  
+
   public String description() {
-	return Character.getName(value);
+    return Character.getName(value);
   }
-  
+
   public String toString() {
-	return String.format("%12s %2s %4d %4s %6s", name, getValue(), dec(), hex(), unicodePoint());
+    return String.format("%12s %2s %4d %4s %6s", name, getValue(), dec(), hex(), unicodePoint());
   }
-  
+
 }

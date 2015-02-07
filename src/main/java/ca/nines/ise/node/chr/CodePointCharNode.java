@@ -62,14 +62,14 @@ public class CodePointCharNode extends CharNode {
    * @return Fragment
    */
   private Fragment expandNumeric(String value, int base) {
-	int codePoint = Integer.parseInt(value, base);
-	char[] c = Character.toChars(codePoint);
-	String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
-	return wrap("CODEPOINT", str);
+    int codePoint = Integer.parseInt(value, base);
+    char[] c = Character.toChars(codePoint);
+    String str = Normalizer.normalize(new String(c), Normalizer.Form.NFC);
+    return wrap("CODEPOINT", str);
   }
 
   /**
-   * Expand a named entity into a fragment. Unknown named characters will be 
+   * Expand a named entity into a fragment. Unknown named characters will be
    * replaced with U+FFFD, and an error will be logged.
    *
    * @param value
@@ -77,20 +77,20 @@ public class CodePointCharNode extends CharNode {
    * @throws IOException
    */
   private Fragment expandNamed(String value) throws IOException {
-	if (tbl == null) {
-	  tbl = CodePointTable.defaultCodePointTable();
-	}
-	CodePoint cp = tbl.getCodePoint(value);
-	if (cp == null) {
-	  Message message = Message.builder("char.codepoint.unknown")
-			  .fromNode(this)
-			  .addNote("The named character " + innerText() + " is not defined.")
-			  .build();
-	  Log.getInstance().add(message);
-	  return wrap("CODEPOINT", "\uFFFD");
-	} else {
-	  return wrap("CODEPOINT", cp.getValue());
-	}
+    if (tbl == null) {
+      tbl = CodePointTable.defaultCodePointTable();
+    }
+    CodePoint cp = tbl.getCodePoint(value);
+    if (cp == null) {
+      Message message = Message.builder("char.codepoint.unknown")
+              .fromNode(this)
+              .addNote("The named character " + innerText() + " is not defined.")
+              .build();
+      Log.getInstance().add(message);
+      return wrap("CODEPOINT", "\uFFFD");
+    } else {
+      return wrap("CODEPOINT", cp.getValue());
+    }
   }
 
   /**
@@ -102,28 +102,28 @@ public class CodePointCharNode extends CharNode {
   @Override
   public Fragment expanded() throws IOException {
 
-	Matcher m;
+    Matcher m;
 
 	// @TODO these should be refactored into classes, and the parser
-	// should distinguish them.
-	m = hexEntity.matcher(innerText());
-	if (m.matches()) {
-	  return expandNumeric(m.group(1), 16);
-	}
-	m = decimalEntity.matcher(innerText());
-	if (m.matches()) {
-	  return expandNumeric(m.group(1), 10);
-	}
-	m = namedEntity.matcher(innerText());
-	if (m.matches()) {
-	  return expandNamed(m.group(1));
-	}
-	Message message = Message.builder("char.codepoint.unknown")
-			.fromNode(this)
-			.addNote("Cannot parse " + innerText() + " as a code point.")
-			.build();
-	Log.getInstance().add(message);
-	return null;
+    // should distinguish them.
+    m = hexEntity.matcher(innerText());
+    if (m.matches()) {
+      return expandNumeric(m.group(1), 16);
+    }
+    m = decimalEntity.matcher(innerText());
+    if (m.matches()) {
+      return expandNumeric(m.group(1), 10);
+    }
+    m = namedEntity.matcher(innerText());
+    if (m.matches()) {
+      return expandNamed(m.group(1));
+    }
+    Message message = Message.builder("char.codepoint.unknown")
+            .fromNode(this)
+            .addNote("Cannot parse " + innerText() + " as a code point.")
+            .build();
+    Log.getInstance().add(message);
+    return null;
   }
 
   /**
@@ -131,7 +131,7 @@ public class CodePointCharNode extends CharNode {
    */
   @Override
   public CharType getCharType() {
-	return CharType.CODEPOINT;
+    return CharType.CODEPOINT;
   }
 
 }

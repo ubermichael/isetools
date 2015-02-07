@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.validator.node.*;
@@ -26,9 +25,9 @@ import ca.nines.ise.schema.Attribute;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
- * Validate a list attribute value. A list attribute is valid
- * if it contains a comma separated list of values, and each
- * of those values is defined in the schema.
+ * Validate a list attribute value. A list attribute is valid if it contains a
+ * comma separated list of values, and each of those values is defined in the
+ * schema.
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -44,7 +43,7 @@ public class ListAttributeValidator implements AttributeValidator {
    * in the list must be one of the allowed values.</li>
    * </ul>
    * <p>
-   * @param n    TagNode to validate
+   * @param n TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {

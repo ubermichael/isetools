@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.exceptions.AttributeTypeException;
@@ -28,7 +27,7 @@ import ca.nines.ise.schema.Schema;
 public class TagNodeValidatorImpl extends TagNodeValidator<TagNode> {
 
   @Override
-  public void validate(TagNode node, Schema schema) throws AttributeTypeException  {
+  public void validate(TagNode node, Schema schema) throws AttributeTypeException {
     validate_attributes(node, schema);
   }
 }

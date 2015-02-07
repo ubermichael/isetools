@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import java.io.IOException;
@@ -28,9 +27,10 @@ public class AccentCharNodeTest extends CharNodeTestBase {
 
   /**
    * Test of expanded method, of class AccentCharNode.
-   * 
-   * Check that all the new nodes have the correct line, column, etc. here.
-   * It isn't really necessary to repeat those tests elsewhere.
+   *
+   * Check that all the new nodes have the correct line, column, etc. here. It
+   * isn't really necessary to repeat those tests elsewhere.
+   *
    * @throws java.io.IOException
    */
   @Test
@@ -54,5 +54,5 @@ public class AccentCharNodeTest extends CharNodeTestBase {
     testUnicodify("{~e}", "e\u0303", new AccentCharNode());
     testUnicodify("{!e}", "e\uFFFD", new AccentCharNode(), new String[]{"char.accent.unknown"});
   }
-    
+
 }

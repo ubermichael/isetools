@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
@@ -45,14 +44,14 @@ public class AbbrNodeValidator implements NodeValidator<AbbrNode> {
 
   /**
    * The maximum length of abbreviation markup.
-   * 
+   *
    * TODO make this a configuration variable.
    */
   public final static int ABBR_LENGTH = 12;
 
   /**
    * Validate the abbreviation.
-   * 
+   *
    * @param n AbbrNode to validate.
    * @param schema Schema to validate against.
    */
@@ -68,7 +67,7 @@ public class AbbrNodeValidator implements NodeValidator<AbbrNode> {
             .addNote("The old abbreviation found was " + n.getText())
             .build();
     Log.addMessage(m);
-            
+
     if (n.getText().length() > ABBR_LENGTH) {
       m = Message.builder("validator.abbr.long")
               .fromNode(n)

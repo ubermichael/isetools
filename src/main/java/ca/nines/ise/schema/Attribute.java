@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.schema;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -194,7 +193,7 @@ public class Attribute implements Comparable<Attribute> {
 
       tmp = map.getNamedItem("optional");
       setOptional(tmp != null && tmp.getTextContent().equals("yes"));
-      
+
       tmp = map.getNamedItem("empty");
       setEmpty(tmp != null && tmp.getTextContent().equals("yes"));
 
@@ -525,7 +524,7 @@ public class Attribute implements Comparable<Attribute> {
    * @return String the attribute type
    */
   public String getTypeName() {
-    if(type == null) {
+    if (type == null) {
       return "";
     }
     return type.name().toLowerCase();

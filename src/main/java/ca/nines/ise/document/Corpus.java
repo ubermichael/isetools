@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.document;
 
 import java.io.File;
@@ -47,7 +46,7 @@ public class Corpus {
 
   /**
    * Construct a corpus for a file system path.
-   * 
+   *
    * @param root Path to the root of the corpus.
    */
   public Corpus(String root) {
@@ -56,7 +55,7 @@ public class Corpus {
 
   /**
    * Construct a corpus for a file system path.
-   * 
+   *
    * @param root Root of the corpus on the file system.
    */
   public Corpus(File root) {
@@ -65,7 +64,7 @@ public class Corpus {
 
   /**
    * Get a work from the corpus
-   * 
+   *
    * @param code
    * @return Work
    * @throws IOException if the work does not exist.
@@ -91,9 +90,9 @@ public class Corpus {
 
   /**
    * Return a list of Works, sorted by play code.
-   * 
+   *
    * @return Work[]
-   * @throws IOException 
+   * @throws IOException
    */
   public Work[] getWorks() throws IOException {
     File[] dirs = ArrayUtils.addAll(
@@ -123,7 +122,7 @@ public class Corpus {
 
   /**
    * Produce a human-readable description of the corpus.
-   * 
+   *
    * @return String
    */
   @Override

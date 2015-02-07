@@ -43,10 +43,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Text;
 
 /**
- * Serialize a DOM into XML. All output is UTF-8 encoded. 
- * 
+ * Serialize a DOM into XML. All output is UTF-8 encoded.
+ *
  * <b>NOTE</b>: The generated XML is surrounded in &lt;root&gt; tags. This is a
- * bug and will be fixed in the future. 
+ * bug and will be fixed in the future.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -54,9 +54,9 @@ public class XMLWriter extends Writer {
 
   /**
    * Construct an XMLWriter and send output to System.out.
-   * 
+   *
    * @throws ParserConfigurationException
-   * @throws UnsupportedEncodingException 
+   * @throws UnsupportedEncodingException
    */
   public XMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
@@ -64,11 +64,11 @@ public class XMLWriter extends Writer {
 
   /**
    * Construct an XMLWriter and send the output to the print stream.
-   * 
+   *
    * @param out the output destination.
-   * 
+   *
    * @throws ParserConfigurationException
-   * @throws UnsupportedEncodingException 
+   * @throws UnsupportedEncodingException
    */
   public XMLWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
     super(out);
@@ -76,12 +76,12 @@ public class XMLWriter extends Writer {
 
   /**
    * Render the DOM into XML.
-   * 
+   *
    * @param dom
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws IOException
-   * @throws Exception 
+   * @throws Exception
    */
   @Override
   public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
@@ -178,13 +178,13 @@ public class XMLWriter extends Writer {
 
   /**
    * Unsupported.
-   * 
+   *
    * @param dom
    * @param ann
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws IOException
-   * @throws Exception 
+   * @throws Exception
    */
   @Override
   public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {

@@ -304,7 +304,7 @@ public class NullTransform extends Transformer {
 
   @Override
   public void end_pn(EndNode n) {
-    
+
   }
 
   @Override
@@ -626,10 +626,10 @@ public class NullTransform extends Transformer {
   public void start_prologue(StartNode n) {
 
   }
-  
+
   @Override
   public void start_pn(StartNode n) {
-    
+
   }
 
   @Override

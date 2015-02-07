@@ -14,8 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
 package ca.nines.ise.log;
 
 import org.junit.Test;
@@ -31,7 +29,7 @@ public class LogTest {
   public void testAddMessage() {
     Log log = Log.getInstance();
     log.clear();
-    
+
     Message m = Message.builder("foo").build();
     Log.addMessage(m);
     assertEquals(log.count(), 1);
@@ -46,7 +44,7 @@ public class LogTest {
   public void testAdd() {
     Log log = Log.getInstance();
     log.clear();
-    
+
     Message m = Message.builder("foo").build();
     log.add(m);
     assertEquals(log.count(), 1);
@@ -66,6 +64,5 @@ public class LogTest {
     log.clear();
     assertTrue(log.count() == 0);
   }
-
 
 }

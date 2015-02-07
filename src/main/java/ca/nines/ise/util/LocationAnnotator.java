@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.util;
 
 import java.util.ArrayDeque;
@@ -45,7 +44,7 @@ public class LocationAnnotator extends XMLFilterImpl {
    * Locator returned by the construction process.
    */
   private Locator locator;
-  
+
   /**
    * The systemID of the XML.
    */
@@ -55,7 +54,7 @@ public class LocationAnnotator extends XMLFilterImpl {
    * Stack to hold the locators which haven't been completed yet.
    */
   private final ArrayDeque<Locator> locatorStack = new ArrayDeque<>();
-  
+
   /**
    * Stack holding incomplete elements.
    */
@@ -69,7 +68,7 @@ public class LocationAnnotator extends XMLFilterImpl {
   /**
    * Construct a location annotator for an XMLReader and Document. The systemID
    * is determined automatically.
-   * 
+   *
    * @param xmlReader the reader to use the annotator
    * @param dom the DOM to annotate
    */
@@ -90,11 +89,11 @@ public class LocationAnnotator extends XMLFilterImpl {
   /**
    * Construct a location annotator for an XMLReader and Document. The systemID
    * is NOT determined automatically.
-   * 
+   *
    * @param source the systemID of the XML
    * @param xmlReader the reader to use the annotator
    * @param dom the DOM to annotate
-   */  
+   */
   LocationAnnotator(String source, XMLReader xmlReader, Document dom) {
     super(xmlReader);
     this.source = source;
@@ -111,7 +110,7 @@ public class LocationAnnotator extends XMLFilterImpl {
 
   /**
    * Add the locator to the document during the parse.
-   * 
+   *
    * @param locator the locator to add
    */
   @Override
@@ -122,12 +121,12 @@ public class LocationAnnotator extends XMLFilterImpl {
 
   /**
    * Handle the start tag of an element by adding locator data.
-   * 
+   *
    * @param uri The systemID of the XML.
    * @param localName the name of the tag. unused.
    * @param qName the FQDN of the tag. unused.
    * @param atts the attributes of the tag. unused.
-   * @throws SAXException 
+   * @throws SAXException
    */
   @Override
   public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
@@ -137,11 +136,11 @@ public class LocationAnnotator extends XMLFilterImpl {
 
   /**
    * Handle the end tag of an element by adding locator data.
-   * 
+   *
    * @param uri The systemID of the XML.
    * @param localName the name of the tag. unused.
    * @param qName the FQDN of the tag. unused.
-   * @throws SAXException 
+   * @throws SAXException
    */
   @Override
   public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -170,8 +169,9 @@ public class LocationAnnotator extends XMLFilterImpl {
   private class LocationDataHandler implements UserDataHandler {
 
     /**
-     * Handle an even during a parse. An even is a start/end/empty tag or some data.
-     * 
+     * Handle an even during a parse. An even is a start/end/empty tag or some
+     * data.
+     *
      * @param operation unused.
      * @param key unused
      * @param data unused

@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.annotation;
 
 import java.lang.annotation.ElementType;
@@ -24,9 +23,9 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Documented;
 
 /**
- * Error code annotation, for use in documenting code and in generating lists
- * of error messages. Use it like this in source code:
- * 
+ * Error code annotation, for use in documenting code and in generating lists of
+ * error messages. Use it like this in source code:
+ *
  * <pre>
  *   \@ErrorCode(code={"Error1", "Error2"})
  * </pre>

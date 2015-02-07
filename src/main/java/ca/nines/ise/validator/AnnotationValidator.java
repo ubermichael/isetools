@@ -14,8 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
 package ca.nines.ise.validator;
 
 import ca.nines.ise.document.Annotation;
@@ -32,19 +30,19 @@ public class AnnotationValidator extends ApparatusValidator<Annotation> {
   // validates the markup in the note's levels
   public void validate_levels(Note n) {
   }
-  
+
   // validate a note against the dom.
   public void validate(DOM dom, Note n) throws IOException {
     super.validate(dom, n);
     validate_levels(n);
   }
-  
+
   public void validate(DOM dom, Annotation a) throws IOException {
     for (Note n : a) {
       validate(n);
       validate(dom, n);
     }
-    
+
   }
-  
+
 }

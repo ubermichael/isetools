@@ -35,56 +35,56 @@ import static org.junit.Assert.assertEquals;
 abstract public class CharNodeTestBase extends TestBase {
 
   protected void testUnicodify(String text, String unicode, CharNode charNode) throws IOException {
-	testUnicodify(text, unicode, charNode, new String[]{});
+    testUnicodify(text, unicode, charNode, new String[]{});
   }
 
   protected void testUnicodify(String text, String unicode, CharNode charNode, String[] errors) throws IOException {
-	charNode.setText(text);
-	String u = Normalizer.normalize(charNode.unicode(), Form.NFC);
-	String n = Normalizer.normalize(unicode, Form.NFC);
-	assertEquals(u, n);
-	checkLog(errors);
+    charNode.setText(text);
+    String u = Normalizer.normalize(charNode.unicode(), Form.NFC);
+    String n = Normalizer.normalize(unicode, Form.NFC);
+    assertEquals(u, n);
+    checkLog(errors);
   }
 
   protected void testExpansion(String text, String unicode, CharNode charNode) throws IOException {
-	testExpansion(text, unicode, charNode, new String[]{});
+    testExpansion(text, unicode, charNode, new String[]{});
   }
 
   protected void testExpansion(String text, String unicode, CharNode charNode, String[] errors) throws IOException {
-	charNode.setText(text);
-	charNode.setAsl("3.2.1");
-	charNode.setColumn(42);
-	charNode.setLine(420);
-	charNode.setTLN("11.3");
-	Fragment dom = charNode.expanded();
-	Iterator<Node> iterator = dom.iterator();
-	Node node;
+    charNode.setText(text);
+    charNode.setAsl("3.2.1");
+    charNode.setColumn(42);
+    charNode.setLine(420);
+    charNode.setTLN("11.3");
+    Fragment dom = charNode.expanded();
+    Iterator<Node> iterator = dom.iterator();
+    Node node;
 
-	assertEquals(3, dom.size());
-	node = iterator.next();
-	assertEquals("START", node.type().name());
-	assertEquals("3.2.1", node.getAsl());
-	assertEquals(42, node.getColumn());
-	assertEquals(420, node.getLine());
-	assertEquals("11.3", node.getTLN());
-	assertArrayEquals(new String[]{"setting"}, ((TagNode) node).getAttributeNames());
-	assertEquals(text, ((TagNode) node).getAttribute("setting"));
+    assertEquals(3, dom.size());
+    node = iterator.next();
+    assertEquals("START", node.type().name());
+    assertEquals("3.2.1", node.getAsl());
+    assertEquals(42, node.getColumn());
+    assertEquals(420, node.getLine());
+    assertEquals("11.3", node.getTLN());
+    assertArrayEquals(new String[]{"setting"}, ((TagNode) node).getAttributeNames());
+    assertEquals(text, ((TagNode) node).getAttribute("setting"));
 
-	node = iterator.next();
-	assertEquals("TEXT", node.type().name());
-	assertEquals("3.2.1", node.getAsl());
-	assertEquals(42, node.getColumn());
-	assertEquals(420, node.getLine());
-	assertEquals("11.3", node.getTLN());
-	assertEquals(Normalizer.normalize(unicode, Normalizer.Form.NFC), node.getText());
+    node = iterator.next();
+    assertEquals("TEXT", node.type().name());
+    assertEquals("3.2.1", node.getAsl());
+    assertEquals(42, node.getColumn());
+    assertEquals(420, node.getLine());
+    assertEquals("11.3", node.getTLN());
+    assertEquals(Normalizer.normalize(unicode, Normalizer.Form.NFC), node.getText());
 
-	node = iterator.next();
-	assertEquals("END", node.type().name());
-	assertEquals("3.2.1", node.getAsl());
-	assertEquals(42, node.getColumn());
-	assertEquals(420, node.getLine());
-	assertEquals("11.3", node.getTLN());
-	checkLog(errors);
+    node = iterator.next();
+    assertEquals("END", node.type().name());
+    assertEquals("3.2.1", node.getAsl());
+    assertEquals(42, node.getColumn());
+    assertEquals(420, node.getLine());
+    assertEquals("11.3", node.getTLN());
+    checkLog(errors);
   }
 
 }

@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.dom.Fragment;
@@ -42,6 +41,7 @@ abstract public class CharNode extends Node {
    * Character types.
    */
   public enum CharType {
+
     ACCENT,
     CODEPOINT,
     DIGRAPH,
@@ -54,6 +54,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Get the name of a character type.
+   *
    * @return the character type name.
    */
   public String getCharName() {
@@ -62,13 +63,15 @@ abstract public class CharNode extends Node {
 
   /**
    * Get the character node's character type.
+   *
    * @return character type enum.
    */
   public abstract CharType getCharType();
 
   /**
-   * Return the plain text equivalent of a character node, which is just
-   * the ascii letters used to build the character.
+   * Return the plain text equivalent of a character node, which is just the
+   * ascii letters used to build the character.
+   *
    * @return plain-text equivalent.
    */
   @Override
@@ -78,6 +81,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Return a human-friendly string representation.
+   *
    * @return debugging string.
    */
   @Override
@@ -89,7 +93,7 @@ abstract public class CharNode extends Node {
     }
     return sb.toString();
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -116,6 +120,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Return the text inside the curly-brace markup.
+   *
    * @return string stripped of the initial { and final }.
    */
   protected String innerText() {
@@ -124,6 +129,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Create a fragment which is a node wrapping a piece of text.
+   *
    * @param tagName
    * @param content
    * @return Fragment wrapping content.
@@ -158,7 +164,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Wrap a fragment in a new tag called tagName.
-   * 
+   *
    * @param tagName
    * @param fragment
    * @return Fragment with fragment wrappend in a new tag.
@@ -183,7 +189,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new AccentCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode accentChar() {
@@ -192,7 +198,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new CodePointCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode codePoint() {
@@ -201,7 +207,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new DigraphCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode digraphChar() {
@@ -210,7 +216,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new LigatureCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode ligatureChar() {
@@ -219,7 +225,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new NestedCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode nestedChar() {
@@ -228,7 +234,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new SpaceCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode spaceChar() {
@@ -237,7 +243,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new TypographicCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode typographicChar() {
@@ -246,7 +252,7 @@ abstract public class CharNode extends Node {
 
   /**
    * Convenience method to return a new UnicodeCharNode.
-   * 
+   *
    * @return CharNode
    */
   public static CharNode unicodeChar() {

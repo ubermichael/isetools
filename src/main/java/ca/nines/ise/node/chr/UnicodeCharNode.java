@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -23,8 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Named unicode characters. 
- * 
+ * Named unicode characters.
+ *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class UnicodeCharNode extends CharNode {
@@ -50,7 +49,7 @@ public class UnicodeCharNode extends CharNode {
 
   /**
    * Return a copy of the mapping.
-   * 
+   *
    * @return copy of the character map, mapping input text to output unicode.
    */
   public static Map<String, String> mapping() {
@@ -59,9 +58,10 @@ public class UnicodeCharNode extends CharNode {
 
   /**
    * Expand the character into unicode text, wrapped in a UNICODE tag.
-   * @return expanded fragment wrapped in a UNICODE tag. 
+   *
+   * @return expanded fragment wrapped in a UNICODE tag.
    */
-  @Override 
+  @Override
   public Fragment expanded() {
     return wrap("UNICODE", charMap.get(text));
   }

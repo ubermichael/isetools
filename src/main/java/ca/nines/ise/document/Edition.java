@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.document;
 
 import ca.nines.ise.dom.DOMBuilder;
@@ -37,7 +36,7 @@ public class Edition extends Document implements Comparable<Edition> {
    * Edition code: M or F1 or Q1 or FM or Q1M or EM.
    */
   private final String editionCode;
-  
+
   /**
    * Full path to the file on the file system.
    */
@@ -47,7 +46,7 @@ public class Edition extends Document implements Comparable<Edition> {
    * Parent directory.
    */
   private final String parentDir;
-  
+
   /**
    * Play code (Rom, Ham, 1H4).
    */
@@ -55,9 +54,9 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Contruct an edition from a file.
-   * 
+   *
    * @param file full path to the file.
-   * @throws IOException 
+   * @throws IOException
    */
   public Edition(File file) throws IOException {
     this.file = file;
@@ -75,7 +74,7 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Compare edition codes case-insensitively.
-   * 
+   *
    * @param o
    * @return int
    */
@@ -83,10 +82,10 @@ public class Edition extends Document implements Comparable<Edition> {
   public int compareTo(Edition o) {
     return editionCode.toLowerCase().compareTo(o.editionCode.toLowerCase());
   }
-  
+
   /**
    * Return the path where annotations are expected to be found, if they exist.
-   * 
+   *
    * @return String
    */
   public File expectedAnnotationFile() {
@@ -95,7 +94,7 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Return the path where collations are expected to be found.
-   * 
+   *
    * @return String
    */
   public File expectedCollationFile() {
@@ -104,13 +103,13 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Build an Annotations collection for the edition.
-   * 
+   *
    * @return Annotation
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
    * @throws XPathExpressionException
-   * @throws TransformerException 
+   * @throws TransformerException
    */
   public Annotation getAnnotation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     return Annotation.builder().from(expectedAnnotationFile()).build();
@@ -118,12 +117,12 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Get the Collations collection for the edition.
-   * 
+   *
    * @return Collation
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
-   * @throws XPathExpressionException 
+   * @throws XPathExpressionException
    */
   public Collation getCollation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -131,9 +130,9 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Build and return a DOM for the edition.
-   * 
+   *
    * @return DOM
-   * @throws IOException 
+   * @throws IOException
    */
   public DOM getDOM() throws IOException {
     return new DOMBuilder(file).build();
@@ -142,7 +141,7 @@ public class Edition extends Document implements Comparable<Edition> {
   /**
    * Check if an edition has annotations. Only checks if the annotations file
    * exists, don't check its content.
-   * 
+   *
    * @return boolean
    */
   public boolean hasAnnotations() {
@@ -152,7 +151,7 @@ public class Edition extends Document implements Comparable<Edition> {
   /**
    * Check if the edition has collations. Only checks if the collations file
    * exists, doesn't check its contents.
-   * 
+   *
    * @return boolean
    */
   public boolean hasCollations() {
@@ -161,7 +160,7 @@ public class Edition extends Document implements Comparable<Edition> {
 
   /**
    * Return a human readable string describing the edition.
-   * 
+   *
    * @return String
    */
   @Override

@@ -67,14 +67,14 @@ abstract public class Node {
    * Construct a new, blank node.
    */
   public Node() {
-	this.tln = "";
-	this.column = 0;
-	this.line = 0;
-	this.position = 0;
-	this.text = "";
-	this.ownerDom = null;
-	this.asl = "";
-	// do nothing.
+    this.tln = "";
+    this.column = 0;
+    this.line = 0;
+    this.position = 0;
+    this.text = "";
+    this.ownerDom = null;
+    this.asl = "";
+    // do nothing.
   }
 
   /**
@@ -83,13 +83,13 @@ abstract public class Node {
    * @param n
    */
   public Node(Node n) {
-	this.asl = n.asl;
-	this.column = n.column;
-	this.line = n.line;
-	this.position = 0;
-	this.ownerDom = n.ownerDom;
-	this.text = n.text;
-	this.tln = n.tln;
+    this.asl = n.asl;
+    this.column = n.column;
+    this.line = n.line;
+    this.position = 0;
+    this.ownerDom = n.ownerDom;
+    this.text = n.text;
+    this.tln = n.tln;
   }
 
   /**
@@ -105,49 +105,49 @@ abstract public class Node {
    * @return the asl
    */
   public String getAsl() {
-	return asl;
+    return asl;
   }
 
   /**
    * @return the position
    */
   public int getPosition() {
-	return position;
+    return position;
   }
 
   /**
    * @param asl the asl to set
    */
   public void setAsl(String asl) {
-	this.asl = asl;
+    this.asl = asl;
   }
 
   /**
    * @return the column
    */
   public int getColumn() {
-	return column;
+    return column;
   }
 
   /**
    * @param column the column to set
    */
   public void setColumn(int column) {
-	this.column = column;
+    this.column = column;
   }
 
   /**
    * @return the line
    */
   public int getLine() {
-	return line;
+    return line;
   }
 
   /**
    * @param line the line to set
    */
   public void setLine(int line) {
-	this.line = line;
+    this.line = line;
   }
 
   /**
@@ -157,7 +157,7 @@ abstract public class Node {
    * @return String
    */
   public String getName() {
-	return "#" + this.type().toString();
+    return "#" + this.type().toString();
 
   }
 
@@ -165,11 +165,11 @@ abstract public class Node {
    * @return the ownerDom
    */
   public String getSource() {
-	if (ownerDom != null) {
-	  return ownerDom.getSource();
-	} else {
-	  return "";
-	}
+    if (ownerDom != null) {
+      return ownerDom.getSource();
+    } else {
+      return "";
+    }
   }
 
   /**
@@ -178,7 +178,7 @@ abstract public class Node {
    * @return DOM to which this node belongs.
    */
   public DOM getOwner() {
-	return ownerDom;
+    return ownerDom;
   }
 
   /**
@@ -187,43 +187,43 @@ abstract public class Node {
    * @param dom
    */
   public void setOwner(DOM dom) {
-	this.ownerDom = dom;
-	ownerDom.requestReindex();
+    this.ownerDom = dom;
+    ownerDom.requestReindex();
   }
 
   /**
    * @return the tln
    */
   public String getTLN() {
-	return tln;
+    return tln;
   }
 
   /**
    * @param position the position to set
    */
   public void setPosition(int position) {
-	this.position = position;
+    this.position = position;
   }
 
   /**
    * @param tln the tln to set
    */
   public void setTLN(String tln) {
-	this.tln = tln;
+    this.tln = tln;
   }
 
   /**
    * @return the text
    */
   public String getText() {
-	return text;
+    return text;
   }
 
   /**
    * @param text the text to set
    */
   public void setText(String text) {
-	this.text = text;
+    this.text = text;
   }
 
   /**
@@ -243,8 +243,8 @@ abstract public class Node {
    */
   @Override
   public String toString() {
-	Formatter formatter = new Formatter();
-	return formatter.format("%s:%s:%d:%d:%s", ownerDom.getSource(), this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
+    Formatter formatter = new Formatter();
+    return formatter.format("%s:%s:%d:%d:%s", ownerDom.getSource(), this.type(), line, column, this.text.replaceAll("\n", "\\\\n")).toString();
   }
 
   /**

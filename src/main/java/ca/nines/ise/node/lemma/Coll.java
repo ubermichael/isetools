@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.lemma;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -72,6 +71,7 @@ public class Coll extends Lemma {
       Node n = doc.getElementsByTagName("coll").item(0);
       return from(n);
     }
+
     public CollBuilder addReading(String resp, String reading) {
       readings.put(resp, reading);
       return this;
@@ -84,7 +84,7 @@ public class Coll extends Lemma {
 
     @Override
     public Coll build() {
-      id = NEXT_ID.incrementAndGet();      
+      id = NEXT_ID.incrementAndGet();
       return new Coll(lem, lineNumber, source, tln, lemResp, lemNote, asl, id, readings, readingNotes);
     }
 

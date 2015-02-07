@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.DOMBuilder;
@@ -33,7 +32,7 @@ public class NestedCharNode extends CharNode {
 
   /**
    * Expand the characters into a DOM Fragment.
-   * 
+   *
    * @return Fragment.
    * @throws IOException if the inner characters cannot be parsed.
    */
@@ -42,7 +41,7 @@ public class NestedCharNode extends CharNode {
     Fragment dom = new Fragment();
 
     DOM inner = new DOMBuilder(innerText()).build();
-    for(Node node : inner) {
+    for (Node node : inner) {
       dom.addAll(node.expanded());
     }
 

@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -44,7 +43,7 @@ public class CodePointCharNodeTest extends TestBase {
     testExpansion("{&#0262}", "\u0106"); // extended latin
     testExpansion("{&#0934}", "\u03A6"); // greek PHI
     testExpansion("{&#1071}", "\u042F"); // cyrillic YA.
-    
+
     // no leading zeros
     testExpansion("{&#122}", "z"); // extended latin
     testExpansion("{&#262}", "\u0106"); // extended latin
@@ -53,9 +52,9 @@ public class CodePointCharNodeTest extends TestBase {
 
     // higher characters
     testExpansion("{&#27700}", "\u6C34"); // CJK ideograph water
-    
+
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testExpansion("{&#119070}", new String(Character.toChars(0x1d11e))); 
+    testExpansion("{&#119070}", new String(Character.toChars(0x1d11e)));
   }
 
   /**
@@ -68,16 +67,16 @@ public class CodePointCharNodeTest extends TestBase {
     testExpansion("{&lt}", "<"); // extended latin
     testExpansion("{&gt}", ">"); // greek PHI
     testExpansion("{&copy}", "\u00A9"); // cyrillic YA.
-    
+
     // no leading zeros
     testExpansion("{&Delta}", "\u0394"); // extended latin
     testExpansion("{&delta}", "\u03b4"); // extended latin
 
     // higher characters
     testExpansion("{&sdot}", "\u22c5"); // CJK ideograph water
-    
+
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testExpansion("{&notachar}", "\uFFFD", new String[]{"char.codepoint.unknown"}); 
+    testExpansion("{&notachar}", "\uFFFD", new String[]{"char.codepoint.unknown"});
   }
 
   /**
@@ -90,7 +89,7 @@ public class CodePointCharNodeTest extends TestBase {
     testExpansion("{&#x0106}", "\u0106"); // extended latin
     testExpansion("{&#x03A6}", "\u03A6"); // greek PHI
     testExpansion("{&#x042F}", "\u042F"); // cyrillic YA.
-    
+
     // no leading zeros
     testExpansion("{&#x7A}", "z"); // extended latin
     testExpansion("{&#x106}", "\u0106"); // extended latin
@@ -104,9 +103,9 @@ public class CodePointCharNodeTest extends TestBase {
 
     // higher characters
     testExpansion("{&#x6c34}", "\u6C34"); // CJK ideograph water
-    
+
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testExpansion("{&#x1D11E}", new String(Character.toChars(0x1d11e))); 
+    testExpansion("{&#x1D11E}", new String(Character.toChars(0x1d11e)));
   }
 
   /**
@@ -119,7 +118,7 @@ public class CodePointCharNodeTest extends TestBase {
     testUnicodify("{&#0262}", "\u0106"); // extended latin
     testUnicodify("{&#0934}", "\u03A6"); // greek PHI
     testUnicodify("{&#1071}", "\u042F"); // cyrillic YA.
-    
+
     // no leading zeros
     testUnicodify("{&#122}", "z"); // extended latin
     testUnicodify("{&#262}", "\u0106"); // extended latin
@@ -128,9 +127,9 @@ public class CodePointCharNodeTest extends TestBase {
 
     // higher characters
     testUnicodify("{&#27700}", "\u6C34"); // CJK ideograph water
-    
+
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testUnicodify("{&#119070}", new String(Character.toChars(0x1d11e))); 
+    testUnicodify("{&#119070}", new String(Character.toChars(0x1d11e)));
   }
 
   /**
@@ -143,16 +142,16 @@ public class CodePointCharNodeTest extends TestBase {
     testUnicodify("{&lt}", "<"); // extended latin
     testUnicodify("{&gt}", ">"); // greek PHI
     testUnicodify("{&copy}", "\u00A9"); // cyrillic YA.
-    
+
     // no leading zeros
     testUnicodify("{&Delta}", "\u0394"); // extended latin
     testUnicodify("{&delta}", "\u03b4"); // extended latin
 
     // higher characters
     testUnicodify("{&sdot}", "\u22c5"); // CJK ideograph water
-    
+
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testUnicodify("{&notachar}", "\uFFFD", new String[]{"char.codepoint.unknown"}); 
+    testUnicodify("{&notachar}", "\uFFFD", new String[]{"char.codepoint.unknown"});
   }
 
   /**
@@ -165,7 +164,7 @@ public class CodePointCharNodeTest extends TestBase {
     testUnicodify("{&#x0106}", "\u0106"); // extended latin
     testUnicodify("{&#x03A6}", "\u03A6"); // greek PHI
     testUnicodify("{&#x042F}", "\u042F"); // cyrillic YA.
-    
+
     // no leading zeros
     testUnicodify("{&#x7A}", "z"); // extended latin
     testUnicodify("{&#x106}", "\u0106"); // extended latin
@@ -179,25 +178,23 @@ public class CodePointCharNodeTest extends TestBase {
 
     // higher characters
     testUnicodify("{&#x6c34}", "\u6C34"); // CJK ideograph water
-    
+
     // now this is just silly. MUSICAL SYMBOL G CLEF.
-    testUnicodify("{&#x1D11E}", new String(Character.toChars(0x1d11e))); 
+    testUnicodify("{&#x1D11E}", new String(Character.toChars(0x1d11e)));
   }
-  
+
   public void testUnicodify(String text, String unicode) throws IOException {
-	testUnicodify(text, unicode, new String[]{});
+    testUnicodify(text, unicode, new String[]{});
   }
 
   public void testUnicodify(String text, String unicode, String[] errors) throws IOException {
-	CharNode c = new CodePointCharNode();
-	c.setText(text);
-	String u = c.unicode();
-	assertEquals(u, Normalizer.normalize(unicode, Normalizer.Form.NFC));
-	checkLog(errors);
+    CharNode c = new CodePointCharNode();
+    c.setText(text);
+    String u = c.unicode();
+    assertEquals(u, Normalizer.normalize(unicode, Normalizer.Form.NFC));
+    checkLog(errors);
   }
 
-  
-  
   private void testExpansion(String text, String unicode) throws IOException {
     testExpansion(text, unicode, new String[]{});
   }

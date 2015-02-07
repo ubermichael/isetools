@@ -29,9 +29,10 @@ import org.w3c.dom.Node;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-abstract public class Lemma {  
+abstract public class Lemma {
+
   long id;
-  
+
   /**
    * The piece of text being annotated/collated
    */
@@ -105,12 +106,12 @@ abstract public class Lemma {
      * The act/scene/line where of the location of the lemma in the document.
      */
     protected String asl;
-    
+
     /**
      * The ID of the lemma.
      */
     protected long id;
-    
+
     /**
      * Generate thread-safe identifiers.
      */
@@ -151,7 +152,7 @@ abstract public class Lemma {
 
     /**
      * Set the line number of the lemma being constructed.
-     * 
+     *
      * @param lineNumber the lineNumber to set
      * @return the LemmaBuilder to enable method chaining.
      */
@@ -162,7 +163,7 @@ abstract public class Lemma {
 
     /**
      * Set the source of the lemma being constructed.
-     * 
+     *
      * @param source the source to set
      * @return the LemmaBuilder to enable method chaining.
      */
@@ -173,7 +174,7 @@ abstract public class Lemma {
 
     /**
      * Set the TLN of the lemma being constructed.
-     * 
+     *
      * @param tln the tln to set
      * @return the LemmaBuilder to enable method chaining.
      */
@@ -183,8 +184,8 @@ abstract public class Lemma {
     }
 
     /**
-     * Set the act/scene/line of the lemma being constructed. ASLs should be 
-     * of the form {@code 3.2.1} for Act 3, Scene 2, line 1.
+     * Set the act/scene/line of the lemma being constructed. ASLs should be of
+     * the form {@code 3.2.1} for Act 3, Scene 2, line 1.
      *
      * @param asl
      * @return the LemmaBuilder to enable method chaining.
@@ -196,14 +197,14 @@ abstract public class Lemma {
   }
 
   /**
-   * Construct a lemma object. Don't call this directly, use Lemma.builder() to 
+   * Construct a lemma object. Don't call this directly, use Lemma.builder() to
    * get a builder object and call its .build() method.
-   * 
+   *
    * @param lem
    * @param lineNumber
    * @param source
    * @param tln
-   * @param asl 
+   * @param asl
    */
   protected Lemma(String lem, int lineNumber, String source, String tln, String asl, long id) {
     this.lem = lem;
@@ -216,7 +217,7 @@ abstract public class Lemma {
 
   /**
    * Get the annotated text of the lemma.
-   * 
+   *
    * @return the lem
    */
   public String getLem() {
@@ -225,7 +226,7 @@ abstract public class Lemma {
 
   /**
    * Returns true if the lemma spans TLNs or lines.
-   * 
+   *
    * @return true if the lemma is split.
    */
   public boolean isLemSplit() {
@@ -242,7 +243,7 @@ abstract public class Lemma {
 
   /**
    * If the lemma spans TLNs or lines, return the first part of the lemma.
-   * 
+   *
    * @return the start of the lemma
    */
   public String getLemStart() {
@@ -259,7 +260,7 @@ abstract public class Lemma {
 
   /**
    * If the lemma spans TLNs or lines, return the last part of the lemma.
-   * 
+   *
    * @return the end of the lemma
    */
   public String getLemEnd() {
@@ -276,7 +277,7 @@ abstract public class Lemma {
 
   /**
    * Fetch the line number where the lemma object is defined.
-   * 
+   *
    * @return the lineNumber
    */
   public int getLineNumber() {
@@ -285,7 +286,7 @@ abstract public class Lemma {
 
   /**
    * Fetch the source of the lemma
-   * 
+   *
    * @return the source
    */
   public String getSource() {
@@ -294,7 +295,7 @@ abstract public class Lemma {
 
   /**
    * Get the TLN of the lemma
-   * 
+   *
    * @return the tln
    */
   public String getTln() {
@@ -303,7 +304,7 @@ abstract public class Lemma {
 
   /**
    * If the lemma spans TLNs or lines, return true.
-   * 
+   *
    * @return true if the lemma spans TLNs or lines.
    */
   public boolean isTlnSplit() {
@@ -313,7 +314,7 @@ abstract public class Lemma {
 
   /**
    * If the lemma spans TLNs, return the first TLN.
-   * 
+   *
    * @return the first TLN, or null if the lemma does not span TLNs
    */
   public String getTlnStart() {
@@ -326,7 +327,7 @@ abstract public class Lemma {
 
   /**
    * If the lemma spans TLNs, return the end TLN.
-   * 
+   *
    * @return the end TLN, or null if the lemma does not span TLNs
    */
   public String getTlnEnd() {
@@ -340,20 +341,20 @@ abstract public class Lemma {
 
   /**
    * Fetch the act/scene/line of the lemma in the document.
-   * 
+   *
    * @return a string of the act/scene/line
    */
   public String getAsl() {
     return asl;
   }
-  
+
   public long getId() {
     return id;
   }
 
   /**
    * Turn the lemma into a string. Mostly useful for debugging.
-   * 
+   *
    * @return a string representation of the lemma.
    */
   @Override

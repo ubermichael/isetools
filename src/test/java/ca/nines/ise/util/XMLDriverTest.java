@@ -39,14 +39,14 @@ public class XMLDriverTest {
     File file = new File(url.getFile());
     XMLDriver xd = new XMLDriver();
     Document document = xd.drive(file);
-    
+
     Element root = document.getDocumentElement();
-    LocationData loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);    
+    LocationData loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);
     assertNotNull(loc);
     assertTrue(loc.getSystemId().endsWith("test-errors.xml"));
     assertTrue(loc.getStartColumn() >= 1);
     assertTrue(loc.getEndColumn() >= 1);
-    
+
     Element msg = (Element) document.getElementsByTagName("message").item(0);
     loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);
     assertTrue(loc.getSystemId().endsWith("test-errors.xml"));
@@ -59,14 +59,14 @@ public class XMLDriverTest {
     XMLDriver xd = new XMLDriver();
     String res = "/data/test-errors.xml";
     Document document = xd.drive(res, getClass().getResourceAsStream(res));
-    
+
     Element root = document.getDocumentElement();
-    LocationData loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);    
+    LocationData loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);
     assertNotNull(loc);
     assertTrue(loc.getSystemId().endsWith("test-errors.xml"));
     assertTrue(loc.getStartColumn() >= 1);
     assertTrue(loc.getEndColumn() >= 1);
-    
+
     Element msg = (Element) document.getElementsByTagName("message").item(0);
     loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);
     assertTrue(loc.getSystemId().endsWith("test-errors.xml"));

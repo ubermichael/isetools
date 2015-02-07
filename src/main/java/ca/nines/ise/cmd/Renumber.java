@@ -30,7 +30,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
- * Renumber the \@n attributes in one or more tags in a document, following some very arcane rules.
+ * Renumber the \@n attributes in one or more tags in a document, following some
+ * very arcane rules.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -86,9 +87,9 @@ public class Renumber extends Command {
       if (cmd.hasOption("page")) {
         r.setRenumberPage(true);
       }
-      
+
       dom = r.transform(dom);
-      
+
     }
     Writer out = new SGMLWriter(outputStream);
     out.render(dom);

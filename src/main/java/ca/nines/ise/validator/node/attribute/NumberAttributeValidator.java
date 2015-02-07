@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.log.Message;
@@ -25,8 +24,8 @@ import ca.nines.ise.schema.Attribute;
 import ca.nines.ise.validator.node.AttributeValidator;
 
 /**
- * Validate a number value. A number is valid if it
- * matches {@code [+-]?\\d+(\\.\\d+)?}.
+ * Validate a number value. A number is valid if it matches
+ * {@code [+-]?\\d+(\\.\\d+)?}.
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -45,7 +44,7 @@ public class NumberAttributeValidator implements AttributeValidator {
    * Warning: decimal numbers between -1 and 1 require a leading zero: 0.2 is
    * OK, but .2 is not.
    * <p>
-   * @param n    TagNode to validate
+   * @param n TagNode to validate
    * @param attr attribute to validate against
    */
   @ErrorCode(code = {
@@ -55,11 +54,11 @@ public class NumberAttributeValidator implements AttributeValidator {
   public void validate(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());
     if (!value.matches("^[+-]?\\d+(\\.\\d+)?$")) {
-        Message m = Message.builder("validator.attribute.badnumber")
-                .fromNode(n)
-                .addNote("Attribute " + attr.getName() + "=" + value + " does not look like a number.")
-                .build();
-        Log.addMessage(m);
+      Message m = Message.builder("validator.attribute.badnumber")
+              .fromNode(n)
+              .addNote("Attribute " + attr.getName() + "=" + value + " does not look like a number.")
+              .build();
+      Log.addMessage(m);
     }
   }
 

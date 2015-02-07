@@ -73,11 +73,11 @@ public class Modernize extends Command {
     Modernizer m = new Modernizer();
     Normalizer n = new Normalizer();
     Formatter f = new Formatter();
-    
+
     dom = m.transform(dom);
     dom = n.transform(dom);
     dom = f.transform(dom);
-    
+
     renderer.render(dom);
   }
 

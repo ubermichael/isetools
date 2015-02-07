@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.dom;
 
 import ca.nines.ise.log.Log;
@@ -25,8 +24,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
 /**
- * ParserErrorListener intercepts antlr parser errors and generates error messages in
- * the log. Used by MessageBuilder.
+ * ParserErrorListener intercepts antlr parser errors and generates error
+ * messages in the log. Used by MessageBuilder.
  */
 public class ParserErrorListener extends BaseErrorListener {
 
@@ -37,8 +36,8 @@ public class ParserErrorListener extends BaseErrorListener {
 
   /**
    * Create a parser error.
-   * 
-   * @param dom 
+   *
+   * @param dom
    */
   ParserErrorListener(DOM dom) {
     this.dom = dom;

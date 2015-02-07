@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.schema;
 
 import java.io.File;
@@ -32,7 +31,7 @@ import org.xml.sax.SAXException;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class SchemaTest {
-  
+
   @Test
   public void testBuilderDefaults() {
     Schema schema = Schema.builder().build();
@@ -52,7 +51,7 @@ public class SchemaTest {
             .setLineNumber(32)
             .setSource("yes")
             .addTag(Tag.builder().setName("a").build())
-            .addTag(Tag.builder().setName("b").build())            
+            .addTag(Tag.builder().setName("b").build())
             .build();
     assertEquals("ed1", schema.getEdition());
     assertEquals("g3", schema.getGroup());
@@ -78,7 +77,7 @@ public class SchemaTest {
 
   @Test
   public void testBuilderFromString() {
-    
+
   }
 
   @Test
@@ -86,7 +85,7 @@ public class SchemaTest {
     String loc = "/data/test-schema.xml";
     InputStream stream = SchemaTest.class.getResourceAsStream(loc);
     Schema schema = Schema.builder().from(loc, stream).build();
-    
+
     assertEquals("test", schema.getEdition());
     assertEquals("test", schema.getGroup());
     assertEquals(3, schema.getLineNumber());

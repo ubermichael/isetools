@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.schema;
 
 import ca.nines.ise.schema.Attribute.AttributeBuilder;
@@ -155,8 +154,8 @@ public class Tag implements Comparable<Tag> {
         setDepreciated(tmp.getTextContent());
       }
 
-      tmp = ((Element)n).getElementsByTagName("desc").item(0);
-      if(tmp != null) {
+      tmp = ((Element) n).getElementsByTagName("desc").item(0);
+      if (tmp != null) {
         setDesc(tmp.getTextContent());
       }
 
@@ -361,7 +360,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Get the description
-   * 
+   *
    * @return string description, or "No description provided."
    */
   public String getDescription() {
@@ -373,7 +372,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Get the empty status of the tag. Will be one of yes, no, or optional.
-   * 
+   *
    * @return String
    */
   public String getEmpty() {
@@ -385,7 +384,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Get the line number where the tag is defined.
-   * 
+   *
    * @return the lineNumber
    */
   public int getLineNumber() {
@@ -394,7 +393,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Get the name of the tag.
-   * 
+   *
    * @return the name
    */
   public String getName() {
@@ -403,7 +402,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Get the source of the tag.
-   * 
+   *
    * @return the source
    */
   public String getSource() {
@@ -412,17 +411,17 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Returns true if the tag contains the named attribute.
-   * 
+   *
    * @param name
-   * @return  boolean
+   * @return boolean
    */
   public boolean hasAttribute(String name) {
     return attributes.containsKey(name.toLowerCase());
   }
-  
+
   /**
    * True if the tag is depreciated.
-   * 
+   *
    * @return boolean
    */
   public boolean isDepreciated() {
@@ -431,7 +430,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Returns true if the tag MUST be empty.
-   * 
+   *
    * @return boolean
    */
   public boolean isEmpty() {
@@ -440,6 +439,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Return true if the tag must be empty, or if it may be empty.
+   *
    * @return boolean
    */
   public boolean maybeEmpty() {
@@ -448,7 +448,7 @@ public class Tag implements Comparable<Tag> {
 
   /**
    * Turn the tag into a string. Useful only for debugging.
-   * 
+   *
    * @return String
    */
   @Override
@@ -457,7 +457,7 @@ public class Tag implements Comparable<Tag> {
 
     formatter.format("%s:%s%n", source, lineNumber);
     formatter.format("%s:%s:%s%n", name, empty, depreciated);
-    for(Attribute a : attributes.values()) {
+    for (Attribute a : attributes.values()) {
       formatter.format("%s", a);
     }
 

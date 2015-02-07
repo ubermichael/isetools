@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -54,6 +53,7 @@ public class TypographicCharNodeTest extends TestBase {
   @After
   public void tearDown() throws Exception {
   }
+
   /**
    * Test of expanded method, of class DigraphCharNode.
    * <p>

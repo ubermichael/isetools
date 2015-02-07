@@ -14,12 +14,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
 package ca.nines.ise.exceptions;
 
 /**
- * A class to encapsulate Attribute type exceptions, thrown for unknown 
+ * A class to encapsulate Attribute type exceptions, thrown for unknown
  * attribute types.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
@@ -29,10 +27,11 @@ public class AttributeTypeException extends Exception {
 
   /**
    * Construct the exception.
-   * @param msg 
+   *
+   * @param msg
    */
   public AttributeTypeException(String msg) {
     super(msg);
   }
-  
+
 }

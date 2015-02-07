@@ -36,9 +36,9 @@ public class TextWriter extends Writer {
 
   /**
    * Construct a text writer and send output to System.out.
-   * 
+   *
    * @throws UnsupportedEncodingException
-   * @throws ParserConfigurationException 
+   * @throws ParserConfigurationException
    */
   public TextWriter() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
@@ -46,11 +46,11 @@ public class TextWriter extends Writer {
 
   /**
    * Construct a text writer and send output to a print stream.
-   * 
+   *
    * @param out the output destination
-   * 
+   *
    * @throws UnsupportedEncodingException
-   * @throws ParserConfigurationException 
+   * @throws ParserConfigurationException
    */
   public TextWriter(PrintStream out) throws UnsupportedEncodingException, ParserConfigurationException {
     super(out);
@@ -58,8 +58,8 @@ public class TextWriter extends Writer {
 
   /**
    * Render the DOM into text.
-   * 
-   * @param dom 
+   *
+   * @param dom
    */
   @Override
   public void render(DOM dom) {
@@ -72,14 +72,14 @@ public class TextWriter extends Writer {
 
   /**
    * Unsupported.
-   * 
+   *
    * @param dom the DOM to render
    * @param ann annotations
-   * 
+   *
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws IOException
-   * @throws Exception 
+   * @throws Exception
    */
   @Override
   public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {

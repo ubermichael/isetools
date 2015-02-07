@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.schema;
 
 import ca.nines.ise.schema.Attribute.AttributeType;
@@ -104,7 +103,7 @@ public class AttributeTest {
     assertTrue(a.isDepreciated());
     assertFalse(a.isEmpty());
     assertFalse(a.isOptional());
-    assertFalse(a.isRenumberable());    
+    assertFalse(a.isRenumberable());
   }
 
   @Test
@@ -113,7 +112,7 @@ public class AttributeTest {
             + "<attribute name=\"foo\" type=\"number\" optional=\"yes\">\n"
             + "  <desc>optional attribute</desc>\n"
             + "</attribute>";
-    
+
     Document doc = new XMLDriver().drive(data);
     Attribute a = Attribute.builder().from(doc.getElementsByTagName("attribute").item(0)).build();
     assertEquals("foo", a.getName());
@@ -129,7 +128,7 @@ public class AttributeTest {
     assertFalse(a.isDepreciated());
     assertFalse(a.isEmpty());
     assertTrue(a.isOptional());
-    assertFalse(a.isRenumberable());    
+    assertFalse(a.isRenumberable());
   }
 
 }

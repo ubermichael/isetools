@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.exceptions.AttributeTypeException;
@@ -36,8 +35,9 @@ abstract public interface NodeValidator<T extends Node> {
    * <p>
    * @param n A node to validate.
    * @param schema Schema to validate against
-   * @throws ca.nines.ise.exceptions.AttributeTypeException if the node has an attribute with an unknown type.
+   * @throws ca.nines.ise.exceptions.AttributeTypeException if the node has an
+   * attribute with an unknown type.
    */
-  abstract public void validate(T n, Schema schema) throws AttributeTypeException ;
+  abstract public void validate(T n, Schema schema) throws AttributeTypeException;
 
 }

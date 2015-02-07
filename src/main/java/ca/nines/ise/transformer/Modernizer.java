@@ -27,8 +27,8 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 
 /**
- * Turn an old-spelling ISE document into a modern one, by modernizing the
- * tags only. Actual spelling changes are the responsibility of the editors.
+ * Turn an old-spelling ISE document into a modern one, by modernizing the tags
+ * only. Actual spelling changes are the responsibility of the editors.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -69,22 +69,22 @@ public class Modernizer extends IdentityTransform {
 
   @Override
   public void empty_l(EmptyNode n) {
-    
+
   }
 
   @Override
   public void empty_ornament(EmptyNode n) {
-    
+
   }
 
   @Override
   public void empty_rule(EmptyNode n) {
-    
+
   }
 
   @Override
   public void empty_space(EmptyNode n) {
-    
+
   }
 
   @Override

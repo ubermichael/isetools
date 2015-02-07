@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node;
 
 import ca.nines.ise.annotation.ErrorCode;
@@ -35,7 +34,7 @@ public class AbbrNode extends Node {
    * Long abbrs are two characters separated by a caret.
    */
   private static final Pattern longAbbrPattern = Pattern.compile("^([a-zA-Z])\\^([a-zA-Z])$");
-  
+
   /**
    * Short abbrs are one ore more ascii letters.
    */
@@ -43,7 +42,7 @@ public class AbbrNode extends Node {
 
   /**
    * Expand the node into tag nodes.
-   * 
+   *
    * @return Fragment with the expanded nodes.
    */
   @ErrorCode(code = {
@@ -94,7 +93,7 @@ public class AbbrNode extends Node {
 
   /**
    * The plain-text version of an abbr is just the ascii letters.
-   * 
+   *
    * @return String containing only ascii letters.
    */
   @Override
@@ -125,6 +124,5 @@ public class AbbrNode extends Node {
   public String unicode() {
     return getText().replaceAll("[^a-zA-Z]*", "");
   }
-  
-  
+
 }

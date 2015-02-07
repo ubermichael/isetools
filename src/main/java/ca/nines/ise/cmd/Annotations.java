@@ -33,7 +33,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 /**
- * Validate an ISE annotations xml file against an ISE SGHMLish document, 
+ * Validate an ISE annotations xml file against an ISE SGHMLish document,
  * checking that the lemmas match up.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
@@ -89,7 +89,7 @@ public class Annotations extends Command {
               .build();
       log.add(m);
     }
-    if(log.count() > 0) {
+    if (log.count() > 0) {
       logOut.print(log);
     }
   }

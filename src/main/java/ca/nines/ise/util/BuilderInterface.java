@@ -14,22 +14,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
 package ca.nines.ise.util;
 
 /**
- * BuilderInterface defines a way to build complex objects. It is part of the 
+ * BuilderInterface defines a way to build complex objects. It is part of the
  * Builder pattern.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  * @param <T>
  */
 public interface BuilderInterface<T> {
-  
+
   /**
    * Build an object.
-   * 
+   *
    * @return T
    */
   public T build();

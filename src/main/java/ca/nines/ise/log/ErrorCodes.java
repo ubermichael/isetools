@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -50,49 +49,49 @@ public class ErrorCodes {
    */
   public static class ErrorCodesBuilder implements BuilderInterface<ErrorCodes> {
 
-	/**
-	 * List of ErrorCode objects in progress.
-	 */
+    /**
+     * List of ErrorCode objects in progress.
+     */
     private final Map<String, ErrorCode> list;
 
-	/**
-	 * Use ErrorCodes.builder() to get a builder.
-	 */
+    /**
+     * Use ErrorCodes.builder() to get a builder.
+     */
     private ErrorCodesBuilder() {
       list = new HashMap<>();
       list.put("unknown", ErrorCode.builder().setCode("unknown").build());
     }
 
-	/**
-	 * Add an error code to the list.
-	 * 
-	 * @param ec
-	 * @return ErrorCodesBuilder
-	 */
+    /**
+     * Add an error code to the list.
+     *
+     * @param ec
+     * @return ErrorCodesBuilder
+     */
     public ErrorCodesBuilder addErrorCode(ErrorCode ec) {
       list.put(ec.getCode(), ec);
       return this;
     }
 
-	/**
-	 * Build and return the error codes list.
-	 * 
-	 * @return ErrorCodes
-	 */
+    /**
+     * Build and return the error codes list.
+     *
+     * @return ErrorCodes
+     */
     @Override
     public ErrorCodes build() {
       return new ErrorCodes(list);
     }
 
-	/**
-	 * Add error codes from a string.
-	 * 
-	 * @param str
-	 * @return ErrorCodesBuilder
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws TransformerException 
-	 */
+    /**
+     * Add error codes from a string.
+     *
+     * @param str
+     * @return ErrorCodesBuilder
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     public ErrorCodesBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(str);
@@ -100,17 +99,17 @@ public class ErrorCodes {
       return from(n);
     }
 
-	/**
-	 * Add error codes from an InputStream, located at loc.
-	 * 
-	 * @param loc
-	 * @param in
-	 * @return ErrorCodesBuilder
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws TransformerException
-	 * @throws IOException 
-	 */
+    /**
+     * Add error codes from an InputStream, located at loc.
+     *
+     * @param loc
+     * @param in
+     * @return ErrorCodesBuilder
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     * @throws IOException
+     */
     public ErrorCodesBuilder from(String loc, InputStream in) throws ParserConfigurationException, SAXException, TransformerException, IOException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(loc, in);
@@ -118,12 +117,12 @@ public class ErrorCodes {
       return from(n);
     }
 
-	/**
-	 * Add error codes from an XML Node.
-	 * 
-	 * @param in
-	 * @return ErrorCodesBuilder
-	 */
+    /**
+     * Add error codes from an XML Node.
+     *
+     * @param in
+     * @return ErrorCodesBuilder
+     */
     public ErrorCodesBuilder from(Node in) {
       NodeList nl = ((Element) in).getElementsByTagName("message");
       int length = nl.getLength();
@@ -134,16 +133,16 @@ public class ErrorCodes {
       return this;
     }
 
-	/**
-	 * Add error codes from an XML file.
-	 * 
-	 * @param in
-	 * @return ErrorCodesBuilder
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws TransformerException
-	 * @throws IOException 
-	 */
+    /**
+     * Add error codes from an XML file.
+     *
+     * @param in
+     * @return ErrorCodesBuilder
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     * @throws IOException
+     */
     public ErrorCodesBuilder from(File in) throws ParserConfigurationException, SAXException, TransformerException, IOException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(in);
@@ -155,6 +154,7 @@ public class ErrorCodes {
 
   /**
    * Create and return a builder.
+   *
    * @return object to build the error codes.
    */
   public static ErrorCodesBuilder builder() {
@@ -163,12 +163,12 @@ public class ErrorCodes {
 
   /**
    * Build the default set of error codes.
-   * 
+   *
    * @return ErrorCodesBuilder
    * @throws IOException
    * @throws TransformerException
    * @throws SAXException
-   * @throws ParserConfigurationException 
+   * @throws ParserConfigurationException
    */
   public static ErrorCodes defaultErrorCodes() throws IOException, TransformerException, SAXException, ParserConfigurationException {
     String loc = "/data/errors.xml";
@@ -178,7 +178,8 @@ public class ErrorCodes {
 
   /**
    * Use #builder to get an ErrorCodeBuilder.
-   * @param list 
+   *
+   * @param list
    */
   private ErrorCodes(Map<String, ErrorCode> list) {
     this.list = new HashMap<>(list);
@@ -186,6 +187,7 @@ public class ErrorCodes {
 
   /**
    * Get an error code from a code.
+   *
    * @param code
    * @return ErrorCode
    */
@@ -198,6 +200,7 @@ public class ErrorCodes {
 
   /**
    * Get a list of error codes sorted by code.
+   *
    * @return ErrorCode[]
    */
   public ErrorCode[] getErrorCodes() {
@@ -208,6 +211,7 @@ public class ErrorCodes {
 
   /**
    * Check if the list contains an error code.
+   *
    * @param code
    * @return boolean
    */
@@ -217,6 +221,7 @@ public class ErrorCodes {
 
   /**
    * Get the size of the error codes.
+   *
    * @return int
    */
   public int size() {
@@ -225,6 +230,7 @@ public class ErrorCodes {
 
   /**
    * Return a human-readable list of error codes.
+   *
    * @return debug string.
    */
   @Override

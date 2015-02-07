@@ -40,9 +40,9 @@ public class SGMLWriter extends Writer {
 
   /**
    * Construct a writer and send output to STDOUT.
-   * 
+   *
    * @throws ParserConfigurationException
-   * @throws UnsupportedEncodingException 
+   * @throws UnsupportedEncodingException
    */
   public SGMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
     this(new PrintStream(System.out, true, "UTF-8"));
@@ -50,7 +50,7 @@ public class SGMLWriter extends Writer {
 
   /**
    * Construct a writer and send output to the PrintStream.
-   * 
+   *
    * @param out output destination
    */
   public SGMLWriter(PrintStream out) {
@@ -60,8 +60,8 @@ public class SGMLWriter extends Writer {
 
   /**
    * Render the DOM into SGML.
-   * 
-   * @param dom 
+   *
+   * @param dom
    */
   @Override
   public void render(DOM dom) {
@@ -72,13 +72,13 @@ public class SGMLWriter extends Writer {
 
   /**
    * This is unsupported.
-   * 
+   *
    * @param dom
    * @param ann
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws IOException
-   * @throws Exception 
+   * @throws Exception
    */
   @Override
   public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {

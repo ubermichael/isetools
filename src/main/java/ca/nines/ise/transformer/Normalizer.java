@@ -20,8 +20,8 @@ import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.TextNode;
 
 /**
- * Normalize an ISE document, by combining adjacent text nodes and
- * fixing up newlines.
+ * Normalize an ISE document, by combining adjacent text nodes and fixing up
+ * newlines.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -31,10 +31,10 @@ public class Normalizer extends IdentityTransform {
 
   /**
    * Transform a text node, by appending the next text node if there is one.
-   * 
+   *
    * TODO I wonder if it works...
-   * 
-   * @param n 
+   *
+   * @param n
    */
   @Override
   public void text(TextNode n) {

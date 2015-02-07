@@ -54,27 +54,27 @@ public class Fragment extends Command {
 
     renderer = new SGMLWriter(out);
     String[] files = getArgList(cmd);
-	if(files.length == 0) {
-	  System.err.println("At least one document is required.");
-	  System.exit(-1);
-	}
+    if (files.length == 0) {
+      System.err.println("At least one document is required.");
+      System.exit(-1);
+    }
     DOM dom = new DOMBuilder(new File(files[0])).build();
     if (dom.getStatus() == DOMStatus.ERROR) {
       System.err.println("Document contains errors. Cannot continue.");
       System.exit(-1);
     }
 
-	int length = 2;
-	if(cmd.hasOption("n")) {
-	  length = Integer.parseInt(cmd.getOptionValue("n"));
-	}
-	String tln = "1";
-	if(cmd.hasOption("tln")) {
-	  tln = cmd.getOptionValue("tln");
-	}
-	
+    int length = 2;
+    if (cmd.hasOption("n")) {
+      length = Integer.parseInt(cmd.getOptionValue("n"));
+    }
+    String tln = "1";
+    if (cmd.hasOption("tln")) {
+      tln = cmd.getOptionValue("tln");
+    }
+
     dom = dom.getTlnFragment(tln, length);
-    
+
     renderer.render(dom);
   }
 
@@ -84,11 +84,11 @@ public class Fragment extends Command {
   @Override
   public Options getOptions() {
     Options opts = new Options();
-	opts.addOption("tln", true, "TLN to start from");
-	opts.addOption("n", true, "Number of TLNs to include.");
-	opts.addOption("xml", false, "Transform output to XML.");
-	opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
-	opts.addOption("rtf", false, "Transform output to an RTF document.");
+    opts.addOption("tln", true, "TLN to start from");
+    opts.addOption("n", true, "Number of TLNs to include.");
+    opts.addOption("xml", false, "Transform output to XML.");
+    opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
+    opts.addOption("rtf", false, "Transform output to an RTF document.");
     return opts;
   }
 

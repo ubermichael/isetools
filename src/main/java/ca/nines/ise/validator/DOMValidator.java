@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator;
 
 import ca.nines.ise.validator.node.EmptyNodeValidator;
@@ -71,18 +70,19 @@ public class DOMValidator {
   /**
    * Perform all the schema and node validations.
    * <p>
-   * @param dom <p>
+   * @param dom
+   * <p>
    * @param schema
    * @throws Exception
    */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public void validate(DOM dom, Schema schema) throws Exception {
     NodeValidator validator;
-    for(Node n : dom) {
+    for (Node n : dom) {
       validator = validators.get(n.type());
       if (validator == null) {
         throw new Exception("Unknown node type: " + n.type());
-      }      
+      }
       validator.validate(n, schema);
     }
   }

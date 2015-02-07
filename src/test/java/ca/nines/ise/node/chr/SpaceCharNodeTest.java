@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -103,7 +102,7 @@ public class SpaceCharNodeTest extends TestBase {
     assertEquals(420, node.getLine());
     assertEquals("11.3", node.getTLN());
   }
-  
+
   /**
    * Test of expanded method, of class SpaceCharNode.
    */

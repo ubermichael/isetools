@@ -35,15 +35,15 @@ public class TypographicCharNode extends CharNode {
    * Mapping.
    */
   static {
-	charMap.put("{w}", "vv");
-	charMap.put("{W}", "VV");
+    charMap.put("{w}", "vv");
+    charMap.put("{W}", "VV");
   }
 
   /**
    * @return copy of the mapping.
    */
   public static Map<String, String> mapping() {
-	return new HashMap<>(charMap);
+    return new HashMap<>(charMap);
   }
 
   /**
@@ -54,14 +54,14 @@ public class TypographicCharNode extends CharNode {
    */
   @Override
   public Fragment expanded() {
-	Fragment dom;
-	if (charMap.containsKey(text)) {
-	  dom = wrap("TYPEFORM", charMap.get(text));
-	} else {
-	  dom = wrap("TYPEFORM", this.innerText());
-	}
-	((TagNode) dom.get(0)).setAttribute("t", this.innerText());
-	return dom;
+    Fragment dom;
+    if (charMap.containsKey(text)) {
+      dom = wrap("TYPEFORM", charMap.get(text));
+    } else {
+      dom = wrap("TYPEFORM", this.innerText());
+    }
+    ((TagNode) dom.get(0)).setAttribute("t", this.innerText());
+    return dom;
   }
 
   /**
@@ -69,7 +69,7 @@ public class TypographicCharNode extends CharNode {
    */
   @Override
   public CharType getCharType() {
-	return CharType.TYPOGRAPHIC;
+    return CharType.TYPOGRAPHIC;
   }
 
 }

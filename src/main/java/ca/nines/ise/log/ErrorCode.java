@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.log;
 
 import ca.nines.ise.util.BuilderInterface;
@@ -43,17 +42,17 @@ public class ErrorCode implements Comparable<ErrorCode> {
    * Location where the error code is defined.
    */
   private final int lineNumber;
-  
+
   /**
    * Human readable error message.
    */
   private final String message;
-  
+
   /**
-   * Severity of the error. 
+   * Severity of the error.
    */
   private final String severity;
-  
+
   /**
    * Source where the error message is defined.
    */
@@ -61,46 +60,46 @@ public class ErrorCode implements Comparable<ErrorCode> {
 
   /**
    * Get an ErrorCodeBuilder
-   * 
-   * @return ErrorCodeBuilder 
+   *
+   * @return ErrorCodeBuilder
    */
   public static ErrorCodeBuilder builder() {
     return new ErrorCodeBuilder();
   }
 
   /**
-   * Error code builder. 
+   * Error code builder.
    */
   public static class ErrorCodeBuilder implements BuilderInterface<ErrorCode> {
 
-	/**
-	 * Error code.
-	 */
+    /**
+     * Error code.
+     */
     private String code;
-	
-	/**
-	 * Error code line number where it is defined.
-	 */
+
+    /**
+     * Error code line number where it is defined.
+     */
     private int lineNumber;
-	
-	/**
-	 * Error message
-	 */
+
+    /**
+     * Error message
+     */
     private String message;
-	
-	/**
-	 * Error severity.
-	 */
+
+    /**
+     * Error severity.
+     */
     private String severity;
-	
-	/**
-	 * Location where the error code/message is defined.
-	 */
+
+    /**
+     * Location where the error code/message is defined.
+     */
     private String source;
 
-	/**
-	 * Use ErrorCode#builder() to get a builder.
-	 */
+    /**
+     * Use ErrorCode#builder() to get a builder.
+     */
     private ErrorCodeBuilder() {
       code = "unknown";
       lineNumber = 0;
@@ -109,36 +108,38 @@ public class ErrorCode implements Comparable<ErrorCode> {
       source = "";
     }
 
-	/**
-	 * Construct and return an error code.
-	 * @return ErrorCode
-	 */
+    /**
+     * Construct and return an error code.
+     *
+     * @return ErrorCode
+     */
     @Override
     public ErrorCode build() {
       return new ErrorCode(source, lineNumber, code, severity, message);
     }
 
-	/**
-	 * Construct an error code from an XML string.
-	 * 
-	 * @param str
-	 * @return ErrorCodeBuilder
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws TransformerException 
-	 */
+    /**
+     * Construct an error code from an XML string.
+     *
+     * @param str
+     * @return ErrorCodeBuilder
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
+     */
     public ErrorCodeBuilder from(String str) throws ParserConfigurationException, SAXException, TransformerException {
       XMLDriver xd = new XMLDriver();
       Document doc = xd.drive(str);
-      Node n = doc.getElementsByTagName("message").item(0);      
+      Node n = doc.getElementsByTagName("message").item(0);
       return from(n);
     }
-    
-	/**
-	 * Build an error code from an XML node.
-	 * @param n
-	 * @return ErrorCodeBuilder
-	 */
+
+    /**
+     * Build an error code from an XML node.
+     *
+     * @param n
+     * @return ErrorCodeBuilder
+     */
     public ErrorCodeBuilder from(Node n) {
       setCode(n.getAttributes().getNamedItem("code").getNodeValue());
       setSeverity(n.getAttributes().getNamedItem("severity").getNodeValue());
@@ -192,14 +193,14 @@ public class ErrorCode implements Comparable<ErrorCode> {
   }
 
   /**
-   * Use ErrorCodeBuilder (by way of ErrorCode#builder()) to create
-   * ErrorCode objects.
-   * 
+   * Use ErrorCodeBuilder (by way of ErrorCode#builder()) to create ErrorCode
+   * objects.
+   *
    * @param source
    * @param lineNumber
    * @param code
    * @param severity
-   * @param message 
+   * @param message
    */
   private ErrorCode(String source, int lineNumber, String code, String severity, String message) {
     this.source = source;
@@ -211,6 +212,7 @@ public class ErrorCode implements Comparable<ErrorCode> {
 
   /**
    * Compare ErrorCodes based on the code.
+   *
    * @param o
    * @return -1, 0, or 1 based on the lexicographic ordering of the error codes.
    */
@@ -256,6 +258,7 @@ public class ErrorCode implements Comparable<ErrorCode> {
 
   /**
    * Return a string representation of an ErrorCode.
+   *
    * @return String
    */
   @Override

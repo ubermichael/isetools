@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.dom;
 
 import ca.nines.ise.dom.DOM.DOMStatus;
@@ -82,7 +81,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
    * Input Stream for the Antlr parser.
    */
   private final ANTLRInputStream ais;
-  
+
   /**
    * Name of the attribute being parsed.
    */
@@ -92,23 +91,24 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
    * The tag currently being processed.
    */
   private TagNode currentTag;
-  
+
   /**
    * The DOM being constructed.
    */
   private final DOM dom = new DOM();
-  
+
   /**
    * A stream of tokens, as found by Antlr's lexer.
    */
   private TokenStream tokens;
 
   /**
-   * Constructs a DOMBuilder from an InputStream, recording the source of 
-   * the input. The input will be run through a DOMStream before parsing.
+   * Constructs a DOMBuilder from an InputStream, recording the source of the
+   * input. The input will be run through a DOMStream before parsing.
    *
    * @param in
-   * @param source <p>
+   * @param source
+   * <p>
    * @throws java.io.IOException
    */
   public DOMBuilder(InputStream in, String source) throws IOException {
@@ -119,8 +119,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   }
 
   /**
-   * Constructs a DOMBuilder from a string. The resulting DOM source will
-   * be "#STRING". The input will be run through a DOMStream before parsing.
+   * Constructs a DOMBuilder from a string. The resulting DOM source will be
+   * "#STRING". The input will be run through a DOMStream before parsing.
    * <p>
    * @param in The string to parse.
    * <p>
@@ -135,12 +135,13 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Constructs a BuilderInterface from a File. The resulting DOM source will
-   * return the absolute path to the file. The input will be run through a DOMStream before parsing.
+   * return the absolute path to the file. The input will be run through a
+   * DOMStream before parsing.
    * <p>
    * @param in The file to read and parse.
    * <p>
    * @throws FileNotFoundException if the file cannot be found.
-   * @throws IOException           if the file cannot be read.
+   * @throws IOException if the file cannot be read.
    */
   public DOMBuilder(File in) throws FileNotFoundException, IOException {
     DOMStream domStream = new DOMStream(in);
@@ -180,8 +181,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter an abbreviation node. Create a new Abbr node from the context.
-   * 
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterAbbr(AbbrContext ctx) {
@@ -191,8 +192,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the attribute name state. Saves the attribute name for later.
-   * 
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterAttributeName(AttributeNameContext ctx) {
@@ -201,8 +202,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the attribute value state. Sets the attribute in the currentTag.
-   * 
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterAttributeValue(AttributeValueContext ctx) {
@@ -213,9 +214,10 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   }
 
   /**
-   * Enters the character accent state. Creates an AccentCharNode from the context.
-   * 
-   * @param ctx 
+   * Enters the character accent state. Creates an AccentCharNode from the
+   * context.
+   *
+   * @param ctx
    */
   @Override
   public void enterCharAccent(CharAccentContext ctx) {
@@ -225,7 +227,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the code point state. Builds a CodePointCharNode from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterCharCodePoint(CharCodePointContext ctx) {
@@ -234,9 +237,10 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   }
 
   /**
-   * Enter the digraph state. Constructs a DigraphCharNode node from the context.
-   * 
-   * @param ctx 
+   * Enter the digraph state. Constructs a DigraphCharNode node from the
+   * context.
+   *
+   * @param ctx
    */
   @Override
   public void enterCharDigraph(CharDigraphContext ctx) {
@@ -247,8 +251,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   /**
    * Enter the ligature character state. Constructs a LigatureCharNode from the
    * the parser context.
-   * 
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterCharLigature(CharLigatureContext ctx) {
@@ -259,8 +263,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   /**
    * Enter the nested character node. Constructs a NestedCharNode from the
    * context.
-   * 
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterCharNested(CharNestedContext ctx) {
@@ -270,8 +274,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the character space mode. Constructs a node from the context.
-   * 
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterCharSpace(CharSpaceContext ctx) {
@@ -281,7 +285,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter a typographic character node. Constructs a node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterCharTypographic(CharTypographicContext ctx) {
@@ -291,7 +296,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter a unicode character node. Creates a node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterCharUnicode(CharUnicodeContext ctx) {
@@ -301,7 +307,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter a comment markup. Creates a new node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterComment(CommentContext ctx) {
@@ -311,7 +318,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter text content. Creates a new node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterContent(ContentContext ctx) {
@@ -321,7 +329,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the empty tag state. Creates a new node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterEmptyTag(EmptyTagContext ctx) {
@@ -331,7 +340,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the end tag state. Creates a new node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterEndTag(EndTagContext ctx) {
@@ -341,7 +351,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the start tag state. Creates a new node from the context.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterStartTag(StartTagContext ctx) {
@@ -351,7 +362,8 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Enter the tag name state. Sets the current tag's name.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void enterTagName(TagNameContext ctx) {
@@ -360,9 +372,10 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   }
 
   /**
-   * Leaves any tag state. Adds the current tag to the dom, if there is one. 
+   * Leaves any tag state. Adds the current tag to the dom, if there is one.
    * Sets the currentTag and currentAttrName to null.
-   * @param ctx 
+   *
+   * @param ctx
    */
   @Override
   public void exitTag(TagContext ctx) {
@@ -377,7 +390,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
 
   /**
    * Set up a newly created node with information from the context.
-   * 
+   *
    * @param n
    * @param ctx
    * @return Node

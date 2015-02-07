@@ -35,6 +35,7 @@ import org.apache.commons.collections4.iterators.PeekingIterator;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Transformer {
+
   private PeekingIterator<Node> iterator;
 
   DOM dom;
@@ -330,7 +331,7 @@ abstract public class Transformer {
     this.dom.setLines(dom.getLines());
     this.dom.setSource(dom.getSource());
     iterator = new PeekingIterator<>(dom.iterator());
-    
+
     while (iterator.hasNext()) {
       Node n = iterator.next();
       dispatch(n);
@@ -808,7 +809,7 @@ abstract public class Transformer {
   protected Node peek() {
     return iterator.peek();
   }
-  
+
   void skipTo(NodeType nt, String nodeName) {
     while (iterator.hasNext()) {
       Node n = iterator.next();

@@ -66,9 +66,9 @@ public class Help extends Command {
 
   /**
    * Format a list of commands and send it to System.out.
-   * 
+   *
    * @throws InstantiationException
-   * @throws IllegalAccessException 
+   * @throws IllegalAccessException
    */
   public void listCommands() throws InstantiationException, IllegalAccessException {
     Formatter formatter = new Formatter(System.out);

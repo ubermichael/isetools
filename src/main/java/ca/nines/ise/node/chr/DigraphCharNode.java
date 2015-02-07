@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.node.chr;
 
 import ca.nines.ise.dom.Fragment;
@@ -48,7 +47,7 @@ public class DigraphCharNode extends CharNode {
 
   /**
    * Return a copy of the mapping.
-   * 
+   *
    * @return Map<> duplicate.
    */
   public static Map<String, String> mapping() {
@@ -57,7 +56,7 @@ public class DigraphCharNode extends CharNode {
 
   /**
    * Expand the digraph into a fragment.
-   * 
+   *
    * @return Fragment
    */
   @Override

@@ -34,18 +34,18 @@ public class Tester {
    * @param args command line arguments.
    */
   public static void main(String[] args) {
-	Log log = Log.getInstance();
-	try {
-	  DOM dom = new DOMBuilder(new File("input/withTitlePage/Oth/Oth_M.txt")).build();
-	  System.out.println(dom);	  
-	} catch (Exception ex) {
-	  ex.printStackTrace(System.err);
-	} finally {
-	  if (log.count() > 0) {
-		System.err.println("");
-		System.err.println(log);
-	  }
-	}
+    Log log = Log.getInstance();
+    try {
+      DOM dom = new DOMBuilder(new File("input/withTitlePage/Oth/Oth_M.txt")).build();
+      System.out.println(dom);
+    } catch (Exception ex) {
+      ex.printStackTrace(System.err);
+    } finally {
+      if (log.count() > 0) {
+        System.err.println("");
+        System.err.println(log);
+      }
+    }
   }
 
 }

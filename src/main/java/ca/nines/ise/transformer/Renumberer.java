@@ -24,8 +24,8 @@ import ca.nines.ise.node.TagNode;
 import java.io.IOException;
 
 /**
- * Renumbering transformer - changes the \@n attribute of
- * act, scene, line, page, qln, tln, wln as necessary.
+ * Renumbering transformer - changes the \@n attribute of act, scene, line,
+ * page, qln, tln, wln as necessary.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
@@ -34,7 +34,7 @@ public class Renumberer extends IdentityTransform {
   private int act = 1;
   private int line = 1;
   private int lined = 1;
-  
+
   private int page = 1;
 
   private int qln = 0;
@@ -59,40 +59,40 @@ public class Renumberer extends IdentityTransform {
   private boolean renumberWln = false;
 
   private boolean inSplit = false;
-  
+
   @Override
-  public void empty_l(EmptyNode n) {    
-    boolean inSD;    
+  public void empty_l(EmptyNode n) {
+    boolean inSD;
     Node tmp;
-    
+
     if (renumberLine) {
-      
+
       // is this line part of a  split.
-      if(n.hasAttribute("part") && n.getAttribute("part").equals("i")) {
+      if (n.hasAttribute("part") && n.getAttribute("part").equals("i")) {
         inSplit = true;
       }
-      
+
       // look ahead to see if this line is a stage direction
       inSD = false;
       int i = n.getPosition() + 1;
-      while(i < dom.size()) {
+      while (i < dom.size()) {
         i++;
         tmp = dom.get(i);
-        if(tmp.getName().equals("SD")) {
+        if (tmp.getName().equals("SD")) {
           inSD = true;
           break;
         }
-        if(tmp.getName().equals("L")) {
+        if (tmp.getName().equals("L")) {
           inSD = false;
           break;
         }
       }
-      
-      if(inSD) {
-        if(inSplit) {
+
+      if (inSD) {
+        if (inSplit) {
           n.setAttribute("n", "");
         } else {
-          if(line > 0) {
+          if (line > 0) {
             line--;
           }
           n.setAttribute("n", line + "." + lined);
@@ -102,12 +102,12 @@ public class Renumberer extends IdentityTransform {
         n.setAttribute("n", String.valueOf(line));
         lined = 1;
       }
-      
-      if(n.hasAttribute("part") && n.getAttribute("part").equals("f")) {
+
+      if (n.hasAttribute("part") && n.getAttribute("part").equals("f")) {
         inSplit = false;
       }
-      
-      if( ! inSplit) {
+
+      if (!inSplit) {
         line++;
       }
     }
@@ -243,18 +243,18 @@ public class Renumberer extends IdentityTransform {
       n.setAttribute("n", String.valueOf(scene));
       scene++;
     }
-    
+
     // should the first line in the scene be numbered from 0 or 1?
     line = 1;
     Node l = dom.find_forward(n, "L");
-    if(l == null || !(l instanceof TagNode)) {
+    if (l == null || !(l instanceof TagNode)) {
       return;
     }
-    TagNode tn = (TagNode)l;
-    if( ! tn.hasAttribute("n")) {
+    TagNode tn = (TagNode) l;
+    if (!tn.hasAttribute("n")) {
       return;
     }
-    if(tn.getAttribute("n").startsWith("0")) {
+    if (tn.getAttribute("n").startsWith("0")) {
       line = 0;
     }
     dom.add(n);
@@ -274,5 +274,5 @@ public class Renumberer extends IdentityTransform {
     dom.index();
     return super.transform(dom);
   }
-  
+
 }

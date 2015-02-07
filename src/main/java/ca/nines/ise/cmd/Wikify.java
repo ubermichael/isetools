@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.cmd;
 
 import ca.nines.ise.node.CharNode;
@@ -78,10 +77,10 @@ public class Wikify extends Command {
     if (cmd.hasOption("schema")) {
       wikifySchema(out);
     }
-	
-	if(cmd.hasOption("codepoints")) {
-	  wikifyCodepoints(out);
-	}
+
+    if (cmd.hasOption("codepoints")) {
+      wikifyCodepoints(out);
+    }
   }
 
   /**
@@ -93,7 +92,7 @@ public class Wikify extends Command {
     opts.addOption("o", true, "Send output to file");
     opts.addOption("chars", false, "Generate output for special characters");
     opts.addOption("schema", false, "Generate output for default schema");
-	opts.addOption("codepoints", false, "Generate output for named codepoints");
+    opts.addOption("codepoints", false, "Generate output for named codepoints");
     return opts;
   }
 
@@ -116,10 +115,10 @@ public class Wikify extends Command {
       for (String c : cm.keySet()) {
         cn.setText("{" + c + "a}");
         formatter.format("%s %s %s %s%n",
-                         c,
-                         Character.getName(cm.get(c).charAt(0)),
-                         cn.getText(),
-                         cn.unicode()
+                c,
+                Character.getName(cm.get(c).charAt(0)),
+                cn.getText(),
+                cn.unicode()
         );
         xmlOut.render(cn.expanded());
         out.println();
@@ -140,14 +139,14 @@ public class Wikify extends Command {
 
   /**
    * Produce a wikified version of the schema.
-   * 
+   *
    * @param out destination
-   * 
+   *
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
    * @throws XPathExpressionException
-   * @throws TransformerException 
+   * @throws TransformerException
    */
   private void wikifySchema(PrintStream out) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     Schema schema = Schema.defaultSchema();
@@ -160,9 +159,9 @@ public class Wikify extends Command {
 
   /**
    * Wikify a tag.
-   * 
+   *
    * @param out
-   * @param tag 
+   * @param tag
    */
   private static void wikifySchemaAttrInfo(PrintStream out, Tag tag) {
     if (tag.countAttributes() == 0) {
@@ -172,13 +171,13 @@ public class Wikify extends Command {
     fmt.format("|| Name || Type || Optional || Empty || Renumberable || Depreciated || Options ||%n");
     for (Attribute attr : tag.getAttributes()) {
       fmt.format("|| ''%s'' || %s || %s || %s || %s || %s || %s ||%n",
-                 attr.getName(),
-                 attr.getType(),
-                 attr.isOptional(),
-                 attr.isEmpty(),
-                 attr.isRenumberable(),
-                 attr.getDepreciated(),
-                 wikifySchemaAttrOptions(attr)
+              attr.getName(),
+              attr.getType(),
+              attr.isOptional(),
+              attr.isEmpty(),
+              attr.isRenumberable(),
+              attr.getDepreciated(),
+              wikifySchemaAttrOptions(attr)
       );
       fmt.format("{{{#!td%n}}}%n{{{#!td colspan=7%n%s%n}}}%n|-------------------%n", attr.getDescription());
     }
@@ -187,7 +186,7 @@ public class Wikify extends Command {
 
   /**
    * Wikify a schema attribute's options.
-   * 
+   *
    * @param out
    * @param attr
    * @return String
@@ -197,7 +196,7 @@ public class Wikify extends Command {
     String[] options = attr.getOptions();
     if (options.length == 0) {
       return "";
-    }    
+    }
     Iterator<String> i = Arrays.asList(options).iterator();
     while (i.hasNext()) {
       String s = i.next();
@@ -211,9 +210,9 @@ public class Wikify extends Command {
 
   /**
    * Wikify a tag and its attributes.
-   * 
+   *
    * @param out
-   * @param tag 
+   * @param tag
    */
   private static void wikifyTagInfo(PrintStream out, Tag tag) {
     System.out.println("== " + tag.getName() + "==\n");
@@ -227,21 +226,21 @@ public class Wikify extends Command {
 
   /**
    * Turn the list of entity names into a wiki table.
-   * 
+   *
    * @param out
-   * @throws IOException 
+   * @throws IOException
    */
   private void wikifyCodepoints(PrintStream out) throws IOException {
-	CodePointTable tbl = CodePointTable.defaultCodePointTable();
-	Formatter fmt = new Formatter(out);
-	fmt.format("|| Name || Char || Decimal || Hex || Code Point || Description ||\n");
-	for(String name : tbl.getCodePoints()) {
-		CodePoint cp = tbl.getCodePoint(name);
-		fmt.format("|| %s || %s || %s || %s || %s || %s ||\n", 
-				cp.getName(), cp.getValue(), cp.dec(), cp.hex(), 
-				cp.unicodePoint(), cp.description().toLowerCase());
-	  }
-	out.println();
+    CodePointTable tbl = CodePointTable.defaultCodePointTable();
+    Formatter fmt = new Formatter(out);
+    fmt.format("|| Name || Char || Decimal || Hex || Code Point || Description ||\n");
+    for (String name : tbl.getCodePoints()) {
+      CodePoint cp = tbl.getCodePoint(name);
+      fmt.format("|| %s || %s || %s || %s || %s || %s ||\n",
+              cp.getName(), cp.getValue(), cp.dec(), cp.hex(),
+              cp.unicodePoint(), cp.description().toLowerCase());
+    }
+    out.println();
   }
 
 }

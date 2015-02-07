@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.cmd;
 
 import java.io.File;
@@ -43,35 +42,35 @@ import org.atteo.classindex.IndexSubclasses;
 abstract public class Command {
 
   /**
-   * List of commands, which are subclasses of Command. Subclass indexing
-   * is provided by ClassIndex.
-   * 
+   * List of commands, which are subclasses of Command. Subclass indexing is
+   * provided by ClassIndex.
+   *
    * @see org.atteo.classindex.IndexSubclasses
    */
   protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();
 
   /**
    * Return a description of the command.
-   * 
+   *
    * @return String
    */
   abstract public String description();
 
   /**
    * Execute a command.
-   * 
+   *
    * @param cmd
-   * @throws Exception 
+   * @throws Exception
    */
   abstract public void execute(CommandLine cmd) throws Exception;
 
   /**
    * Parse the command line args[] array and return the result.
-   * 
+   *
    * @param opts
    * @param args
    * @return CommandLine
-   * @throws ParseException 
+   * @throws ParseException
    */
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
@@ -82,7 +81,7 @@ abstract public class Command {
 
   /**
    * Get a list of file paths from the command line arguments.
-   * 
+   *
    * @param cmd
    * @return File[]
    */
@@ -110,7 +109,7 @@ abstract public class Command {
 
   /**
    * Get a list of arguments for the command.
-   * 
+   *
    * @param cmd
    * @return String[]
    */
@@ -122,15 +121,15 @@ abstract public class Command {
   }
 
   /**
-   * Turn the description and arguments list into nicely formatted
-   * help and usage documentation.
+   * Turn the description and arguments list into nicely formatted help and
+   * usage documentation.
    */
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
     Options opts = getOptions();
     System.out.println(description());
     if (opts.getOptions().size() > 0) {
-      formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage() , opts);
+      formatter.printHelp(this.getClass().getSimpleName().toLowerCase() + " " + getUsage(), opts);
     } else {
       System.out.println(this.getClass().getSimpleName().toLowerCase() + " " + getUsage());
     }
@@ -138,14 +137,14 @@ abstract public class Command {
 
   /**
    * Generates the Options for the command.
-   * 
+   *
    * @return Options
    */
   public abstract Options getOptions();
 
   /**
    * Generate a brief usage of the command.
-   * 
+   *
    * @return String
    */
   public String getUsage() {

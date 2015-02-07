@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.validator.node.*;
@@ -26,9 +25,8 @@ import ca.nines.ise.schema.Attribute;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
- * Validate a select attribute value. A select is valid if
- * it contains one of the &lt;option&gt;'s defined in the
- * schema.
+ * Validate a select attribute value. A select is valid if it contains one of
+ * the &lt;option&gt;'s defined in the schema.
  * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */

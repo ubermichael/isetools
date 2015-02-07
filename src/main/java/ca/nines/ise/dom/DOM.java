@@ -40,12 +40,12 @@ public class DOM implements Iterable<Node> {
    * An index of TLNs => Nodes
    */
   private final Map<String, Node> index;
-  
+
   /**
    * Does the DOM need to be reindexed.
    */
   private boolean reindex;
-  
+
   /**
    * Lines of text from the source input.
    */
@@ -55,7 +55,7 @@ public class DOM implements Iterable<Node> {
    * The source of data for this DOM.
    */
   private String source;
-  
+
   /**
    * The status of the DOM.
    */
@@ -67,10 +67,11 @@ public class DOM implements Iterable<Node> {
   protected final List<Node> nodes;
 
   public enum DOMStatus {
-	/**
-	 * The status of the document, indicating if the document parsed cleanly, 
-	 * with warnings, or with errors.
-	 */
+
+    /**
+     * The status of the document, indicating if the document parsed cleanly,
+     * with warnings, or with errors.
+     */
     CLEAN,
     WARNING,
     ERROR,
@@ -88,8 +89,8 @@ public class DOM implements Iterable<Node> {
 
   /**
    * Append a node to the DOM.
-   * 
-   * @param n 
+   *
+   * @param n
    */
   public void add(Node n) {
     nodes.add(n);
@@ -98,22 +99,22 @@ public class DOM implements Iterable<Node> {
   /**
    * Add all the nodes in a DOM to this DOM. Does not clone or copy the nodes.
    * They exist in both DOMs.
-   * 
-   * TODO this is a seriously dumb thing to do. In particular it doesn't 
-   * call node.setOwner().
-   * 
-   * @param dom 
+   *
+   * TODO this is a seriously dumb thing to do. In particular it doesn't call
+   * node.setOwner().
+   *
+   * @param dom
    */
   public void addAll(DOM dom) {
     nodes.addAll(dom.nodes);
   }
 
   /**
-   * Return an expanded DOM, where all Char and ABBR nodes are expanded into 
+   * Return an expanded DOM, where all Char and ABBR nodes are expanded into
    * fully tagged equivalents.
-   * 
+   *
    * @return expanded DOM
-   * @throws IOException 
+   * @throws IOException
    */
   public DOM expanded() throws IOException {
     DOM dom = new DOM();
@@ -152,6 +153,7 @@ public class DOM implements Iterable<Node> {
 
   /**
    * Get all lines from the original source data.
+   *
    * @return String[] of the lines in the source
    */
   public String[] getLines() {
@@ -170,7 +172,7 @@ public class DOM implements Iterable<Node> {
 
   /**
    * Get the status of the DOM,
-   * 
+   *
    * @return DOMStatus
    */
   public DOMStatus getStatus() {
@@ -178,9 +180,9 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * Find the Node named TLN with attribute n equal to the parameter. Returns 
+   * Find the Node named TLN with attribute n equal to the parameter. Returns
    * null if the node does not exist.
-   * 
+   *
    * @param tln
    * @return Node or null
    */
@@ -209,7 +211,8 @@ public class DOM implements Iterable<Node> {
    * Returns an empty fragment if the TLN doesn't exist.
    * <p>
    * @param tln
-   * @param length <p>
+   * @param length
+   * <p>
    * @return a piece of the DOM
    */
   public Fragment getTlnFragment(String tln, int length) {
@@ -234,18 +237,18 @@ public class DOM implements Iterable<Node> {
     }
     return fragment;
   }
-  
+
   /**
    * Start at node, and look forward in the DOM to find a node called name.
-   * 
+   *
    * @param node
    * @param name
    * @return Node or null
    */
   public Node find_forward(Node node, String name) {
     index();
-    for(int i = node.getPosition(); i < size(); i++) {
-      if(nodes.get(i).getName().equals(name)) {
+    for (int i = node.getPosition(); i < size(); i++) {
+      if (nodes.get(i).getName().equals(name)) {
         return nodes.get(i);
       }
     }
@@ -290,7 +293,7 @@ public class DOM implements Iterable<Node> {
         n.setTLN(tln);
         n.setAsl(act + "." + scene + "." + line);
       }
-	  reindex = false;
+      reindex = false;
     }
   }
 
@@ -318,28 +321,28 @@ public class DOM implements Iterable<Node> {
     }
     return sb.toString();
   }
-  
+
   /**
    * Split text node o into new nodes at position p, and put n between them.
-   * 
+   *
    * @param oldText
-   * @param newNode 
+   * @param newNode
    * @param pos
    */
   public void splitTextNode(TextNode oldText, int pos, Node newNode) {
-	TextNode beforeNode = new TextNode(oldText);
-	beforeNode.setText(oldText.getText().substring(0, pos));
-	
-	TextNode afterNode = new TextNode(oldText);
-	afterNode.setText(oldText.getText().substring(pos));
-	
-	newNode.setOwner(this);
-	
-	nodes.remove(oldText.getPosition());
-	nodes.add(oldText.getPosition(), afterNode);
-	nodes.add(oldText.getPosition(), newNode);
-	nodes.add(oldText.getPosition(), beforeNode);
-	index(); // positions/indexes have changed.
+    TextNode beforeNode = new TextNode(oldText);
+    beforeNode.setText(oldText.getText().substring(0, pos));
+
+    TextNode afterNode = new TextNode(oldText);
+    afterNode.setText(oldText.getText().substring(pos));
+
+    newNode.setOwner(this);
+
+    nodes.remove(oldText.getPosition());
+    nodes.add(oldText.getPosition(), afterNode);
+    nodes.add(oldText.getPosition(), newNode);
+    nodes.add(oldText.getPosition(), beforeNode);
+    index(); // positions/indexes have changed.
   }
 
   /**
@@ -361,7 +364,8 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * Force the DOM to be reindexed the next time an index operation is performed.
+   * Force the DOM to be reindexed the next time an index operation is
+   * performed.
    */
   public void requestReindex() {
     this.reindex = true;
@@ -369,7 +373,7 @@ public class DOM implements Iterable<Node> {
 
   /**
    * Set the status of the DOM.
-   * 
+   *
    * @param status the status to set
    */
   public void setStatus(DOMStatus status) {
@@ -380,7 +384,7 @@ public class DOM implements Iterable<Node> {
 
   /**
    * Return the size of the DOM - the number of nodes it contains.
-   * 
+   *
    * @return int
    */
   public int size() {
@@ -404,11 +408,11 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * Produce a string by concatenating the unicode version of each text, char, and
-   * abbr node.
-   * 
+   * Produce a string by concatenating the unicode version of each text, char,
+   * and abbr node.
+   *
    * @return String with only the the unicode representation of the DOM.
-   * @throws IOException 
+   * @throws IOException
    */
   public String unicode() throws IOException {
     StringBuilder sb = new StringBuilder();

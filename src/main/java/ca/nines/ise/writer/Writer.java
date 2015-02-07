@@ -39,9 +39,9 @@ abstract public class Writer {
 
   /**
    * Construct a writer and send output to System.out
-   * 
+   *
    * @throws UnsupportedEncodingException
-   * @throws ParserConfigurationException 
+   * @throws ParserConfigurationException
    */
   public Writer() throws UnsupportedEncodingException, ParserConfigurationException {
     this(System.out);
@@ -49,7 +49,7 @@ abstract public class Writer {
 
   /**
    * Construct a writer and send output to the print stream.
-   * 
+   *
    * @param out the output destination.
    */
   public Writer(PrintStream out) {
@@ -58,25 +58,26 @@ abstract public class Writer {
 
   /**
    * Render a DOM into output.
-   * 
+   *
    * @param dom the DOM to render.
-   * 
+   *
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws IOException
-   * @throws Exception 
+   * @throws Exception
    */
-  abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception ;
+  abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 
   /**
-   * Render a DOM with annotations/footnotes - NOT ALL OUTPUT FORMATS SUPPORT ANNOTATIONS.
-   * 
+   * Render a DOM with annotations/footnotes - NOT ALL OUTPUT FORMATS SUPPORT
+   * ANNOTATIONS.
+   *
    * @param dom
    * @param ann
    * @throws TransformerConfigurationException
    * @throws TransformerException
    * @throws IOException
-   * @throws Exception 
+   * @throws Exception
    */
   abstract public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 

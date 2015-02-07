@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.document;
 
 import java.io.File;
@@ -28,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Encapsulate all information about a work: file path, editions, annotations, 
+ * Encapsulate all information about a work: file path, editions, annotations,
  * collations and so on in a single place.
  *
  * @author Michael Joyce <ubermichael@gmail.com>
@@ -39,12 +38,12 @@ public class Work extends Document implements Comparable<Work> {
    * Map edition codes (M) to Editions (Romeo Modern).
    */
   private final Map<String, Edition> editions;
-  
+
   /**
    * Play code for the work (Rom, Ham, 1H4).
    */
   private final String playCode;
-  
+
   /**
    * File path to the root directory of the work.
    */
@@ -52,9 +51,9 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Construct a work from file path to the root directory.
-   * 
+   *
    * @param file
-   * @throws IOException 
+   * @throws IOException
    */
   public Work(File file) throws IOException {
     this.editions = new HashMap<>();
@@ -64,13 +63,13 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Add an edition to the work.
-   * 
+   *
    * @param file
-   * @throws IOException 
+   * @throws IOException
    */
   public void addEdition(File file) throws IOException {
     String filename = file.getName();
-    if(validName(filename)) {
+    if (validName(filename)) {
       String edition = extractEdition(filename);
       editions.put(edition, new Edition(file));
     }
@@ -78,7 +77,7 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Compare two works' play codes in a case-insensitive manner.
-   * 
+   *
    * @param o
    * @return int
    */
@@ -88,8 +87,8 @@ public class Work extends Document implements Comparable<Work> {
   }
 
   /**
-   * Get an edition for the work. 
-   * 
+   * Get an edition for the work.
+   *
    * @param code
    * @return Edition
    * @throws IOException if the edition does not exist.
@@ -109,9 +108,9 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Return a list of editions for available for the work.
-   * 
+   *
    * @return Edition[]
-   * @throws IOException 
+   * @throws IOException
    */
   public Edition[] getEditions() throws IOException {
     File files[] = root.listFiles(new FilenameFilter() {
@@ -135,9 +134,9 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Get the root file system path.
-   * 
+   *
    * @return String
-   * @throws IOException 
+   * @throws IOException
    */
   public String getPath() throws IOException {
     return root.getCanonicalPath();
@@ -152,9 +151,9 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Return true if the work has a title page.
-   * 
+   *
    * @return boolean
-   * @throws IOException 
+   * @throws IOException
    */
   public boolean hasTitlePage() throws IOException {
     return root.getCanonicalPath().contains("withTitlePage");
@@ -162,7 +161,7 @@ public class Work extends Document implements Comparable<Work> {
 
   /**
    * Stringify the work in a human-readable way.
-   * 
+   *
    * @return String
    */
   @Override

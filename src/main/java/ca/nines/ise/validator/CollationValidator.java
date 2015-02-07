@@ -14,8 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
 package ca.nines.ise.validator;
 
 import ca.nines.ise.document.Collation;
@@ -24,6 +22,6 @@ import ca.nines.ise.document.Collation;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class CollationValidator extends ApparatusValidator<Collation>{
-  
+public class CollationValidator extends ApparatusValidator<Collation> {
+
 }

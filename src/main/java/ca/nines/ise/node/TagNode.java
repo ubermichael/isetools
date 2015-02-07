@@ -33,7 +33,7 @@ abstract public class TagNode extends Node {
    * Name,value pairs for attributes.
    */
   protected Map<String, String> attributes = new LinkedHashMap<>();
-  
+
   /**
    * Name of the tag.
    */
@@ -83,7 +83,8 @@ abstract public class TagNode extends Node {
 
   /**
    * Delete one attribute.
-   * @param name 
+   *
+   * @param name
    */
   public void deleteAttribute(String name) {
     if (attributes.containsKey("n")) {
@@ -104,6 +105,7 @@ abstract public class TagNode extends Node {
 
   /**
    * Get an attribute value. Attribute names are case insensitive.
+   *
    * @param name
    * @return String
    */
@@ -113,17 +115,17 @@ abstract public class TagNode extends Node {
 
   /**
    * Check if a node has an attribute. Attribute names are case insensitive.
-   * 
+   *
    * @param name
    * @return boolean
-   */  
+   */
   public boolean hasAttribute(String name) {
     return attributes.containsKey(name.toLowerCase());
   }
 
   /**
    * Return a list of attribute names, in their original cases.
-   * 
+   *
    * @return String of sorted original-case attribute names.
    */
   public String[] getAttributeNames() {
@@ -168,8 +170,9 @@ abstract public class TagNode extends Node {
 
   /**
    * Set an attribute value. May cause the owner DOM to be reindexed.
+   *
    * @param name
-   * @param value 
+   * @param value
    */
   public void setAttribute(String name, String value) {
     if (name.equals("n") && ownerDom != null) {
@@ -180,6 +183,7 @@ abstract public class TagNode extends Node {
 
   /**
    * Set the tag name. May cause the owner DOM to be reindexed.
+   *
    * @param name
    * @return String the name.
    */
@@ -197,6 +201,7 @@ abstract public class TagNode extends Node {
 
   /**
    * Return a human friendly string representation.
+   *
    * @return String
    */
   @Override
@@ -213,6 +218,7 @@ abstract public class TagNode extends Node {
 
   /**
    * Tag nodes don't have a unicode equivalent.
+   *
    * @return empty string
    */
   @Override
