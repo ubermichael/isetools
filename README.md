@@ -3,6 +3,8 @@
 Data parsing, validation, and transformation tools for the [Internet Shakespeare 
 Editions](http://internetshakespeare.uvic.ca).
 
+[![Build Status](https://travis-ci.org/ubermichael/isetools.svg?branch=master)](https://travis-ci.org/ubermichael/isetools)
+
 ## Basic Usage
 
 The tools are all run from the command line.
