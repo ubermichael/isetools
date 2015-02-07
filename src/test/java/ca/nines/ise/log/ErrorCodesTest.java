@@ -21,6 +21,7 @@ import ca.nines.ise.util.XMLDriver;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -92,7 +93,8 @@ public class ErrorCodesTest {
 
   @Test
   public void testBuilderFile() throws IOException, TransformerException, SAXException, ParserConfigurationException {
-    File file = new File("test/resources/data/test-errors.xml");
+    URL url = this.getClass().getResource("/data/test-errors.xml");
+    File file = new File(url.getFile());
     ErrorCodes ec = ErrorCodes.builder().from(file).build();
     assertEquals(ec.size(), 5);
   }
@@ -107,7 +109,7 @@ public class ErrorCodesTest {
 
   @Test
   public void testBuilderStream() throws ParserConfigurationException, TransformerConfigurationException, SAXException, TransformerException, IOException {
-    String loc = "/resources/data/test-errors.xml";
+    String loc = "/data/test-errors.xml";
     InputStream stream = ErrorCodesTest.class.getResourceAsStream(loc);
     ErrorCodes ec = ErrorCodes.builder().from(loc, stream).build();
     assertEquals(ec.size(), 5);

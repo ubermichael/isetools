@@ -20,6 +20,7 @@ package ca.nines.ise.schema;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.junit.Test;
@@ -65,12 +66,13 @@ public class SchemaTest {
 
   @Test
   public void testBuilderFromFile() throws ParserConfigurationException, SAXException, TransformerException, IOException {
-    File file = new File("test/resources/data/test-schema.xml");
+    URL url = this.getClass().getResource("/data/test-schema.xml");
+    File file = new File(url.getFile());
     Schema schema = Schema.builder().from(file).build();
     assertEquals("test", schema.getEdition());
     assertEquals("test", schema.getGroup());
     assertEquals(3, schema.getLineNumber());
-    assertTrue(schema.getSource().endsWith("test/resources/data/test-schema.xml"));
+    assertTrue(schema.getSource().endsWith("data/test-schema.xml"));
     assertTrue(schema.getTagNames().length > 1);
   }
 
@@ -81,14 +83,14 @@ public class SchemaTest {
 
   @Test
   public void testBuilderFromStream() throws TransformerException, ParserConfigurationException, SAXException, IOException {
-    String loc = "/resources/data/test-schema.xml";
+    String loc = "/data/test-schema.xml";
     InputStream stream = SchemaTest.class.getResourceAsStream(loc);
     Schema schema = Schema.builder().from(loc, stream).build();
     
     assertEquals("test", schema.getEdition());
     assertEquals("test", schema.getGroup());
     assertEquals(3, schema.getLineNumber());
-    assertTrue(schema.getSource().endsWith("/resources/data/test-schema.xml"));
+    assertTrue(schema.getSource().endsWith("data/test-schema.xml"));
     assertTrue(schema.getTagNames().length > 1);
   }
 

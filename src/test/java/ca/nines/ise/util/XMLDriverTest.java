@@ -18,7 +18,7 @@ package ca.nines.ise.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.junit.Test;
@@ -35,8 +35,10 @@ public class XMLDriverTest {
 
   @Test
   public void testDriveFile() throws ParserConfigurationException, SAXException, TransformerException, IOException {
+    URL url = this.getClass().getResource("/data/test-errors.xml");
+    File file = new File(url.getFile());
     XMLDriver xd = new XMLDriver();
-    Document document = xd.drive(new File("test/resources/data/test-errors.xml"));
+    Document document = xd.drive(file);
     
     Element root = document.getDocumentElement();
     LocationData loc = (LocationData) root.getUserData(LocationData.LOCATION_DATA_KEY);    
@@ -55,7 +57,7 @@ public class XMLDriverTest {
   @Test
   public void testDriveResource() throws ParserConfigurationException, SAXException, TransformerException, IOException {
     XMLDriver xd = new XMLDriver();
-    String res = "/resources/data/test-errors.xml";
+    String res = "/data/test-errors.xml";
     Document document = xd.drive(res, getClass().getResourceAsStream(res));
     
     Element root = document.getDocumentElement();

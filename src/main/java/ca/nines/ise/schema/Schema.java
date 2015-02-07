@@ -189,7 +189,7 @@ public class Schema {
   }
 
   public static Schema defaultSchema() throws IOException, SAXException, ParserConfigurationException, TransformerException {
-    String loc = "/resources/schemas/default.xml";
+    String loc = "/schemas/default.xml";
     InputStream in = Schema.class.getResourceAsStream(loc);
     return Schema.builder().from(loc, in).build();
   }

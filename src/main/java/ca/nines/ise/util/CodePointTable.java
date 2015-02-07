@@ -23,7 +23,6 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -79,7 +78,7 @@ public class CodePointTable {
   }
 
   public static CodePointTable defaultCodePointTable() throws IOException {
-	String loc = "/resources/data/entities.csv";
+	String loc = "/data/entities.csv";
 	InputStream in = CodePointTable.class.getResourceAsStream(loc);
 	return builder().from(in).build();
   }

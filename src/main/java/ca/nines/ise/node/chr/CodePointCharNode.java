@@ -55,7 +55,7 @@ public class CodePointCharNode extends CharNode {
   private static CodePointTable tbl = null;
 
   /**
-   * Expand a numeric code poitn into a fragment.
+   * Expand a numeric code point into a fragment.
    *
    * @param value
    * @param base

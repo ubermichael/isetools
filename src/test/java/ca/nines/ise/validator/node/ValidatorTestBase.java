@@ -18,7 +18,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.schema.Schema;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,7 +34,7 @@ abstract public class ValidatorTestBase extends TestBase {
   protected final Schema schema;
 
   public ValidatorTestBase() throws SAXException, IOException, XPathExpressionException, ParserConfigurationException, TransformerException {
-    String loc = "/resources/data/test-schema.xml";
+    String loc = "/data/test-schema.xml";
     InputStream stream = ValidatorTestBase.class.getResourceAsStream(loc);
     schema = Schema.builder().from(loc, stream).build();
   }
