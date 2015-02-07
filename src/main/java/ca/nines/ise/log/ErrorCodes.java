@@ -171,7 +171,7 @@ public class ErrorCodes {
    * @throws ParserConfigurationException 
    */
   public static ErrorCodes defaultErrorCodes() throws IOException, TransformerException, SAXException, ParserConfigurationException {
-    String loc = "/resources/data/errors.xml";
+    String loc = "/data/errors.xml";
     InputStream in = ErrorCodes.class.getResourceAsStream(loc);
     return builder().from(loc, in).build();
   }

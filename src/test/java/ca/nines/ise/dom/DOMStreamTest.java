@@ -14,7 +14,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 package ca.nines.ise.dom;
 
 import ca.nines.ise.log.Log;
@@ -41,7 +40,9 @@ public class DOMStreamTest {
 
   @Test
   public void testUTF8NoBOM() throws IOException {
-    URL url = this.getClass().getResource("/resources/data/utf8.txt");
+
+    URL url = this.getClass().getResource("/data/utf8.txt");
+    assertNotNull("URL isn't null.", url);
     File f = new File(url.getFile());
 
     DOMStream ds = new DOMStream(f);
@@ -54,7 +55,9 @@ public class DOMStreamTest {
 
   @Test
   public void testUTF8WithBOM() throws IOException {
-    URL url = this.getClass().getResource("/resources/data/utf8-bom.txt");
+    URL url = this.getClass().getResource("/data/utf8-bom.txt");
+    assertNotNull("URL isn't null.", url);
+
     File f = new File(url.getFile());
     DOMStream ds = new DOMStream(f);
     String lines[] = ds.getLines();
@@ -67,7 +70,9 @@ public class DOMStreamTest {
 
   @Test
   public void testUTF16BigEndianWithBOM() throws IOException {
-    URL url = this.getClass().getResource("/resources/data/utf16be-bom.txt");
+    URL url = this.getClass().getResource("/data/utf16be-bom.txt");
+    assertNotNull("URL isn't null.", url);
+
     File f = new File(url.getFile());
     DOMStream ds = new DOMStream(f);
     String lines[] = ds.getLines();
@@ -81,7 +86,9 @@ public class DOMStreamTest {
 
   @Test
   public void testUTF16LittleEndianWithBOM() throws IOException {
-    URL url = this.getClass().getResource("/resources/data/utf16le-bom.txt");
+    URL url = this.getClass().getResource("/data/utf16le-bom.txt");
+    assertNotNull("URL isn't null.", url);
+
     File f = new File(url.getFile());
     DOMStream ds = new DOMStream(f);
     String lines[] = ds.getLines();
