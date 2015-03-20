@@ -3,7 +3,7 @@
 export CLASSPATH=$CLASSPATH:lib/antlr-4.2.2-complete.jar
 
 pkg=ca.nines.ise.grammar
-dir=src/ca/nines/ise/grammar
+dir=src/main/java/ca/nines/ise/grammar
 
 lexer=ISELexer.g4
 parser=ISEParser.g4

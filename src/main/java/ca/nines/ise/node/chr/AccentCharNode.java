@@ -36,6 +36,7 @@ public class AccentCharNode extends CharNode {
   static {
     charMap.put("^", "\u0302");
     charMap.put("\"", "\u0308");
+    charMap.put(",", "\u0327");
     charMap.put("'", "\u0301");
     charMap.put("`", "\u0300");
     charMap.put("_", "\u0304");

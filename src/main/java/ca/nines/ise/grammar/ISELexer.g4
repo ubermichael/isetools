@@ -65,7 +65,8 @@ CHAR_SPACE
 CHAR_ACCENT
   : 
     ( '{^'  [a-zA-Z] '}'         // carret   (ê)   U+0302 
-    | '{"'  [a-zA-Z] '}'         // umlat    (ë)   U+0308 
+    | '{"'  [a-zA-Z] '}'         // umlat    (ë)   U+0308
+    | '{,'  [a-zA-Z] '}'         // cedilla  (̧e)   U+0327
     | '{\'' [a-zA-Z] '}'         // acute    (é)   U+0301
     | '{`'  [a-zA-Z] '}'         // grave    (̀e)   U+0300
     | '{_'  [a-zA-Z] '}'         // macron   (ō)   U+0304

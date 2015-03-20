@@ -37,6 +37,7 @@ public class AccentCharNodeTest extends CharNodeTestBase {
   public void testExpanded() throws IOException {
     testExpansion("{^e}", "e\u0302", new AccentCharNode());
     testExpansion("{\"e}", "e\u0308", new AccentCharNode());
+    testExpansion("{,e", "e\u0327", new AccentCharNode());
     testExpansion("{'e}", "e\u0301", new AccentCharNode());
     testExpansion("{`e}", "e\u0300", new AccentCharNode());
     testExpansion("{_e}", "e\u0304", new AccentCharNode());
@@ -48,6 +49,7 @@ public class AccentCharNodeTest extends CharNodeTestBase {
   public void testUnicode() throws IOException {
     testUnicodify("{^e}", "e\u0302", new AccentCharNode());
     testUnicodify("{\"e}", "e\u0308", new AccentCharNode());
+    testUnicodify("{,e", "e\u0327", new AccentCharNode());
     testUnicodify("{'e}", "e\u0301", new AccentCharNode());
     testUnicodify("{`e}", "e\u0300", new AccentCharNode());
     testUnicodify("{_e}", "e\u0304", new AccentCharNode());
