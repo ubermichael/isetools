@@ -19,3 +19,5 @@ release.properties
 
 # netbeans specific stuff.
 nb-configuration.xml
+nbactions.xml
+src/main/javadoc
