@@ -16,9 +16,12 @@
  */
 package ca.nines.ise;
 
+import ca.nines.ise.cmd.Annotations;
+import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.writer.RTFWriter;
 import java.io.File;
 
 /**
@@ -28,24 +31,26 @@ import java.io.File;
  */
 public class Tester {
 
-  /**
-   * Experiment runner.
-   *
-   * @param args command line arguments.
-   */
-  public static void main(String[] args) {
-    Log log = Log.getInstance();
-    try {
-      DOM dom = new DOMBuilder(new File("input/withTitlePage/Oth/Oth_M.txt")).build();
-      System.out.println(dom);
-    } catch (Exception ex) {
-      ex.printStackTrace(System.err);
-    } finally {
-      if (log.count() > 0) {
-        System.err.println("");
-        System.err.println(log);
-      }
+    /**
+     * Experiment runner.
+     *
+     * @param args command line arguments.
+     */
+    public static void main(String[] args) {
+        Log log = Log.getInstance();
+        try {
+            RTFWriter w = new RTFWriter();
+            DOM dom = new DOMBuilder(new File("in.xml")).build();
+            Annotation ann = Annotation.builder().from(new File("in_ann.xml")).build();
+            w.render(dom, ann);
+        } catch (Exception ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            if (log.count() > 0) {
+                System.err.println("");
+                System.err.println(log);
+            }
+        }
     }
-  }
 
 }

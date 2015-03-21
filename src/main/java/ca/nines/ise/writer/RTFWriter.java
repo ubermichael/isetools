@@ -34,7 +34,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
-//import com.lowagie.text.Footnote;
+import com.lowagie.text.Footnote;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
@@ -76,6 +76,7 @@ public class RTFWriter extends Writer {
     super(out);
     doc = new Document();
     writer = RtfWriter2.getInstance(doc, out);
+    writer.getDocumentSettings().setOutputDebugLineBreaks(true);
     normal = new RtfParagraphStyle("ISE Normal", "Times New Roman", 12, Font.NORMAL, Color.BLACK);
     normal.setAlignment(Element.ALIGN_UNDEFINED);
     writer.getDocumentSettings().registerParagraphStyle(normal);
@@ -129,12 +130,11 @@ public class RTFWriter extends Writer {
   }
 
   private void footnote(Note note) throws IOException, DocumentException {
-//	Footnote fn = new Footnote();
-//	Paragraph fp = new Paragraph("", fnStyle);
-//	fp.add(new Chunk("\t"));
-//	fp.add(new Chunk(note.getNote("1").unicode().trim()));
-//	fn.add(fp);
-//	p.add(fn);
+	Footnote fn = new Footnote("", fnStyle);
+        RtfTab tab = new RtfTab(300, RtfTab.TAB_LEFT_ALIGN);
+        fn.add(tab);
+	fn.add(new Chunk(note.getNote("1").unicode().trim()));
+	p.add(fn);
   }
 
   @ErrorCode(code = {"rtfwriter.note.notfound"})
