@@ -26,6 +26,7 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
 import ca.nines.ise.node.lemma.Note;
 import com.lowagie.text.Chunk;
@@ -71,6 +72,7 @@ public class RTFWriter extends Writer {
     private RtfParagraphStyle ld;
     private RtfParagraphStyle p1;
     private RtfParagraphStyle p2;
+    private RtfParagraphStyle prose;
     private RtfParagraphStyle fnStyle;
 
     public RTFWriter() throws UnsupportedEncodingException, ParserConfigurationException {
@@ -102,6 +104,12 @@ public class RTFWriter extends Writer {
         p1.setIndentLeft(19);
         p1.setIndentRight(49);
         writer.getDocumentSettings().registerParagraphStyle(p1);
+        
+        prose = new RtfParagraphStyle("ISE Prose", "ISE Normal");
+        prose.setFirstLineIndent(-19);
+        prose.setIndentLeft(19);
+        prose.setIndentRight(49);
+        writer.getDocumentSettings().registerParagraphStyle(prose);
 
         p2 = new RtfParagraphStyle("ISE p2", "ISE Normal");
         p2.setFirstLineIndent(-19);
@@ -242,6 +250,9 @@ public class RTFWriter extends Writer {
                             break;
                         case "TLN":
                         case "L":
+                            if(mode.equals("prose")) {
+                                break;
+                            }
                             if (inS) {
                                 startParagraph(p2);
                             } else {
@@ -301,7 +312,13 @@ public class RTFWriter extends Writer {
                         case "LD":
                             startParagraph(ld);
                             break;
+                        case "MODE":
+                            mode = ((TagNode)n).getAttribute("t");
+                            break;
                         case "S":
+                            if(mode.equals("prose")) {
+                                startParagraph(prose);
+                            }
                             inS = true;
                             break;
                         case "SD":
