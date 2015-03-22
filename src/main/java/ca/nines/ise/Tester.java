@@ -40,9 +40,11 @@ public class Tester {
         Log log = Log.getInstance();
         try {
             RTFWriter w = new RTFWriter();
-            DOM dom = new DOMBuilder(new File("in.xml")).build();
-            Annotation ann = Annotation.builder().from(new File("in_ann.xml")).build();
-            w.render(dom, ann);
+            DOM dom = new DOMBuilder("<L n=\"56\" /><TLN n=\"269\" />"
+                    + "<SD t=\"entrance, setting\">Enter Brabantio, "
+                    + "Roderigo, [and] officers "
+                    + "[with] <PROP>torches</PROP> [and <PROP>weapons</PROP>].</SD>").build();
+            w.render(dom);
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         } finally {

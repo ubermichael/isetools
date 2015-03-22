@@ -225,8 +225,6 @@ public class RTFWriter extends Writer {
 
         String mode = "verse";
 
-        Pattern squareBraces = Pattern.compile("([^\\[]*)\\[([^\\]]*)\\](.*)");
-
         doc.open();
         startParagraph();
 
@@ -245,8 +243,7 @@ public class RTFWriter extends Writer {
                             if (!note.hasNoteLevel("1")) {
                                 break;
                             }
-                            this.footnote(note);
-                            //addChunk("[<" + note.getNote("1").unicode().trim() + ">]");
+                            this.footnote(note);                            
                             break;
                         case "TLN":
                         case "L":
@@ -355,9 +352,8 @@ public class RTFWriter extends Writer {
                     }
 
                     if (inSD) {
-                        Matcher m = squareBraces.matcher(txt);
-
-                        if (m.matches()) {
+                        // DOES NOT MATCH AFTER A TAG.
+                        if ((txt.indexOf('[') >= 0) || (txt.indexOf(']') >= 0)) {
                             StringBuilder sb = new StringBuilder();
                             for (int i = 0; i < txt.length(); i++) {
                                 char c = txt.charAt(i);
