@@ -1,0 +1,4 @@
+<!-- extra-space -->
+<WORK>
+{ }
+</WORK>

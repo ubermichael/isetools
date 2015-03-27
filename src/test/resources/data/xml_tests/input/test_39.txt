@@ -1,0 +1,5 @@
+<!-- rule -->
+<WORK>
+<RULE n="3"/>
+<RULE/>
+</WORK>

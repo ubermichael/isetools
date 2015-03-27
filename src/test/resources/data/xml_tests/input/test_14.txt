@@ -1,0 +1,4 @@
+<!-- foreign -->
+<WORK>
+<FOREIGN lang="french">french</FOREIGN>
+</WORK>

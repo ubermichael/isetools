@@ -1,0 +1,5 @@
+<!-- linegroup -->
+<WORK>
+<LINEGROUP form="couplet" rhyme="aabb">
+</LINEGROUP>
+</WORK>
