@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- swash -->
+<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
+    <l>
+        <swash where="after"><lig unicode="ﬀ">ff</lig></swash>
+    </l>
+</work>

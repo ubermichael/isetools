@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- marg -->
+<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
+    <marg loc="left"><l/></marg>
+    <marg loc="right"><marg loc="left"><l/></marg></marg>
+</work>

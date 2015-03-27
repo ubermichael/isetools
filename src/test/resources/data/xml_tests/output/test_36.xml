@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- r -->
+<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
+    <l>
+        <r>test</r>
+        <r><r>test</r></r>
+    </l>
+</work>
