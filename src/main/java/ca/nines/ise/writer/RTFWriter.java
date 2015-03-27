@@ -118,10 +118,11 @@ public class RTFWriter extends Writer {
         writer.getDocumentSettings().registerParagraphStyle(p2);
 
         fnStyle = new RtfParagraphStyle("ISE Footnote", "ISE Normal");
+        fnStyle.setFontName("Times New Roman");
         fnStyle.setFirstLineIndent(-19);
-        fnStyle.setIndentLeft(38);
+        fnStyle.setIndentLeft(19);
         fnStyle.setIndentRight(0);
-        fnStyle.setSize(10);
+        fnStyle.setSize(10);        
         writer.getDocumentSettings().registerParagraphStyle(fnStyle);
     }
 
@@ -152,8 +153,6 @@ public class RTFWriter extends Writer {
 
     private void footnote(Note note) throws IOException, DocumentException {
         Footnote fn = new Footnote("", fnStyle);
-        RtfTab tab = new RtfTab(300, RtfTab.TAB_LEFT_ALIGN);
-        fn.add(tab);
         fn.add(new Chunk(note.getNote("1").unicode().trim()));
         p.add(fn);
     }
