@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- quote -->
+<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
+    <l>
+        <q source="src">quoted</q>
+        <q><q source="src">quoted</q></q>
+    </l>
+    <quote>
+        <l>
+        </l>
+    </quote>
+    <quote source="src">
+        <quote>
+            <l>
+            </l>
+        </quote>
+    </quote>
+</work>
