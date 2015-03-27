@@ -1,4 +1,4 @@
 <!-- ra -->
 <WORK>
-<L n="1"/><TLN n="1"/><RA>test</RA>
+<RA>test</RA>
 </WORK>
