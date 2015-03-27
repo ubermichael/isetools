@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/usr/share/java/commons-cli/commons-cli.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/commons-collections/commons-collections4.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/commons-csv/commons-csv-1.1.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/commons-io/commons-io.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/commons-lang/commons-lang3-3.3.2.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/lowagie/com.lowagie.text-2.1.7.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/antlr-runtime/antlr-runtime-4.5.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/junit.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/atteo/classindex-3.1.jar"/>
+	<classpathentry kind="lib" path="/usr/share/java/xom-1.2.10.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
