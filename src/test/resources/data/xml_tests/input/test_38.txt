@@ -1,0 +1,6 @@
+<!-- rt -->
+<WORK>
+<PAGE n="1">
+<RT>test</RT>
+</PAGE>
+</WORK>

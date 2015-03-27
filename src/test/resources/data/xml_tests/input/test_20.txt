@@ -1,0 +1,4 @@
+<!-- indent -->
+<WORK>
+<INDENT n="4">test
+</WORK>

@@ -1,0 +1,7 @@
+<!-- page -->
+<WORK>
+<PAGE n="1">
+</PAGE>
+<PAGE n="2" compositor="test" sig="sig">
+</PAGE>
+</WORK>

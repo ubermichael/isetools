@@ -1,0 +1,5 @@
+<!-- mode -->
+<WORK>
+<MODE t="prose">
+</MODE>
+</WORK>
