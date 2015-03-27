@@ -1,4 +1,4 @@
-<!-- abbr -->
+<! abbr >
 <WORK>
 <ABBR expan="the">ye</ABBR>
 </WORK>
