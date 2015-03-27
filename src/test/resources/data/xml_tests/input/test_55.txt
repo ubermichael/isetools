@@ -1,0 +1,4 @@
+<!-- lig -->
+<WORK>
+{ff}{ffl}
+</WORK>

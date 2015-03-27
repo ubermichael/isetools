@@ -1,0 +1,4 @@
+<!-- ilink -->
+<WORK>
+<ilink component="test" href="test" site="test">test</ilink>
+</WORK>

@@ -1,0 +1,4 @@
+<!-- sp -->
+<WORK>
+<SP norm="char">test</SP>
+</WORK>

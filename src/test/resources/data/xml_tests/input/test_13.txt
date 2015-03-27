@@ -1,0 +1,6 @@
+<!-- fontgroup -->
+<!-- font -->
+<WORK>
+<FONTGROUP n="2">test
+</FONTGROUP>
+</WORK>

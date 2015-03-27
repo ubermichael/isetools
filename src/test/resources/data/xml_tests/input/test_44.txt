@@ -1,0 +1,6 @@
+<!-- sig -->
+<WORK>
+<PAGE n="1">
+<SIG>test</SIG>
+</PAGE>
+</WORK>

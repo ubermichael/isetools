@@ -1,0 +1,5 @@
+<!-- div -->
+<WORK>
+<DIV name="test">
+</DIV>
+</WORK>
