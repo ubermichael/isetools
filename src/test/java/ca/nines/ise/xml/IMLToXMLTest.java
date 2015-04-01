@@ -52,13 +52,10 @@ public class IMLToXMLTest {
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	private Document get_doc_from_dom(DOM iml) throws TransformerConfigurationException, TransformerException, IOException, Exception{
+	private String dom_to_xml(DOM iml) throws TransformerConfigurationException, TransformerException, IOException, Exception{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    new XMLWriterNew(new PrintStream(baos)).render(iml);
-	    String xml = baos.toString();
-	    //System.out.println(xml);
-	    assertNotEquals(xml,"");
-	    return new Builder(new NormalizingFactory()).build(xml, null);
+	    return baos.toString();
 	}
 	
 	/**
@@ -98,9 +95,20 @@ public class IMLToXMLTest {
 	private void test(String testfile) throws TransformerConfigurationException, TransformerException, Exception{
 		DOM iml_dom = get_iml_dom(new File(input_path+testfile+input_ext));
 		Document xml_test = new Builder(new NormalizingFactory()).build(new File(output_path+testfile+output_ext));
-		Document xml_out = get_doc_from_dom(iml_dom);
+		String xml = dom_to_xml(iml_dom);
+	    assertNotEquals(xml,"");
+	    Document xml_out = new Builder(new NormalizingFactory()).build(xml, null);
 		compare_xml(xml_test,xml_out);
 	}
+	private void test_print(String testfile) throws TransformerConfigurationException, TransformerException, Exception{
+		DOM iml_dom = get_iml_dom(new File(input_path+testfile+input_ext));
+		Document xml_test = new Builder(new NormalizingFactory()).build(new File(output_path+testfile+output_ext));
+		String xml = dom_to_xml(iml_dom);
+	    System.out.println(xml);
+	    assertNotEquals(xml,"");
+	    Document xml_out = new Builder(new NormalizingFactory()).build(xml, null);
+		compare_xml(xml_test,xml_out);
+	}	
 	
 	@Test
 	public void abbr() throws TransformerConfigurationException, TransformerException, Exception{
@@ -127,7 +135,7 @@ public class IMLToXMLTest {
 		test("test_5");
 	}	
 	
-	//@Test
+	@Test
 	public void br() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_6");
 	}	
@@ -142,7 +150,7 @@ public class IMLToXMLTest {
 		test("test_8");
 	}
 	
-	//@Test
+	@Test
 	public void col() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_9");
 	}
@@ -202,7 +210,7 @@ public class IMLToXMLTest {
 		test("test_20");
 	}
 	
-	//@Test
+	@Test
 	public void iseheader() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_21");
 	}
@@ -221,11 +229,11 @@ public class IMLToXMLTest {
 	public void ld() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_24");
 	}
-	//@Test
+	@Test
 	public void linegroup() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_25");
 	}
-	//@Test
+	@Test
 	public void link() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_26");
 	}
@@ -233,11 +241,11 @@ public class IMLToXMLTest {
 	public void ls() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_27");
 	}
-	//@Test
+	@Test
 	public void marg() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_28");
 	}
-	//@Test
+	@Test
 	public void meta() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_29");
 	}
@@ -245,27 +253,27 @@ public class IMLToXMLTest {
 	public void mode() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_30");
 	}
-	//@Test
+	@Test
 	public void ornament() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_31");
 	}
-	//@Test
+	@Test
 	public void page() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_32");
 	}
-	//@Test
+	@Test
 	public void prop() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_33");
 	}
-	//@Test
+	@Test
 	public void qln() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_34");
 	}
 	//@Test
 	public void quote() throws TransformerConfigurationException, TransformerException, Exception{
-		test("test_35");
+		test_print("test_35");
 	}
-	//@Test
+	@Test
 	public void r() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_36");
 	}
@@ -277,7 +285,7 @@ public class IMLToXMLTest {
 	public void rt() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_38");
 	}
-	//@Test
+	@Test
 	public void rule() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_39");
 	}
@@ -285,7 +293,7 @@ public class IMLToXMLTest {
 	public void s() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_40");
 	}
-	//@Test
+	@Test
 	public void sc() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_41");
 	}
@@ -301,11 +309,11 @@ public class IMLToXMLTest {
 	public void sig() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_44");
 	}
-	//@Test
+	@Test
 	public void sp() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_45");
 	}
-	//@Test
+	@Test
 	public void space() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_46");
 	}
@@ -318,22 +326,22 @@ public class IMLToXMLTest {
 		test("test_48");
 	}
 	//@Test
-	public void ssup() throws TransformerConfigurationException, TransformerException, Exception{
+	public void sup() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_49");
 	}
 	//@Test
 	public void swash() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_50");
 	}
-	//@Test
+	@Test
 	public void titlehead() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_51");
 	}
-	//@Test
+	@Test
 	public void tln() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_52");
 	}
-	//@Test
+	@Test
 	public void wln() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_53");
 	}

@@ -1,4 +1,4 @@
 <!-- sc -->
 <WORK>
-<SC>test</SC><SC><SC>test</SC></SC>
+<SC>test</SC>
 </WORK>

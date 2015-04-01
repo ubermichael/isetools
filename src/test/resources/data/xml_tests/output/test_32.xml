@@ -2,9 +2,5 @@
 <!-- page -->
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <page n="1"/>
-    <l>
-    </l>
     <page n="2" compositor="test" sig="sig"/>
-    <l>
-    </l>
 </work>
