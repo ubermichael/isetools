@@ -84,6 +84,16 @@ public class XMLWriterNew extends Writer{
 			  int right = (int)super.pop().getRight();
 			  super.push(new ImmutablePair<String, Integer>(left,right+n));
 		  }
+		  
+		  private void new_element(){
+			  if (!super.empty())
+				  inc();
+		  }
+		  
+		  private void rm_element(){
+			  if (!super.empty())
+				  dec();
+		  }
 	  }
 	  
 	  public class XMLStack extends ArrayDeque<Element>{
@@ -138,6 +148,19 @@ public class XMLWriterNew extends Writer{
 		    	e.setAttribute("n", n);
 		    	super.peekFirst().appendChild(e);
 			}
+	   		
+			//if not in a line, but should be, push new line
+	    	private void new_element(StartNode node){
+				if (Arrays.asList(LINE_CHILDREN).contains(node.getName()) && !line.in_line())
+		   			new_line(new EmptyNode());
+				line.new_element();
+	    	}    	
+	    	//if closing node that's not a child of current line, close line
+	    	private void rm_element(EndNode node){    		
+		    	if (peekFirst().getNodeName().equals(LINE))
+		    		end_line();
+		    	line.rm_element();
+	    	}
 	  }
 	  
 	  /**
@@ -162,11 +185,17 @@ public class XMLWriterNew extends Writer{
 	    super(out);
 	  }
 	  
+	  private static final String WORK = "WORK";
 	  private static final String PAGE = "PAGE";
 	  private static final String LINE = "L";
 	  
 	  private static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
 		  					"LD","LS","PROP","R","S","SC","SD","SWASH","TITLEHEAD","TLN","QLN","WLN"};
+	  
+	  private static final String RA = "RA";
+	  private static final String C = "C";
+	  private static final String J = "J";
+
 	  private static final String[] ALIGNMENT = {"RA","C","J"};
 	  private static final String[] ALIGNMENT_NEW = {"right","center","justify"};
 	  
@@ -250,25 +279,28 @@ public class XMLWriterNew extends Writer{
 		return true;
 	}
 	
+	private String get_alignment(String str){
+		return ALIGNMENT_NEW[Arrays.asList(ALIGNMENT).indexOf(str)];
+	}
+	
+	 
+	
 	private Boolean parse_start(StartNode node, Element e, XMLStack xmlStack){
-		//if is an alignment, push new line
-		int index;
-		if ((index = Arrays.asList(ALIGNMENT).indexOf(node.getName())) >= 0){
-			xmlStack.align = ALIGNMENT_NEW[index];
+    	xmlStack.new_element(node);
+  		
+   		switch (node.getName().toUpperCase()){
+   		case WORK:
+   			e.setAttribute("xmlns", "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass");
+   			return false;
+   		//alignments
+   		case RA:
+   		case C:
+   		case J:
+			xmlStack.align = get_alignment(node.getName());
+			if (xmlStack.line.in_line())
+				xmlStack.end_line();
 			xmlStack.new_line(new EmptyNode());	        			
 			return true;
-		}
-   		//if not in a line, but should be, or is an alignment, push new line
-    	if (Arrays.asList(LINE_CHILDREN).contains(node.getName()) && !xmlStack.line.in_line()){
-   			xmlStack.new_line(new EmptyNode());
-    	}
-  		//if child of line, increment head of line_children	        	
-  		if (!xmlStack.line.empty())
-  			xmlStack.line.inc();
-   		//if work, add namespace
-   		if (node.getName().toUpperCase().equals("WORK"))
-   			e.setAttribute("xmlns", "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass");
-   		switch (node.getName().toUpperCase()){
    		case "COL": //column
    	    	Element e_col = xmlStack.xml.createElement("col");
    	    	xmlStack.peekFirst().appendChild(e_col);
@@ -321,18 +353,16 @@ public class XMLWriterNew extends Writer{
 	}
 	
 	private Boolean parse_end(EndNode node, XMLStack xmlStack){
-    	//if closing alignment, close line and null alignment
-    	if (Arrays.asList(ALIGNMENT).contains(node.getName())){
-    		xmlStack.end_line();	
-    		return true;
-    	}
-    	//if closing node that's not a child of current line, close line
-    	if (xmlStack.line.in_line() && !xmlStack.line.in_line_child())
-    		xmlStack.end_line();
-  		//if child of line, decrement head of line_children
-    	if (xmlStack.line.in_line())
-    		xmlStack.line.dec();
+    	xmlStack.rm_element(node);
+    	
    		switch (node.getName().toUpperCase()){
+   		//alignments
+   		case RA:
+   		case C:
+   		case J:
+   			if (xmlStack.line.in_line())
+   				xmlStack.end_line();	
+    		return true;
    		case "COL": //column
    	    	return true;
    		case "ISEHEADER":
