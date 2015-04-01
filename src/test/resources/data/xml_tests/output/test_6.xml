@@ -2,11 +2,9 @@
 <!-- br -->
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <l>
-        <ms t="tln" n="1"/>
         test
     </l>
     <l>
-        <ms t="tln" n="1"/>
         test2
     </l>
 </work>

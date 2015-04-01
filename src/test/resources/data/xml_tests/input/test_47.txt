@@ -1,6 +1,5 @@
 <!-- stanza -->
 <WORK>
 <STANZA n="1">
-<TLN n="1"/>test
 </STANZA>
 </WORK>

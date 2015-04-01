@@ -26,6 +26,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,6 +38,108 @@ import org.w3c.dom.Text;
 
 public class XMLWriterNew extends Writer{
 	
+	  public class  Lines extends Stack<ImmutablePair<String,Integer>>{
+		  public void new_line(String type){
+			  super.push(new ImmutablePair<String, Integer>(type, 0));
+		  }
+		  
+		  public String peek_type(){
+			  return (String)super.peek().getLeft();
+		  }
+		  
+		  public int peek_count(){
+			  return (int)super.peek().getRight();
+		  }
+		  
+		  public void dec(){
+			  change_line_head(-1);
+		  }
+		  
+		  public void inc(){
+			  change_line_head(1);
+		  }
+		  
+		  public boolean in_line(){
+			  if (!super.empty())
+				  return peek_type().equals(LINE);
+			  return false;
+		  }
+		  
+		  public boolean in_line_element(){
+			  return !super.empty();
+		  }
+		  
+		  public boolean in_page(){
+			  if (!super.empty())
+				  return peek_type().equals(PAGE);
+			  return false;
+		  }
+			
+		  public boolean in_line_child(){
+			  return (int)super.peek().getRight() != 0;
+		  }
+			
+		  private void change_line_head(int n){
+			  String left = (String)super.peek().getLeft();
+			  int right = (int)super.pop().getRight();
+			  super.push(new ImmutablePair<String, Integer>(left,right+n));
+		  }
+	  }
+	  
+	  public class XMLStack extends ArrayDeque<Element>{
+		  	private Boolean endSplitLine;
+		  	private String align;
+		  	Document xml;
+		  	Lines line;
+		  	
+		  	public XMLStack() throws ParserConfigurationException{
+		  		endSplitLine = false;
+		  		align = null;
+		  		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		  		line = new Lines();
+		  	}
+		  
+			public void new_line(EmptyNode node){
+				line.new_line(LINE);
+				endSplitLine = false;
+		    	for (String name : node.getAttributeNames()) {
+		    		//only attribute we care about
+		    		if (name.equals("part")){
+		    			if (node.getAttribute(name).equals("i")){
+		    				//new splitline element
+		    				Element e = xml.createElement("splitline");
+		        			super.peekFirst().appendChild(e);
+		        			super.push(e);
+		    			}else if (node.getAttribute(name).equals("f")){
+		    				//close splitline element
+		    				//flag that splitline is closing on next line close
+		    				endSplitLine = true;
+		    			}
+		    		}
+		    	}
+		    	Element e = xml.createElement("l");
+		    	if (align != null)
+		    		e.setAttribute("align", align);
+		    	super.peekFirst().appendChild(e);
+		    	super.push(e);
+			}
+			
+			public void end_line(){
+				line.pop();
+				super.pop();
+				//if ending splitline, pop that as well
+				if (endSplitLine)
+					super.pop();		    
+			}
+			
+			private void new_ms_element(String ln, String n){
+		    	Element e = xml.createElement("ms");
+		    	e.setAttribute("t", ln);
+		    	e.setAttribute("n", n);
+		    	super.peekFirst().appendChild(e);
+			}
+	  }
+	  
 	  /**
 	   * Construct an XMLWriter and send output to System.out.
 	   *
@@ -55,29 +161,22 @@ public class XMLWriterNew extends Writer{
 	  public XMLWriterNew(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
 	    super(out);
 	  }
-
-	  private static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW",
+	  
+	  private static final String PAGE = "PAGE";
+	  private static final String LINE = "L";
+	  
+	  private static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
 		  					"LD","LS","PROP","R","S","SC","SD","SWASH","TITLEHEAD","TLN","QLN","WLN"};
 	  private static final String[] ALIGNMENT = {"RA","C","J"};
 	  private static final String[] ALIGNMENT_NEW = {"right","center","justify"};
 	  
-	  private ArrayDeque<Element> xmlStack;
-	  private Document xml;
-	  private Stack<Integer> line_children;
-	  private Boolean endSplitLine;
-	  private String align;
-	  
 	@Override
 	public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
 	    // @TODO check if the DOM is expanded, and expand if necessary.
-		xmlStack = new ArrayDeque<>();
-		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-		line_children = new Stack<Integer>();
-		endSplitLine = false;
-		align = null;
+		XMLStack xmlStack = new XMLStack();
 		
-	    Element e = xml.createElement("root");
-	    xml.appendChild(e);
+	    Element e = xmlStack.xml.createElement("root");
+	    xmlStack.xml.appendChild(e);
 	    xmlStack.push(e);
 	
 	    for (Node n : dom.expanded()) {
@@ -85,153 +184,229 @@ public class XMLWriterNew extends Writer{
 	        case ABBR:
 	        	throw new UnsupportedOperationException("Cannot serialize depreciated abbreviation markup.");
 	        case COMMENT:
-	        	Comment c = xml.createComment(n.getText());
+	        	Comment c = xmlStack.xml.createComment(n.getText());
 	        	xmlStack.peekFirst().appendChild(c);
 	        	break;
 	        case EMPTY:
 	        	EmptyNode emptyNode = (EmptyNode) n;
-	        	Element endElement = xml.createElement(emptyNode.getName().toLowerCase());
-	        	if (parse_empty(emptyNode))
+	        	Element emptyElement = xmlStack.xml.createElement(emptyNode.getName().toLowerCase());
+	        	if (parse_empty(emptyNode, emptyElement, xmlStack))
 	        		break;
 	        	for (String name : emptyNode.getAttributeNames()) {
-	        		endElement.setAttribute(name, emptyNode.getAttribute(name));
+	        		emptyElement.setAttribute(name, emptyNode.getAttribute(name));
 	        	}
-	        	xmlStack.peekFirst().appendChild(endElement);
+	        	xmlStack.peekFirst().appendChild(emptyElement);
 	        	break;
 	        case END:
 	        	EndNode endNode = (EndNode) n;
-	        	if (parse_end(endNode))
+	        	if (parse_end(endNode, xmlStack))
 	        		break;
-	        	if (endNode.getName().toLowerCase().equals(xmlStack.peekFirst().getNodeName())) {
-	        		xmlStack.pop();
-	        		break;
-	        	}
-	      		ArrayDeque<Element> splitStack = new ArrayDeque<>();
-	       		while (xmlStack.size() > 1) {
-	       			Element split = xmlStack.pop();
-	       			if (split.getNodeName().equals(endNode.getName().toLowerCase())) {
-	       				break; // while 
-	       			}
-	       			splitStack.push(split);
-	       		}
-		        while (splitStack.size() > 0) {
-	       			Element popped = splitStack.pop();
-	       			Element clone = xml.createElement(popped.getNodeName());
-	       			NamedNodeMap attrs = popped.getAttributes();
-	       			int numAttrs = attrs.getLength();
-	       			for (int i = 0; i < numAttrs; i++) {
-	       				clone.setAttribute(attrs.item(i).getNodeName(), attrs.item(i).getNodeValue());
-	       			}
-	       			xmlStack.peekFirst().appendChild(clone);
-	       			xmlStack.push(clone);
-	       		}
+	        	xmlStack.pop();
 	       		break;
 	      	case START:
 	       		StartNode startNode = (StartNode) n;
-	       		if (parse_start(startNode))
+	       		Element startElement = xmlStack.xml.createElement(startNode.getName().toLowerCase());	       		
+	       		if (parse_start(startNode, startElement, xmlStack))
 	       			break;
-	       		Element startElement = xml.createElement(startNode.getName().toLowerCase());
-	       		//if work, add namespace
-	       		if (n.getName().toUpperCase().equals("WORK"))
-	       			startElement.setAttribute("xmlns", "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass");
-	       		else
-		       		for (String name : startNode.getAttributeNames()) {
-		       			startElement.setAttribute(name, startNode.getAttribute(name));
-		       		}
+	       		for (String name : startNode.getAttributeNames()) {
+		       		startElement.setAttribute(name, startNode.getAttribute(name));
+		       	}
 	       		xmlStack.peekFirst().appendChild(startElement);
 	       		xmlStack.push(startElement);
 	       		break;
 	       	case TEXT:
-	       		Text t = xml.createTextNode(n.getText());
+	       		if (parse_text(n.getText(), xmlStack))
+	       			break;
+	       		Text t = xmlStack.xml.createTextNode(n.getText());
 	       		xmlStack.peekFirst().appendChild(t);
 	       		break;
 	       	default:
 	       		throw new Exception("Cannot convert " + n.getName() + " to XML");
 	    	}
 	    }    
-	    output(xml);
-  }
+	    output(xmlStack.xml);
+	}
 	
-	private Boolean parse_start(StartNode node){
+	private Boolean parse_text(String text, XMLStack xmlStack){
+		if (text.trim().isEmpty() || xmlStack.line.in_page())
+			return false;
+		if (!xmlStack.line.in_line())
+   			xmlStack.new_line(new EmptyNode());
+		String[] lines = null;
+		//if there is no newline character, return false and handle normally
+		if ((lines = text.split("\n")).length == text.length())
+			return false;
+		for(int i=0; i<lines.length; i++){
+			if (lines[i].isEmpty())
+				continue;
+			//if not in a line, start one
+			if (!xmlStack.line.in_line_element())
+				xmlStack.new_line(new EmptyNode());
+			xmlStack.peekFirst().appendChild(xmlStack.xml.createTextNode(lines[i]));
+			//if in a line and it is not the last line of this text node, end line
+			if (xmlStack.line.in_line_element() && i < (lines.length -1))
+				xmlStack.end_line();
+		}
+		return true;
+	}
+	
+	private Boolean parse_start(StartNode node, Element e, XMLStack xmlStack){
+		//if is an alignment, push new line
+		int index;
+		if ((index = Arrays.asList(ALIGNMENT).indexOf(node.getName())) >= 0){
+			xmlStack.align = ALIGNMENT_NEW[index];
+			xmlStack.new_line(new EmptyNode());	        			
+			return true;
+		}
    		//if not in a line, but should be, or is an alignment, push new line
-    	if (Arrays.asList(LINE_CHILDREN).contains(node.getName()) || 
-    		Arrays.asList(ALIGNMENT).contains(node.getName())){
-        	//line can't be a child of a line, so close if not in a child of line
-        	if (!line_children.empty() && line_children.peek() == 0)
-        		end_line();
-    		int index;
-    		//if aligning, set alignment
-    		if ((index = Arrays.asList(ALIGNMENT).indexOf(node.getName())) >= 0){
-    			align = ALIGNMENT_NEW[index];
-    			new_line(new EmptyNode());	        			
-    			return true;
-    		}
-   			new_line(new EmptyNode());
+    	if (Arrays.asList(LINE_CHILDREN).contains(node.getName()) && !xmlStack.line.in_line()){
+   			xmlStack.new_line(new EmptyNode());
     	}
   		//if child of line, increment head of line_children	        	
-  		if (!line_children.empty())
-  			line_children.push(line_children.pop()+1);
-  		return false;
-	}
-	
-	private Boolean parse_end(EndNode node){
-    	//if closing alignment, close line and null alignment
-    	if (Arrays.asList(ALIGNMENT).contains(node.getName())){
-    		end_line();	
-    		return true;
-    	}
-    	//if closing node that's not a child of current line, close line
-    	if (!line_children.empty() && line_children.peek() == 0)
-    		end_line();
-  		//if child of line, decrement head of line_children
-    	if (!line_children.empty())
-  			line_children.push(line_children.pop()-1);
-    	return false;
-	}
-	
-	private boolean parse_empty(EmptyNode node){
-   		//if line, handle it differently
-   		if (node.getName().toUpperCase().equals("L")){
-        	//line can't be a child of a line, so close if not in a child of line
-        	if (!line_children.empty() && line_children.peek() == 0)
-        		end_line();
-        	new_line(node);
+  		if (!xmlStack.line.empty())
+  			xmlStack.line.inc();
+   		//if work, add namespace
+   		if (node.getName().toUpperCase().equals("WORK"))
+   			e.setAttribute("xmlns", "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass");
+   		switch (node.getName().toUpperCase()){
+   		case "COL": //column
+   	    	Element e_col = xmlStack.xml.createElement("col");
+   	    	xmlStack.peekFirst().appendChild(e_col);
+   	    	return true;
+   		case "ISEHEADER":
+   			return true;
+   		case "SP":
+   			if (!xmlStack.peekFirst().getTagName().equals("l"))
+   				xmlStack.new_line(new EmptyNode());
+   			if (!xmlStack.peekFirst().getTagName().equals("s")){
+	   	   		Element e_s = xmlStack.xml.createElement("s");
+	   	       	xmlStack.peekFirst().appendChild(e_s);
+	   	       	xmlStack.push(e_s);
+   			}
+   			return false;
+   		case "TITLEHEAD":
+   			if (!xmlStack.peekFirst().getTagName().equals("l"))
+   				xmlStack.new_line(new EmptyNode());
+   	    	Element e_title = xmlStack.xml.createElement("title");
+   	    	xmlStack.peekFirst().appendChild(e_title);
+   	    	xmlStack.push(e_title);
+   			return true;
+   		case "PAGE":
+   			xmlStack.line.new_line(PAGE);
+   			return false;
+   		case "LINEGROUP":
+       		for (String name : node.getAttributeNames()) {
+       			if (name.equals("form"))
+       				e.setAttribute("metric", node.getAttribute("form"));
+       			else
+       				e.setAttribute(name, node.getAttribute(name));
+	       	}
+   			xmlStack.peekFirst().appendChild(e);
+   			xmlStack.push(e);
         	return true;
+   		case "QUOTE":
+   			//if not currently in a line element, assume quoting a line element
+   			Element e_quote;
+   			if (!xmlStack.line.in_line_element())
+   				e_quote = xmlStack.xml.createElement("quote");
+   			else
+   				e_quote = xmlStack.xml.createElement("q");
+       		for (String name : node.getAttributeNames())
+       			e_quote.setAttribute(name, node.getAttribute(name));
+   			xmlStack.peekFirst().appendChild(e_quote);
+   			xmlStack.push(e_quote); 
+   			return true;
    		}
    		return false;
 	}
 	
-	private void new_line(EmptyNode node){
-		line_children.push(0);
-		endSplitLine = false;
-    	for (String name : node.getAttributeNames()) {
-    		//only attribute we care about
-    		if (name.equals("part")){
-    			if (node.getAttribute(name).equals("i")){
-    				//new splitline element
-    				Element e = xml.createElement("splitline");
-        			xmlStack.peekFirst().appendChild(e);
-        			xmlStack.push(e);
-    			}else if (node.getAttribute(name).equals("f")){
-    				//close splitline element
-    				//flag that splitline is closing on next line close
-    				endSplitLine = true;
-    			}
-    		}
+	private Boolean parse_end(EndNode node, XMLStack xmlStack){
+    	//if closing alignment, close line and null alignment
+    	if (Arrays.asList(ALIGNMENT).contains(node.getName())){
+    		xmlStack.end_line();	
+    		return true;
     	}
-    	Element e = xml.createElement("l");
-    	if (align != null)
-    		e.setAttribute("align", align);
-    	xmlStack.peekFirst().appendChild(e);
-    	xmlStack.push(e);
+    	//if closing node that's not a child of current line, close line
+    	if (xmlStack.line.in_line() && !xmlStack.line.in_line_child())
+    		xmlStack.end_line();
+  		//if child of line, decrement head of line_children
+    	if (xmlStack.line.in_line())
+    		xmlStack.line.dec();
+   		switch (node.getName().toUpperCase()){
+   		case "COL": //column
+   	    	return true;
+   		case "ISEHEADER":
+   			return true;
+   		case "SP":
+   			return false;
+   		case "PAGE":
+   			if (xmlStack.line.in_line() && xmlStack.line.in_page())
+   				xmlStack.line.pop();
+   			return false;
+   		case "LINEGROUP":
+   			//linegroup can't be empty; default insert an empty line if so
+   			if (!xmlStack.peekFirst().equals("LINEGROUP") && !xmlStack.peekFirst().hasChildNodes()){
+   				xmlStack.new_line(new EmptyNode());
+   				xmlStack.end_line();
+   			}
+   			return false;
+   		case "MARG":
+   			//marg can't be empty; default insert an empty line if so
+   			if (!xmlStack.peekFirst().equals("MARG") && !xmlStack.peekFirst().hasChildNodes()){
+   				xmlStack.new_line(new EmptyNode());
+   				xmlStack.end_line();
+   			}
+   			return false;
+   		}
+    	return false;
 	}
 	
-	private void end_line(){
-		line_children.pop();
-		xmlStack.pop();
-		//if ending splitline, pop that as well
-		if (endSplitLine)
-			xmlStack.pop();		    
+	private boolean parse_empty(EmptyNode node, Element e, XMLStack xmlStack){
+   		switch (node.getName().toUpperCase()){
+   		case LINE:
+        	//line can't be a child of a line, so close if not in a child of line
+        	if (xmlStack.line.in_line() && !xmlStack.line.in_line_child())
+        		xmlStack.end_line();
+        	xmlStack.new_line(node);
+        	return true;
+   		case "QLN":
+   			if (!xmlStack.line.in_line())
+   				xmlStack.new_line(new EmptyNode());
+   			xmlStack.new_ms_element("qln", node.getAttribute("n"));
+   			return true;
+   		case "WLN":
+   			if (!xmlStack.line.in_line())
+   				xmlStack.new_line(new EmptyNode());
+   			xmlStack.new_ms_element("wln", node.getAttribute("n"));
+   			return true;
+   		case "TLN":
+   			if (!xmlStack.line.in_line())
+   				xmlStack.new_line(new EmptyNode());
+   			xmlStack.new_ms_element("tln", node.getAttribute("n"));
+   			return true;
+   		case "LINK":
+   			return true;
+   		case "META":
+   			return true;
+   		case "RULE":
+   			if (node.hasAttribute("n"))
+   				e.setAttribute("l", node.getAttribute("n"));
+   			xmlStack.peekFirst().appendChild(e);
+        	return true;
+		case "SPACE":
+   			if (!xmlStack.line.in_line())
+   				xmlStack.new_line(new EmptyNode());
+   			if (node.hasAttribute("n"))
+   				e.setAttribute("l", node.getAttribute("n"));
+   			xmlStack.peekFirst().appendChild(e);
+        	return true;
+		case "BR":
+   			if (xmlStack.line.in_line())
+   				xmlStack.end_line();
+   			xmlStack.new_line(new EmptyNode());
+   			return true;	
+   		}
+   		return false;
 	}
 	
 	private void output(Document xml){

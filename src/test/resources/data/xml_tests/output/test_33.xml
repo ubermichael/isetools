@@ -3,7 +3,6 @@
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <l>
         <prop desc="brown" item="chair"/>
-        <prop><ld/></prop>
-        <prop><prop><ld/></prop></prop>
+        <prop>test</prop>
     </l>
 </work>

@@ -2,17 +2,15 @@
 <!-- quote -->
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <l>
-        <q source="src">quoted</q>
-        <q><q source="src">quoted</q></q>
+        <q>test</q>
+        <q source="src"><q>test</q></q>
     </l>
     <quote>
-        <l>
-        </l>
+        <l>test</l>
     </quote>
-    <quote source="src">
-        <quote>
-            <l>
-            </l>
+    <quote>
+        <quote source="src">
+            <l>test</l>
         </quote>
     </quote>
 </work>
