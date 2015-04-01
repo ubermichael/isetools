@@ -7,6 +7,7 @@ import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.constants.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,9 +40,6 @@ import org.w3c.dom.Text;
 public class XMLWriterNew extends Writer{
 	
 	  public class  Lines extends Stack<ImmutablePair<String,Integer>>{
-		  public void new_line(String type){
-			  super.push(new ImmutablePair<String, Integer>(type, 0));
-		  }
 		  
 		  public String peek_type(){
 			  return (String)super.peek().getLeft();
@@ -51,34 +49,13 @@ public class XMLWriterNew extends Writer{
 			  return (int)super.peek().getRight();
 		  }
 		  
-		  public void dec(){
+		  private void dec(){
 			  change_line_head(-1);
 		  }
 		  
-		  public void inc(){
+		  private void inc(){
 			  change_line_head(1);
 		  }
-		  
-		  public boolean in_line(){
-			  if (!super.empty())
-				  return peek_type().equals(LINE);
-			  return false;
-		  }
-		  
-		  public boolean in_line_element(){
-			  return !super.empty();
-		  }
-		  
-		  public boolean in_page(){
-			  if (!super.empty())
-				  return peek_type().equals(PAGE);
-			  return false;
-		  }
-			
-		  public boolean in_line_child(){
-			  return (int)super.peek().getRight() != 0;
-		  }
-			
 		  private void change_line_head(int n){
 			  String left = (String)super.peek().getLeft();
 			  int right = (int)super.pop().getRight();
@@ -110,7 +87,7 @@ public class XMLWriterNew extends Writer{
 		  	}
 		  
 			public void new_line(EmptyNode node){
-				line.new_line(LINE);
+				new_line(IML.LINE);
 				endSplitLine = false;
 		    	for (String name : node.getAttributeNames()) {
 		    		//only attribute we care about
@@ -142,6 +119,11 @@ public class XMLWriterNew extends Writer{
 					super.pop();		    
 			}
 			
+			public void end_page(){
+				line.pop();
+				super.pop();	    
+			}
+			
 			private void new_ms_element(String ln, String n){
 		    	Element e = xml.createElement("ms");
 		    	e.setAttribute("t", ln);
@@ -151,15 +133,39 @@ public class XMLWriterNew extends Writer{
 	   		
 			//if not in a line, but should be, push new line
 	    	private void new_element(StartNode node){
-				if (Arrays.asList(LINE_CHILDREN).contains(node.getName()) && !line.in_line())
+				if (Arrays.asList(IML.LINE_CHILDREN).contains(node.getName()) && !in_line())
 		   			new_line(new EmptyNode());
 				line.new_element();
 	    	}    	
 	    	//if closing node that's not a child of current line, close line
 	    	private void rm_element(EndNode node){    		
-		    	if (peekFirst().getNodeName().equals(LINE))
+		    	if (peekFirst().getNodeName().equals(IML.LINE))
 		    		end_line();
 		    	line.rm_element();
+	    	}
+	    	public boolean in_line(){
+	    		if (!line.empty())
+	    			return line.peek_type().equals(IML.LINE);
+				return false;
+	    	}
+			  
+	    	public boolean in_line_element(){
+	    		return !line.empty();
+	    	}
+			  
+	    	public boolean in_page(){
+	    		if (!line.empty())
+	    			return line.peek_type().equals(IML.PAGE);
+	    		return false;
+	    	}
+				
+	    	public boolean in_line_child(){
+	    		if (!line.empty())
+	    			return (int)line.peek().getRight() != 0;	
+	    		return false;
+	    	}
+	    	public void new_line(String type){
+	    		line.push(new ImmutablePair<String, Integer>(type, 0));
 	    	}
 	  }
 	  
@@ -184,35 +190,6 @@ public class XMLWriterNew extends Writer{
 	  public XMLWriterNew(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
 	    super(out);
 	  }
-	  
-	  private static final String QLN = "QLN";
-	  private static final String WLN = "WLN";
-	  private static final String TLN = "TLN";
-	  private static final String LINK = "LINK";
-	  private static final String META = "META";
-	  private static final String RULE = "RULE";
-	  private static final String SPACE = "SPACE";
-	  private static final String BR = "BR";
-	  private static final String COL = "COL";
-	  private static final String ISEHEADER = "ISEHEADER";
-	  private static final String SP = "SP";
-	  private static final String LINEGROUP = "LINEGROUP";
-	  private static final String MARG = "MARG";
-	  private static final String TITLEHEAD = "TITLEHEAD";
-	  private static final String QUOTE = "QUOTE";
-	  private static final String WORK = "WORK";
-	  private static final String PAGE = "PAGE";
-	  private static final String LINE = "L";
-	  
-	  private static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
-		  					"LD","LS","PROP","R","S","SC","SD","SWASH",TITLEHEAD,TLN,QLN,WLN};
-	  
-	  private static final String RA = "RA";
-	  private static final String C = "C";
-	  private static final String J = "J";
-
-	  private static final String[] ALIGNMENT = {"RA","C","J"};
-	  private static final String[] ALIGNMENT_NEW = {"right","center","justify"};
 	  
 	@Override
 	public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
@@ -272,9 +249,9 @@ public class XMLWriterNew extends Writer{
 	}
 	
 	private Boolean parse_text(String text, XMLStack xmlStack){
-		if (text.trim().isEmpty() || xmlStack.line.in_page())
+		if (text.trim().isEmpty() || xmlStack.in_page())
 			return false;
-		if (!xmlStack.line.in_line())
+		if (!xmlStack.in_line())
    			xmlStack.new_line(new EmptyNode());
 		String[] lines = null;
 		//if there is no newline character, return false and handle normally
@@ -284,43 +261,43 @@ public class XMLWriterNew extends Writer{
 			if (lines[i].isEmpty())
 				continue;
 			//if not in a line, start one
-			if (!xmlStack.line.in_line_element())
+			if (!xmlStack.in_line_element())
 				xmlStack.new_line(new EmptyNode());
 			xmlStack.peekFirst().appendChild(xmlStack.xml.createTextNode(lines[i]));
 			//if in a line and it is not the last line of this text node, end line
-			if (xmlStack.line.in_line_element() && i < (lines.length -1))
+			if (xmlStack.in_line_element() && i < (lines.length -1))
 				xmlStack.end_line();
 		}
 		return true;
 	}
 	
 	private String get_alignment(String str){
-		return ALIGNMENT_NEW[Arrays.asList(ALIGNMENT).indexOf(str)];
+		return XML.ALIGNMENT[Arrays.asList(IML.ALIGNMENT).indexOf(str)];
 	}
 	
 	private Boolean parse_start(StartNode node, Element e, XMLStack xmlStack){
     	xmlStack.new_element(node);
   		
    		switch (node.getName().toUpperCase()){
-   		case WORK:
+   		case IML.WORK:
    			e.setAttribute("xmlns", "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass");
    			return false;
    		//alignments
-   		case RA:
-   		case C:
-   		case J:
+   		case IML.RA:
+   		case IML.C:
+   		case IML.J:
 			xmlStack.align = get_alignment(node.getName());
-			if (xmlStack.line.in_line())
+			if (xmlStack.in_line())
 				xmlStack.end_line();
 			xmlStack.new_line(new EmptyNode());	        			
 			return true;
-   		case COL: //column
+   		case IML.COL: //column
    	    	Element e_col = xmlStack.xml.createElement("col");
    	    	xmlStack.peekFirst().appendChild(e_col);
    	    	return true;
-   		case ISEHEADER:
+   		case IML.ISEHEADER:
    			return true;
-   		case SP:
+   		case IML.SP:
    			if (!xmlStack.peekFirst().getTagName().equals("l"))
    				xmlStack.new_line(new EmptyNode());
    			if (!xmlStack.peekFirst().getTagName().equals("s")){
@@ -329,17 +306,17 @@ public class XMLWriterNew extends Writer{
 	   	       	xmlStack.push(e_s);
    			}
    			return false;
-   		case TITLEHEAD:
+   		case IML.TITLEHEAD:
    			if (!xmlStack.peekFirst().getTagName().equals("l"))
    				xmlStack.new_line(new EmptyNode());
    	    	Element e_title = xmlStack.xml.createElement("title");
    	    	xmlStack.peekFirst().appendChild(e_title);
    	    	xmlStack.push(e_title);
    			return true;
-   		case PAGE:
-   			xmlStack.line.new_line(PAGE);
+   		case IML.PAGE:
+   			xmlStack.new_line(IML.PAGE);
    			return false;
-   		case LINEGROUP:
+   		case IML.LINEGROUP:
        		for (String name : node.getAttributeNames()) {
        			if (name.equals("form"))
        				e.setAttribute("metric", node.getAttribute("form"));
@@ -349,10 +326,10 @@ public class XMLWriterNew extends Writer{
    			xmlStack.peekFirst().appendChild(e);
    			xmlStack.push(e);
         	return true;
-   		case QUOTE:
+   		case IML.QUOTE:
    			//if not currently in a line element, assume quoting a line element
    			Element e_quote;
-   			if (!xmlStack.line.in_line_element())
+   			if (!xmlStack.in_line_element())
    				e_quote = xmlStack.xml.createElement("quote");
    			else
    				e_quote = xmlStack.xml.createElement("q");
@@ -370,32 +347,32 @@ public class XMLWriterNew extends Writer{
     	
    		switch (node.getName().toUpperCase()){
    		//alignments
-   		case RA:
-   		case C:
-   		case J:
-   			if (xmlStack.line.in_line())
+   		case IML.RA:
+   		case IML.C:
+   		case IML.J:
+   			if (xmlStack.in_line())
    				xmlStack.end_line();	
     		return true;
-   		case COL: //column
+   		case IML.COL: //column
    	    	return true;
-   		case ISEHEADER:
+   		case IML.ISEHEADER:
    			return true;
-   		case SP:
+   		case IML.SP:
    			return false;
-   		case PAGE:
-   			if (xmlStack.line.in_line() && xmlStack.line.in_page())
-   				xmlStack.line.pop();
-   			return false;
-   		case LINEGROUP:
+   		case IML.PAGE:
+   			if (xmlStack.in_page())
+   				xmlStack.end_page();
+   			return true;
+   		case IML.LINEGROUP:
    			//linegroup can't be empty; default insert an empty line if so
-   			if (!xmlStack.peekFirst().equals(LINEGROUP) && !xmlStack.peekFirst().hasChildNodes()){
+   			if (!xmlStack.peekFirst().equals(IML.LINEGROUP) && !xmlStack.peekFirst().hasChildNodes()){
    				xmlStack.new_line(new EmptyNode());
    				xmlStack.end_line();
    			}
    			return false;
-   		case MARG:
+   		case IML.MARG:
    			//marg can't be empty; default insert an empty line if so
-   			if (!xmlStack.peekFirst().equals(MARG) && !xmlStack.peekFirst().hasChildNodes()){
+   			if (!xmlStack.peekFirst().equals(IML.MARG) && !xmlStack.peekFirst().hasChildNodes()){
    				xmlStack.new_line(new EmptyNode());
    				xmlStack.end_line();
    			}
@@ -406,45 +383,45 @@ public class XMLWriterNew extends Writer{
 	
 	private boolean parse_empty(EmptyNode node, Element e, XMLStack xmlStack){
    		switch (node.getName().toUpperCase()){
-   		case LINE:
+   		case IML.LINE:
         	//line can't be a child of a line, so close if not in a child of line
-        	if (xmlStack.line.in_line() && !xmlStack.line.in_line_child())
+        	if (xmlStack.in_line() && !xmlStack.in_line_child())
         		xmlStack.end_line();
         	xmlStack.new_line(node);
         	return true;
-   		case QLN:
-   			if (!xmlStack.line.in_line())
+   		case IML.QLN:
+   			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
    			xmlStack.new_ms_element("qln", node.getAttribute("n"));
    			return true;
-   		case WLN:
-   			if (!xmlStack.line.in_line())
+   		case IML.WLN:
+   			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
    			xmlStack.new_ms_element("wln", node.getAttribute("n"));
    			return true;
-   		case TLN:
-   			if (!xmlStack.line.in_line())
+   		case IML.TLN:
+   			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
    			xmlStack.new_ms_element("tln", node.getAttribute("n"));
    			return true;
-   		case LINK:
+   		case IML.LINK:
    			return true;
-   		case META:
+   		case IML.META:
    			return true;
-   		case RULE:
+   		case IML.RULE:
    			if (node.hasAttribute("n"))
    				e.setAttribute("l", node.getAttribute("n"));
    			xmlStack.peekFirst().appendChild(e);
         	return true;
-		case SPACE:
-   			if (!xmlStack.line.in_line())
+		case IML.SPACE:
+   			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
    			if (node.hasAttribute("n"))
    				e.setAttribute("l", node.getAttribute("n"));
    			xmlStack.peekFirst().appendChild(e);
         	return true;
-		case BR:
-   			if (xmlStack.line.in_line())
+		case IML.BR:
+   			if (xmlStack.in_line())
    				xmlStack.end_line();
    			xmlStack.new_line(new EmptyNode());
    			return true;	
