@@ -7,6 +7,7 @@ import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TagNode;
 import ca.nines.ise.constants.*;
 
 import java.io.ByteArrayOutputStream;
@@ -27,25 +28,21 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Text;
 
 public class XMLWriterNew extends Writer{
 	
 	  public class  Lines extends Stack<ImmutablePair<String,Integer>>{
 		  
-		  public String peek_type(){
+		  private String peek_type(){
 			  return (String)super.peek().getLeft();
 		  }
 		  
-		  public int peek_count(){
+		  private int peek_count(){
 			  return (int)super.peek().getRight();
 		  }
 		  
@@ -62,12 +59,12 @@ public class XMLWriterNew extends Writer{
 			  super.push(new ImmutablePair<String, Integer>(left,right+n));
 		  }
 		  
-		  private void new_element(){
+		  public void new_element(){
 			  if (!super.empty())
 				  inc();
 		  }
 		  
-		  private void rm_element(){
+		  public void rm_element(){
 			  if (!super.empty())
 				  dec();
 		  }
@@ -125,7 +122,7 @@ public class XMLWriterNew extends Writer{
 			}
 			
 			private void new_ms_element(String ln, String n){
-		    	Element e = xml.createElement("ms");
+		    	Element e = xml.createElement(XML.MS);
 		    	e.setAttribute("t", ln);
 		    	e.setAttribute("n", n);
 		    	super.peekFirst().appendChild(e);
@@ -196,7 +193,7 @@ public class XMLWriterNew extends Writer{
 	    // @TODO check if the DOM is expanded, and expand if necessary.
 		XMLStack xmlStack = new XMLStack();
 		
-	    Element e = xmlStack.xml.createElement("root");
+	    Element e = xmlStack.xml.createElement(IML.ROOT);
 	    xmlStack.xml.appendChild(e);
 	    xmlStack.push(e);
 	
@@ -213,9 +210,7 @@ public class XMLWriterNew extends Writer{
 	        	Element emptyElement = xmlStack.xml.createElement(emptyNode.getName().toLowerCase());
 	        	if (parse_empty(emptyNode, emptyElement, xmlStack))
 	        		break;
-	        	for (String name : emptyNode.getAttributeNames()) {
-	        		emptyElement.setAttribute(name, emptyNode.getAttribute(name));
-	        	}
+	       		set_attributes(emptyNode, emptyElement,null);
 	        	xmlStack.peekFirst().appendChild(emptyElement);
 	        	break;
 	        case END:
@@ -229,9 +224,7 @@ public class XMLWriterNew extends Writer{
 	       		Element startElement = xmlStack.xml.createElement(startNode.getName().toLowerCase());	       		
 	       		if (parse_start(startNode, startElement, xmlStack))
 	       			break;
-	       		for (String name : startNode.getAttributeNames()) {
-		       		startElement.setAttribute(name, startNode.getAttribute(name));
-		       	}
+	       		set_attributes(startNode, startElement, null);
 	       		xmlStack.peekFirst().appendChild(startElement);
 	       		xmlStack.push(startElement);
 	       		break;
@@ -292,24 +285,24 @@ public class XMLWriterNew extends Writer{
 			xmlStack.new_line(new EmptyNode());	        			
 			return true;
    		case IML.COL: //column
-   	    	Element e_col = xmlStack.xml.createElement("col");
+   	    	Element e_col = xmlStack.xml.createElement(XML.COL);
    	    	xmlStack.peekFirst().appendChild(e_col);
    	    	return true;
    		case IML.ISEHEADER:
    			return true;
    		case IML.SP:
-   			if (!xmlStack.peekFirst().getTagName().equals("l"))
+   			if (!xmlStack.peekFirst().getTagName().equals(XML.LINE))
    				xmlStack.new_line(new EmptyNode());
-   			if (!xmlStack.peekFirst().getTagName().equals("s")){
-	   	   		Element e_s = xmlStack.xml.createElement("s");
+   			if (!xmlStack.peekFirst().getTagName().equals(XML.S)){
+	   	   		Element e_s = xmlStack.xml.createElement(XML.S);
 	   	       	xmlStack.peekFirst().appendChild(e_s);
 	   	       	xmlStack.push(e_s);
    			}
    			return false;
    		case IML.TITLEHEAD:
-   			if (!xmlStack.peekFirst().getTagName().equals("l"))
+   			if (!xmlStack.peekFirst().getTagName().equals(XML.LINE))
    				xmlStack.new_line(new EmptyNode());
-   	    	Element e_title = xmlStack.xml.createElement("title");
+   	    	Element e_title = xmlStack.xml.createElement(XML.TITLE);
    	    	xmlStack.peekFirst().appendChild(e_title);
    	    	xmlStack.push(e_title);
    			return true;
@@ -317,12 +310,7 @@ public class XMLWriterNew extends Writer{
    			xmlStack.new_line(IML.PAGE);
    			return false;
    		case IML.LINEGROUP:
-       		for (String name : node.getAttributeNames()) {
-       			if (name.equals("form"))
-       				e.setAttribute("metric", node.getAttribute("form"));
-       			else
-       				e.setAttribute(name, node.getAttribute(name));
-	       	}
+       		set_attributes(node,e, new String[][] {{"form","metric"}});
    			xmlStack.peekFirst().appendChild(e);
    			xmlStack.push(e);
         	return true;
@@ -330,11 +318,10 @@ public class XMLWriterNew extends Writer{
    			//if not currently in a line element, assume quoting a line element
    			Element e_quote;
    			if (!xmlStack.in_line_element())
-   				e_quote = xmlStack.xml.createElement("quote");
+   				e_quote = xmlStack.xml.createElement(XML.QUOTE);
    			else
-   				e_quote = xmlStack.xml.createElement("q");
-       		for (String name : node.getAttributeNames())
-       			e_quote.setAttribute(name, node.getAttribute(name));
+   				e_quote = xmlStack.xml.createElement(XML.Q);
+   			set_attributes(node, e_quote,null);
    			xmlStack.peekFirst().appendChild(e_quote);
    			xmlStack.push(e_quote); 
    			return true;
@@ -392,32 +379,30 @@ public class XMLWriterNew extends Writer{
    		case IML.QLN:
    			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
-   			xmlStack.new_ms_element("qln", node.getAttribute("n"));
+   			xmlStack.new_ms_element(XML.QLN, node.getAttribute("n"));
    			return true;
    		case IML.WLN:
    			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
-   			xmlStack.new_ms_element("wln", node.getAttribute("n"));
+   			xmlStack.new_ms_element(XML.WLN, node.getAttribute("n"));
    			return true;
    		case IML.TLN:
    			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
-   			xmlStack.new_ms_element("tln", node.getAttribute("n"));
+   			xmlStack.new_ms_element(XML.TLN, node.getAttribute("n"));
    			return true;
    		case IML.LINK:
    			return true;
    		case IML.META:
    			return true;
    		case IML.RULE:
-   			if (node.hasAttribute("n"))
-   				e.setAttribute("l", node.getAttribute("n"));
+       		set_attributes(node,e, new String[][] {{"n","l"}});
    			xmlStack.peekFirst().appendChild(e);
         	return true;
 		case IML.SPACE:
    			if (!xmlStack.in_line())
    				xmlStack.new_line(new EmptyNode());
-   			if (node.hasAttribute("n"))
-   				e.setAttribute("l", node.getAttribute("n"));
+   			set_attributes(node, e, new String[][] {{"n","l"}});
    			xmlStack.peekFirst().appendChild(e);
         	return true;
 		case IML.BR:
@@ -427,6 +412,19 @@ public class XMLWriterNew extends Writer{
    			return true;	
    		}
    		return false;
+	}
+	
+	public Element set_attributes(TagNode node,Element e, String[][] changes){
+   		atts: for (String name : node.getAttributeNames()){
+   			if (changes != null)
+	   			for (String[] pair : changes)
+	   				if (pair[0].equals(name)){
+	   		       		e.setAttribute(pair[1], node.getAttribute(pair[0]));
+	   		       		continue atts;
+	   				}
+       		e.setAttribute(name, node.getAttribute(name));
+   		}
+       	return e;
 	}
 	
 	private void output(Document xml){
@@ -456,7 +454,7 @@ public class XMLWriterNew extends Writer{
 	}
 	
 	private String remove_root(String str){
-		return str.replaceAll("\\<root>|</root>", "");
+		return str.replaceAll("\\<"+IML.ROOT+">|</"+IML.ROOT+">", "");
 	}
 
 	@Override
