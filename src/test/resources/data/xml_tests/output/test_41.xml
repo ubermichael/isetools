@@ -3,6 +3,5 @@
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <l>
         <sc>test</sc>
-        <sc><sc>test</sc></sc>
     </l>
 </work>

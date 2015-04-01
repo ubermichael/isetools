@@ -1,4 +1,4 @@
 <!-- r -->
 <WORK>
-<R>test</R><R><R>test</R></R>
+<R>test</R>
 </WORK>

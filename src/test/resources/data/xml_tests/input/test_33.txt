@@ -1,4 +1,5 @@
 <!-- prop -->
 <WORK>
-<PROP desc="brown" item="chair"/><PROP><LD/></PROP><PROP><PROP><LD/></PROP></PROP>
+<PROP desc="brown" item="chair"></PROP>
+<PROP>test</PROP>
 </WORK>
