@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- lig -->
-<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
-    <l>
-        <lig unicode="ﬀ">ff</lig>
-        <lig unicode="ﬄ">ffl</lig>
-    </l>
-</work>

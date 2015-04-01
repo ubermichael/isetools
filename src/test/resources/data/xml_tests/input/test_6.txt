@@ -1,4 +1,0 @@
-<!-- br -->
-<WORK>
-test<BR/>test2
-</WORK>

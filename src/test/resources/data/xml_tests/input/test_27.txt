@@ -1,4 +1,0 @@
-<!-- ls -->
-<WORK>
-<LS>test</LS>
-</WORK>

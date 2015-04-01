@@ -1,6 +1,0 @@
-<!-- quote -->
-<WORK>
-<L/><QUOTE>test</QUOTE><QUOTE source="src"><QUOTE>test</QUOTE></QUOTE>
-<QUOTE source="src">test</QUOTE>
-<QUOTE><QUOTE source="src">test</QUOTE></QUOTE>
-</WORK>

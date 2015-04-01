@@ -1,6 +1,0 @@
-<!-- cw -->
-<WORK>
-<PAGE n="1">
-<CW>test</CW>
-</PAGE>
-</WORK>

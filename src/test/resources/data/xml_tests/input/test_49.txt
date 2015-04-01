@@ -1,4 +1,0 @@
-<!-- sup -->
-<WORK>
-<L n="1"/><TLN n="1"/>te<SUP>s</SUP>t
-</WORK>

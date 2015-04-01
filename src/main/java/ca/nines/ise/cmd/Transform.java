@@ -30,14 +30,10 @@ import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
 import ca.nines.ise.writer.TextWriter;
 import ca.nines.ise.writer.XMLWriter;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Locale;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 

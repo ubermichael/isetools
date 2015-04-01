@@ -1,5 +1,0 @@
-<!-- act -->
-<WORK>
-<ACT n="1">
-</ACT>
-</WORK>

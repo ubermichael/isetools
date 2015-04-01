@@ -1,5 +1,0 @@
-<!-- ambig -->
-<!-- rdg -->
-<WORK>
-<AMBIG><RDG>test</RDG><RDG>test2</RDG></AMBIG>
-</WORK>

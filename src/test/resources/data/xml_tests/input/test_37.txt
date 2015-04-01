@@ -1,4 +1,0 @@
-<!-- ra -->
-<WORK>
-<RA>test</RA>
-</WORK>

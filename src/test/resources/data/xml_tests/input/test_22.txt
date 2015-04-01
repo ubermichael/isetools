@@ -1,4 +1,0 @@
-<!-- j -->
-<WORK>
-<J>test</J>
-</WORK>

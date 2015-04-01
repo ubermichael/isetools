@@ -1,4 +1,0 @@
-<!-- marg -->
-<WORK>
-<MARG loc="right"></MARG>
-</WORK>

@@ -1,5 +1,0 @@
-<!-- stanza -->
-<WORK>
-<STANZA n="1">
-</STANZA>
-</WORK>
