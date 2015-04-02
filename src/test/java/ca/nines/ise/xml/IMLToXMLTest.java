@@ -351,7 +351,7 @@ public class IMLToXMLTest {
 	}
 	//@Test
 	public void lig() throws TransformerConfigurationException, TransformerException, Exception{
-		test("test_55");
+		test_print("test_55");
 	}
 	//@Test
 	public void typeform() throws TransformerConfigurationException, TransformerException, Exception{
@@ -369,5 +369,10 @@ public class IMLToXMLTest {
 	public void splitline() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_59");
 	}
-	
+	@Test
+	public void testing() throws TransformerConfigurationException, TransformerException, Exception{
+	    Serializer serializer=new Serializer(System.out,"UTF-8");
+	    serializer.setIndent(3);
+	    serializer.write(new Builder(new NormalizingFactory()).build(dom_to_xml(get_iml_dom(new File("MND_M.txt"))), null));
+	}
 }
