@@ -118,7 +118,7 @@ public class XMLWriter extends Writer{
 		    	super.push(e);
 		  	}
 		  
-			public void new_line(EmptyNode node){
+			public void new_line(TagNode node){
 				new_line(IML.LINE);
 				endSplitLine = false;
 		    	for (String name : node.getAttributeNames()) {
@@ -333,6 +333,12 @@ public class XMLWriter extends Writer{
     	xmlStack.new_element(node);
   		
    		switch (node.getName().toUpperCase()){
+   		//found an IML document with an unclosed line...
+   		case IML.LINE:
+        	if (xmlStack.in_line())
+        		xmlStack.end_line();
+        	xmlStack.new_line(node);
+        	return true;
    		case IML.ACCENT:
    			return true;
    		case IML.DIV:
@@ -503,7 +509,6 @@ public class XMLWriter extends Writer{
 	private boolean parse_empty(EmptyNode node, Element e, XMLStack xmlStack){
    		switch (node.getName().toUpperCase()){
    		case IML.LINE:
-        	//line can't be a child of a line, so get out
         	if (xmlStack.in_line())
         		xmlStack.end_line();
         	xmlStack.new_line(node);
