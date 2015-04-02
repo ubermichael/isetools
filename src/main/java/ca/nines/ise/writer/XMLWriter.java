@@ -31,7 +31,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,57 +53,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 public class XMLWriter extends Writer{
-	
-	  public class  Lines extends Stack<ImmutablePair<String,Integer>>{
-		  
-		  private String peek_type(){
-			  return (String)super.peek().getLeft();
-		  }
-		  
-		  private int peek_count(){
-			  return (int)super.peek().getRight();
-		  }
-		  
-		  private void dec(){
-			  change_line_head(-1);
-		  }
-		  
-		  private void inc(){
-			  change_line_head(1);
-		  }
-		  private void change_line_head(int n){
-			  if (super.isEmpty())
-				  return;
-			  String left = peek_type();
-			  int right = peek_count();
-			  super.pop();
-			  super.push(new ImmutablePair<String, Integer>(left,right+n));
-		  }
-		  
-		  public void new_element(){
-			  if (!super.empty())
-				  inc();
-		  }
-		  
-		  public void rm_element(){
-			  if (!super.empty())
-				  dec();
-		  }
-	  }
 	  
-	  public class XMLStack extends ArrayDeque<Element>{
+	  public class XMLStack extends LinkedList<Element>{
 		  	private Boolean endSplitLine;
 		  	private Boolean inSpeech;
 		  	private String align;
 		  	Document xml;
-		  	Lines line;
 		  	
 		  	public XMLStack() throws ParserConfigurationException{
 		  		endSplitLine = false;
 		  		inSpeech = false;
 		  		align = null;
 		  		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-		  		line = new Lines();
 		  	}
 		  	
 		  	public void start_speech(){
@@ -119,7 +82,6 @@ public class XMLWriter extends Writer{
 		  	}
 		  
 			public void new_line(TagNode node){
-				new_line(IML.LINE);
 				endSplitLine = false;
 		    	for (String name : node.getAttributeNames()) {
 		    		//only attribute we care about
@@ -148,7 +110,6 @@ public class XMLWriter extends Writer{
 			public void end_line(){
 				if (!in_line())
 					return;
-				line.pop();
 				//pop out of all till and including line
 				Element e = super.pop();
 				while (!e.getNodeName().equals(XML.LINE))
@@ -169,9 +130,12 @@ public class XMLWriter extends Writer{
 			}
 			
 			public void end_page(){
-				if (in_page())
-					line.pop();
-				super.pop();	    
+				if (!in_page())
+					return;
+				//pop out of all till and including line
+				Element e = super.pop();
+				while (!e.getNodeName().equals(XML.PAGE))
+					e = super.pop();    
 			}
 			
 			private void new_ms_element(String ln, String n){
@@ -187,38 +151,34 @@ public class XMLWriter extends Writer{
 	    	private void new_element(StartNode node){
 				if (Arrays.asList(IML.LINE_CHILDREN).contains(node.getName()) && !in_line())
 		   			new_line(new EmptyNode());
-				line.new_element();
 	    	}    	
 	    	//if closing node that's not a child of current line, close line
 	    	private void rm_element(EndNode node){    		
 		    	if (peekFirst().getNodeName().equals(IML.LINE))
 		    		end_line();
-		    	line.rm_element();
 	    	}
+	    	
 	    	public boolean in_line(){
-	    		if (!line.empty())
-	    			return line.peek_type().equals(IML.LINE);
-				return false;
-	    	}
-			  
-	    	public boolean in_line_element(){
-	    		return !line.empty();
+	    		for(int i=0; i<size(); i++){
+	    			if (get(i).getNodeName().equals(XML.LINE))
+	    				return true;
+	    		}
+	    		return false;
 	    	}
 			  
 	    	public boolean in_page(){
-	    		if (!line.empty())
-	    			return line.peek_type().equals(IML.PAGE);
+	    		for(int i=0; i<size(); i++)
+	    			if (get(i).getNodeName().equals(XML.PAGE))
+	    				return true;
 	    		return false;
 	    	}
-				
+			
 	    	public boolean in_line_child(){
-	    		if (!line.empty())
-	    			return (int)line.peek().getRight() != 0;	
+	    		if (in_line() && peek().getNodeName().equals(XML.LINE))
+	    			return true;
 	    		return false;
 	    	}
-	    	private void new_line(String type){
-	    		line.push(new ImmutablePair<String, Integer>(type, 0));
-	    	}
+	    	
 	    	public void pop_element(String name){
 	    		if (peekFirst().getNodeName().equals(name))
 	    			pop();
@@ -319,7 +279,7 @@ public class XMLWriter extends Writer{
 				xmlStack.new_line(new EmptyNode());
 			xmlStack.peekFirst().appendChild(xmlStack.xml.createTextNode(lines[i]));
 			//if in a line and it is not the last line of this text node, end line
-			if (xmlStack.in_line_element() && i < (lines.length -1))
+			if (xmlStack.in_line() && i < (lines.length -1))
 				xmlStack.end_line();
 		}
 		return true;
@@ -356,7 +316,7 @@ public class XMLWriter extends Writer{
    			xmlStack.start_speech();
    			return false;
    		case IML.MODE:
-   			if (xmlStack.in_line_element())
+   			if (xmlStack.in_line())
    				xmlStack.end_line();
        		set_attributes(node, e,null,null);
         	xmlStack.peekFirst().appendChild(e);
@@ -405,7 +365,6 @@ public class XMLWriter extends Writer{
    	    	xmlStack.push(e_title);
    			return true;
    		case IML.PAGE:
-   			xmlStack.new_line(IML.PAGE);
    			return false;
    		case IML.LINEGROUP:
        		set_attributes(node,e, new String[][] {{"form","metric"}},null);
@@ -415,7 +374,7 @@ public class XMLWriter extends Writer{
    		case IML.QUOTE:
    			//if not currently in a line element, assume quoting a line element
    			Element e_quote;
-   			if (!xmlStack.in_line_element())
+   			if (!xmlStack.in_line())
    				e_quote = xmlStack.xml.createElement(XML.QUOTE);
    			else
    				e_quote = xmlStack.xml.createElement(XML.Q);
@@ -424,7 +383,7 @@ public class XMLWriter extends Writer{
    			xmlStack.push(e_quote); 
    			return true;
    		case IML.VERSEQUOTE:
-   			if (xmlStack.in_line_element())
+   			if (xmlStack.in_line())
    				xmlStack.end_line();
    			e_quote = xmlStack.xml.createElement(XML.QUOTE);
    			set_attributes(node, e_quote,null,null);
