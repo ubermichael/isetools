@@ -32,4 +32,5 @@ public class XML {
 	  public static final String AMBIG = "ambig";
 	  public static final String RDG = "rdg";
 	  public static final String PROP = "prop";
+	  public static final String SD = "sd";
 }

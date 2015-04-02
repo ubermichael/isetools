@@ -30,6 +30,11 @@ public class IML {
 	  public static final String AMBIG = "AMBIG";
 	  public static final String RDG = "RDG";
 	  public static final String PROP = "PROP";
+	  public static final String SD = "SD";
+	  public static final String BACKMATTER = "BACKMATTER";
+	  public static final String DIV = "DIV";
+	  public static final String ACCENT = "ACCENT";
+	  public static final String VERSEQUOTE = "VERSEQUOTE";
 	  
 	  public static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
 		  					"LD","LS","PROP","R","S","SC","SD","SWASH",TITLEHEAD,TLN,QLN,WLN};
