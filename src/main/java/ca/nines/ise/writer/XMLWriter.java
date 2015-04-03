@@ -50,18 +50,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 public class XMLWriter extends Writer{
+	
+	  private static final String[] RENEWABLE = {XML.S, XML.TITLE, XML.MS};
 	  
 	  public class XMLStack extends LinkedList<Element>{
+		  	private LinkedList<Element> renewing;
 		  	private Hashtable<String, Boolean> page_children;
 		  	private Boolean endSplitLine;
-		  	private Boolean inSpeech;
 		  	private String align;
 		  	Document xml;
 		  	
 		  	public XMLStack() throws ParserConfigurationException{
+		  		renewing = new LinkedList();
 		  		page_children = new Hashtable();
 		  		endSplitLine = false;
-		  		inSpeech = false;
 		  		align = null;
 		  		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		  	}
@@ -86,26 +88,8 @@ public class XMLWriter extends Writer{
 		  		return false;
 		  	}
 		  	
-		  	public void rm_page_child(String str){
-		  		page_children.put(str, false);
-		  	}
-		  	
-		  	public void add_page_child(String str){
+		  	private void add_page_child(String str){
 		  		page_children.put(str, true);
-		  	}
-		  	
-		  	public void start_speech(){
-		  		inSpeech = true;
-		  	}
-		  	
-		  	public void end_speech(){
-		  		inSpeech = false;
-		  	}
-		  	
-		  	private void push_speech(){
-		    	Element e = xml.createElement(XML.S);
-		    	super.peekFirst().appendChild(e);
-		    	super.push(e);
 		  	}
 		  
 			public void new_line(TagNode node){
@@ -132,8 +116,28 @@ public class XMLWriter extends Writer{
 		    		e.setAttribute("align", align);
 		    	super.peekFirst().appendChild(e);
 		    	super.push(e);
-				if (inSpeech)
-					push_speech();
+		    	
+		    	while(!renewing.isEmpty()){
+		    		e = renewing.pop();
+		    		super.peekFirst().appendChild(e);
+		    		super.push(e);
+		    	}
+			}	
+			
+			private void renew(String name){
+				if (Arrays.asList(RENEWABLE).contains(name)){
+					renewing.push(xml.createElement(name));
+				}
+			}
+			
+			private void end_renew(String name){
+				Element er = null;
+				for (Element e : renewing){
+					if (e.getNodeName().equals(name))
+						er = e;
+				}
+				if (er != null)
+					renewing.remove(er);
 			}
 			
 			public void end_line(){
@@ -141,8 +145,10 @@ public class XMLWriter extends Writer{
 					return;
 				//pop out of all till and including line
 				Element e = super.pop();
-				while (!e.getNodeName().equals(XML.LINE))
+				while (!e.getNodeName().equals(XML.LINE)){
+					renew(e.getNodeName());
 					e = super.pop();
+				}
 				//if ending splitline, pop that as well
 				if (endSplitLine)
 					super.pop();		    
@@ -180,8 +186,9 @@ public class XMLWriter extends Writer{
 			}
 			
 			private void new_ms_element(String ln, String n){
-				if (!in_line())
-					new_line(new EmptyNode());
+				if (in_line())
+					end_line();
+				new_line(new EmptyNode());
 		    	Element e = xml.createElement(XML.MS);
 		    	e.setAttribute("t", ln);
 		    	e.setAttribute("n", n);
@@ -223,8 +230,11 @@ public class XMLWriter extends Writer{
 	    	}
 	    	
 	    	public void pop_element(String name){
-	    		if (peekFirst().getNodeName().equals(name))
-	    			pop();
+	    		if (!in_tag(name))
+	    			return;
+	    		Element e = super.pop();
+	    		while (!e.getNodeName().equals(name))
+	    			e = super.pop();
 	    	}
 	  }
 	  
@@ -381,7 +391,6 @@ public class XMLWriter extends Writer{
    				xmlStack.end_till_line();
    			return false;
    		case IML.S:
-   			xmlStack.start_speech();
    			return false;
    		case IML.MODE:
    			if (xmlStack.in_line())
@@ -496,7 +505,12 @@ public class XMLWriter extends Writer{
    			xmlStack.pop_element(XML.SD);
    			break;
    		case IML.S:
-   			xmlStack.end_speech();
+   			xmlStack.end_renew(XML.S);
+   			xmlStack.pop_element(XML.S);
+   			break;
+   		case IML.TITLEHEAD:
+   			xmlStack.end_renew(XML.TITLE);
+   			xmlStack.pop_element(XML.TITLE);
    			break;
    		case IML.QUOTE:
    			xmlStack.pop_element(XML.Q);
@@ -516,11 +530,7 @@ public class XMLWriter extends Writer{
    		case IML.J:
    			if (xmlStack.in_line())
    				xmlStack.end_line();
-   			else{
-   				xmlStack.pop_element(XML.RA);
-   				xmlStack.pop_element(XML.C);
-   				xmlStack.pop_element(XML.J);
-   			}
+   			xmlStack.align = null;
    			break;
    		case IML.SP:
    			xmlStack.pop_element(XML.SP);
