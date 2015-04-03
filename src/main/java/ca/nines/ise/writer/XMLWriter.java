@@ -30,11 +30,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
@@ -46,7 +44,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,16 +52,46 @@ import org.w3c.dom.Text;
 public class XMLWriter extends Writer{
 	  
 	  public class XMLStack extends LinkedList<Element>{
+		  	private Hashtable<String, Boolean> page_children;
 		  	private Boolean endSplitLine;
 		  	private Boolean inSpeech;
 		  	private String align;
 		  	Document xml;
 		  	
 		  	public XMLStack() throws ParserConfigurationException{
+		  		page_children = new Hashtable();
 		  		endSplitLine = false;
 		  		inSpeech = false;
 		  		align = null;
 		  		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		  	}
+		  	
+		  	public void start_page_child(Element e){
+		  		//can't have more than one of any in a single page
+		  		if (page_child_exists(e.getNodeName()))
+		  			return;
+		  		end_till_page();
+		  		super.peekFirst().appendChild(e);
+		  		super.push(e);
+		  		add_page_child(e.getNodeName());
+		  	}
+		  	
+		  	public void end_page_child(String str){
+		  		end_till_page();
+		  	}
+		  	
+		  	public Boolean page_child_exists(String str){
+		  		if (page_children.contains(str))
+		  			return page_children.get(str);
+		  		return false;
+		  	}
+		  	
+		  	public void rm_page_child(String str){
+		  		page_children.put(str, false);
+		  	}
+		  	
+		  	public void add_page_child(String str){
+		  		page_children.put(str, true);
 		  	}
 		  	
 		  	public void start_speech(){
@@ -82,6 +109,8 @@ public class XMLWriter extends Writer{
 		  	}
 		  
 			public void new_line(TagNode node){
+				if (in_page())
+					end_page();
 				endSplitLine = false;
 		    	for (String name : node.getAttributeNames()) {
 		    		//only attribute we care about
@@ -132,10 +161,22 @@ public class XMLWriter extends Writer{
 			public void end_page(){
 				if (!in_page())
 					return;
-				//pop out of all till and including line
+				//pop out of all till and including page
 				Element e = super.pop();
 				while (!e.getNodeName().equals(XML.PAGE))
-					e = super.pop();    
+					e = super.pop();
+				//reset page children
+				page_children = new Hashtable();
+			}
+			
+			public void end_till_page(){
+				if (!in_page())
+					return;
+				//pop out of all till line
+				Element e = super.pop();
+				while (!e.getNodeName().equals(XML.PAGE))
+					e = super.pop();
+				super.push(e);
 			}
 			
 			private void new_ms_element(String ln, String n){
@@ -158,23 +199,25 @@ public class XMLWriter extends Writer{
 		    		end_line();
 	    	}
 	    	
-	    	public boolean in_line(){
+	    	public boolean in_tag(String tag){
 	    		for(int i=0; i<size(); i++){
-	    			if (get(i).getNodeName().equals(XML.LINE))
+	    			if (get(i).getNodeName().equals(tag))
 	    				return true;
 	    		}
 	    		return false;
 	    	}
+	    	
+	    	public boolean in_line(){
+	    		return in_tag(XML.LINE);
+	    	}
 			  
 	    	public boolean in_page(){
-	    		for(int i=0; i<size(); i++)
-	    			if (get(i).getNodeName().equals(XML.PAGE))
-	    				return true;
-	    		return false;
+	    		return in_tag(XML.PAGE);
+
 	    	}
 			
 	    	public boolean in_line_child(){
-	    		if (in_line() && peek().getNodeName().equals(XML.LINE))
+	    		if (in_line() && !peek().getNodeName().equals(XML.LINE))
 	    			return true;
 	    		return false;
 	    	}
@@ -293,6 +336,31 @@ public class XMLWriter extends Writer{
     	xmlStack.new_element(node);
   		
    		switch (node.getName().toUpperCase()){
+   		case IML.CW:
+   			if (!xmlStack.in_page())
+   				return true;
+   	    	Element e_cw = xmlStack.xml.createElement(XML.CW);
+   			xmlStack.start_page_child(e_cw);
+   			return true;
+   		case IML.SIG:
+   			if (!xmlStack.in_page())
+   				return true;
+   	    	Element e_sig = xmlStack.xml.createElement(XML.SIG);
+   			xmlStack.start_page_child(e_sig);
+   			return true;
+   		case IML.RT:
+   			if (!xmlStack.in_page())
+   				return true;
+   	    	Element e_rt = xmlStack.xml.createElement(XML.RT);
+   			xmlStack.start_page_child(e_rt);
+   			return true;
+   		case IML.PN:
+   			//if not in a page, ignore (can't force page without page number)
+   			if (!xmlStack.in_page())
+   				return true;
+   	    	Element e_pn = xmlStack.xml.createElement(XML.PN);
+   			xmlStack.start_page_child(e_pn);
+   			return true;
    		//found an IML document with an unclosed line...
    		case IML.LINE:
         	if (xmlStack.in_line())
@@ -337,6 +405,9 @@ public class XMLWriter extends Writer{
    		case IML.RA:
    		case IML.C:
    		case IML.J:
+   			//ignore in page
+   			if (xmlStack.in_page())
+   				return true;
 			xmlStack.align = get_alignment(node.getName());
 			if (xmlStack.in_line())
 				xmlStack.end_line();
@@ -398,6 +469,18 @@ public class XMLWriter extends Writer{
     	xmlStack.rm_element(node);
     	
    		switch (node.getName().toUpperCase()){
+   		case IML.CW:
+   			xmlStack.end_page_child(XML.CW);
+   			break;
+   		case IML.SIG:
+   			xmlStack.end_page_child(XML.SIG);
+   			break;
+   		case IML.RT:
+   			xmlStack.end_page_child(XML.RT);
+   			break;
+   		case IML.PN:
+   			xmlStack.end_page_child(XML.PN);
+   			break;
    		case IML.ACCENT:
    			break;
    		case IML.AMBIG:
@@ -433,6 +516,11 @@ public class XMLWriter extends Writer{
    		case IML.J:
    			if (xmlStack.in_line())
    				xmlStack.end_line();
+   			else{
+   				xmlStack.pop_element(XML.RA);
+   				xmlStack.pop_element(XML.C);
+   				xmlStack.pop_element(XML.J);
+   			}
    			break;
    		case IML.SP:
    			xmlStack.pop_element(XML.SP);
