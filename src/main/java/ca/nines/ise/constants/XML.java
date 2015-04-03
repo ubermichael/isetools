@@ -33,4 +33,8 @@ public class XML {
 	  public static final String RDG = "rdg";
 	  public static final String PROP = "prop";
 	  public static final String SD = "sd";
+	  public static final String RT = "rt";
+	  public static final String PN = "pn";
+	  public static final String SIG = "sig";
+	  public static final String CW = "cw";	  
 }
