@@ -38,7 +38,8 @@ public class IML {
 	  public static final String RT = "RT";
 	  public static final String PN = "PN";
 	  public static final String SIG = "SIG";
-	  public static final String CW = "CW";	  
+	  public static final String CW = "CW";	 
+	  public static final String DASH = "--";
 	  
 	  public static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
 		  					"LD","LS","PROP","R","S","SC","SD","SWASH",TITLEHEAD,TLN,QLN,WLN};

@@ -54,18 +54,20 @@ public class XMLWriter extends Writer{
 	  private static final String[] RENEWABLE = {XML.S, XML.TITLE, XML.MS};
 	  
 	  public class XMLStack extends LinkedList<Element>{
+		  	Document xml;
+		  	private Element current_ms;
 		  	private LinkedList<Element> renewing;
 		  	private Hashtable<String, Boolean> page_children;
 		  	private Boolean endSplitLine;
 		  	private String align;
-		  	Document xml;
 		  	
 		  	public XMLStack() throws ParserConfigurationException{
-		  		renewing = new LinkedList();
-		  		page_children = new Hashtable();
+		  		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		  		current_ms = xml.createElement(XML.MS);
+		  		renewing = new LinkedList<Element>();
+		  		page_children = new Hashtable<String, Boolean>();
 		  		endSplitLine = false;
 		  		align = null;
-		  		xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		  	}
 		  	
 		  	public void start_page_child(Element e){
@@ -120,12 +122,15 @@ public class XMLWriter extends Writer{
 		    	while(!renewing.isEmpty()){
 		    		e = renewing.pop();
 		    		super.peekFirst().appendChild(e);
-		    		super.push(e);
+		    		if (!e.getNodeName().equals(XML.MS))
+		    			super.push(e);
 		    	}
 			}	
 			
 			private void renew(String name){
-				if (Arrays.asList(RENEWABLE).contains(name)){
+				if (name.equals(XML.MS))
+					renewing.push(current_ms);
+				else if (Arrays.asList(RENEWABLE).contains(name)){
 					renewing.push(xml.createElement(name));
 				}
 			}
@@ -154,6 +159,12 @@ public class XMLWriter extends Writer{
 					super.pop();		    
 			}
 			
+			public void end_line_renew_ms(){
+				if (current_ms.hasAttributes())
+					renew(XML.MS);
+				end_line();
+			}
+			
 			public void end_till_line(){
 				if (!in_line())
 					return;
@@ -172,7 +183,7 @@ public class XMLWriter extends Writer{
 				while (!e.getNodeName().equals(XML.PAGE))
 					e = super.pop();
 				//reset page children
-				page_children = new Hashtable();
+				page_children = new Hashtable<String, Boolean>();
 			}
 			
 			public void end_till_page(){
@@ -193,6 +204,7 @@ public class XMLWriter extends Writer{
 		    	e.setAttribute("t", ln);
 		    	e.setAttribute("n", n);
 		    	super.peekFirst().appendChild(e);
+		    	current_ms = (Element)e.cloneNode(true);
 			}
 	   		
 			//if not in a line, but should be, push new line
@@ -220,7 +232,6 @@ public class XMLWriter extends Writer{
 			  
 	    	public boolean in_page(){
 	    		return in_tag(XML.PAGE);
-
 	    	}
 			
 	    	public boolean in_line_child(){
@@ -230,6 +241,8 @@ public class XMLWriter extends Writer{
 	    	}
 	    	
 	    	public void pop_element(String name){
+	    		//if being renewed, end renew
+	    		end_renew(name);
 	    		if (!in_tag(name))
 	    			return;
 	    		Element e = super.pop();
@@ -314,7 +327,7 @@ public class XMLWriter extends Writer{
 	private Boolean parse_text(Text t, XMLStack xmlStack){
 		String text = t.getTextContent();
 		//replace all -- with dash
-		text = text.replaceAll("--","\u2014");
+		text = text.replaceAll(IML.DASH,XML.DASH);
 		t.setTextContent(text);
 		if (text.trim().isEmpty() || xmlStack.in_page())
 			return false;
@@ -394,7 +407,7 @@ public class XMLWriter extends Writer{
    			return false;
    		case IML.MODE:
    			if (xmlStack.in_line())
-   				xmlStack.end_line();
+   				xmlStack.end_line_renew_ms();
        		set_attributes(node, e,null,null);
         	xmlStack.peekFirst().appendChild(e);
         	return true;
@@ -418,11 +431,11 @@ public class XMLWriter extends Writer{
    			if (xmlStack.in_page())
    				return true;
 			xmlStack.align = get_alignment(node.getName());
-			if (xmlStack.in_line())
-				xmlStack.end_line();
+   			if (xmlStack.in_line())
+   				xmlStack.end_line_renew_ms();
 			xmlStack.new_line(new EmptyNode());	        			
 			return true;
-   		case IML.COL: //column
+   		case IML.COL:
    	    	Element e_col = xmlStack.xml.createElement(XML.COL);
    	    	xmlStack.peekFirst().appendChild(e_col);
    	    	return true;
@@ -490,8 +503,6 @@ public class XMLWriter extends Writer{
    		case IML.PN:
    			xmlStack.end_page_child(XML.PN);
    			break;
-   		case IML.ACCENT:
-   			break;
    		case IML.AMBIG:
    			xmlStack.pop_element(XML.AMBIG);
    			break;
@@ -505,17 +516,16 @@ public class XMLWriter extends Writer{
    			xmlStack.pop_element(XML.SD);
    			break;
    		case IML.S:
-   			xmlStack.end_renew(XML.S);
    			xmlStack.pop_element(XML.S);
    			break;
    		case IML.TITLEHEAD:
-   			xmlStack.end_renew(XML.TITLE);
    			xmlStack.pop_element(XML.TITLE);
    			break;
    		case IML.QUOTE:
    			xmlStack.pop_element(XML.Q);
    			xmlStack.pop_element(XML.QUOTE);
    			break;
+   		case IML.ACCENT:
    		case IML.BACKMATTER:
    		case IML.DIV:
    		case IML.COL:

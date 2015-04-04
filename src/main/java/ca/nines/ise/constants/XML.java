@@ -37,4 +37,5 @@ public class XML {
 	  public static final String PN = "pn";
 	  public static final String SIG = "sig";
 	  public static final String CW = "cw";	  
+	  public static final String DASH = "\u2014";
 }
