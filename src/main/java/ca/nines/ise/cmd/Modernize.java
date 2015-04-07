@@ -19,6 +19,7 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
+import ca.nines.ise.log.Log;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TextNode;
 import ca.nines.ise.transformer.Formatter;
@@ -56,6 +57,7 @@ public class Modernize extends Command {
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
     Writer renderer;
+    Log log = Log.getInstance();
     Locale.setDefault(Locale.ENGLISH);
     out = new PrintStream(System.out, true, "UTF-8");
     if (cmd.hasOption("o")) {
@@ -67,6 +69,10 @@ public class Modernize extends Command {
     DOM dom = new DOMBuilder(new File(files[0])).build();
     if (dom.getStatus() == DOMStatus.ERROR) {
       System.err.println("Document contains errors. Cannot continue.");
+      if (log.count() > 0) {
+        out.println(log);
+        log.clear();
+      }
       System.exit(-1);
     }
 
