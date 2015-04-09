@@ -114,8 +114,7 @@ public class XMLWriter extends Writer{
 		    		}
 		    	}
 		    	Element e = xml.createElement(XML.LINE);
-		    	if (align != null)
-		    		e.setAttribute("align", align);
+		    	set_align(e);
 		    	super.peekFirst().appendChild(e);
 		    	super.push(e);
 		    	
@@ -125,7 +124,21 @@ public class XMLWriter extends Writer{
 		    		if (!e.getNodeName().equals(XML.MS))
 		    			super.push(e);
 		    	}
-			}	
+			}
+			
+			private void set_align(Element e){
+		    	if (align != null)
+		    		e.setAttribute("align", align);
+			}
+			
+			public void change_align(){
+	    		for(int i=0; i<size(); i++){
+	    			if (get(i).getNodeName().equals(XML.LINE)){
+	    				set_align(get(i));
+	    				return;
+	    			}
+	    		}
+			}
 			
 			private void renew(String name){
 				if (name.equals(XML.MS))
@@ -138,8 +151,10 @@ public class XMLWriter extends Writer{
 			private void end_renew(String name){
 				Element er = null;
 				for (Element e : renewing){
-					if (e.getNodeName().equals(name))
+					if (e.getNodeName().equals(name)){
 						er = e;
+						break;
+					}
 				}
 				if (er != null)
 					renewing.remove(er);
@@ -170,8 +185,10 @@ public class XMLWriter extends Writer{
 					return;
 				//pop out of all till line
 				Element e = super.pop();
-				while (!e.getNodeName().equals(XML.LINE))
+				while (!e.getNodeName().equals(XML.LINE)){
+					renew(e.getNodeName());
 					e = super.pop();
+				}
 				super.push(e);
 			}
 			
@@ -432,10 +449,11 @@ public class XMLWriter extends Writer{
    				return true;
 			xmlStack.align = get_alignment(node.getName());
    			if (xmlStack.in_line())
-   				xmlStack.end_line_renew_ms();
-			xmlStack.new_line(new EmptyNode());	        			
+   				xmlStack.change_align();       			
 			return true;
    		case IML.COL:
+   			if (xmlStack.in_line())
+   				xmlStack.end_line();
    	    	Element e_col = xmlStack.xml.createElement(XML.COL);
    	    	xmlStack.peekFirst().appendChild(e_col);
    	    	return true;
@@ -538,8 +556,6 @@ public class XMLWriter extends Writer{
    		case IML.RA:
    		case IML.C:
    		case IML.J:
-   			if (xmlStack.in_line())
-   				xmlStack.end_line();
    			xmlStack.align = null;
    			break;
    		case IML.SP:
@@ -594,6 +610,8 @@ public class XMLWriter extends Writer{
    		case IML.META:
    			return true;
    		case IML.RULE:
+   			if (xmlStack.in_line())
+   				xmlStack.end_line();
        		set_attributes(node,e, new String[][] {{"n","l"}},null);
    			xmlStack.peekFirst().appendChild(e);
         	return true;
