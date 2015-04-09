@@ -580,7 +580,7 @@
     <tag name="SUP" where="anywhere">
       <desc><![CDATA[Superscript characters.]]></desc>
     </tag>
-    <tag name="SWASH" where="primary">
+    <tag name="SWASH" where="primary" depreciated="Do not use SWASH tags.">
       <desc><![CDATA[Indicates an ornamental swash letter. DRE texts only.]]></desc>
       <attribute name="where" type="select">
         <desc><![CDATA[The direction of the swash ornament.]]></desc>
