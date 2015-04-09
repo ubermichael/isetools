@@ -41,7 +41,7 @@ public class IML {
 	  public static final String CW = "CW";	 
 	  public static final String DASH = "--";
 	  
-	  public static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
+	  public static final String[] LINE_CHILDREN = {"I","ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
 		  					"LD","LS","PROP","R","S","SC","SD","SWASH",TITLEHEAD,TLN,QLN,WLN};
 	  public static final String[] ALIGNMENT = {"RA","C","J"};
 }
