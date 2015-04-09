@@ -22,8 +22,12 @@ import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
+import ca.nines.ise.schema.Schema;
+import ca.nines.ise.validator.DOMValidator;
+import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.writer.Writer;
 import ca.nines.ise.writer.RTFWriter;
+import ca.nines.ise.writer.SGMLWriter;
 import ca.nines.ise.writer.TextWriter;
 import ca.nines.ise.writer.XMLWriter;
 import java.io.File;
@@ -72,6 +76,9 @@ public class Transform extends Command {
     if (cmd.hasOption("rtf")) {
       renderer = new RTFWriter(out);
     }
+    if(cmd.hasOption("sgml")) {
+        renderer = new SGMLWriter(out);
+    }
 
     if (renderer == null) {
       System.err.println("You must specify a transformation");
@@ -81,6 +88,13 @@ public class Transform extends Command {
 
     String[] files = getArgList(cmd);
     DOM dom = new DOMBuilder(new File(files[0])).build();
+    
+    Schema schema = Schema.defaultSchema();    
+    DOMValidator dv = new DOMValidator();
+    NestingValidator nv = new NestingValidator();
+    dv.validate(dom, schema);
+    nv.validate(dom);    
+    
     if (dom.getStatus() != DOMStatus.ERROR) {
       if (files.length == 2) {
         Annotation ann = Annotation.builder().from(new File(files[1])).build();
@@ -111,6 +125,7 @@ public class Transform extends Command {
     opts.addOption("xml", false, "Transform output to XML.");
     opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
     opts.addOption("rtf", false, "Transform output to an RTF document.");
+    opts.addOption("sgml", false, "Transform output to an SGML document, after validating.");
     return opts;
   }
 

@@ -18,6 +18,7 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.schema.Schema;
@@ -65,6 +66,10 @@ public class EndNodeValidator extends TagNodeValidator<EndNode> {
               .addNote("End tag " + n.getName() + " should not occur.")
               .build();
       Log.addMessage(m);
+      DOM dom = n.getOwner();
+      if(dom != null) {
+          dom.remove(n);
+      }
     }
   }
 

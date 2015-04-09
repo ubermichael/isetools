@@ -22,9 +22,12 @@ import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TextNode;
+import ca.nines.ise.schema.Schema;
 import ca.nines.ise.transformer.Formatter;
 import ca.nines.ise.transformer.Modernizer;
 import ca.nines.ise.transformer.Normalizer;
+import ca.nines.ise.validator.DOMValidator;
+import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.writer.Writer;
 import ca.nines.ise.writer.SGMLWriter;
 import java.io.File;
@@ -75,11 +78,17 @@ public class Modernize extends Command {
       }
       System.exit(-1);
     }
-
+    
+    Schema schema = Schema.defaultSchema();    
+    DOMValidator dv = new DOMValidator();
+    NestingValidator nv = new NestingValidator();
+    
     Modernizer m = new Modernizer();
     Normalizer n = new Normalizer();
     Formatter f = new Formatter();
-
+    dv.validate(dom, schema);
+    nv.validate(dom);
+    
     dom = m.transform(dom);
     dom = n.transform(dom);
     dom = f.transform(dom);

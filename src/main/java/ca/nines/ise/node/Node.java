@@ -20,6 +20,7 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
 import java.io.IOException;
 import java.util.Formatter;
+import java.util.logging.Logger;
 
 /**
  * A node is a piece of a DOM.
@@ -27,6 +28,8 @@ import java.util.Formatter;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Node {
+
+    private static final Logger logger = Logger.getLogger(Node.class.getName());
 
   /**
    * The act/scene/line numbers of the node.

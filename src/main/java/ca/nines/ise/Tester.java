@@ -16,43 +16,38 @@
  */
 package ca.nines.ise;
 
-import ca.nines.ise.cmd.Annotations;
-import ca.nines.ise.document.Annotation;
-import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.writer.RTFWriter;
-import java.io.File;
+import ca.nines.ise.node.EmptyNode;
+import ca.nines.ise.node.StartNode;
+import java.util.logging.Logger;
 
 /**
  * Dumb main class to test out experimental stuff.
- *
+ * <p>
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Tester {
 
+    private static final Logger logger = Logger.getLogger(Tester.class.getName());
+
     /**
      * Experiment runner.
-     *
+     * <p>
      * @param args command line arguments.
      */
     public static void main(String[] args) {
         Log log = Log.getInstance();
-        try {
-            RTFWriter w = new RTFWriter();
-            DOM dom = new DOMBuilder("<L n=\"56\" /><TLN n=\"269\" />"
-                    + "<SD t=\"entrance, setting\">Enter Brabantio, "
-                    + "Roderigo, [and] officers "
-                    + "[with] <PROP>torches</PROP> [and <PROP>weapons</PROP>].</SD>").build();
-            w.render(dom);
-        } catch (Exception ex) {
-            ex.printStackTrace(System.err);
-        } finally {
-            if (log.count() > 0) {
-                System.err.println("");
-                System.err.println(log);
-            }
+        StartNode s = new StartNode();
+        s.setName("foo");
+        s.setAttribute("foo", "33.b");
+        s.setTLN("22");
+        System.out.println(s.sgml());
+        EmptyNode e = new EmptyNode(s);
+        System.out.println(e.sgml());
+        
+        if (log.count() > 0) {
+            System.err.println("");
+            System.err.println(log);
         }
     }
-
 }

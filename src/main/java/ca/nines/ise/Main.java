@@ -44,8 +44,10 @@ public class Main {
 //    InputStream stream = Main.class.getResourceAsStream("version.properties");
 //    Properties prop = new Properties();
 //    prop.load(stream);
-//    return prop.getProperty("buildVersion")+ " " + prop.getProperty("buildBranch");
-    return "unknown";
+//    return prop.getProperty("version")+ " " 
+//            + prop.getProperty("build.date") + "\n" 
+//            + prop.getProperty("build.number");
+      return "(unknown)";
   }
 
   /**

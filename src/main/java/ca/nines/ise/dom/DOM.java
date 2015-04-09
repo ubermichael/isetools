@@ -16,7 +16,10 @@
  */
 package ca.nines.ise.dom;
 
+import ca.nines.ise.node.EmptyNode;
+import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
 import java.io.IOException;
@@ -108,6 +111,26 @@ public class DOM implements Iterable<Node> {
   public void addAll(DOM dom) {
     nodes.addAll(dom.nodes);
   }
+
+  /**
+   * Remove a node from the dom.
+   * 
+   * @param n node to remove.
+   */
+    public void remove(EndNode n) {
+        nodes.remove(n);
+    }
+
+  /**
+   * Replace a node in the DOM stream.
+   * 
+   * @param n Node to be replaced
+   * @param e Replacement node
+   */
+    public void replace(Node n, Node e) {
+        int idx = nodes.indexOf(n);
+        nodes.set(idx, e);
+    }
 
   /**
    * Return an expanded DOM, where all Char and ABBR nodes are expanded into

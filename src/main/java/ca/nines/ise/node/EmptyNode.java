@@ -16,6 +16,9 @@
  */
 package ca.nines.ise.node;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Empty nodes.
  *
@@ -23,7 +26,9 @@ package ca.nines.ise.node;
  */
 public class EmptyNode extends TagNode {
 
-  /**
+    private static final Logger logger = Logger.getLogger(EmptyNode.class.getName());
+
+    /**
    * Construct an empty node.
    */
   public EmptyNode() {
@@ -34,7 +39,7 @@ public class EmptyNode extends TagNode {
    * Copy constructor.
    */
   public EmptyNode(Node n) {
-    super(n);
+        super(n);
   }
 
   /**

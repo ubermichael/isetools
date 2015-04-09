@@ -18,8 +18,10 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
 import ca.nines.ise.annotation.ErrorCode;
+import ca.nines.ise.dom.DOM;
 import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.log.Log;
+import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.schema.Tag;
@@ -71,6 +73,11 @@ public class StartNodeValidator extends TagNodeValidator<StartNode> {
               .addNote("Start tag " + n.getName() + " should be self-closing.")
               .build();
       Log.addMessage(m);
+      DOM dom = n.getOwner();
+      if(dom != null) {
+          EmptyNode e = new EmptyNode(n);
+          dom.replace(n, e);
+      }
     }
     if (t.isDepreciated()) {
       Message m = Message.builder("validator.tag.depreciated")
