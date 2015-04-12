@@ -35,7 +35,7 @@ public class LigatureCharNode extends CharNode {
   public Fragment expanded() {
     return wrap("LIG", this.innerText());
   }
-
+  
   /**
    * @return the charType
    */

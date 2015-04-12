@@ -28,6 +28,7 @@ import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.writer.Writer;
 import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
+import ca.nines.ise.writer.TEIWriter;
 import ca.nines.ise.writer.TextWriter;
 import ca.nines.ise.writer.XMLWriter;
 import java.io.File;
@@ -79,6 +80,9 @@ public class Transform extends Command {
     if(cmd.hasOption("sgml")) {
         renderer = new SGMLWriter(out);
     }
+    if(cmd.hasOption("tei")) {
+        renderer = new TEIWriter(out);
+    }
 
     if (renderer == null) {
       System.err.println("You must specify a transformation");
@@ -108,7 +112,7 @@ public class Transform extends Command {
               .build();
       log.add(m);
     }
-    if (log.count() > 0) {
+    if (log.count() > 0 && (!cmd.hasOption("q"))) {
       System.err.println(log.count() + " errors or warnings.");
       System.err.println(log);
     }
@@ -122,9 +126,11 @@ public class Transform extends Command {
   public Options getOptions() {
     Options opts = new Options();
     opts.addOption("o", true, "Send output to file.");
+    opts.addOption("q", false, "Run quietly, supressing warnings");
     opts.addOption("xml", false, "Transform output to XML.");
     opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
     opts.addOption("rtf", false, "Transform output to an RTF document.");
+    opts.addOption("tei", false, "Transform output to TEI XML");
     opts.addOption("sgml", false, "Transform output to an SGML document, after validating.");
     return opts;
   }

@@ -57,6 +57,10 @@ public class CommentNode extends Node {
   public String plain() {
     return "";
   }
+  
+  public String comment() {
+    return text.replaceAll("(?:<!-?-?)|(?:-?-?>)", "");
+  }
 
   /**
    * {@inheritDoc}

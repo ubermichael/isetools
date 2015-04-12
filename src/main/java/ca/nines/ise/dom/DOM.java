@@ -16,10 +16,8 @@
  */
 package ca.nines.ise.dom;
 
-import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
 import java.io.IOException;
