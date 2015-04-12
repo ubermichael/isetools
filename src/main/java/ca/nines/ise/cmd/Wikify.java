@@ -219,6 +219,8 @@ public class Wikify extends Command {
     System.out.println(tag.getDescription() + "\n");
     System.out.println(" Empty::");
     System.out.println("  " + tag.getEmpty());
+    System.out.println(" Context::");
+    System.out.println("  " + tag.getWhere());
     System.out.println(" Depreciated::");
     System.out.println("  " + (tag.isDepreciated() ? tag.getDepreciated() : "no"));
     System.out.println("\n");

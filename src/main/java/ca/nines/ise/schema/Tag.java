@@ -76,6 +76,11 @@ public class Tag implements Comparable<Tag> {
    * The source of the tag.
    */
   private final String source;
+  
+  /**
+   * Where the tag is valid.
+   */
+  private final String where;
 
   /**
    * A builder class for constructing tags. Use Tag#builder() to get a
@@ -87,11 +92,12 @@ public class Tag implements Comparable<Tag> {
     private String depreciated;
     private String desc;
     private String empty;
+    private String where;
 
     private int lineNumber;
     private String name;
     private String source;
-
+    
     /**
      * Don't create TagBuilders directly. Use Tag#builder().
      *
@@ -102,6 +108,7 @@ public class Tag implements Comparable<Tag> {
       depreciated = "";
       desc = "";
       empty = "";
+      where = "";
       name = "";
       lineNumber = 0;
       source = "";
@@ -125,7 +132,7 @@ public class Tag implements Comparable<Tag> {
      */
     @Override
     public Tag build() {
-      return new Tag(name, desc, empty, depreciated, attributes, source, lineNumber);
+      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber);
     }
 
     /**
@@ -147,6 +154,11 @@ public class Tag implements Comparable<Tag> {
       tmp = map.getNamedItem("empty");
       if (tmp != null) {
         setEmpty(tmp.getTextContent());
+      }
+
+      tmp = map.getNamedItem("where");
+      if (tmp != null) {
+        setWhere(tmp.getTextContent());
       }
 
       tmp = map.getNamedItem("depreciated");
@@ -228,6 +240,11 @@ public class Tag implements Comparable<Tag> {
       this.empty = empty;
       return this;
     }
+    
+    public TagBuilder setWhere(String where) {
+        this.where = where;
+        return this;
+    }
 
     /**
      * Set the tag's line number
@@ -284,9 +301,10 @@ public class Tag implements Comparable<Tag> {
    * @param source
    * @param lineNumber
    */
-  private Tag(String name, String desc, String empty, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber) {
+  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber) {
     this.name = name;
     this.desc = desc;
+    this.where = where;
     this.empty = empty;
     this.depreciated = depreciated;
     this.attributes = new HashMap<>(attributes);
@@ -380,6 +398,13 @@ public class Tag implements Comparable<Tag> {
       return empty;
     }
     return "no";
+  }
+  
+  public String getWhere() {
+      if(where.equals("")) {
+          return "anywhere";
+      }
+      return where;
   }
 
   /**
