@@ -1,22 +1,38 @@
+/*
+ * Copyright (C) 2014 Malcolm Moran <malcolm.moran@outlook.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package ca.nines.ise.normalizer;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import ca.nines.ise.constants.XML;
 import nu.xom.Attribute;
 import nu.xom.Element;
-import nu.xom.Elements;
 import nu.xom.NodeFactory;
 import nu.xom.Nodes;
+import nu.xom.Text;
 
 public class NormalizingFactory extends NodeFactory {
-
-	    private Nodes empty = new Nodes();
+	
+		Boolean in_line = false;
 	    
-	    //currently normalizing everything
+	    //don't normalize within line
 	    public Nodes makeText(String data) {
+	    	//if (in_line)
+	    		//return super.makeText(data);
 	    	data = normalizeSpace(data);
-	        if ("".equals(data)) return empty;
+	        if ("".equals(data)) return new Nodes();
 	        return super.makeText(data); 
 	    }    
 	    
@@ -28,10 +44,31 @@ public class NormalizingFactory extends NodeFactory {
 	    }
 	    
 	    public Element startMakingElement(String name, String namespace){
+	    	if (name.equals(XML.LINE))
+	    		in_line = true;
 	    	return super.startMakingElement(name,namespace);
 	    }
 	    
 	    public Nodes finishMakingElement(Element e){
+	    	/*if (e.getLocalName().equals(XML.LINE)){
+	    		in_line = false;
+	    		int count = e.getChildCount();
+	    		if (count <= 1)
+	    			return super.finishMakingElement(e);
+	    		else{
+	    			Text x;
+	    			//if first child of line is text, normalize if boundary
+	    			if (e.getChild(0) instanceof Text){
+	    				x = (Text)e.getChild(0);
+	    				x.setValue(normalizeBoundary(x.getValue()));
+	    			}
+	    			//if last child of line is text, normalize if boundary
+	    			if (e.getChild(count-1) instanceof Text){
+	    				x = (Text)e.getChild(count-1);
+	    				x.setValue(normalizeBoundary(x.getValue()));
+	    			}
+	    		}
+	    	}*/
 	    	return super.finishMakingElement(e);
 	    }	    
 	    

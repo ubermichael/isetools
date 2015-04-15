@@ -2,4 +2,5 @@
 <!-- mode -->
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <mode t="prose"/>
+    <mode t="uncertain"/>
 </work>
