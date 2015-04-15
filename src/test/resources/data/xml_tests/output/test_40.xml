@@ -2,8 +2,8 @@
 <!-- s -->
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <l>
-        <s>
-            test2
+        <s n="1">
+            test
         </s>
     </l>    
 </work>

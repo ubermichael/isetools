@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2014 Malcolm Moran <malcolm.moran@outlook.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package ca.nines.ise.writer;
 
 import java.io.ByteArrayOutputStream;
@@ -370,6 +387,6 @@ public class XMLWriterTest {
 	public void testing() throws TransformerConfigurationException, TransformerException, Exception{
 	    Serializer serializer=new Serializer(System.out,"UTF-8");
 	    serializer.setIndent(3);
-	    serializer.write(new Builder(new NormalizingFactory()).build(dom_to_xml(get_iml_dom(new File("MND_M.txt"))), null));
+	    serializer.write(new Builder(new NormalizingFactory()).build(dom_to_xml(get_iml_dom(new File("in.txt"))), null));
 	}
 }

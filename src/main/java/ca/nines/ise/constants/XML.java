@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Malcolm Moran <malcolm.moran@outlook.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package ca.nines.ise.constants;
 
 public class XML {
@@ -38,4 +54,8 @@ public class XML {
 	  public static final String SIG = "sig";
 	  public static final String CW = "cw";	  
 	  public static final String DASH = "\u2014";
+	  public static final String ORNAMENT = "ornament";
+	  public static final String NAMESPACE = "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass";
+
+
 }
