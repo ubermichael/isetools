@@ -575,7 +575,6 @@ public class XMLWriter extends Writer{
 	    	}
 	  }
 	  
-	  public Document doc;
 	  
 	  /**
 	   * Construct an XMLWriter and send output to System.out.
@@ -585,7 +584,6 @@ public class XMLWriter extends Writer{
 	   */
 	  public XMLWriter() throws ParserConfigurationException, UnsupportedEncodingException {
 	    this(new PrintStream(System.out, true, "UTF-8"));
-  		doc = null;
 	  }
 
 	  /**
@@ -598,34 +596,30 @@ public class XMLWriter extends Writer{
 	   */
 	  public XMLWriter(PrintStream out) throws ParserConfigurationException, UnsupportedEncodingException {
 	    super(out);
-	    doc = null;
 	  }
 	  
-	  /**
-	   * Construct an XMLWrite and do not print to a stream
-	   * fills an xml document with the content during rendering
-	   *
-	   * @param doc the xml document to be filled
-	   *
-	   * @throws ParserConfigurationException
-	   * @throws UnsupportedEncodingException
-	   */
-	  public XMLWriter(Document doc) throws ParserConfigurationException, UnsupportedEncodingException {
-		  super(null);
-		  this.doc = doc;
-	  }
 	  
-	  /**
-	   * Renders the given IML DOM as an XML DOM
-	   * Rendered DOM is held in doc
-	   */
+      /**
+       * Renders the given IML, and serializes to the configured PrintStream
+       */
 	  @Override
-	  public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
-		  //First tag must be work; will now simply ignore start work tags
-		  Element e = new Element(XML.WORK, XML.NAMESPACE);
-		  doc = new Document(e);
-		  XMLStack xmlStack = new XMLStack(doc);
-		  xmlStack.push(e);
+      public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+        Document doc = renderToXOM(dom);
+        Serializer ser = new Serializer(out);
+        ser.write(doc);
+      }
+
+      /**
+       * Render the given IML
+       *
+       * @return the rendered DOM (as a XOM Document)
+       */
+      public Document renderToXOM(DOM dom) {
+		//First tag must be work; will now simply ignore start work tags
+		Element e = new Element(XML.WORK, XML.NAMESPACE);
+		Document doc = new Document(e);
+		XMLStack xmlStack = new XMLStack(doc);
+		xmlStack.push(e);
 	
 		  for (Node n : dom.expanded()) {
 			  switch (n.type()) {
@@ -651,9 +645,8 @@ public class XMLWriter extends Writer{
 			  default:
 				  throw new Exception("Cannot convert " + n.getName() + " to XML");
 			  }
-		  }    
-		  if (super.out != null)
-			  output();
+		  }       
+	    return doc;
 	  }
 	
 	private void parse_start(StartNode node, Element e, XMLStack xmlStack){
@@ -980,14 +973,6 @@ public class XMLWriter extends Writer{
 			for (Attribute attr : add)
 				e.addAttribute(attr);
        	return e;
-	}
-	
-	private void output(){
-	    try {
-	        out.print(doc.toXML());
-	      } catch (Exception ex) {
-	        ex.printStackTrace();
-	      }		
 	}
 
 	@Override
