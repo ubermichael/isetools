@@ -204,22 +204,22 @@ public class XMLWriterTest {
 		test("test_16");
 	}	
 	
-	//@Test
+	@Test
 	public void i() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_17");
 	}
 	
-	//@Test
+	@Test
 	public void iembed() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_18");
 	}
 	
-	//@Test
+	@Test
 	public void ilink() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_19");
 	}
 	
-	//@Test
+	@Test
 	public void indent() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_20");
 	}
@@ -335,11 +335,11 @@ public class XMLWriterTest {
 	public void stanza() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_47");
 	}
-	//@Test
+	@Test
 	public void sub() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_48");
 	}
-	//@Test
+	@Test
 	public void sup() throws TransformerConfigurationException, TransformerException, Exception{
 		test("test_49");
 	}
@@ -387,6 +387,6 @@ public class XMLWriterTest {
 	public void testing() throws TransformerConfigurationException, TransformerException, Exception{
 	    Serializer serializer=new Serializer(System.out,"UTF-8");
 	    serializer.setIndent(3);
-	    serializer.write(new Builder(new NormalizingFactory()).build(dom_to_xml(get_iml_dom(new File("in.txt"))), null));
+	    serializer.write(new Builder(new NormalizingFactory()).build(dom_to_xml(get_iml_dom(new File("MND_F1.txt"))), null));
 	}
 }

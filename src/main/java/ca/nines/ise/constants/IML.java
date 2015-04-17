@@ -57,8 +57,14 @@ public class IML {
 	  public static final String CW = "CW";	 
 	  public static final String DASH = "--";
 	  public static final String ORNAMENT = "ORNAMENT";
+	  public static final String INDENT = "INDENT";
+	  public static final String I = "I";
+	  public static final String IEMBED = "IEMBED";
+	  public static final String ILINK = "ILINK";
+	  public static final String SUP = "SUP";
+	  public static final String SUB = "SUB";
 	  
-	  public static final String[] LINE_CHILDREN = {"I","ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
-		  					"LD","LS","PROP","R","S","SC","SD","SWASH",TITLEHEAD,TLN,QLN,WLN};
+	  public static final String[] LINE_CHILDREN = {"ABBR","AMBIG","BLL","CL","EM","FOREIGN","HW","ORNAMENT",
+		  					"LD","LS","PROP","R","S","SC","SD","SWASH",TITLEHEAD,TLN,QLN,WLN,I,IEMBED,ILINK,INDENT};
 	  public static final String[] ALIGNMENT = {"RA","C","J"};
 }

@@ -56,6 +56,20 @@ public class XML {
 	  public static final String DASH = "\u2014";
 	  public static final String ORNAMENT = "ornament";
 	  public static final String NAMESPACE = "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass";
-
+	  public static final String SPLITLINE = "splitline";
+	  public static final String INDENT = "space";
+	  public static final String I = "i";
+	  public static final String IEMBED = "iembed";
+	  public static final String ILINK = "ilink";
+	  public static final String SUP = "sup";
+	  public static final String SUB = "sub";
+	  
+	  public static final String I_NAMESPACE = "http://www.w3.org/1999/xhtml";
+	  public static final String IEMBED_NAMESPACE = "http://internetshakespeare.uvic.ca/#internal-linking";
+	  public static final String ILINK_NAMESPACE = "http://internetshakespeare.uvic.ca/#internal-linking";
+	  public static final String SUP_NAMESPACE = "http://www.w3.org/1999/xhtml";
+	  public static final String SUB_NAMESPACE = "http://www.w3.org/1999/xhtml";
+	  
+	  
 
 }

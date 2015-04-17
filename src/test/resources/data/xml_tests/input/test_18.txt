@@ -1,4 +1,4 @@
 <!-- iembed -->
 <WORK>
-<iembed align="auto" component="link" height="1" href="href" lightbox="lb" longCaption="lc" showCaption="true" site="ise" width="1"/>
+<iembed>test</iembed>
 </WORK>
