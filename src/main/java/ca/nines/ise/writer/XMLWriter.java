@@ -47,7 +47,9 @@ import nu.xom.Elements;
 import nu.xom.Text;
 
 public class XMLWriter extends Writer{
-	
+    public static final String DOC_NS = "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass/dramaticWork.rng";
+    public static final String LINK_NS = "http://internetshakespeare.uvic.ca/#internal-linking";
+    public static final String HTML_NS = "http://www.w3.org/1999/xhtml";
 	  
 	  public class XMLStack extends LinkedList<Element>{
 		  	private final String[] RENEWABLE = {XML.S, XML.TITLE, XML.MS};
@@ -415,7 +417,7 @@ public class XMLWriter extends Writer{
 	    	 * @return new Element
 	    	 */
 	    	public Element new_element(String name){
-	    		return new Element(name, XML.NAMESPACE);
+	    		return new Element(name, DOC_NS);
 	    	}
 	    	
 	    	/**
@@ -616,7 +618,7 @@ public class XMLWriter extends Writer{
        */
       public Document renderToXOM(DOM dom) {
 		//First tag must be work; will now simply ignore start work tags
-		Element e = new Element(XML.WORK, XML.NAMESPACE);
+		Element e = new Element(XML.WORK, DOC_NS);
 		Document doc = new Document(e);
 		XMLStack xmlStack = new XMLStack(doc);
 		xmlStack.push(e);
@@ -660,23 +662,23 @@ public class XMLWriter extends Writer{
    			break;
    		case IML.I:
    			xmlStack.ensure_in_line();
-   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.I,XML.I_NAMESPACE)));
+   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.I,HTML_NS)));
    			break;
    		case IML.IEMBED:
    			xmlStack.ensure_in_line();
-   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.IEMBED,XML.IEMBED_NAMESPACE)));
+   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.IEMBED,LINK_NS)));
    			break;
    		case IML.ILINK:
    			xmlStack.ensure_in_line();
-   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.ILINK, XML.ILINK_NAMESPACE)));
+   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.ILINK, LINK_NS)));
    			break;
    		case IML.SUP:
    			xmlStack.ensure_in_line();
-   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.SUP, XML.SUP_NAMESPACE)));
+   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.SUP, HTML_NS)));
    			break;
    		case IML.SUB:
    			xmlStack.ensure_in_line();
-   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.SUB, XML.SUB_NAMESPACE)));
+   			xmlStack.start_element(set_attributes(node, xmlStack.new_element(XML.SUB, HTML_NS)));
    			break;
    		case IML.CW:
    			xmlStack.start_page_child(XML.CW);
