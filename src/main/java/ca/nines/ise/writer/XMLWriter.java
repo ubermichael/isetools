@@ -45,6 +45,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Text;
+import nu.xom.Serializer;
 
 public class XMLWriter extends Writer{
     public static final String DOC_NS = "http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass/dramaticWork.rng";
@@ -59,7 +60,7 @@ public class XMLWriter extends Writer{
 		  	private Boolean endSplitLine;
 		  	private String align;
 		  	
-		  	public XMLStack(Document xml) throws ParserConfigurationException{
+		  	public XMLStack(Document xml) {
 		  		this.xml = xml;
 		  		renewing = new LinkedList<Element>();
 		  		page_children = new Hashtable<String, Boolean>();
@@ -616,7 +617,7 @@ public class XMLWriter extends Writer{
        *
        * @return the rendered DOM (as a XOM Document)
        */
-      public Document renderToXOM(DOM dom) {
+    public Document renderToXOM(DOM dom) throws IOException {
 		//First tag must be work; will now simply ignore start work tags
 		Element e = new Element(XML.WORK, DOC_NS);
 		Document doc = new Document(e);
@@ -645,7 +646,7 @@ public class XMLWriter extends Writer{
 				  xmlStack.peekFirst().appendChild(t);
 				  break;
 			  default:
-				  throw new Exception("Cannot convert " + n.getName() + " to XML");
+				  throw new UnsupportedOperationException("Cannot convert " + n.getName() + " to XML");
 			  }
 		  }       
 	    return doc;
