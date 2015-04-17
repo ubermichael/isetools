@@ -1,4 +1,0 @@
-<!-- sub -->
-<WORK>
-<SUB>test</SUB>
-</WORK>

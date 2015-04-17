@@ -1,4 +1,0 @@
-<!-- sc -->
-<WORK>
-<SC>test</SC>
-</WORK>

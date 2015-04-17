@@ -1,4 +1,0 @@
-<!-- titlehead -->
-<WORK>
-<TITLEHEAD>test</TITLEHEAD>
-</WORK>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- extra-space -->
-<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
-    <l>
-        <space l="1" t="extra"/>
-        <space l="1" t="missing"/>
-    </l>
-</work>

@@ -1,4 +1,0 @@
-<!-- ornament -->
-<WORK>
-<ORNAMENT drop="2" src="some/where"></ORNAMENT>
-</WORK>

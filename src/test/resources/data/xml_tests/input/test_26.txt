@@ -1,4 +1,0 @@
-<!-- link -->
-<WORK>
-<LINK rel="test" href="test" order="test" rev="test"/>
-</WORK>

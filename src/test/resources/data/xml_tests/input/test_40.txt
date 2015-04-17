@@ -1,4 +1,0 @@
-<!-- s -->
-<WORK>
-<S>test</S>
-</WORK>

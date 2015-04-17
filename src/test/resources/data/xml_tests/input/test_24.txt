@@ -1,4 +1,0 @@
-<!-- ld -->
-<WORK>
-<LD>test</LD>
-</WORK>
