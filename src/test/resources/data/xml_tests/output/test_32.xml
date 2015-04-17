@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- page -->
-<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
-    <page n="1"/>
-    <page n="2" compositor="test" sig="sig"/>
-</work>

@@ -1,5 +1,0 @@
-<!-- col -->
-<WORK>
-<COL n="1">
-</COL>
-</WORK>

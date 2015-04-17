@@ -1,4 +1,0 @@
-<!-- sup -->
-<WORK>
-<SUP>test</SUP>
-</WORK>

@@ -1,4 +1,0 @@
-<!-- c -->
-<WORK>
-<C>test</C>
-</WORK>

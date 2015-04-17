@@ -1,4 +1,0 @@
-<!-- ilink -->
-<WORK>
-<ilink>test</ilink>
-</WORK>

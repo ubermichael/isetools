@@ -1,6 +1,0 @@
-<!-- marg -->
-<WORK>
-<MARG loc="right">
-<L/>
-</MARG>
-</WORK>

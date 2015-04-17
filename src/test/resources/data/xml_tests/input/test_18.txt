@@ -1,4 +1,0 @@
-<!-- iembed -->
-<WORK>
-<iembed>test</iembed>
-</WORK>

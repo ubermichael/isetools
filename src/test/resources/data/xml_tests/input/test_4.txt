@@ -1,5 +1,0 @@
-<!-- backmatter -->
-<WORK>
-<BACKMATTER>
-</BACKMATTER>
-</WORK>

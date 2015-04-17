@@ -1,5 +1,0 @@
-<!-- frontmatter -->
-<WORK>
-<FRONTMATTER>
-</FRONTMATTER>
-</WORK>

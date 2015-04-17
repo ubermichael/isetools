@@ -1,4 +1,0 @@
-<!-- hw -->
-<WORK>
-<HW type="next">test</HW>
-</WORK>

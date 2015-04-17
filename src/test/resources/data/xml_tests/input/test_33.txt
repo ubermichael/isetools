@@ -1,5 +1,0 @@
-<!-- prop -->
-<WORK>
-<PROP desc="brown" item="chair"></PROP>
-<PROP>test</PROP>
-</WORK>

@@ -1,6 +1,0 @@
-<!-- splitline -->
-<WORK>
-<L part="i" n="1"/>te
-<L part="m" n="1"/>s
-<L part="f" n="1"/>t
-</WORK>
