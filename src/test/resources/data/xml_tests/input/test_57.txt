@@ -1,4 +1,5 @@
 <!-- extra-space -->
 <WORK>
 { }
+{#}
 </WORK>

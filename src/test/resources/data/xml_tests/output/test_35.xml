@@ -3,14 +3,8 @@
 <work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
     <l>
         <q>test</q>
-        <q source="src"><q>test</q></q>
     </l>
     <quote>
         <l>test</l>
-    </quote>
-    <quote>
-        <quote source="src">
-            <l>test</l>
-        </quote>
     </quote>
 </work>

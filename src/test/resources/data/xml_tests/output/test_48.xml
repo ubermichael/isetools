@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- sub -->
-<!-- missing -->
+<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text/documentClass">
+	<l>
+		<sub xmlns="http://www.w3.org/1999/xhtml">test</sub>
+	</l>
+</work>
