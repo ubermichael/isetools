@@ -23,9 +23,8 @@ COMMENT_BAD : '<!' .*? '>' ;
 // abbreviations
 ABBREVIATION : '|' ~'|'* '|' ;
 
-
 CHAR_UNICODE 
-  : 
+    : 
     ( '{s}'       // long/medial s        ſ     U+017F
     | '{P}'       // pilcrow              ¶     U+00B6
     | '{r}'       // lower rotunda r      ꝛ     U+A75B
@@ -35,16 +34,16 @@ CHAR_UNICODE
     | '{th}'      // lower thorn          þ     U+00FE
     | '{TH}'      // upper thorn          Þ     U+00DE  
     ) 
-  ;
+    ;
 
 CHAR_CODEPOINT
-  : '{&#x' [0-9a-fA-F]+ '}'
-  | '{&#' [0-9]+ '}'
-  | '{&' [a-zA-Z0-9]+ '}'
-  ;
+    : '{&#x' [0-9a-fA-F]+ '}'
+    | '{&#' [0-9]+ '}'
+    | '{&' [a-zA-Z0-9]+ '}'
+    ;
 
 CHAR_DIGRAPH 
-  :           
+    :           
     ( '{ae}'        // ae digraph               æ   U+00E6
     | '{AE}'        // AE digraph               Æ   U+00C6
     | '{oe}'        // oe digraph               œ   U+0153
@@ -52,18 +51,18 @@ CHAR_DIGRAPH
     | '{qp}'        // qp digraph  (quod/quoth) ȹ   U+0239
     | '{db}'        // db digraph               ȸ   U+0238
     )             
-  ;
+    ;
 
 CHAR_SPACE 
-  :  
+    :  
     ( '{ }'         // extra space
     | '{-}'         // soft hyphen
     | '{#}'         // missing space
     )
-  ;
+    ;
 
 CHAR_ACCENT
-  : 
+    : 
     ( '{^'  [a-zA-Z] '}'         // carret   (ê)   U+0302 
     | '{"'  [a-zA-Z] '}'         // umlat    (ë)   U+0308
     | '{,'  [a-zA-Z] '}'         // cedilla  (̧e)   U+0327
@@ -72,75 +71,81 @@ CHAR_ACCENT
     | '{_'  [a-zA-Z] '}'         // macron   (ō)   U+0304
     | '{~'  [a-zA-Z] '}'         // tilde    (ñ)   U+0303
     )
-  ;
+    ;
 
 CHAR_TYPOGRAPHIC
-  :
+    :
     ( '{w}'         // two v characters for a w. No unicode equivalent.
     | '{W}'         // two V characters for a W. No unicode equivalent.
     | '{-' '-'+ '}' // run of hyphens. No unicode equivalent.
     )
-  ;
+    ;
 
 CHAR_LIGATURE
-  : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]? '}' 
-  ;
+    : '{' [a-zA-Z] [a-zA-Z] [a-zA-Z]? '}' 
+    ;
 
 CHAR_NESTED
-  : '{' ( [a-zA-Z] | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC ) ( [a-zA-Z] | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
-  ;
+    : '{' ( [a-zA-Z] | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC ) ( [a-zA-Z] | CHAR_UNICODE | CHAR_ACCENT | CHAR_TYPOGRAPHIC )+ '}' 
+    ;
 
 // beginning of tags.
-TAG_START : '<' -> pushMode(TAG) ;
+TAG_START 
+    : '<' -> pushMode(TAG) 
+    ;
 
 // general content.
-TEXT : ~[<{|]+ ;
+TEXT 
+    : ~[<{|]+ 
+    ;
 
 mode TAG ;
 
 TAG_END
-  : '>' -> popMode
-  ;
+    : '>' -> popMode
+    ;
 
 TAG_SLASH_END
-  : '/>' -> popMode
-  ;
+    : '/>' -> popMode
+    ;
 
 TAG_SLASH
-  : '/'
-  ;
+    : '/'
+    ;
 
+// recognizing attribute values
 TAG_EQ
-  : '=' ->pushMode(ATTR)
-  ;
+    : [ ]* '=' [ ]* ->pushMode(ATTR)
+    ;
 
 TAG_NAME
-  : [a-zA-Z] [a-zA-Z0-9]*
-  ;
+    : [a-zA-Z] [a-zA-Z0-9]*
+    ;
 
 TAG_WS
-  : [ \r\t\n]+ -> skip
-  ;
+    : [ \r\t\n]+ -> skip
+    ;
 
+// Parsing attribute values
 mode ATTR ;
 
 ATTRIBUTE_VALUE
-  : [ ]* ATTRIBUTE -> popMode
-  ;
+    : [ ]* ATTRIBUTE -> popMode
+    ;
 
 ATTRIBUTE
-  : DOUBLE_QUOTE_STRING
-  | SINGLE_QUOTE_STRING
-  | ATTRIBUTE_CHARS
-  ;
+    : DOUBLE_QUOTE_STRING
+    | SINGLE_QUOTE_STRING
+    | ATTRIBUTE_CHARS
+    ;
 
 fragment ATTRIBUTE_CHAR
-  : ~[<"{}'>]
-  ;
+    : ~[<"{} '>]
+    ;
 
 fragment ATTRIBUTE_CHARS
-  : ATTRIBUTE_CHAR+ ' '?
-  ;
+    : ATTRIBUTE_CHAR+ ' '?
+    ;
 
 // basic definitions. These are very generic, and must be last.
 fragment DOUBLE_QUOTE_STRING

@@ -22,7 +22,7 @@ public class ISEParser extends Parser {
 	public static final String[] tokenNames = {
 		"<INVALID>", "COMMENT_GOOD", "COMMENT_BAD", "ABBREVIATION", "CHAR_UNICODE", 
 		"CHAR_CODEPOINT", "CHAR_DIGRAPH", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_TYPOGRAPHIC", 
-		"CHAR_LIGATURE", "CHAR_NESTED", "'<'", "TEXT", "'>'", "'/>'", "'/'", "'='", 
+		"CHAR_LIGATURE", "CHAR_NESTED", "'<'", "TEXT", "'>'", "'/>'", "'/'", "TAG_EQ", 
 		"TAG_NAME", "TAG_WS", "ATTRIBUTE_VALUE", "ATTRIBUTE"
 	};
 	public static final int
