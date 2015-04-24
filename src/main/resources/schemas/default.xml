@@ -161,9 +161,21 @@
     <tag name="EPILOGUE" depreciated="Use BACKMATTER with DIV instead of EPILOGUE" where="primary">
       <desc><![CDATA[]]></desc>
     </tag>
-    <tag name="FONTGROUP" where="oldspelling">
+    <tag name="FONT" where="oldspelling">
       <desc><![CDATA[This tag allows the editor to fine-tune font size where necessary, as, for example, on a title page.]]></desc>
-      <attribute name="n" type="select" default="3">
+      <attribute name="size" type="select" default="3">
+        <desc><![CDATA[The normal (default) size is "3", the smallest "1" and the largest "6".]]></desc>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </attribute>
+    </tag>
+    <tag name="FONTGROUP" where="oldspelling" depreciated="renamed to FONT">
+      <desc><![CDATA[This tag allows the editor to fine-tune font size where necessary, as, for example, on a title page.]]></desc>
+      <attribute name="n" type="select" default="3" depreciated="renamed to &quot;size&quot;">
         <desc><![CDATA[The normal (default) size is "3", the smallest "1" and the largest "6".]]></desc>
         <option>1</option>
         <option>2</option>
@@ -284,7 +296,10 @@
     </tag>
     <tag name="INDENT" where="all">
       <desc><![CDATA[Surrounds a passage indented in the original.]]></desc>
-      <attribute name="n" type="number" renumber="no">
+      <attribute name="n" type="number" renumber="no" depreciated="use &quot;l&quot; instead">
+        <desc><![CDATA[Indicates the number of em spaces a block of text (verse or prose) is to be indented.]]></desc>
+      </attribute>
+      <attribute name="l" type="number" renumber="no">
         <desc><![CDATA[Indicates the number of em spaces a block of text (verse or prose) is to be indented.]]></desc>
       </attribute>
     </tag>
@@ -338,9 +353,17 @@
       </attribute>
     </tag>
     <tag name="LINEGROUP" where="primary">
-      <desc><![CDATA[Surrounds a pattern of rhyming verse.]]></desc>
-      <attribute name="form" type="select">
+      <desc><![CDATA[Surrounds a structured group of verse lines.]]></desc>
+      <attribute name="form" type="select" depreciated="use &quot;t&quot; instead">
         <desc><![CDATA[The form of the rhyme.]]></desc>
+        <option>couplet</option>
+        <option>coupletSequence</option>
+        <option>sonnet</option>
+        <option>quatrain</option>
+        <option>rhymeSequence</option>
+      </attribute>
+      <attribute name="t" type="select">
+        <desc><![CDATA[The structure of verse.]]></desc>
         <option>couplet</option>
         <option>coupletSequence</option>
         <option>sonnet</option>
@@ -508,8 +531,11 @@
     </tag>
     <tag name="RULE" empty="yes" where="all">
       <desc><![CDATA[A horizontal rule. The tag is self-closing.]]></desc>
-      <attribute name="n" type="number" optional="yes" renumber="no">
+      <attribute name="n" type="number" optional="yes" renumber="no" depreciated="Use &quot;l&quot; instead.">
         <desc><![CDATA[Width of the rule in m-spaces. The default is a full width rule.]]></desc>
+      </attribute>
+      <attribute name="l" type="number" optional="yes" renumber="no">
+        <desc><![CDATA[Length of the rule in m-spaces. The default is a full page rule.]]></desc>
       </attribute>
     </tag>
     <tag name="S" where="primary">
@@ -564,8 +590,11 @@
     </tag>
     <tag name="SPACE" empty="yes" where="all">
       <desc><![CDATA[Indicates significant space to be left in the text. The most common instance of this will be in formatting the lines of verse in a song or sonnet, where some lines will be indented further than others.]]></desc>
-      <attribute name="n" type="number" optional="yes" renumber="no">
+      <attribute name="n" type="number" optional="yes" renumber="no" depreciated="use &quot;l&quot; instead">
         <desc><![CDATA[The number of m-spaces should be indicated.]]></desc>
+      </attribute>
+      <attribute name="l" type="number" optional="yes" renumber="no">
+        <desc><![CDATA[The length of space, in em's.]]></desc>
       </attribute>
     </tag>
     <tag name="STANZA" where="primary">
@@ -589,7 +618,10 @@
         <option>both</option>
       </attribute>
     </tag>
-    <tag name="TITLEHEAD" where="primary">
+    <tag name="TITLE" where="primary">
+        <desc><![CDATA[Title of the work, often appearing in initial headings and introductory pages.]]></desc>
+    </tag>
+    <tag name="TITLEHEAD" where="primary" depreciated="replaced by TITLE">
       <desc><![CDATA[Title page material in quartos; initial heading in Folio.]]></desc>
     </tag>
     <tag name="TITLEPAGE" depreciated="Use DIV with a name attrbute instead of TITLEPAGE" where="primary">
