@@ -81,7 +81,7 @@ public class Modernize extends Command {
     
     Schema schema = Schema.defaultSchema();    
     DOMValidator dv = new DOMValidator();
-    NestingValidator nv = new NestingValidator();
+    NestingValidator nv = new NestingValidator(schema);
     
     Modernizer m = new Modernizer();
     Normalizer n = new Normalizer();

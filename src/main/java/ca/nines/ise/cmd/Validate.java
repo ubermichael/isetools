@@ -60,7 +60,7 @@ public class Validate extends Command {
     Locale.setDefault(Locale.ENGLISH);
     Schema schema = Schema.defaultSchema();
     DOMValidator dv = new DOMValidator();
-    NestingValidator nv = new NestingValidator();
+    NestingValidator nv = new NestingValidator(schema);
     PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
     if (cmd.hasOption("l")) {

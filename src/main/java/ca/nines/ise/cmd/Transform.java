@@ -91,7 +91,7 @@ public class Transform extends Command {
     
     Schema schema = Schema.defaultSchema();    
     DOMValidator dv = new DOMValidator();
-    NestingValidator nv = new NestingValidator();
+    NestingValidator nv = new NestingValidator(schema);
     dv.validate(dom, schema);
     nv.validate(dom);    
     

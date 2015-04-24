@@ -23,6 +23,7 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.schema.Schema;
 import java.util.ArrayDeque;
 
 /**
@@ -30,7 +31,12 @@ import java.util.ArrayDeque;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class NestingValidator {
+    private final Schema schema;
 
+    public NestingValidator(Schema schema) {
+        this.schema = schema;
+    }
+    
   ArrayDeque<StartNode> nodeStack;
 
   @ErrorCode(code = {
