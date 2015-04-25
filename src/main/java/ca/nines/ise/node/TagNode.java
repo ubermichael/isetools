@@ -142,6 +142,19 @@ abstract public class TagNode extends Node {
     }
 
     /**
+     * Return a list of attribute names, in their original cases and order.
+     * 
+     * @param preserveOrder preserve the original order if true, otherwise 
+     * sort the attributes by name.
+     * 
+     * @return String of sorted original-case attribute names.
+     */
+    public String[] getAttributeNames(boolean preserveOrder) {
+        String[] names = attributes.getAttributeNames();
+        return names;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
