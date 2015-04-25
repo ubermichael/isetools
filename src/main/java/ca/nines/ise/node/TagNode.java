@@ -36,7 +36,7 @@ abstract public class TagNode extends Node {
     /**
      * Name,value pairs for attributes.
      */
-    protected Map<String, String> attributes = new LinkedHashMap<>();
+    protected AttributeSet attributes;
 
     /**
      * Name of the tag.
@@ -49,7 +49,7 @@ abstract public class TagNode extends Node {
     public TagNode() {
         super();
         this.tagname = "";
-        this.attributes = new LinkedHashMap<>();
+        this.attributes = new AttributeSet();
     }
 
     /**
@@ -57,9 +57,14 @@ abstract public class TagNode extends Node {
      */
     public TagNode(Node n) {
         super(n);
+        this.attributes = new AttributeSet();
         if (n instanceof TagNode) {
-            this.tagname = ((TagNode) n).tagname;
-            this.attributes = new LinkedHashMap<>(((TagNode) n).attributes);
+            TagNode tn = (TagNode) n;
+            this.tagname = tn.tagname;
+            this.attributes = new AttributeSet();
+            for(String name : tn.getAttributeNames()) {
+                this.attributes.setAttribute(name, tn.getAttribute(name));
+            }
         }
     }
 
@@ -67,6 +72,7 @@ abstract public class TagNode extends Node {
      * Create a new tag node with a name.
      */
     public TagNode(String tagname) {
+        this.attributes = new AttributeSet();
         this.tagname = tagname;
     }
 
@@ -74,10 +80,10 @@ abstract public class TagNode extends Node {
      * Remove all the attributes on a tag.
      */
     public void clearAttributes() {
-        if (attributes.containsKey("n") && ownerDom != null) {
+        if (attributes.hasAttribute("n") && ownerDom != null) {
             ownerDom.requestReindex();
         }
-        attributes.clear();
+        attributes.clearAttributes();
     }
 
     /**
@@ -86,10 +92,10 @@ abstract public class TagNode extends Node {
      * @param name
      */
     public void deleteAttribute(String name) {
-        if (attributes.containsKey("n")) {
+        if (attributes.hasAttribute("n")) {
             ownerDom.requestReindex();
         }
-        attributes.remove(name);
+        attributes.deleteAttribute(name);
     }
 
     /**
@@ -110,7 +116,7 @@ abstract public class TagNode extends Node {
      * @return String
      */
     public String getAttribute(String name) {
-        return attributes.get(name.toLowerCase());
+        return attributes.getAttribute(name);
     }
 
     /**
@@ -121,7 +127,7 @@ abstract public class TagNode extends Node {
      * @return boolean
      */
     public boolean hasAttribute(String name) {
-        return attributes.containsKey(name.toLowerCase());
+        return attributes.hasAttribute(name);
     }
 
     /**
@@ -130,7 +136,7 @@ abstract public class TagNode extends Node {
      * @return String of sorted original-case attribute names.
      */
     public String[] getAttributeNames() {
-        String[] names = attributes.keySet().toArray(new String[attributes.size()]);
+        String[] names = attributes.getAttributeNames();
         Arrays.sort(names);
         return names;
     }
@@ -176,10 +182,13 @@ abstract public class TagNode extends Node {
      * @param value
      */
     public void setAttribute(String name, String value) {
-        if (name.equals("n") && ownerDom != null) {
+        if(attributes == null) {
+            logger.log(Level.SEVERE, "attributes is null. wtf.");
+        }
+        attributes.setAttribute(name, value);
+        if (name.equalsIgnoreCase("n") && ownerDom != null) {
             ownerDom.requestReindex();
         }
-        attributes.put(name.toLowerCase(), value);
     }
 
     /**
@@ -211,8 +220,8 @@ abstract public class TagNode extends Node {
         Formatter formatter = new Formatter();
         formatter.format("%s", super.toString());
         formatter.format(":%s(", tagname);
-        for (String name : attributes.keySet()) {
-            formatter.format("@%s=%s ", name, attributes.get(name));
+        for (String name : attributes.getAttributeNames()) {
+            formatter.format("@%s=%s ", name, attributes.getAttribute(name));
         }
         formatter.format(")");
         return formatter.toString();
