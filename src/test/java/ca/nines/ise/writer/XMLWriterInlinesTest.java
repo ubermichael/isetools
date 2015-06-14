@@ -1,15 +1,21 @@
 package ca.nines.ise.writer;
 
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.schema.Schema;
 import nu.xom.*;
+
 import org.junit.*;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.junit.runners.Parameterized.Parameter;
+
 import java.util.regex.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
@@ -19,31 +25,11 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
 
     @Parameters
     public static List<Object[]> inlineTags() {
-        return Arrays.asList(new Object[][] {
-            {"ABBR"},
-            {"BLL"},
-            {"CL"},
-            {"EM"},
-            {"FONT"},
-            {"FOREIGN"}, 
-            {"HW"},
-            {"I"},
-            {"LD"},
-            {"LS"},
-            {"ORNAMENT"},
-            {"PERSON"},
-            {"PLACE"},
-            {"PROP"},
-            {"Q"},
-            {"R"},
-            {"S"},
-            {"SC"},
-            {"SD"},
-            {"SUB"},
-            {"SUP"},
-            {"SWASH"},
-            {"TITLE"}
-        });
+    	List<String> tags = Arrays.asList(Schema.INLINE_TAGS);
+    	List<Object[]> list2 = new ArrayList<Object[]>();
+    	for(String t:tags)
+    		list2.add(new Object[]{t});
+    	return list2;
     }
 
     @Parameter

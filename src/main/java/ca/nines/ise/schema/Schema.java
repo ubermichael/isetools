@@ -44,12 +44,21 @@ import org.xml.sax.SAXException;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Schema {
-
+  /* elements in which text should not be parsed in parse_text() */
+  public static final String[] DONT_PARSE_TEXT = { "cw", "sig", "rt", "pn",
+	  "label" };
+  public static final String[] LINE_PARENTS = { "work", "marg", "bracegroup",
+	  "splitline", "quote", "linegroup" };
+  public static final String[] TYPEFACES = { "bll", "r" };
+  public static final String[] FLATTEN = { "font" };
+  public static final String[] INLINE_TAGS = { "ABBR", "BLL", "CL", "EM",
+			"FONT", "FOREIGN", "HW", "I", "LD", "LS", "ORNAMENT", "PERSON",
+			"PLACE", "PROP", "Q", "R", "S", "SC", "SD", "SUB", "SUP", "SWASH",
+			"TITLE" };
   /**
    * The edition for the schema
    */
   private final String edition;
-
   /**
    * The group for the schema. "ise" or "qme" or "dre"
    */
