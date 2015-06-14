@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
  * Copyright (C) 2014 Malcolm Moran <malcolm.moran@outlook.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -24,6 +25,7 @@ import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
+import ca.nines.ise.schema.Schema;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -56,64 +58,9 @@ public class XMLWriter extends Writer{
     	put("RA", "right");
     	put("C", "center");
     	put("J", "justify");
-    	put("TITLEHEAD","title");
-    	put("VERSEQUOTE","quote");
     }};
-    
-    /*elements in which text should not be parsed in parse_text()*/
-    public static final String[] DONT_PARSE_TEXT = {
-    	"cw",
-    	"sig",
-    	"rt",
-    	"pn",
-		"label"
-    };
-    
-    public static final String[] LINE_PARENTS = {
-    	"work",
-    	"marg",
-    	"bracegroup",
-    	"splitline",
-    	"quote",
-    	"linegroup"
-    };
-    
-    public static final String[] TYPEFACES = {
-    	"bll",
-    	"r"
-    };
-    
-    public static final String[] FLATTEN = {
-    	"font"
-    };
-	  
-    public static final String[] INLINE_TAGS = {
-    	"ABBR",
-    	"BLL",
-    	"CL",
-    	"EM",
-    	"FONT",
-    	"FOREIGN", 
-    	"HW",
-    	"I",
-    	"LD",
-    	"LS",
-    	"ORNAMENT",
-    	"PERSON",
-    	"PLACE",
-    	"PROP",
-    	"Q",
-    	"R",
-    	"S",
-    	"SC",
-    	"SD",
-    	"SUB",
-    	"SUP",
-    	"SWASH",
-    	"TITLE"
-    };
 
-	public class XMLStack extends LinkedList<Element> {
+	protected class XMLStack extends LinkedList<Element> {
 		private List<String> renewable;
 		private Element renew_after;
 		Document xml;
@@ -123,7 +70,7 @@ public class XMLWriter extends Writer{
 		private String align;
 
 		public XMLStack(Document xml) {
-			renewable = Arrays.asList(INLINE_TAGS);
+			renewable = Arrays.asList(Schema.INLINE_TAGS);
 			renew_after = null;
 			this.xml = xml;
 			renewing = new LinkedList<LinkedList<Element>>();
@@ -242,7 +189,7 @@ public class XMLWriter extends Writer{
 		 */
 		public boolean in_line() {
 			/* get nearest line parent tag we're in */
-			Element parent = get_nearest_of(LINE_PARENTS);
+			Element parent = get_nearest_of(Schema.LINE_PARENTS);
 			/* get nearest line tag we're in */
 			Element line = get_nearest_tag("l");
 			/* if line tag is not a child of that parent, not in a line */
@@ -490,7 +437,7 @@ public class XMLWriter extends Writer{
 		
 		public void append_before_line(){
 			if (in_line()){
-				Element line_parent = get_nearest_of(LINE_PARENTS);
+				Element line_parent = get_nearest_of(Schema.LINE_PARENTS);
 				line_parent.insertChild(pop(), line_parent.getChildCount()-1);
 			} else {
 				Element e = pop();
@@ -535,21 +482,21 @@ public class XMLWriter extends Writer{
 		 * @param node
 		 */
 		private void start_element(StartNode node) {
-			if (Arrays.asList(INLINE_TAGS).contains(node.getName()))
+			if (Arrays.asList(Schema.INLINE_TAGS).contains(node.getName()))
 				ensure_in_line();
 		}
 		
 		private boolean is_typeface(String str){
-			return Arrays.asList(TYPEFACES).contains(str);
+			return Arrays.asList(Schema.TYPEFACES).contains(str);
 		}
 		private Boolean is_lineParent(String str){
-			return Arrays.asList(LINE_PARENTS).contains(str);
+			return Arrays.asList(Schema.LINE_PARENTS).contains(str);
 		}
 		private Boolean is_inline(String str){
-			return Arrays.asList(INLINE_TAGS).contains(str.toUpperCase());
+			return Arrays.asList(Schema.INLINE_TAGS).contains(str.toUpperCase());
 		}
 		private Boolean is_flatten(String str){
-			return Arrays.asList(FLATTEN).contains(str);
+			return Arrays.asList(Schema.FLATTEN).contains(str);
 		}
 		public void start_element_dont_append(Element e){
 			push(e);
@@ -756,7 +703,7 @@ public class XMLWriter extends Writer{
 		/* other methods */
 
 		public Boolean in_dont_parse(){
-			return Arrays.asList(DONT_PARSE_TEXT).contains(peekFirst().getLocalName());
+			return Arrays.asList(Schema.DONT_PARSE_TEXT).contains(peekFirst().getLocalName());
 		}
 		
 		/**
@@ -1292,27 +1239,12 @@ public class XMLWriter extends Writer{
 	}
 
 	private static String normalizeSpace(String data) {
-		data = data.replace('\t', ' ');
-		data = data.replace('\n', ' ');
-		data = data.replace('\r', ' ');
-		data = data.trim();
-
-		StringBuffer result = new StringBuffer();
-		for (int i = 0; i < data.length(); i++) {
-			if (i == 0 || data.charAt(i - 1) != ' ' || data.charAt(i) != ' ') {
-				result.append(data.charAt(i));
-			}
-		}
-
-		return result.toString();
+		return data.replaceAll("\\p{Space}+", " ").trim();
 	}
-
+	
 	@Override
-	public void render(DOM dom, Annotation ann)
-			throws TransformerConfigurationException, TransformerException,
-			IOException, Exception {
-		System.err.println("invalid renderer");
+	public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
+		throw new UnsupportedOperationException("Not supported.");
 	}
-
 }
 
