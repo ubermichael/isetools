@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Language" content="en">
     
     
-    <title>isetools/validate-schema.sh at master · emmental/isetools · GitHub</title>
+    <title>isetools/grammar.sh at master · emmental/isetools · GitHub</title>
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
     <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-114.png">
@@ -32,7 +32,7 @@
     <meta name="selected-link" value="repo_source" data-pjax-transient>
       <meta name="google-analytics" content="UA-3769691-2">
 
-    <meta content="collector.githubapp.com" name="octolytics-host" /><meta content="collector-cdn.github.com" name="octolytics-script-host" /><meta content="github" name="octolytics-app-id" /><meta content="ADB74C50:5FD7:5545DAF:557D4396" name="octolytics-dimension-request_id" />
+    <meta content="collector.githubapp.com" name="octolytics-host" /><meta content="collector-cdn.github.com" name="octolytics-script-host" /><meta content="github" name="octolytics-app-id" /><meta content="ADB74C50:5FD8:35AAEF0:557D439D" name="octolytics-dimension-request_id" />
     
     <meta content="Rails, view, blob#show" name="analytics-event" />
     <meta class="js-ga-set" name="dimension1" content="Logged Out">
@@ -46,7 +46,7 @@
 
 
     <meta content="authenticity_token" name="csrf-param" />
-<meta content="02a0U58we0HkidzSx219L8BzCzoijhDPdE5aGk4N9yIH9923T9bOjjl3Xy3ao6lN4adBMMDA20HoYdjxcfFqIg==" name="csrf-token" />
+<meta content="vAiKkvxWQyxRNgyWCLB5kooIvOLTlrAoHfwTAyydBWo12DIkrgWJ0FjcOvLMC18leRoG5kOx4g3IX5SGRqakaQ==" name="csrf-token" />
 
     <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github/index-10789d1d56bfe8c960a6caf2954ab053c3fac748d581415395f986779781b4a7.css" media="all" rel="stylesheet" />
     <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github2/index-8b4acc27f06d948d9a73d77849e0fe0b98d8636c85e2fe0e6c4b8762dec9fd3d.css" media="all" rel="stylesheet" />
@@ -84,7 +84,7 @@
 
     <div class="header-actions" role="navigation">
         <a class="btn btn-primary" href="/join" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">Sign up</a>
-      <a class="btn" href="/login?return_to=%2Femmental%2Fisetools%2Fblob%2Fmaster%2Fbin%2Fvalidate-schema.sh" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in">Sign in</a>
+      <a class="btn" href="/login?return_to=%2Femmental%2Fisetools%2Fblob%2Fmaster%2Fbin%2Fgrammar.sh" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in">Sign in</a>
     </div>
 
     <div class="site-search repo-scope js-site-search" role="search">
@@ -265,7 +265,7 @@
 
 
 <div class="clone-options">You can clone with
-  <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=http&amp;protocol_type=clone" class="inline-form js-clone-selector-form " data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="aB/WZc/Qi78bF/17m1sDujuWkL8ldbSLCcdjBogiBb7zDw0GDxsOzuHeLnkJ4jE5VzPhvvniyCYtj11j05643Q==" /></div><button class="btn-link js-clone-selector" data-protocol="http" type="submit">HTTPS</button></form> or <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=subversion&amp;protocol_type=clone" class="inline-form js-clone-selector-form " data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="V8oUowrLAwU7Ktm8Ubzn6AzCuUEU8jv5kKb533S5QKgDGTEY/Hn5zDLVYFhdiiVDEydnPotL6xGXXvaE/p1Jzg==" /></div><button class="btn-link js-clone-selector" data-protocol="subversion" type="submit">Subversion</button></form>.
+  <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=http&amp;protocol_type=clone" class="inline-form js-clone-selector-form " data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="xTVb889gdtVQYz7AGL+M7Xg4na9Db91iZosZ1Vun0Hv6jSE6Ly996aXtqpIxDISa/LrCxkOEopYwN4vLeE4Izw==" /></div><button class="btn-link js-clone-selector" data-protocol="http" type="submit">HTTPS</button></form> or <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=subversion&amp;protocol_type=clone" class="inline-form js-clone-selector-form " data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="byYjdGAQhDtw3j+hrqxllTk8+9pwSGQHBrpTQsjXPcVA5lEEgGmfRXMSP3crUZru0O3GW4IjTsC+pm5QqLZcTw==" /></div><button class="btn-link js-clone-selector" data-protocol="subversion" type="submit">Subversion</button></form>.
   <a href="https://help.github.com/articles/which-remote-url-should-i-use" class="help tooltipped tooltipped-n" aria-label="Get help on which URL is right for you.">
     <span class="octicon octicon-question"></span>
   </a>
@@ -289,9 +289,9 @@
 
           
 
-<a href="/emmental/isetools/blob/ce8cff2c7660c66e0184546ac635d684ef82ebb8/bin/validate-schema.sh" class="hidden js-permalink-shortcut" data-hotkey="y">Permalink</a>
+<a href="/emmental/isetools/blob/ce8cff2c7660c66e0184546ac635d684ef82ebb8/bin/grammar.sh" class="hidden js-permalink-shortcut" data-hotkey="y">Permalink</a>
 
-<!-- blob contrib key: blob_contributors:v21:92e6248b7fd76187edee8a2bacc117b7 -->
+<!-- blob contrib key: blob_contributors:v21:0d2c524c017edef0d20dee3fb7cc80c1 -->
 
 <div class="file-navigation js-zeroclipboard-container">
   
@@ -335,7 +335,7 @@
 
 
             <a class="select-menu-item js-navigation-item js-navigation-open selected"
-               href="/emmental/isetools/blob/master/bin/validate-schema.sh"
+               href="/emmental/isetools/blob/master/bin/grammar.sh"
                data-name="master"
                data-skip-pjax="true"
                rel="nofollow">
@@ -355,7 +355,7 @@
 
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.8/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.8/bin/grammar.sh"
                  data-name="v0.8"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -364,7 +364,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.7.1/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.7.1/bin/grammar.sh"
                  data-name="v0.7.1"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -373,7 +373,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.7/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.7/bin/grammar.sh"
                  data-name="v0.7"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -382,7 +382,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.6.1/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.6.1/bin/grammar.sh"
                  data-name="v0.6.1"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -391,7 +391,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.6/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.6/bin/grammar.sh"
                  data-name="v0.6"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -400,7 +400,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.5.1/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.5.1/bin/grammar.sh"
                  data-name="v0.5.1"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -409,7 +409,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.5/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.5/bin/grammar.sh"
                  data-name="v0.5"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -418,7 +418,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.4/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.4/bin/grammar.sh"
                  data-name="v0.4"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -427,7 +427,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.2/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.2/bin/grammar.sh"
                  data-name="v0.2"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -436,7 +436,7 @@
             </div>
             <div class="select-menu-item js-navigation-item ">
               <span class="select-menu-item-icon octicon octicon-check"></span>
-              <a href="/emmental/isetools/tree/v0.1/bin/validate-schema.sh"
+              <a href="/emmental/isetools/tree/v0.1/bin/grammar.sh"
                  data-name="v0.1"
                  data-skip-pjax="true"
                  rel="nofollow"
@@ -464,11 +464,11 @@
   </div>
 
   <div class="breadcrumb js-zeroclipboard-target">
-    <span class="repo-root js-repo-root"><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/emmental/isetools" class="" data-branch="master" data-pjax="true" itemscope="url"><span itemprop="title">isetools</span></a></span></span><span class="separator">/</span><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/emmental/isetools/tree/master/bin" class="" data-branch="master" data-pjax="true" itemscope="url"><span itemprop="title">bin</span></a></span><span class="separator">/</span><strong class="final-path">validate-schema.sh</strong>
+    <span class="repo-root js-repo-root"><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/emmental/isetools" class="" data-branch="master" data-pjax="true" itemscope="url"><span itemprop="title">isetools</span></a></span></span><span class="separator">/</span><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/emmental/isetools/tree/master/bin" class="" data-branch="master" data-pjax="true" itemscope="url"><span itemprop="title">bin</span></a></span><span class="separator">/</span><strong class="final-path">grammar.sh</strong>
   </div>
 </div>
 
-<include-fragment class="commit commit-loader file-history-tease" src="/emmental/isetools/contributors/master/bin/validate-schema.sh">
+<include-fragment class="commit commit-loader file-history-tease" src="/emmental/isetools/contributors/master/bin/grammar.sh">
   <div class="file-history-tease-header">
     Fetching contributors&hellip;
   </div>
@@ -483,9 +483,9 @@
     <div class="file-actions">
 
       <div class="btn-group">
-        <a href="/emmental/isetools/raw/master/bin/validate-schema.sh" class="btn btn-sm " id="raw-url">Raw</a>
-          <a href="/emmental/isetools/blame/master/bin/validate-schema.sh" class="btn btn-sm js-update-url-with-hash">Blame</a>
-        <a href="/emmental/isetools/commits/master/bin/validate-schema.sh" class="btn btn-sm " rel="nofollow">History</a>
+        <a href="/emmental/isetools/raw/master/bin/grammar.sh" class="btn btn-sm " id="raw-url">Raw</a>
+          <a href="/emmental/isetools/blame/master/bin/grammar.sh" class="btn btn-sm js-update-url-with-hash">Blame</a>
+        <a href="/emmental/isetools/commits/master/bin/grammar.sh" class="btn btn-sm " rel="nofollow">History</a>
       </div>
 
 
@@ -501,9 +501,9 @@
     <div class="file-info">
         <span class="file-mode" title="File mode">executable file</span>
         <span class="file-info-divider"></span>
-        9 lines (5 sloc)
+        15 lines (10 sloc)
         <span class="file-info-divider"></span>
-      0.144 kB
+      0.384 kB
     </div>
   </div>
   
@@ -520,7 +520,7 @@
       </tr>
       <tr>
         <td id="L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="LC3" class="blob-code blob-code-inner js-file-line">JING=lib/jing.jar</td>
+        <td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-k">export</span> CLASSPATH=<span class="pl-smi">$CLASSPATH</span>:lib/antlr-4.2.2-complete.jar</td>
       </tr>
       <tr>
         <td id="L4" class="blob-num js-line-number" data-line-number="4"></td>
@@ -529,11 +529,11 @@
       </tr>
       <tr>
         <td id="L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="LC5" class="blob-code blob-code-inner js-file-line">RNC=src/resources/schemas/sgml-metaschema.rnc</td>
+        <td id="LC5" class="blob-code blob-code-inner js-file-line">pkg=ca.nines.ise.grammar</td>
       </tr>
       <tr>
         <td id="L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="LC6" class="blob-code blob-code-inner js-file-line">XML=src/resources/schemas/default.xml</td>
+        <td id="LC6" class="blob-code blob-code-inner js-file-line">dir=src/main/java/ca/nines/ise/grammar</td>
       </tr>
       <tr>
         <td id="L7" class="blob-num js-line-number" data-line-number="7"></td>
@@ -542,7 +542,32 @@
       </tr>
       <tr>
         <td id="L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="LC8" class="blob-code blob-code-inner js-file-line">java -jar <span class="pl-smi">$JING</span> -c <span class="pl-smi">$RNC</span> <span class="pl-smi">$XML</span></td>
+        <td id="LC8" class="blob-code blob-code-inner js-file-line">lexer=ISELexer.g4</td>
+      </tr>
+      <tr>
+        <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
+        <td id="LC9" class="blob-code blob-code-inner js-file-line">parser=ISEParser.g4</td>
+      </tr>
+      <tr>
+        <td id="L10" class="blob-num js-line-number" data-line-number="10"></td>
+        <td id="LC10" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L11" class="blob-num js-line-number" data-line-number="11"></td>
+        <td id="LC11" class="blob-code blob-code-inner js-file-line">rm -f <span class="pl-smi">$dir</span>/<span class="pl-k">*</span>.java</td>
+      </tr>
+      <tr>
+        <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
+        <td id="LC12" class="blob-code blob-code-inner js-file-line">rm -f <span class="pl-smi">$dir</span>/<span class="pl-k">*</span>.tokens</td>
+      </tr>
+      <tr>
+        <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
+        <td id="LC13" class="blob-code blob-code-inner js-file-line">java org.antlr.v4.Tool -o <span class="pl-c1">.</span> -package <span class="pl-smi">$pkg</span> -lib <span class="pl-smi">$dir</span> -encoding UTF-8 <span class="pl-smi">$dir</span>/ISELexer.g4 </td>
+      </tr>
+      <tr>
+        <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
+        <td id="LC14" class="blob-code blob-code-inner js-file-line">java org.antlr.v4.Tool -o <span class="pl-c1">.</span> -package <span class="pl-smi">$pkg</span> -lib <span class="pl-smi">$dir</span> -encoding UTF-8 <span class="pl-smi">$dir</span>/ISEParser.g4 </td>
       </tr>
 </table>
 
@@ -584,7 +609,7 @@
       <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
 </a>
     <ul class="site-footer-links">
-      <li>&copy; 2015 <span title="0.03642s from github-fe119-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
+      <li>&copy; 2015 <span title="0.04567s from github-fe139-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
         <li><a href="https://github.com/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
         <li><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
         <li><a href="https://github.com/security" data-ga-click="Footer, go to security, text:security">Security</a></li>
