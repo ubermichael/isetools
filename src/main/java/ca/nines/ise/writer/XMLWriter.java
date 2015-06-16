@@ -278,6 +278,8 @@ public class XMLWriter extends Writer{
 		public void new_line(TagNode node) {
 			if (in_page())
 				end_page();
+			if (in_page_child())
+				pop();
 			Boolean needs_whitespace = check_whitespace(get_last_tag("l"));
 			endSplitLine = false;
 			Boolean new_ms = false;
@@ -998,6 +1000,7 @@ public class XMLWriter extends Writer{
 		case "PAGE":
 		case "LINEGROUP":
 			xmlStack.start_element(set_attributes(node, e));
+			xmlStack.end_page();
 			break;
 		case "QUOTE":
 		case "VERSEQUOTE":
@@ -1024,9 +1027,7 @@ public class XMLWriter extends Writer{
 	private void parse_end(EndNode node, XMLStack xmlStack){
 		String xml_name = node.getName().toLowerCase();
    		switch (node.getName().toUpperCase()){
-   		case "TITLEHEAD":
    		case "QUOTE":
-   		case "VERSEQUOTE":
    			xmlStack.end_element(XML_MAP.get(node.getName()));
    			break;
    		case "MODE":
