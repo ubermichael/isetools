@@ -657,6 +657,7 @@ public class XMLWriter extends Writer{
 		 * @return created quote element
 		 */
 		public Element new_quote() {
+			//if not in a line, quote is a container
 			if (!in_line())
 				return new_element("quote");
 			else
@@ -993,19 +994,12 @@ public class XMLWriter extends Writer{
 			xmlStack.ensure_in_speech();
 			xmlStack.start_element(set_attributes(node, e));
 			break;
-		case "TITLEHEAD":
-			xmlStack.ensure_in_line();
-			xmlStack.start_element(xmlStack.new_element(XML_MAP.get(node.getName())));
-			break;
 		case "PAGE":
 		case "LINEGROUP":
 			xmlStack.start_element(set_attributes(node, e));
 			xmlStack.end_page();
 			break;
 		case "QUOTE":
-		case "VERSEQUOTE":
-			//quote is always container
-			xmlStack.end_line();
 			xmlStack.start_element(set_attributes(node, xmlStack.new_quote()));
 			break;
 		case "ORNAMENT":
