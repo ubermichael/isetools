@@ -173,6 +173,7 @@ public class Message implements Comparable<Message> {
     public MessageBuilder fromNode(Node n) {
       setColumnNumber(n.getColumn());
       setLineNumber(n.getLine());
+      setLine(n.getText());
       setSource(n.getSource());
       setTLN(n.getTLN());
       return this;
