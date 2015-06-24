@@ -123,7 +123,7 @@ TAG_NAME
     ;
 
 TAG_WS
-    : [ \r\t\n]+ -> skip
+    : [ \r\t\n]+ -> channel(HIDDEN)
     ;
 
 // Parsing attribute values

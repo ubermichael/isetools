@@ -15,10 +15,11 @@ public class ISEParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		TAG_NAME=18, TAG_EQ=17, CHAR_TYPOGRAPHIC=9, TAG_END=14, COMMENT_GOOD=1, 
-		CHAR_SPACE=7, TAG_SLASH=16, ABBREVIATION=3, TAG_START=12, TAG_WS=19, ATTRIBUTE=21, 
-		CHAR_LIGATURE=10, COMMENT_BAD=2, CHAR_NESTED=11, TAG_SLASH_END=15, CHAR_UNICODE=4, 
-		ATTRIBUTE_VALUE=20, CHAR_CODEPOINT=5, TEXT=13, CHAR_DIGRAPH=6, CHAR_ACCENT=8;
+		CHAR_NESTED=11, CHAR_CODEPOINT=5, ATTRIBUTE=21, ATTRIBUTE_VALUE=20, TEXT=13, 
+		CHAR_SPACE=7, COMMENT_BAD=2, TAG_START=12, TAG_WS=19, ABBREVIATION=3, 
+		TAG_NAME=18, CHAR_TYPOGRAPHIC=9, TAG_SLASH=16, COMMENT_GOOD=1, CHAR_UNICODE=4, 
+		CHAR_LIGATURE=10, CHAR_DIGRAPH=6, TAG_END=14, TAG_EQ=17, CHAR_ACCENT=8, 
+		TAG_SLASH_END=15;
 	public static final String[] tokenNames = {
 		"<INVALID>", "COMMENT_GOOD", "COMMENT_BAD", "ABBREVIATION", "CHAR_UNICODE", 
 		"CHAR_CODEPOINT", "CHAR_DIGRAPH", "CHAR_SPACE", "CHAR_ACCENT", "CHAR_TYPOGRAPHIC", 
@@ -116,11 +117,11 @@ public class ISEParser extends Parser {
 		public CommentContext comment() {
 			return getRuleContext(CommentContext.class,0);
 		}
-		public AbbrContext abbr() {
-			return getRuleContext(AbbrContext.class,0);
-		}
 		public TagContext tag() {
 			return getRuleContext(TagContext.class,0);
+		}
+		public AbbrContext abbr() {
+			return getRuleContext(AbbrContext.class,0);
 		}
 		public ContentContext content() {
 			return getRuleContext(ContentContext.class,0);
@@ -238,8 +239,8 @@ public class ISEParser extends Parser {
 	}
 
 	public static class CommentContext extends ParserRuleContext {
-		public TerminalNode COMMENT_BAD() { return getToken(ISEParser.COMMENT_BAD, 0); }
 		public TerminalNode COMMENT_GOOD() { return getToken(ISEParser.COMMENT_GOOD, 0); }
+		public TerminalNode COMMENT_BAD() { return getToken(ISEParser.COMMENT_BAD, 0); }
 		public CommentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -569,29 +570,29 @@ public class ISEParser extends Parser {
 	}
 
 	public static class CharacterContext extends ParserRuleContext {
-		public CharTypographicContext charTypographic() {
-			return getRuleContext(CharTypographicContext.class,0);
-		}
-		public CharNestedContext charNested() {
-			return getRuleContext(CharNestedContext.class,0);
-		}
-		public CharLigatureContext charLigature() {
-			return getRuleContext(CharLigatureContext.class,0);
-		}
-		public CharAccentContext charAccent() {
-			return getRuleContext(CharAccentContext.class,0);
-		}
-		public CharUnicodeContext charUnicode() {
-			return getRuleContext(CharUnicodeContext.class,0);
+		public CharDigraphContext charDigraph() {
+			return getRuleContext(CharDigraphContext.class,0);
 		}
 		public CharCodePointContext charCodePoint() {
 			return getRuleContext(CharCodePointContext.class,0);
 		}
-		public CharDigraphContext charDigraph() {
-			return getRuleContext(CharDigraphContext.class,0);
-		}
 		public CharSpaceContext charSpace() {
 			return getRuleContext(CharSpaceContext.class,0);
+		}
+		public CharNestedContext charNested() {
+			return getRuleContext(CharNestedContext.class,0);
+		}
+		public CharTypographicContext charTypographic() {
+			return getRuleContext(CharTypographicContext.class,0);
+		}
+		public CharAccentContext charAccent() {
+			return getRuleContext(CharAccentContext.class,0);
+		}
+		public CharLigatureContext charLigature() {
+			return getRuleContext(CharLigatureContext.class,0);
+		}
+		public CharUnicodeContext charUnicode() {
+			return getRuleContext(CharUnicodeContext.class,0);
 		}
 		public CharacterContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -805,17 +806,17 @@ public class ISEParser extends Parser {
 	}
 
 	public static class EmptyTagContext extends ParserRuleContext {
-		public TagNameContext tagName() {
-			return getRuleContext(TagNameContext.class,0);
-		}
-		public TerminalNode TAG_SLASH_END() { return getToken(ISEParser.TAG_SLASH_END, 0); }
 		public List<AttributeContext> attribute() {
 			return getRuleContexts(AttributeContext.class);
 		}
+		public TerminalNode TAG_SLASH_END() { return getToken(ISEParser.TAG_SLASH_END, 0); }
+		public TerminalNode TAG_START() { return getToken(ISEParser.TAG_START, 0); }
 		public AttributeContext attribute(int i) {
 			return getRuleContext(AttributeContext.class,i);
 		}
-		public TerminalNode TAG_START() { return getToken(ISEParser.TAG_START, 0); }
+		public TagNameContext tagName() {
+			return getRuleContext(TagNameContext.class,0);
+		}
 		public EmptyTagContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -867,12 +868,12 @@ public class ISEParser extends Parser {
 	}
 
 	public static class EndTagContext extends ParserRuleContext {
+		public TerminalNode TAG_START() { return getToken(ISEParser.TAG_START, 0); }
+		public TerminalNode TAG_SLASH() { return getToken(ISEParser.TAG_SLASH, 0); }
 		public TagNameContext tagName() {
 			return getRuleContext(TagNameContext.class,0);
 		}
-		public TerminalNode TAG_SLASH() { return getToken(ISEParser.TAG_SLASH, 0); }
 		public TerminalNode TAG_END() { return getToken(ISEParser.TAG_END, 0); }
-		public TerminalNode TAG_START() { return getToken(ISEParser.TAG_START, 0); }
 		public EndTagContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -911,17 +912,17 @@ public class ISEParser extends Parser {
 	}
 
 	public static class StartTagContext extends ParserRuleContext {
-		public TagNameContext tagName() {
-			return getRuleContext(TagNameContext.class,0);
-		}
 		public List<AttributeContext> attribute() {
 			return getRuleContexts(AttributeContext.class);
 		}
+		public TerminalNode TAG_START() { return getToken(ISEParser.TAG_START, 0); }
 		public AttributeContext attribute(int i) {
 			return getRuleContext(AttributeContext.class,i);
 		}
+		public TagNameContext tagName() {
+			return getRuleContext(TagNameContext.class,0);
+		}
 		public TerminalNode TAG_END() { return getToken(ISEParser.TAG_END, 0); }
-		public TerminalNode TAG_START() { return getToken(ISEParser.TAG_START, 0); }
 		public StartTagContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -976,11 +977,11 @@ public class ISEParser extends Parser {
 		public StartTagContext startTag() {
 			return getRuleContext(StartTagContext.class,0);
 		}
-		public EndTagContext endTag() {
-			return getRuleContext(EndTagContext.class,0);
-		}
 		public EmptyTagContext emptyTag() {
 			return getRuleContext(EmptyTagContext.class,0);
+		}
+		public EndTagContext endTag() {
+			return getRuleContext(EndTagContext.class,0);
 		}
 		public TagContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);

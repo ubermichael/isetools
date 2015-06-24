@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
 public class ParserTest {
     
     @Test
-    public void testAttributesWithSpaes() {
+    public void testAttributesWithSpaces() {
         try {
             String s = "<L n=\"31\" part= \"f\"/>";            
             DOM dom = new DOMBuilder(s).build();
@@ -48,7 +48,18 @@ public class ParserTest {
         } catch (IOException ex) {
             Logger.getLogger(ParserTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+    @Test
+    public void testNodeText() {
+        try {
+            String s = "<L n=\"31\" part= \"f\"/>";            
+            DOM dom = new DOMBuilder(s).build();
+            TagNode n = (TagNode)dom.get(0);
+            assertEquals(s, n.getText());
+        } catch(IOException ex) {
+            Logger.getLogger(ParserTest.class.getName()).log(Level.SEVERE, null, ex);
+        }            
     }
     
 }
