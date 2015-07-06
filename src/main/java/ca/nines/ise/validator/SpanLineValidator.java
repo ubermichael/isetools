@@ -48,7 +48,7 @@ public class SpanLineValidator {
   public void validate(DOM dom) {
     for (Node n : dom) {
       if (n.type() == NodeType.END) {
-        switch(n.getName()){
+        switch(n.getName().toLowerCase()){
           case "ornament":
             process_end((EndNode) n);
             break;
