@@ -16,6 +16,8 @@
  */
 package ca.nines.ise.validator;
 
+import java.util.ArrayDeque;
+
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
@@ -23,6 +25,8 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.NodeType;
+import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TextNode;
 /**
  * 
  * @author Malcolm Moran <malcolm.moran@outlook.com>
@@ -32,28 +36,66 @@ import ca.nines.ise.node.NodeType;
  */
 public class HungWordValidator {
 
+  ArrayDeque<StartNode> nodeStack;
+  Boolean in_hm, after_hm;
+  
   @ErrorCode(code = {
-    "validator.hungWord.spannedLines",
-    "validator.hungWord.endOfLine"
+      "validator.hungWord.endOfLine"
   })
-  private void process_end(EndNode n) {
-    if (n.getText().contains("\n")){
-      Message m = Message.builder("validator.spanLine.spannedLines")
+  private void process_start(StartNode n){
+    if (n.getName().toLowerCase().equals("hm"))
+      in_hm = true;
+    if (after_hm){
+      Message m = Message.builder("validator.hungWord.endOfLine")
           .fromNode(n)
-          .addNote("Tag " + n.getName() + " spans more than one line")
+          .addNote("Tag " + n.getName() + " is following an HW tag on the same line")
           .build();
       Log.addMessage(m);
+    }
+    nodeStack.push(n);
+  }
+  
+  private void process_end(EndNode n) {
+    if (n.getName().toLowerCase().equals("hm")){
+      in_hm = false;
+      after_hm = true;
+    }
+    nodeStack.pop();
+  }
+  
+  @ErrorCode(code = {
+      "validator.hungWord.spannedLines"
+  })
+  private void process_text(TextNode n) {
+    if (n.getText().contains("\n")){
+      if (in_hm){
+          Message m = Message.builder("validator.hungWord.spannedLines")
+              .fromNode(n)
+              .addNote("Tag " + n.getName() + " spans more than one line")
+              .build();
+          Log.addMessage(m);
+      }else if (after_hm){
+          after_hm = false;
+      }
     }
   }
 
   public void validate(DOM dom) {
+    nodeStack = new ArrayDeque<>();
+    in_hm = false;
+    after_hm = false;
+    
     for (Node n : dom) {
-      if (n.type() == NodeType.END) {
-        switch(n.getName().toLowerCase()){
-          case "hw":
-            process_end((EndNode) n);
-            break;
-        }
+      switch (n.type()) {
+        case END:
+          process_end((EndNode) n);
+          break;
+        case START:
+          process_start((StartNode) n);
+          break;        
+        case TEXT:
+          process_text((TextNode) n);
+          break;
       }
     }
   }
