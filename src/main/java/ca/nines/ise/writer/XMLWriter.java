@@ -83,6 +83,8 @@ public class XMLWriter extends Writer{
 		/* renew methods */
 		
 		private LinkedList<Element> get_renew(){
+		  if (renewing.isEmpty())
+	      renewing.push(new LinkedList<Element>());
 			return renewing.peek();
 		}
 
