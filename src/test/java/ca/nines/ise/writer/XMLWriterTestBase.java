@@ -5,12 +5,15 @@ import ca.nines.ise.dom.DOMBuilder;
 import nu.xom.XPathContext;
 import nu.xom.Document;
 import org.junit.Before;
+import org.xml.sax.SAXException;
+
 import static org.junit.Assume.assumeThat;
 import static org.junit.Assume.assumeNoException;
 import static org.hamcrest.CoreMatchers.is;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class XMLWriterTestBase {
     public static final String DOC_PREFIX = "d";
@@ -30,7 +33,7 @@ public class XMLWriterTestBase {
         writer = new XMLWriter();
     }
 
-    protected Document render(String iml) {
+    protected Document render(String iml) throws SAXException, ParserConfigurationException, TransformerException {
         try {
             DOM d = new DOMBuilder(iml).build();
             assumeThat(d.getStatus(), is(DOM.DOMStatus.CLEAN));

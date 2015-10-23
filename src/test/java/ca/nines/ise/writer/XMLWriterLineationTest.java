@@ -3,16 +3,21 @@ package ca.nines.ise.writer;
 import ca.nines.ise.dom.DOM;
 import nu.xom.*;
 import org.junit.*;
+import org.xml.sax.SAXException;
+
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 import static org.hamcrest.CoreMatchers.is;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 
 public class XMLWriterLineationTest extends XMLWriterTestBase {
 
     @Test
-    public void generateLinesAroundText() {
+    public void generateLinesAroundText() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>a</WORK>");
         Nodes results = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assertTrue("generated a line", results.size() == 1);
@@ -23,7 +28,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void generateLinesInsideMarg() {
+    public void generateLinesInsideMarg() throws SAXException, ParserConfigurationException, TransformerException {
     	Document output = render("<WORK>a<MARG>b</MARG>d<WORK>");
     	Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
     	Nodes marg = output.query("//"+DOC_PREFIX+":marg", NS_MAP);
@@ -46,7 +51,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
 
 
     @Test
-    public void ignoreBlankLines() {
+    public void ignoreBlankLines() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>   \n\t \n\na\n\n \n</WORK>");
         assertThat(
             "only one line generated",
@@ -63,7 +68,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void splitLinesAtNewline() {
+    public void splitLinesAtNewline() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>a\nb</WORK>");
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assertThat(
@@ -79,7 +84,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void constrainWhitespaceWhenUsingShy() {
+    public void constrainWhitespaceWhenUsingShy() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>a{-} \n b</WORK>");
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assumeTrue(lines.size() == 2);
@@ -90,7 +95,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void generateEmptyLineForUnnumberedL() {
+    public void generateEmptyLineForUnnumberedL() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><L/></WORK>");
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assertThat(
@@ -108,7 +113,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void wrapPartialLines() {
+    public void wrapPartialLines() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><L part=\"i\" n=\"1\"/>\n<L part=\"f\" n=\"1\"/></WORK>");
         Nodes splitlines = output.query("//"+DOC_PREFIX+":splitline", NS_MAP);
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
@@ -126,7 +131,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void applyAlignmentToLine() {
+    public void applyAlignmentToLine() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>a<RA>\nb</RA>\nc</WORK>");
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         String a1 = ((Element) lines.get(0)).getAttributeValue("align");
@@ -144,7 +149,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
 
-    private void translateMilestone(String type) {
+    private void translateMilestone(String type) throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><"+type.toUpperCase()+" n=\"1\"/></WORK>");
         Nodes ms = output.query("//"+DOC_PREFIX+":ms", NS_MAP);
         assumeTrue(ms.size() == 1);
@@ -156,24 +161,24 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void translateLToMS() {
+    public void translateLToMS() throws SAXException, ParserConfigurationException, TransformerException {
     	translateMilestone("l");
     }
     @Test
-    public void translateQLNToMS() {
+    public void translateQLNToMS() throws SAXException, ParserConfigurationException, TransformerException {
     	translateMilestone("qln");
     }
     @Test
-    public void translateTLNToMS() {
+    public void translateTLNToMS() throws SAXException, ParserConfigurationException, TransformerException {
     	translateMilestone("tln");
     }
     @Test
-    public void translateWLNToMS() {
+    public void translateWLNToMS() throws SAXException, ParserConfigurationException, TransformerException {
     	translateMilestone("wln");
     }
     
     @Test
-    public void lowercaseMS() {
+    public void lowercaseMS() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><MS t=\"tln\" n=\"1\"></MS></WORK>");
         Nodes ms = output.query("//"+DOC_PREFIX+":ms", NS_MAP);
         assertEquals(
