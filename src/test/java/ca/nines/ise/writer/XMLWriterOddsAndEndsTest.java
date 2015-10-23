@@ -4,17 +4,21 @@ import ca.nines.ise.dom.DOM;
 import nu.xom.*;
 
 import org.junit.*;
+import org.xml.sax.SAXException;
 
 import static org.junit.Assert.*;
 
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 
 public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
 
     // SPECIAL CHARS
     @Test
-    public void handleSpaceEscapes() {
+    public void handleSpaceEscapes() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>{ }{#}</WORK>");
         Nodes line = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assertEquals(
@@ -30,7 +34,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     }
     
     @Test
-    public void handleShyEscape() {
+    public void handleShyEscape() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>a{-}\nb\nc</WORK>");
         Nodes shy = output.query("//"+DOC_PREFIX+":shy", NS_MAP);
         assertEquals(
@@ -53,7 +57,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void spaceLowercase() {
+    public void spaceLowercase() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><SPACE/></WORK>");
         Nodes space = output.query("//"+DOC_PREFIX+":space", NS_MAP);
         assertEquals(
@@ -64,7 +68,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     }
     
     @Test
-    public void missingSpaceContainsWhitespace() {
+    public void missingSpaceContainsWhitespace() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><SPACE/></WORK>");
         Nodes space = output.query("//"+DOC_PREFIX+":space", NS_MAP);
         assertTrue(
@@ -75,7 +79,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void ruleLowercase() {
+    public void ruleLowercase() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><RULE/></WORK>");
         Nodes rule = output.query("//"+DOC_PREFIX+":rule", NS_MAP);
         assertEquals(
@@ -93,7 +97,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void labelLowercase() {
+    public void labelLowercase() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><BRACEGROUP><LABEL>b</LABEL></BRACEGROUP></WORK>");
         Nodes label = output.query("//"+DOC_PREFIX+":label", NS_MAP);
         assertEquals(
@@ -104,7 +108,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     }
     
     @Test
-    public void labelIsNotInline() {
+    public void labelIsNotInline() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><BRACEGROUP><LABEL>b</LABEL></BRACEGROUP></WORK>");
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assertEquals(
@@ -117,7 +121,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     // ILINK/IEMBED
     // not checking namespaces right now
     @Test
-    public void ilinkNamespaced() {
+    public void ilinkNamespaced() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><ILINK></ILINK></WORK>");
         Nodes ilink = output.query("//"+LINK_PREFIX+":ilink", NS_MAP);
         assertEquals(
@@ -127,7 +131,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
         );
     }
     @Test
-    public void ilinkIsInline() {
+    public void ilinkIsInline() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><ILINK></ILINK></WORK>");
         Nodes line = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         Nodes ilink = output.query("//"+LINK_PREFIX+":ilink", NS_MAP);
@@ -138,7 +142,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
         );
     }
     @Test
-    public void iembedNamespaced() {
+    public void iembedNamespaced() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><IEMBED></IEMBED></WORK>");
         Nodes iembed = output.query("//"+LINK_PREFIX+":iembed", NS_MAP);
         assertEquals(
@@ -148,7 +152,7 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
         );
     }
     @Test
-    public void iembedIsSometimesInline() {
+    public void iembedIsSometimesInline() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><IEMBED></IEMBED><L/><IEMBED></IEMBED></WORK>");
         Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         Nodes iembed = output.query("//"+LINK_PREFIX+":iembed", NS_MAP);

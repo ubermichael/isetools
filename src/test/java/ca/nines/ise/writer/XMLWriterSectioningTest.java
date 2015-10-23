@@ -4,16 +4,20 @@ import ca.nines.ise.dom.DOM;
 import nu.xom.*;
 
 import org.junit.*;
+import org.xml.sax.SAXException;
 
 import static org.junit.Assert.*;
 
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 
 public class XMLWriterSectioningTest extends XMLWriterTestBase {
 
     // CONTAINERS
-	private void testContainer(String name,String test){
+	private void testContainer(String name,String test) throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK>"+test+"</WORK>");
         Nodes line = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         Nodes container = output.query("//"+DOC_PREFIX+":"+name, NS_MAP);
@@ -30,33 +34,33 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
 	}
 	
     @Test
-    public void quoteIsAContainer() {
+    public void quoteIsAContainer() throws SAXException, ParserConfigurationException, TransformerException {
     	testContainer("quote","<QUOTE>a</QUOTE>");
     }
     
     @Test
-    public void linegroupIsAContainer() {
+    public void linegroupIsAContainer() throws SAXException, ParserConfigurationException, TransformerException {
     	testContainer("linegroup","<LINEGROUP>a</LINEGROUP>");
     }
     
     @Test
-    public void margIsAContainer() {
+    public void margIsAContainer() throws SAXException, ParserConfigurationException, TransformerException {
     	testContainer("marg","<MARG>a</MARG>");
     }
     
     @Test
-    public void stanzaIsAContainer() {
+    public void stanzaIsAContainer() throws SAXException, ParserConfigurationException, TransformerException {
     	testContainer("linegroup","<STANZA>a</STANZA>");
     }
     
     @Test
-    public void bracegroupIsAContainer() {
+    public void bracegroupIsAContainer() throws SAXException, ParserConfigurationException, TransformerException {
     	testContainer("bracegroup","<BRACEGROUP>a</BRACEGROUP>");
     }
 
     // SPECIAL HANDLING OF STANZA
     @Test
-    public void translateStanzaToLinegroup() {
+    public void translateStanzaToLinegroup() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><STANZA>a</STANZA></WORK>");
         Nodes linegroup = output.query("//"+DOC_PREFIX+":linegroup", NS_MAP);
         assertEquals(
@@ -67,7 +71,7 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
     }
     
     @Test
-    public void translateStazaNumberIntoMS() {
+    public void translateStazaNumberIntoMS() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><STANZA n=\"1\">a</STANZA></WORK>");
         Nodes n = output.query("//"+DOC_PREFIX+":linegroup[@n]", NS_MAP);
         Nodes l = output.query("//"+DOC_PREFIX+":l", NS_MAP);
@@ -84,7 +88,7 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
     }
 
     // SECTIONING MILESTONES
-    private void testAsMilestone(String name){
+    private void testAsMilestone(String name) throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><"+name.toUpperCase()+
         								">a</"+name.toUpperCase()+
         						 "></WORK>");
@@ -101,42 +105,42 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
     }
     
     @Test
-    public void frontmatterIsAMilestone() {
+    public void frontmatterIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("frontmatter");
     }
     @Test
-    public void backmatterIsAMilestone() {
+    public void backmatterIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("backmatter");
 
     }
     @Test
-    public void divIsAMilestone() {
+    public void divIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("div");
 	}
     @Test
-    public void actIsAMilestone() {
+    public void actIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("act");
     }
     @Test
-    public void sceneIsAMilestone() {
+    public void sceneIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("scene");
     }
     @Test
-    public void pageIsAMilestone() {
+    public void pageIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("page");
     }
     @Test
-    public void modeIsAMilestone() {
+    public void modeIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("mode");
     }
     @Test
-    public void colIsAMilestone() {
+    public void colIsAMilestone() throws SAXException, ParserConfigurationException, TransformerException {
     	testAsMilestone("col");
     }
 
     // MAIN MILESTONE
     @Test
-    public void createMainMilestoneAfterFrontmatter() {
+    public void createMainMilestoneAfterFrontmatter() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><FRONTMATTER>a</FRONTMATTER></WORK>");
         Nodes work = output.query("//"+DOC_PREFIX+":work", NS_MAP);
         Nodes main = output.query("//"+DOC_PREFIX+":main", NS_MAP);
@@ -153,7 +157,7 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
 
     // CLOSING MODE MILESTONE
     @Test
-    public void resetModeAfterClosing() {
+    public void resetModeAfterClosing() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><MODE t=\"prose\">a</MODE>b</WORK>");
         Nodes modes = output.query("//"+DOC_PREFIX+":mode", NS_MAP);
 		assertTrue(
@@ -174,7 +178,7 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
 
     // SPECIAL COLUMN HANDLING
     @Test
-    public void renameCol0ToReset() {
+    public void renameCol0ToReset() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><COL n=\"0\"></COL></WORK>");
         Nodes colr = output.query("//"+DOC_PREFIX+":col-reset", NS_MAP);
 		assertTrue(
@@ -184,7 +188,7 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
     }
     
     @Test
-    public void createMissingColumns() {
+    public void createMissingColumns() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><COL n=\"2\"></COL></WORK>");
         Nodes cols = output.query("//"+DOC_PREFIX+":col", NS_MAP);
 		assertTrue(

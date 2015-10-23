@@ -12,9 +12,15 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.xml.sax.SAXException;
 import org.junit.runners.Parameterized.Parameter;
 
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -24,8 +30,11 @@ import java.util.Arrays;
 public class XMLWriterInlinesTest extends XMLWriterTestBase {
 
     @Parameters
-    public static List<Object[]> inlineTags() {
-    	List<String> tags = Arrays.asList(Schema.INLINE_TAGS);
+    public static List<Object[]> inlineTags() throws IOException, SAXException, ParserConfigurationException, TransformerException {
+      Schema schema = Schema.defaultSchema();
+      List<String> tags = schema.get_Inline_tags();
+      //name changes; ignore
+      tags.remove("TITLEHEAD");
     	List<Object[]> list2 = new ArrayList<Object[]>();
     	for(String t:tags)
     		list2.add(new Object[]{t});
@@ -37,7 +46,7 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
 
 
     @Test
-    public void lowercaseInlines() {
+    public void lowercaseInlines() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><"+tagName+">a</"+tagName+"></WORK>");
         Nodes tags = output.query("//"+DOC_PREFIX+":"+tagName.toLowerCase(), NS_MAP);
         assertTrue(
@@ -47,7 +56,7 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void wrapInLine() {
+    public void wrapInLine() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><"+tagName+">a</"+tagName+"></WORK>");
         Nodes tags = output.query("//"+DOC_PREFIX+":l/"+DOC_PREFIX+":"+tagName.toLowerCase(), NS_MAP);
         assertThat(
@@ -62,7 +71,7 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
     }
 
     @Test
-    public void propagateInlineIntoLines() {
+    public void propagateInlineIntoLines() throws SAXException, ParserConfigurationException, TransformerException {
         switch (tagName) {
             case "HW":
             case "ORNAMENT":
