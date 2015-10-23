@@ -81,6 +81,15 @@ public class Tag implements Comparable<Tag> {
    * Where the tag is valid.
    */
   private final String where;
+  
+  /**
+   * Attributes specific to xml conversion
+   */
+  private final String xml_inline;
+  private final String xml_flatten;
+  private final String xml_typeface;
+  private final String xml_line_parent;
+  private final String xml_unparsed_text;
 
   /**
    * A builder class for constructing tags. Use Tag#builder() to get a
@@ -93,6 +102,11 @@ public class Tag implements Comparable<Tag> {
     private String desc;
     private String empty;
     private String where;
+    private String xml_inline;
+    private String xml_flatten;
+    private String xml_typeface;
+    private String xml_line_parent;
+    private String xml_unparsed_text;
 
     private int lineNumber;
     private String name;
@@ -112,6 +126,11 @@ public class Tag implements Comparable<Tag> {
       name = "";
       lineNumber = 0;
       source = "";
+      xml_inline = "";
+      xml_flatten = "";
+      xml_typeface = "";
+      xml_line_parent = "";
+      xml_unparsed_text = "";
     }
 
     /**
@@ -132,7 +151,7 @@ public class Tag implements Comparable<Tag> {
      */
     @Override
     public Tag build() {
-      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber);
+      return new Tag(name, desc, empty, where, depreciated, xml_inline, xml_flatten, xml_typeface, xml_line_parent, xml_unparsed_text, attributes, source, lineNumber);
     }
 
     /**
@@ -164,6 +183,27 @@ public class Tag implements Comparable<Tag> {
       tmp = map.getNamedItem("depreciated");
       if (tmp != null) {
         setDepreciated(tmp.getTextContent());
+      }
+      
+      tmp = map.getNamedItem("xml_inline");
+      if (tmp != null) {
+        setXMLInline(tmp.getTextContent());
+      }
+      tmp = map.getNamedItem("xml_flatten");
+      if (tmp != null) {
+        setXMLFlatten(tmp.getTextContent());
+      }
+      tmp = map.getNamedItem("xml_typeface");
+      if (tmp != null) {
+        setXMLTypeface(tmp.getTextContent());
+      }
+      tmp = map.getNamedItem("xml_line_parent");
+      if (tmp != null) {
+        setXMLLineParent(tmp.getTextContent());
+      }
+      tmp = map.getNamedItem("xml_unparsed_text");
+      if (tmp != null) {
+        setXMLUnparsedText(tmp.getTextContent());
       }
 
       tmp = ((Element) n).getElementsByTagName("desc").item(0);
@@ -216,6 +256,27 @@ public class Tag implements Comparable<Tag> {
      */
     public TagBuilder setDepreciated(String depreciated) {
       this.depreciated = depreciated;
+      return this;
+    }
+    
+    public TagBuilder setXMLInline(String xml_inline) {
+      this.xml_inline = xml_inline;
+      return this;
+    }
+    public TagBuilder setXMLFlatten(String xml_flatten) {
+      this.xml_flatten = xml_flatten;
+      return this;
+    }
+    public TagBuilder setXMLTypeface(String xml_typeface) {
+      this.xml_typeface = xml_typeface;
+      return this;
+    }
+    public TagBuilder setXMLLineParent(String xml_line_parent) {
+      this.xml_line_parent = xml_line_parent;
+      return this;
+    }
+    public TagBuilder setXMLUnparsedText(String xml_unparsed_text) {
+      this.xml_unparsed_text = xml_unparsed_text;
       return this;
     }
 
@@ -301,12 +362,20 @@ public class Tag implements Comparable<Tag> {
    * @param source
    * @param lineNumber
    */
-  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber) {
+  private Tag(String name, String desc, String empty, String where, String depreciated, 
+      String xml_inline, String xml_flatten, String xml_typeface, String xml_line_parent, String xml_unparsed_text,
+      Map<String, Attribute> attributes, String source, int lineNumber) {
     this.name = name;
     this.desc = desc;
     this.where = where;
     this.empty = empty;
     this.depreciated = depreciated;
+    this.xml_inline = xml_inline;
+    this.xml_flatten = xml_flatten;
+    this.xml_typeface = xml_typeface;
+    this.xml_line_parent = xml_line_parent;
+    this.xml_unparsed_text = xml_unparsed_text;
+    
     this.attributes = new HashMap<>(attributes);
     this.source = source;
     this.lineNumber = lineNumber;
@@ -374,6 +443,22 @@ public class Tag implements Comparable<Tag> {
    */
   public String getDepreciated() {
     return depreciated;
+  }
+  
+  public String getXMLInline() {
+    return xml_inline;
+  }
+  public String getXMLFlatten() {
+    return xml_flatten;
+  }
+  public String getXMLTypeface() {
+    return xml_typeface;
+  }
+  public String getXMLLineParent() {
+    return xml_line_parent;
+  }
+  public String getXMLUnparsedText() {
+    return xml_unparsed_text;
   }
 
   /**
