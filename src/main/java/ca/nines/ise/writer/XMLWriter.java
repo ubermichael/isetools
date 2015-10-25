@@ -23,6 +23,7 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Schema;
@@ -71,6 +72,7 @@ public class XMLWriter extends Writer{
     private List<String> DONT_PARSE_TEXT;
     private List<String> LINE_PARENTS;
 		private List<String> renewable;
+		private List<String> VALID_TAGS;
 		private Element renew_after;
 		Document xml;
 		private LinkedList<LinkedList<Element>> renewing;
@@ -80,6 +82,7 @@ public class XMLWriter extends Writer{
 
 		public XMLStack(Document xml) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 		  schema = Schema.defaultSchema();
+		  VALID_TAGS = Arrays.asList(schema.getTagNames());
 			INLINE_TAGS = schema.get_Inline_tags();
 			FLATTEN = array_to_lower(schema.get_flatten_tags());
 			TYPEFACES = array_to_lower(schema.get_typeface_tags());
@@ -468,6 +471,21 @@ public class XMLWriter extends Writer{
 				ensure_in_line();
 				start_element(new_element("s"));
 			}
+		}
+		
+		/**
+		 * Returns true if currently in a speech with a speaker (sp) child already
+		 * false otherise
+		 */
+		public Boolean speech_has_speaker(){
+		  /* if not in a speech, obviously false */
+		  if (!in_tag("s"))
+		    return false;
+		  Element last_speaker = get_last_tag("sp");
+		  /* if the last sp is a child of the last (current) speech*/
+		  if (last_speaker != null && get_last_tag("s").equals(last_speaker.getParent()))
+		    return true;
+		  return false;
 		}
 
 		/**
@@ -963,32 +981,35 @@ public class XMLWriter extends Writer{
 		xmlStack.push(e);
 
 		for (Node n : dom.expanded()) {
-			switch (n.type()) {
-			case COMMENT:
-				break;
-			case ABBR:
-				throw new UnsupportedOperationException(
-						"Cannot serialize depreciated abbreviation markup.");
-			case EMPTY:
-				parse_empty((EmptyNode) n,
-						xmlStack.new_element(n.getName().toLowerCase()),
-						xmlStack);
-				break;
-			case END:
-				parse_end((EndNode) n, xmlStack);
-				break;
-			case START:
-				parse_start((StartNode) n,
-						xmlStack.new_element(n.getName().toLowerCase()),
-						xmlStack);
-				break;
-			case TEXT:
-				parse_text(n.getText(), xmlStack);
-				break;
-			default:
-				throw new UnsupportedOperationException("Cannot convert "
-						+ n.getName() + " to XML");
-			}
+		  /*if tag is unknown (not in schema), pass through contents without tag*/
+		  if (is_valid_tag(n,xmlStack)){
+  			switch (n.type()) {
+  			case COMMENT:
+  				break;
+  			case ABBR:
+  				throw new UnsupportedOperationException(
+  						"Cannot serialize depreciated abbreviation markup.");
+  			case EMPTY:
+  				parse_empty((EmptyNode) n,
+  						xmlStack.new_element(n.getName().toLowerCase()),
+  						xmlStack);
+  				break;
+  			case END:
+  				parse_end((EndNode) n, xmlStack);
+  				break;
+  			case START:
+  				parse_start((StartNode) n,
+  						xmlStack.new_element(n.getName().toLowerCase()),
+  						xmlStack);
+  				break;
+  			case TEXT:
+  				parse_text(n.getText(), xmlStack);
+  				break;
+  			default:
+  				throw new UnsupportedOperationException("Cannot convert "
+  						+ n.getName() + " to XML");
+  			}
+		  }
 		}
 		return doc;
 	}
@@ -1059,7 +1080,9 @@ public class XMLWriter extends Writer{
 			xmlStack.new_align(XML_MAP.get(node.getName()));
 			break;
 		case "SP":
-			xmlStack.ensure_in_speech();
+			if (xmlStack.speech_has_speaker())
+			  xmlStack.end_element("s");
+      xmlStack.ensure_in_speech();
 			xmlStack.start_element(set_attributes(node, e));
 			break;
 		case "PAGE":
@@ -1081,9 +1104,6 @@ public class XMLWriter extends Writer{
 		case "STANZA":
 			xmlStack.new_stanza(set_attributes(node, e));
 			break;
-		case "MS":
-			xmlStack.new_ms_element(xml_name, node.getAttribute("n"));
-			break;
 		case "ISEHEADER":
 		  break;
 		case "TITLEHEAD":
@@ -1093,6 +1113,10 @@ public class XMLWriter extends Writer{
 		case "L":
 		  xmlStack.new_line(node);
 		  break;
+		case "BRACEGROUP":
+		  xmlStack.end_line();
+      xmlStack.start_element(set_attributes(node, e));
+      break;
 	  //no tags for now; content goes straight through
 		case "ACCENT":
 		case "UNICODE":
@@ -1152,10 +1176,14 @@ public class XMLWriter extends Writer{
 		switch (node.getName().toUpperCase()) {
 		case "SHY":
 			xmlStack.empty_element(xmlStack.new_element(xml_name));
+			break;
 		case "L":
 			xmlStack.end_line();
 			xmlStack.new_line(node);
 			break;
+    case "MS":
+      xmlStack.new_ms_element(xml_name, node.getAttribute("n"));
+      break;
 		case "QLN":
 		case "WLN":
 		case "TLN":
@@ -1182,7 +1210,7 @@ public class XMLWriter extends Writer{
 		}
 	}
 	
-	private String trim_whitespace(String str){
+	private static String trim_whitespace(String str){
 		str.replace(" ", "");
 		str.replace("\t", "");
 		str.replace("\r", "");
@@ -1200,7 +1228,7 @@ public class XMLWriter extends Writer{
 	 *            XML stack
 	 * @return true if parsed, false otherwise (in page/no newline characters)
 	 */
-	private void parse_text(String text, XMLStack xmlStack) {
+	private static void parse_text(String text, XMLStack xmlStack) {
 		/*
 		 * if text is all whitespace or in an element which should not be parsed
 		 * element, don't parse further
@@ -1313,6 +1341,26 @@ public class XMLWriter extends Writer{
 			for (Attribute attr : add)
 				e.addAttribute(attr);
 		return e;
+	}
+	
+	/**
+	 * determines whether or not the given node is valid with respect to the schema (recognized)
+	 * @n the node to check
+	 * @return validity
+	 */
+	private static Boolean is_valid_tag(Node n, XMLStack xmlStack){
+	  if (n.type().equals(NodeType.TEXT))
+	    return true;
+	  String name = n.getName().toLowerCase();
+	  /* if the tag is in the schema */
+	  if (xmlStack.VALID_TAGS.contains(name)){
+	    /* if the given tag and its tag in the schema have different types */
+      if (xmlStack.schema.getTag(name).isEmpty() ^ n.type().equals(NodeType.EMPTY)){
+        return false;
+      }
+	    return true;
+	  }
+	  return false;
 	}
 
 	/**
