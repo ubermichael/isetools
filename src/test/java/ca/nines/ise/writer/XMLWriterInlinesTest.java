@@ -33,6 +33,9 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
     public static List<Object[]> inlineTags() throws IOException, SAXException, ParserConfigurationException, TransformerException {
       Schema schema = Schema.defaultSchema();
       List<String> tags = schema.get_Inline_tags();
+      for(String t : new ArrayList<String>(tags))
+        if (schema.getTag(t).isEmpty())
+          tags.remove(t);
       //name changes; ignore
       tags.remove("TITLEHEAD");
     	List<Object[]> list2 = new ArrayList<Object[]>();
