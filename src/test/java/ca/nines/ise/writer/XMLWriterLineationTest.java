@@ -179,7 +179,7 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
     
     @Test
     public void lowercaseMS() throws SAXException, ParserConfigurationException, TransformerException {
-        Document output = render("<WORK><MS t=\"tln\" n=\"1\"></MS></WORK>");
+        Document output = render("<WORK><MS t=\"tln\" n=\"1\"/></WORK>");
         Nodes ms = output.query("//"+DOC_PREFIX+":ms", NS_MAP);
         assertEquals(
         	"ms is generated",
