@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
@@ -104,7 +106,7 @@ public class Tag implements Comparable<Tag> {
      * All the setters return the TagBuilder object, to enable method chaining.
      */
     private TagBuilder() {
-      attributes = new HashMap<>();
+      attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
       depreciated = "";
       desc = "";
       empty = "";
@@ -121,7 +123,7 @@ public class Tag implements Comparable<Tag> {
      * @return TagBuilder
      */
     public TagBuilder addAttribute(Attribute attr) {
-      attributes.put(attr.getName().toLowerCase(), attr);
+      attributes.put(attr.getName(), attr);
       return this;
     }
 
@@ -204,7 +206,8 @@ public class Tag implements Comparable<Tag> {
      * @return TagBuilder
      */
     public TagBuilder setAttributes(Map<String, Attribute> attributes) {
-      this.attributes = new HashMap<>(attributes);
+      this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+      this.attributes.putAll(attributes);
       return this;
     }
 
@@ -307,7 +310,8 @@ public class Tag implements Comparable<Tag> {
     this.where = where;
     this.empty = empty;
     this.depreciated = depreciated;
-    this.attributes = new HashMap<>(attributes);
+    this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    this.attributes.putAll(attributes);
     this.source = source;
     this.lineNumber = lineNumber;
   }
@@ -342,7 +346,7 @@ public class Tag implements Comparable<Tag> {
    * @return the Attribute object or null if it doesn't exist.
    */
   public Attribute getAttribute(String attrName) {
-    return attributes.get(attrName.toLowerCase());
+    return attributes.get(attrName);
   }
 
   /**
@@ -441,7 +445,7 @@ public class Tag implements Comparable<Tag> {
    * @return boolean
    */
   public boolean hasAttribute(String name) {
-    return attributes.containsKey(name.toLowerCase());
+    return attributes.containsKey(name);
   }
 
   /**

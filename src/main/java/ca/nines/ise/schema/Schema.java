@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -86,7 +87,7 @@ public class Schema {
     private Map<String, Tag> tags;
 
     private SchemaBuilder() {
-      tags = new HashMap<>();
+      tags = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
       edition = "";
       group = "";
       lineNumber = 0;
@@ -94,7 +95,7 @@ public class Schema {
     }
 
     public SchemaBuilder addTag(Tag tag) {
-      tags.put(tag.getName().toLowerCase(), tag);
+      tags.put(tag.getName(), tag);
       return this;
     }
 
@@ -177,7 +178,8 @@ public class Schema {
     }
 
     public SchemaBuilder setTags(Map<String, Tag> tags) {
-      this.tags = new HashMap<>(tags);
+      this.tags = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+      this.tags.putAll(tags);
       return this;
     }
 
@@ -198,7 +200,8 @@ public class Schema {
     this.lineNumber = lineNumber;
     this.edition = edition;
     this.group = group;
-    this.tags = new HashMap<>(tags);
+    this.tags = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    this.tags.putAll(tags);
   }
 
   /**
@@ -230,7 +233,7 @@ public class Schema {
   }
 
   public Tag getTag(String name) {
-    return tags.get(name.toLowerCase());
+    return tags.get(name);
   }
 
   public String[] getTagNames() {
