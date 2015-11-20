@@ -16,10 +16,11 @@
  */
 package ca.nines.ise;
 
+import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
-import ca.nines.ise.node.EmptyNode;
-import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -36,11 +37,13 @@ public class Tester {
      * <p>
      * @param args command line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Log log = Log.getInstance();
-    TagNode instance = new EmptyNode();
-    instance.setAttribute("foo", "bar");
-    System.out.println(instance.getAttribute("f"));
+        DOM d = new DOMBuilder("<a b='super {s}imple'/>").build();
+        TagNode n = (TagNode)d.get(0);
+        System.out.println(n.getAttribute("b"));
+        System.out.println(n.getAttribute("b", true));
+        
         
         if (log.count() > 0) {
             System.err.println("");

@@ -257,7 +257,7 @@ abstract public class TagNode extends Node {
         formatter.format("%s", super.toString());
         formatter.format(":%s(", tagname);
         for (String name : attributes.getAttributeNames()) {
-            formatter.format("@%s=%s ", name, attributes.getAttribute(name));
+            formatter.format("@%s=%s ", name, attributes.getAttribute(name).getValue());
         }
         formatter.format(")");
         return formatter.toString();
