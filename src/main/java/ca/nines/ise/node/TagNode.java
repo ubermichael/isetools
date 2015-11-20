@@ -16,7 +16,10 @@
  */
 package ca.nines.ise.node;
 
+import ca.nines.ise.node.attribute.AttributeSet;
 import ca.nines.ise.dom.Fragment;
+import ca.nines.ise.node.attribute.Attribute;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.LinkedHashMap;
@@ -62,12 +65,12 @@ abstract public class TagNode extends Node {
             TagNode tn = (TagNode) n;
             this.tagname = tn.tagname;
             this.attributes = new AttributeSet();
-            for(String name : tn.getAttributeNames()) {
-                this.attributes.setAttribute(name, tn.getAttribute(name));
+            for(Attribute a : tn.attributes.getAttributes()) {
+                this.attributes.setAttribute(a);
             }
         }
     }
-
+ 
     /**
      * Create a new tag node with a name.
      */
@@ -116,7 +119,27 @@ abstract public class TagNode extends Node {
      * @return String
      */
     public String getAttribute(String name) {
-        return attributes.getAttribute(name);
+        return getAttribute(name, false);
+    }
+
+    /**
+     * Get an attribute value. Attribute names are case insensitive.
+     * <p>
+     * @param name
+     * <p>
+     * @return String
+     */
+    public String getAttribute(String name, boolean unicodify) {
+        try {
+            Attribute a = attributes.getAttribute(name);
+            if(a == null) {
+                return null;
+            }
+            return a.getValue(unicodify);
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Cannot get attribute " + name, ex);
+            return attributes.getAttribute(name).getValue();
+        }
     }
 
     /**
@@ -198,7 +221,7 @@ abstract public class TagNode extends Node {
         if(attributes == null) {
             logger.log(Level.SEVERE, "attributes is null. wtf.");
         }
-        attributes.setAttribute(name, value);
+        attributes.setAttribute(new Attribute(name, value));
         if (name.equalsIgnoreCase("n") && ownerDom != null) {
             ownerDom.requestReindex();
         }

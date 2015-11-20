@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-package ca.nines.ise.node;
+package ca.nines.ise.node.attribute;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 /**
@@ -21,41 +20,36 @@ public class AttributeSet {
     private static final Logger logger = Logger.getLogger( AttributeSet.class.getName() );
 
     /**
-     * Maps lowercase name to original name.
-     */
-    private final Map<String, String> originalNames;
-    
-    /**
      * Maps lowercase name to value, preserving insertion order.
      */
-    private final Map<String, String> attributes;
+    private final Map<String, Attribute> attributes;
     
     public AttributeSet() {
-        this.originalNames = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         this.attributes = new LinkedHashMap<>();
     }
     
     public boolean hasAttribute(String name) {
-        return originalNames.containsKey(name);
+        return attributes.containsKey(name.toLowerCase());
     }
     
     public void clearAttributes() {
-        originalNames.clear();
         attributes.clear();
     }
     
     public void deleteAttribute(String name) {
-        this.originalNames.remove(name);
         this.attributes.remove(name.toLowerCase());
     }
     
-    public String getAttribute(String name) {
+    public Attribute getAttribute(String name) {
         return this.attributes.get(name.toLowerCase());
     }
     
     public void setAttribute(String name, String value) {
-        this.originalNames.put(name, name);
-        this.attributes.put(name.toLowerCase(), value);
+        setAttribute(new Attribute(name, value));
+    }
+    
+    public void setAttribute(Attribute value) {
+        this.attributes.put(value.getName(), value);
     }
     
     public int countAttributes() {
@@ -63,12 +57,27 @@ public class AttributeSet {
     }
     
     public String[] getAttributeNames() {
+        return getAttributeNames(false);
+    }
+
+    public String[] getAttributeNames(boolean originalCase) {
         int size = this.attributes.size();
         String[] names = this.attributes.keySet().toArray(new String[size]);
         for(int i = 0; i < size; i++) {
-            names[i] = originalNames.get(names[i]);
+            names[i] = attributes.get(names[i]).getName(originalCase);
         }
         return names;
+    }
+    
+    public Attribute[] getAttributes() {
+        int size = this.attributes.size();
+        Attribute[] list = new Attribute[size];
+        String names[] = getAttributeNames(true);
+        
+        for(int i = 0; i < size; i++) {
+            list[i] = new Attribute(names[i], this.attributes.get(names[i]).getValue());
+        }
+        return list;
     }
 
 }

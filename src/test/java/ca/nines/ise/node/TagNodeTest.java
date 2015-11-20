@@ -51,6 +51,17 @@ public class TagNodeTest extends TestBase {
   }
 
   /**
+   * Test of getAttribute method, of class TagNode.
+   */
+  @Test
+  public void testGetAttributeEncoded() {
+    TagNode instance = new TagNodeImpl();
+    instance.setAttribute("foo", "super {s}imple");
+    assertEquals("super {s}imple", instance.getAttribute("foo"));
+    assertEquals("super ſimple", instance.getAttribute("foo", true));
+  }
+
+  /**
    * Test of setAttribute method, of class TagNode.
    */
   @Test

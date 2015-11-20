@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.node;
+package ca.nines.ise.node.attribute;
 
+import ca.nines.ise.node.attribute.AttributeSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,7 +44,8 @@ public class AttributeSetTest {
     @Test
     public void testHasAttribute() {
         AttributeSet instance = new AttributeSet();
-        instance.setAttribute("foo", "bar");
+        Attribute a = new Attribute("foo", "bar");        
+        instance.setAttribute(a);
         assertTrue(instance.hasAttribute("foo"));
         assertTrue(instance.hasAttribute("FOO"));
         assertFalse(instance.hasAttribute("rama"));
@@ -105,8 +107,8 @@ public class AttributeSetTest {
     public void testGetAttribute() {
         AttributeSet instance = new AttributeSet();
         instance.setAttribute("foo", "bar");
-        assertEquals("bar", instance.getAttribute("foo"));
-        assertEquals("bar", instance.getAttribute("FOO"));
+        assertEquals("bar", instance.getAttribute("foo").getValue());
+        assertEquals("bar", instance.getAttribute("FOO").getValue());
         assertEquals(null, instance.getAttribute("FO"));
     }
 
@@ -117,13 +119,13 @@ public class AttributeSetTest {
     public void testSetAttribute() {
         AttributeSet instance = new AttributeSet();
         instance.setAttribute("foo", "bar");
-        assertEquals("bar", instance.getAttribute("foo"));
-        assertEquals("bar", instance.getAttribute("FOO"));
+        assertEquals("bar", instance.getAttribute("foo").getValue());
+        assertEquals("bar", instance.getAttribute("FOO").getValue());
         assertEquals(1, instance.countAttributes());
 
         instance.setAttribute("FOO", "bzr");
-        assertEquals("bzr", instance.getAttribute("foo"));
-        assertEquals("bzr", instance.getAttribute("FOO"));
+        assertEquals("bzr", instance.getAttribute("foo").getValue());
+        assertEquals("bzr", instance.getAttribute("FOO").getValue());
         assertEquals(1, instance.countAttributes());
     }
 
@@ -138,7 +140,7 @@ public class AttributeSetTest {
         for (String n : names) {
             instance.setAttribute(n, "a");
         }
-        assertArrayEquals(namesCI, instance.getAttributeNames());
+        assertArrayEquals(namesCI, instance.getAttributeNames(true));
     }
     
 }

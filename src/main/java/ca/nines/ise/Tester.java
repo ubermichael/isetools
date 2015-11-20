@@ -19,6 +19,7 @@ package ca.nines.ise;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TagNode;
 import java.util.logging.Logger;
 
 /**
@@ -37,13 +38,9 @@ public class Tester {
      */
     public static void main(String[] args) {
         Log log = Log.getInstance();
-        StartNode s = new StartNode();
-        s.setName("foo");
-        s.setAttribute("foo", "33.b");
-        s.setTLN("22");
-        System.out.println(s.sgml());
-        EmptyNode e = new EmptyNode(s);
-        System.out.println(e.sgml());
+    TagNode instance = new EmptyNode();
+    instance.setAttribute("foo", "bar");
+    System.out.println(instance.getAttribute("f"));
         
         if (log.count() > 0) {
             System.err.println("");
