@@ -34,263 +34,218 @@ import ca.nines.ise.node.TextNode;
  */
 public class Modernizer extends IdentityTransform {
 
-  boolean inHW = false;
+    boolean inHW = false;
 
-  @Override
-  public void abbreviation(AbbrNode n) {
-    TextNode t = new TextNode(n);
-    t.setText(n.plain());
-    dom.add(t);
-  }
-
-  @Override
-  public void character(CharNode n) {
-    String txt;
-    switch (n.getText()) {
-      case "{#}":
-        txt = " ";
-        break;
-      case "{ }":
-        txt = "";
-        break;
-      default:
-        txt = n.plain();
-        break;
+    public void abbr(AbbrNode n) {
+        TextNode t = new TextNode(n);
+        t.setText(n.plain());
+        dom.add(t);
     }
-    TextNode t = new TextNode(n);
-    t.setText(txt);
-    dom.add(t);
-  }
 
-  @Override
-  public void comment(CommentNode n) {
-    // do nothing.
-  }
-
-  @Override
-  public void empty_l(EmptyNode n) {
-
-  }
-
-  @Override
-  public void empty_ornament(EmptyNode n) {
-
-  }
-
-  @Override
-  public void empty_rule(EmptyNode n) {
-
-  }
-
-  @Override
-  public void empty_space(EmptyNode n) {
-
-  }
-
-  @Override
-  public void empty_tln(EmptyNode n) {
-    EmptyNode l = new EmptyNode(n);
-    l.setName("L");
-    l.setAttribute("n", "");
-    dom.add(l);
-    dom.add(n);
-  }
-
-  @Override
-  public void end_bll(EndNode n) {
-
-  }
-
-  @Override
-  public void end_c(EndNode n) {
-
-  }
-
-  @Override
-  public void end_col(EndNode n) {
-
-  }
-
-  @Override
-  public void end_cw(EndNode n) {
-    skipTo(NodeType.END, "cw");
-  }
-
-  @Override
-  public void end_fontgroup(EndNode n) {
-
-  }
-
-  @Override
-  public void end_hw(EndNode n) {
-    inHW = true;
-  }
-
-  @Override
-  public void end_i(EndNode n) {
-
-  }
-
-  @Override
-  public void end_j(EndNode n) {
-
-  }
-
-  @Override
-  public void end_ls(EndNode n) {
-
-  }
-
-  @Override
-  public void end_marg(EndNode n) {
-
-  }
-
-  @Override
-  public void end_ornament(EndNode n) {
-
-  }
-
-  @Override
-  public void end_page(EndNode n) {
-
-  }
-
-  @Override
-  public void end_pn(EndNode n) {
-    skipTo(NodeType.END, "pn");
-  }
-
-  @Override
-  public void end_r(EndNode n) {
-
-  }
-
-  @Override
-  public void end_ra(EndNode n) {
-
-  }
-
-  @Override
-  public void end_rt(EndNode n) {
-
-  }
-
-  @Override
-  public void end_sc(EndNode n) {
-
-  }
-
-  @Override
-  public void start_bll(StartNode n) {
-
-  }
-
-  @Override
-  public void start_c(StartNode n) {
-
-  }
-
-  @Override
-  public void start_col(StartNode n) {
-
-  }
-
-  @Override
-  public void start_cw(StartNode n) {
-    skipTo(NodeType.END, "cw");
-  }
-
-  @Override
-  public void start_fontgroup(StartNode n) {
-
-  }
-
-  @Override
-  public void start_hw(StartNode n) {
-    inHW = true;
-  }
-
-  @Override
-  public void start_i(StartNode n) {
-
-  }
-
-  @Override
-  public void start_j(StartNode n) {
-
-  }
-
-  @Override
-  public void start_ls(StartNode n) {
-
-  }
-
-  @Override
-  public void start_marg(StartNode n) {
-
-  }
-
-  @Override
-  public void start_ornament(StartNode n) {
-
-  }
-
-  @Override
-  public void start_page(StartNode n) {
-
-  }
-
-  @Override
-  public void start_pn(StartNode n) {
-    skipTo(NodeType.END, "pn");
-  }
-
-  @Override
-  public void start_r(StartNode n) {
-
-  }
-
-  @Override
-  public void start_ra(StartNode n) {
-
-  }
-
-  @Override
-  public void start_rt(StartNode n) {
-    skipTo(NodeType.END, "rt");
-  }
-
-  @Override
-  public void start_sc(StartNode n) {
-
-  }
-
-  @Override
-  public void start_sig(StartNode n) {
-    skipTo(NodeType.END, "SIG");
-  }
-
-  @Override
-  public void start_sp(StartNode n) {
-    dom.add(n);
-    Node txt = new TextNode(n);
-    txt.setText(n.getAttribute("norm"));
-    dom.add(txt);
-    EndNode end = new EndNode(n);
-    end.setName("SP");
-    dom.add(end);
-    skipTo(NodeType.END, "sp");
-  }
-
-  @Override
-  public void text(TextNode n) {
-    TextNode txt = new TextNode(n);
-    if (inHW) {
-      txt.setText(n.getText().replaceFirst("[(]", ""));
-      inHW = false;
+    public void character(CharNode n) {
+        String txt;
+        switch (n.getText()) {
+            case "{#}":
+                txt = " ";
+                break;
+            case "{ }":
+                txt = "";
+                break;
+            default:
+                txt = n.plain();
+                break;
+        }
+        TextNode t = new TextNode(n);
+        t.setText(txt);
+        dom.add(t);
     }
-    dom.add(txt);
-  }
+
+    public void comment(CommentNode n) {
+        // do nothing.
+    }
+
+    public void empty_l(EmptyNode n) {
+
+    }
+
+    public void empty_ornament(EmptyNode n) {
+
+    }
+
+    public void empty_rule(EmptyNode n) {
+
+    }
+
+    public void empty_space(EmptyNode n) {
+
+    }
+
+    public void empty_tln(EmptyNode n) {
+        EmptyNode l = new EmptyNode(n);
+        l.setName("L");
+        l.setAttribute("n", "");
+        dom.add(l);
+        dom.add(n);
+    }
+
+    public void end_bll(EndNode n) {
+
+    }
+
+    public void end_c(EndNode n) {
+
+    }
+
+    public void end_col(EndNode n) {
+
+    }
+
+    public void end_cw(EndNode n) {
+        skipTo(NodeType.END, "cw");
+    }
+
+    public void end_fontgroup(EndNode n) {
+
+    }
+
+    public void end_hw(EndNode n) {
+        inHW = true;
+    }
+
+    public void end_i(EndNode n) {
+
+    }
+
+    public void end_j(EndNode n) {
+
+    }
+
+    public void end_ls(EndNode n) {
+
+    }
+
+    public void end_marg(EndNode n) {
+
+    }
+
+    public void end_ornament(EndNode n) {
+
+    }
+
+    public void end_page(EndNode n) {
+
+    }
+
+    public void end_pn(EndNode n) {
+        skipTo(NodeType.END, "pn");
+    }
+
+    public void end_r(EndNode n) {
+
+    }
+
+    public void end_ra(EndNode n) {
+
+    }
+
+    public void end_rt(EndNode n) {
+
+    }
+
+    public void end_sc(EndNode n) {
+
+    }
+
+    public void start_bll(StartNode n) {
+
+    }
+
+    public void start_c(StartNode n) {
+
+    }
+
+    public void start_col(StartNode n) {
+
+    }
+
+    public void start_cw(StartNode n) {
+        skipTo(NodeType.END, "cw");
+    }
+
+    public void start_fontgroup(StartNode n) {
+
+    }
+
+    public void start_hw(StartNode n) {
+        inHW = true;
+    }
+
+    public void start_i(StartNode n) {
+
+    }
+
+    public void start_j(StartNode n) {
+
+    }
+
+    public void start_ls(StartNode n) {
+
+    }
+
+    public void start_marg(StartNode n) {
+
+    }
+
+    public void start_ornament(StartNode n) {
+
+    }
+
+    public void start_page(StartNode n) {
+
+    }
+
+    public void start_pn(StartNode n) {
+        skipTo(NodeType.END, "pn");
+    }
+
+    public void start_r(StartNode n) {
+
+    }
+
+    public void start_ra(StartNode n) {
+
+    }
+
+    public void start_rt(StartNode n) {
+        skipTo(NodeType.END, "rt");
+    }
+
+    public void start_sc(StartNode n) {
+
+    }
+
+    public void start_sig(StartNode n) {
+        skipTo(NodeType.END, "SIG");
+    }
+
+    public void start_sp(StartNode n) {
+        dom.add(n);
+        Node txt = new TextNode(n);
+        txt.setText(n.getAttribute("norm"));
+        dom.add(txt);
+        EndNode end = new EndNode(n);
+        end.setName("SP");
+        dom.add(end);
+        skipTo(NodeType.END, "sp");
+    }
+
+    public void text(TextNode n) {
+        TextNode txt = new TextNode(n);
+        if (inHW) {
+            txt.setText(n.getText().replaceFirst("[(]", ""));
+            inHW = false;
+        }
+        dom.add(txt);
+    }
 
 }

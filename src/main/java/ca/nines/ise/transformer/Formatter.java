@@ -31,87 +31,74 @@ import ca.nines.ise.node.TextNode;
  */
 public class Formatter extends IdentityTransform {
 
-  private void newline() {
-    TextNode nl = new TextNode();
-    nl.setText("\n");
-    dom.add(nl);
-  }
+    private void newline() {
+        TextNode nl = new TextNode();
+        nl.setText("\n");
+        dom.add(nl);
+    }
 
-  @Override
-  public void end_act(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_act(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_iseheader(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_iseheader(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_ld(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_ld(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_mode(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_mode(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_page(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_page(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_s(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_s(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_scene(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_scene(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void end_sd(EndNode n) {
-    dom.add(n);
-  }
+    public void end_sd(EndNode n) {
+        dom.add(n);
+    }
 
-  @Override
-  public void end_sp(EndNode n) {
-    dom.add(n);
-    newline();
-  }
+    public void end_sp(EndNode n) {
+        dom.add(n);
+        newline();
+    }
 
-  @Override
-  public void start_act(StartNode n) {
-    newline();
-    dom.add(n);
-  }
+    public void start_act(StartNode n) {
+        newline();
+        dom.add(n);
+    }
 
-  @Override
-  public void start_mode(StartNode n) {
-    newline();
-    dom.add(n);
-  }
+    public void start_mode(StartNode n) {
+        newline();
+        dom.add(n);
+    }
 
-  @Override
-  public void start_page(StartNode n) {
-    newline();
-    dom.add(n);
-  }
+    public void start_page(StartNode n) {
+        newline();
+        dom.add(n);
+    }
 
-  @Override
-  public void start_scene(StartNode n) {
-    newline();
-    dom.add(n);
-  }
+    public void start_scene(StartNode n) {
+        newline();
+        dom.add(n);
+    }
 
 }
