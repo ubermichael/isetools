@@ -33,75 +33,73 @@ import org.apache.commons.csv.CSVRecord;
  */
 public class CodePointTable {
 
-  private final Map<String, CodePoint> table;
+    private final Map<String, CodePoint> table;
 
-  public static class CodePointTableBuilder implements BuilderInterface<CodePointTable> {
+    public static class CodePointTableBuilder implements BuilderInterface<CodePointTable> {
 
-    private Map<String, CodePoint> table;
+        private final Map<String, CodePoint> table;
 
-    private CodePointTableBuilder() {
-      table = new HashMap<>();
-    }
-
-    @Override
-    public CodePointTable build() {
-      return new CodePointTable(table);
-    }
-
-    public CodePointTableBuilder addCodePoint(CodePoint cp) {
-      table.put(cp.getName(), cp);
-      return this;
-    }
-
-    public CodePointTableBuilder from(InputStream in) throws IOException {
-      Reader reader = new InputStreamReader(in);
-      CSVParser csv = new CSVParser(reader, CSVFormat.DEFAULT, 0, 0);
-      for (CSVRecord record : csv) {
-        try {
-          CodePoint cp = new CodePoint(record.get(0), Integer.parseInt(record.get(1)));
-          addCodePoint(cp);
-        } catch (Exception e) {
-
+        private CodePointTableBuilder() {
+            table = new HashMap<>();
         }
-      }
-      return this;
+
+        @Override
+        public CodePointTable build() {
+            return new CodePointTable(table);
+        }
+
+        public CodePointTableBuilder addCodePoint(CodePoint cp) {
+            table.put(cp.getName(), cp);
+            return this;
+        }
+
+        public CodePointTableBuilder from(InputStream in) throws IOException {
+            Reader reader = new InputStreamReader(in);
+            CSVParser csv = new CSVParser(reader, CSVFormat.DEFAULT, 0, 0);
+            for (CSVRecord record : csv) {
+                if (record.get(1).equals("decimal")) {
+                    continue;
+                }
+                CodePoint cp = new CodePoint(record.get(0), Integer.parseInt(record.get(1)));
+                addCodePoint(cp);
+            }
+            return this;
+        }
     }
 
-  }
-
-  private CodePointTable(Map<String, CodePoint> table) {
-    this.table = table;
-  }
-
-  public static CodePointTableBuilder builder() {
-    return new CodePointTableBuilder();
-  }
-
-  public static CodePointTable defaultCodePointTable() throws IOException {
-    String loc = "/data/entities.csv";
-    InputStream in = CodePointTable.class.getResourceAsStream(loc);
-    return builder().from(in).build();
-  }
-
-  public boolean hasCodePoint(String name) {
-    return table.containsKey(name);
-  }
-
-  public CodePoint getCodePoint(String name) {
-    if (table.containsKey(name)) {
-      return table.get(name);
+    private CodePointTable(Map<String, CodePoint> table) {
+        this.table = table;
     }
-    return null;
-  }
 
-  public int size() {
-    return table.size();
-  }
+    public static CodePointTableBuilder builder() {
+        return new CodePointTableBuilder();
+    }
 
-  public String[] getCodePoints() {
-    String names[] = table.keySet().toArray(new String[table.size()]);
-    Arrays.sort(names);
-    return names;
-  }
+    public static CodePointTable defaultCodePointTable() throws IOException {
+        String loc = "/data/entities.csv";
+        InputStream in = CodePointTable.class.getResourceAsStream(loc);
+        return builder().from(in).build();
+    }
+
+    public boolean hasCodePoint(String name) {
+        return table.containsKey(name);
+    }
+
+    public CodePoint getCodePoint(String name) {
+        if (table.containsKey(name)) {
+            return table.get(name);
+        }
+        return null;
+    }
+
+    public int size() {
+        return table.size();
+    }
+
+    public String[] getCodePoints() {
+        String names[] = table.keySet().toArray(new String[table.size()]);
+        Arrays.sort(names);
+        return names;
+    }
 
 }

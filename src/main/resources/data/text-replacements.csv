@@ -1,0 +1,3 @@
+source,destination,description
+--,—,two dashes to em dash (U+2014)
+...,…,three dots to elipses (U+2026)
