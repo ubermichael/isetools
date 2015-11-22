@@ -105,12 +105,27 @@ abstract public class CharNode extends Node {
   }
 
   /**
-   * Return the text inside the curly-brace markup.
+   * Return the text inside the curly-brace markup. Will include curly-braces
+   * of any nested chars.
    *
    * @return string stripped of the initial { and final }.
    */
-  protected String innerText() {
-    return text.replaceAll("^\\{|\\}$", "");
+  public String innerText() {
+      return innerText(false);
+  }
+
+  /**
+   * Return the text inside the curly-brace markup. If recursive is true, it 
+   * will replace the curly-braces of any nested chars as well.
+   *
+   * @return string stripped of the initial { and final }.
+   */
+  public String innerText(boolean recursive) {
+      if(recursive) {
+          return text.replaceAll("\\{|\\}", "");
+      } else {
+        return text.replaceAll("^\\{|\\}$", "");
+      }
   }
 
   /**
