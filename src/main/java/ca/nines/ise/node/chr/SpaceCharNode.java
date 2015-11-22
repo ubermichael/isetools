@@ -70,7 +70,7 @@ public class SpaceCharNode extends CharNode {
    * @return the charType
    */
   @Override
-  public CharNode.CharType getCharType() {
+  public CharType getCharType() {
     return CharType.SPACE;
   }
 

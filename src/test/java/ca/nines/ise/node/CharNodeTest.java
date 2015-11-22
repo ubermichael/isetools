@@ -16,6 +16,7 @@
  */
 package ca.nines.ise.node;
 
+import ca.nines.ise.node.chr.CharType;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.validator.node.TestBase;
 import java.io.IOException;

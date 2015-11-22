@@ -16,6 +16,7 @@
  */
 package ca.nines.ise.node;
 
+import ca.nines.ise.node.chr.CharType;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
@@ -36,21 +37,6 @@ import java.io.IOException;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class CharNode extends Node {
-
-  /**
-   * Character types.
-   */
-  public enum CharType {
-
-    ACCENT,
-    CODEPOINT,
-    DIGRAPH,
-    LIGATURE,
-    SPACE,
-    TYPOGRAPHIC,
-    UNICODE,
-    NESTED
-  };
 
   /**
    * Get the name of a character type.

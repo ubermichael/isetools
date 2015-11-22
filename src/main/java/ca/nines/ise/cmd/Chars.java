@@ -19,6 +19,7 @@ package ca.nines.ise.cmd;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.CharNode;
+import ca.nines.ise.node.chr.CharType;
 import ca.nines.ise.node.Node;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,10 +59,10 @@ public class Chars extends Command {
     }
 
     Map<String, Integer> m = new HashMap<>();
-    Map<CharNode.CharType, HashMap<String, Integer>> types = new HashMap<>();
+    Map<CharType, HashMap<String, Integer>> types = new HashMap<>();
     files = getFilePaths(cmd);
 
-    for (CharNode.CharType type : CharNode.CharType.values()) {
+    for (CharType type : CharType.values()) {
       types.put(type, new HashMap<String, Integer>());
     }
 
@@ -78,7 +79,7 @@ public class Chars extends Command {
     }
 
     out.println("EXISTING CHARS BY TYPE:");
-    for (CharNode.CharType type : CharNode.CharType.values()) {
+    for (CharType type : CharType.values()) {
       out.println(type.name());
       for (String str : types.get(type).keySet()) {
         out.println(str);
