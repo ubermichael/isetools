@@ -16,10 +16,8 @@
  */
 package ca.nines.ise.dom;
 
-import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
 import java.io.IOException;
@@ -172,6 +170,23 @@ public class DOM implements Iterable<Node> {
     }
 
     return lines[n];
+  }
+  
+  /**
+   * Get the nodes for the nth line of input text. DOM lines are 1-based, not 
+   * 0-based, so do your arithmetic carefully.
+   * 
+   * @param n
+   * @return Node[]
+   */
+  public Node[] getParsedLine(int n) {
+      List<Node> list = new ArrayList<>();
+      for(Node node : nodes) {
+          if(node.getLine() == n){
+              list.add(node);
+          }
+      }
+      return list.toArray(new Node[list.size()]);
   }
 
   /**

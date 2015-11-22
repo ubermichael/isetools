@@ -92,7 +92,9 @@
     <message code="validator.nesting.unclosed" severity="error">
     <![CDATA[This tag is not closed.]]>
     </message>
-
+    <message code="validator.rule.linenotempty" severity="warning">
+    <![CDATA[RULE tags should only occur on a line by themselves.]]>
+    </message>
     <message code="validator.tag.depreciated" severity="error">
     <![CDATA[This tag is depreciated.]]>
     </message>
