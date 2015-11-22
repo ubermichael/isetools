@@ -57,7 +57,7 @@ public class CodePointTable {
             Reader reader = new InputStreamReader(in);
             CSVParser csv = new CSVParser(reader, CSVFormat.DEFAULT, 0, 0);
             for (CSVRecord record : csv) {
-                if (record.get(1).equals("decimal")) {
+                if (record.get(1).equals("Decimal")) {
                     continue;
                 }
                 CodePoint cp = new CodePoint(record.get(0), Integer.parseInt(record.get(1)));
