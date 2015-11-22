@@ -16,6 +16,7 @@
  */
 package ca.nines.ise.transformer;
 
+import ca.nines.ise.node.Node;
 import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.TextNode;
 
@@ -27,29 +28,28 @@ import ca.nines.ise.node.TextNode;
  */
 public class Normalizer extends IdentityTransform {
 
-  private StringBuilder sb = new StringBuilder();
+    private StringBuilder sb = new StringBuilder();
 
-  /**
-   * Transform a text node, by appending the next text node if there is one.
-   *
-   * TODO I wonder if it works...
-   *
-   * @param n
-   */
-  @Override
-  public void text(TextNode n) {
-    sb.append(n.getText());
+    /**
+     * Transform a text node, by appending the next text node if there is one.
+     *
+     * TODO I wonder if it works...
+     *
+     * @param n
+     */
+    public void text(TextNode n) {
+        sb.append(n.getText());
 
-    if (peek().type() != NodeType.TEXT) {
-      TextNode txt = new TextNode(n);
-      String s = sb.toString();
-      sb = new StringBuilder();
-      s = s.replaceAll("[ \\t\\x0B\\f\\r]+", " ");
-      s = s.replaceAll("\\n\\s+", "\n");
-      s = s.replaceAll("\\n\\n+", "\n");
-      txt.setText(s);
-      dom.add(txt);
+        if (peek().type() != NodeType.TEXT) {
+            TextNode txt = new TextNode(n);
+            String s = sb.toString();
+            sb = new StringBuilder();
+            s = s.replaceAll("[ \\t\\x0B\\f\\r]+", " ");
+            s = s.replaceAll("\\n\\s+", "\n");
+            s = s.replaceAll("\\n\\n+", "\n");
+            txt.setText(s);
+            dom.add(txt);
+        }
     }
-  }
 
 }
