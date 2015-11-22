@@ -5,13 +5,38 @@
  */
 package ca.nines.ise;
 
+import ca.nines.ise.document.Annotation;
+import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.DOM.DOMStatus;
+import ca.nines.ise.dom.DOMBuilder;
+import ca.nines.ise.log.Log;
+import ca.nines.ise.schema.Schema;
+import ca.nines.ise.validator.DOMValidator;
+import ca.nines.ise.validator.NestingValidator;
+import ca.nines.ise.writer.RTFWriter;
+import ca.nines.ise.writer.Writer;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
+import javax.swing.text.rtf.RTFEditorKit;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 /**
  *
  * @author michael
  */
 public class Gui extends javax.swing.JFrame {
+
+    private File sourceFile;
+    private File annotationsFile;
+    private String rtfDocument;
 
     /**
      * Creates new form Gui
@@ -29,41 +54,209 @@ public class Gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        sourceFileChooser = new javax.swing.JFileChooser();
+        annotationsFileChooser = new javax.swing.JFileChooser();
+        destinationFileChooser = new javax.swing.JFileChooser();
+        jPanel1 = new javax.swing.JPanel();
+        inputPaneLabel = new javax.swing.JLabel();
+        sourceFileName = new javax.swing.JTextField();
+        annotationsFileName = new javax.swing.JTextField();
+        annotationsFileLabel = new javax.swing.JLabel();
+        sourceFileLabel = new javax.swing.JLabel();
+        annotationsFileSelectButton = new javax.swing.JButton();
+        sourceFileSelectButton = new javax.swing.JButton();
+        toRtfButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        outputTabbedPanel = new javax.swing.JTabbedPane();
+        logPanel = new javax.swing.JPanel();
+        logScrollPane = new javax.swing.JScrollPane();
+        logContentArea = new javax.swing.JTextArea();
+        outputPanel = new javax.swing.JPanel();
+        outputScrollPane = new javax.swing.JScrollPane();
+        outputContentArea = new javax.swing.JTextArea();
+        RtfPanel = new javax.swing.JPanel();
+        rtfScrollPane = new javax.swing.JScrollPane();
+        rtfEditorPane = new javax.swing.JEditorPane();
+
+        sourceFileChooser.setDialogTitle("Select an ISE SGML file");
+
+        destinationFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        destinationFileChooser.setDialogTitle("Select destination file");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Input File");
+        jPanel1.setName("Input"); // NOI18N
 
-        jLabel2.setText("Annotations File");
+        inputPaneLabel.setText("Input");
 
-        jLabel3.setText("Collations File");
-
-        jTextField1.setEditable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        sourceFileName.setEditable(false);
+        sourceFileName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                sourceFileNameActionPerformed(evt);
             }
         });
 
-        jTextField2.setEditable(false);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        annotationsFileName.setEditable(false);
+        annotationsFileName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                annotationsFileNameActionPerformed(evt);
             }
         });
 
-        jTextField3.setEditable(false);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        annotationsFileLabel.setText("Annotations File");
+
+        sourceFileLabel.setText("ISE SGML File");
+
+        annotationsFileSelectButton.setText("Select");
+        annotationsFileSelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                annotationsFileSelectButtonActionPerformed(evt);
             }
         });
+
+        sourceFileSelectButton.setText("Select");
+        sourceFileSelectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sourceFileSelectButtonActionPerformed(evt);
+            }
+        });
+
+        toRtfButton.setText("Convert");
+        toRtfButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toRtfButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Save");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(inputPaneLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(sourceFileLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(sourceFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(annotationsFileLabel)
+                                .addGap(53, 53, 53)
+                                .addComponent(annotationsFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(sourceFileSelectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(annotationsFileSelectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(toRtfButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(67, 67, 67))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(inputPaneLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sourceFileLabel)
+                    .addComponent(sourceFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sourceFileSelectButton)
+                    .addComponent(toRtfButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(annotationsFileLabel)
+                    .addComponent(annotationsFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(annotationsFileSelectButton)
+                    .addComponent(jButton1))
+                .addGap(47, 47, 47))
+        );
+
+        logContentArea.setColumns(20);
+        logContentArea.setRows(5);
+        logScrollPane.setViewportView(logContentArea);
+
+        javax.swing.GroupLayout logPanelLayout = new javax.swing.GroupLayout(logPanel);
+        logPanel.setLayout(logPanelLayout);
+        logPanelLayout.setHorizontalGroup(
+            logPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        logPanelLayout.setVerticalGroup(
+            logPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        outputTabbedPanel.addTab("Errors & Warnings", logPanel);
+
+        outputContentArea.setColumns(20);
+        outputContentArea.setRows(5);
+        outputScrollPane.setViewportView(outputContentArea);
+
+        javax.swing.GroupLayout outputPanelLayout = new javax.swing.GroupLayout(outputPanel);
+        outputPanel.setLayout(outputPanelLayout);
+        outputPanelLayout.setHorizontalGroup(
+            outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(outputPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(outputScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        outputPanelLayout.setVerticalGroup(
+            outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(outputPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(outputScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        outputTabbedPanel.addTab("Output", outputPanel);
+
+        rtfEditorPane.setEditable(false);
+        rtfEditorPane.setContentType("text/rtf"); // NOI18N
+        rtfScrollPane.setViewportView(rtfEditorPane);
+
+        javax.swing.GroupLayout RtfPanelLayout = new javax.swing.GroupLayout(RtfPanel);
+        RtfPanel.setLayout(RtfPanelLayout);
+        RtfPanelLayout.setHorizontalGroup(
+            RtfPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 713, Short.MAX_VALUE)
+            .addGroup(RtfPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(RtfPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(rtfScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        RtfPanelLayout.setVerticalGroup(
+            RtfPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 407, Short.MAX_VALUE)
+            .addGroup(RtfPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(RtfPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(rtfScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        outputTabbedPanel.addTab("RTF", RtfPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,53 +264,106 @@ public class Gui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(53, 53, 53)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(391, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(outputTabbedPanel))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(446, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outputTabbedPanel)
+                .addContainerGap())
         );
+
+        outputTabbedPanel.getAccessibleContext().setAccessibleName("Errors & Warnings");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void annotationsFileNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annotationsFileNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_annotationsFileNameActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void sourceFileNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFileNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_sourceFileNameActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void annotationsFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annotationsFileSelectButtonActionPerformed
+        int returnVal = annotationsFileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            annotationsFile = annotationsFileChooser.getSelectedFile();
+            annotationsFileName.setText(annotationsFile.getName()); //.read( new FileReader( file.getAbsolutePath() ), null );
+        }
+    }//GEN-LAST:event_annotationsFileSelectButtonActionPerformed
+
+    private void sourceFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceFileSelectButtonActionPerformed
+        int returnVal = sourceFileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            sourceFile = sourceFileChooser.getSelectedFile();
+            sourceFileName.setText(sourceFile.getName()); //.read( new FileReader( file.getAbsolutePath() ), null );
+        }
+    }//GEN-LAST:event_sourceFileSelectButtonActionPerformed
+
+    private void toRtfButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRtfButtonActionPerformed
+        Log log = Log.getInstance();
+        if(sourceFile == null) {
+            return;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(baos);
+        try {
+            Writer rtf = new RTFWriter(out);
+            DOM dom = new DOMBuilder(sourceFile).build();
+            Schema schema = Schema.defaultSchema();
+            DOMValidator dv = new DOMValidator();
+            NestingValidator nv = new NestingValidator(schema);
+            dv.validate(dom, schema);
+            nv.validate(dom);
+            if(dom.getStatus() == DOMStatus.ERROR) {
+                logContentArea.setText(log.toString());
+                return;
+            }
+            if(annotationsFile != null) {
+                Annotation ann = Annotation.builder().from(annotationsFile).build();
+                rtf.render(dom, ann);
+            } else {
+                rtf.render(dom);
+            }
+            rtfDocument = baos.toString();
+            InputStream rtfIn = new ByteArrayInputStream(rtfDocument.getBytes());
+            outputContentArea.setText(rtfDocument);
+            logContentArea.setText(log.toString());
+            
+            RTFEditorKit rtfEditor = new RTFEditorKit();
+            rtfEditorPane.setEditorKit(rtfEditor);
+            rtfEditor.read(rtfIn, rtfEditorPane.getDocument(), 0);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_toRtfButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//        int returnVal = sourceFileChooser.showOpenDialog(this);
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//            sourceFile = sourceFileChooser.getSelectedFile();
+//            sourceFileName.setText(sourceFile.getName()); //.read( new FileReader( file.getAbsolutePath() ), null );
+//        }
+        int returnVal = destinationFileChooser.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                PrintWriter writer = new PrintWriter(destinationFileChooser.getSelectedFile());
+                writer.printf(rtfDocument);
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,11 +391,28 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JPanel RtfPanel;
+    private javax.swing.JFileChooser annotationsFileChooser;
+    private javax.swing.JLabel annotationsFileLabel;
+    private javax.swing.JTextField annotationsFileName;
+    private javax.swing.JButton annotationsFileSelectButton;
+    private javax.swing.JFileChooser destinationFileChooser;
+    private javax.swing.JLabel inputPaneLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextArea logContentArea;
+    private javax.swing.JPanel logPanel;
+    private javax.swing.JScrollPane logScrollPane;
+    private javax.swing.JTextArea outputContentArea;
+    private javax.swing.JPanel outputPanel;
+    private javax.swing.JScrollPane outputScrollPane;
+    private javax.swing.JTabbedPane outputTabbedPanel;
+    private javax.swing.JEditorPane rtfEditorPane;
+    private javax.swing.JScrollPane rtfScrollPane;
+    private javax.swing.JFileChooser sourceFileChooser;
+    private javax.swing.JLabel sourceFileLabel;
+    private javax.swing.JTextField sourceFileName;
+    private javax.swing.JButton sourceFileSelectButton;
+    private javax.swing.JButton toRtfButton;
     // End of variables declaration//GEN-END:variables
 }
