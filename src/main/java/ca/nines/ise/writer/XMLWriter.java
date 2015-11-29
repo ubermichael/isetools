@@ -708,15 +708,10 @@ public class XMLWriter extends Writer{
 		
 		public void new_column(Element e){
 			String n = e.getAttributeValue("n");
-			if (n != null){
-				if (Integer.valueOf(n) == 0)
-					empty_element(new_element("col-reset"));
-				else
-					for(int i=0; i<Integer.valueOf(n); i++)
-						empty_element(new_element("col"));
-			}else{
+			if (n != null && Integer.valueOf(n) == 0)
+			  empty_element(new_element("col-reset"));
+			else
 				empty_element(new_element("col"));
-			}
 		}
 		
 		public void new_stanza(Element e){
