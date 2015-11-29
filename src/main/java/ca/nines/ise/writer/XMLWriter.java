@@ -243,7 +243,7 @@ public class XMLWriter extends Writer{
 		 * otherwise, nothing happens
 		 */
 		public void ensure_in_line() {
-			if (!in_line())
+			if (!in_line() && !in_page_child())
 				new_line(new EmptyNode());
 		}
 		
