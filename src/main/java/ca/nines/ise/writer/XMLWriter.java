@@ -171,7 +171,7 @@ public class XMLWriter extends Writer{
 				    s = e;
 				    continue;
 				  }else
-					new_speech();
+					new_speech(false);
 				}else
 				  start_element(e);
 			}
@@ -766,7 +766,7 @@ public class XMLWriter extends Writer{
 		 * Starts a new speech element Speech is automatically given an "n"
 		 * attribute to differentiate speeches
 		 */
-		public void new_speech() {
+		public void new_speech(Boolean real) {
 		  //never a case for recursive speeches
 		  if (in_tag("s"))
 		    return;
@@ -775,9 +775,13 @@ public class XMLWriter extends Writer{
 		    return;
 		  }
 			Element e = new_element("s");
-			e.addAttribute(new Attribute("k", String
-					.valueOf(get_last_speech_index() + 1)));
-			start_element(e);
+  		if (real)
+  			e.addAttribute(new Attribute("k", String
+  					.valueOf(get_last_speech_index() + 1)));
+  		else
+        e.addAttribute(new Attribute("k", String
+            .valueOf(get_last_speech_index())));
+  		start_element(e);
 		}
 
 		/* other methods */
@@ -1058,7 +1062,7 @@ public class XMLWriter extends Writer{
 			xmlStack.end_till_line_and_start(set_attributes(node, e));
 			break;
 		case "S":
-			xmlStack.new_speech();
+			xmlStack.new_speech(true);
 			break;
 		case "MODE":
 			xmlStack.new_mode(set_attributes(node, e));
@@ -1101,10 +1105,6 @@ public class XMLWriter extends Writer{
 			break;
 		case "ISEHEADER":
 		  break;
-		case "TITLEHEAD":
-		  xmlStack.ensure_in_line();
-      xmlStack.start_element(xmlStack.new_element("title"));
-      break;
 		case "L":
 		  xmlStack.new_line(node);
 		  break;
@@ -1119,6 +1119,7 @@ public class XMLWriter extends Writer{
 		case "DIGRAPH":
 		case "VAR":
 		case "TYPEFORM":
+    case "TITLEHEAD":
 		  break;
 		default:
 			xmlStack.start_element(set_attributes(node, e));
