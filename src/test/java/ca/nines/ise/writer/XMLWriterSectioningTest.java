@@ -185,18 +185,5 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
 			"col-reset generated",
 			colr.size() == 1
 		);
-    }
-    
-    @Test
-    public void createMissingColumns() throws SAXException, ParserConfigurationException, TransformerException {
-        Document output = render("<WORK><COL n=\"2\"></COL></WORK>");
-        Nodes cols = output.query("//"+DOC_PREFIX+":col", NS_MAP);
-		assertTrue(
-			"2 cols generated",
-			cols.size() == 2
-		);
 	}
-
-  
-
 }
