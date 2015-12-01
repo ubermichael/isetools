@@ -74,6 +74,7 @@ public class XMLWriter extends Writer{
 		private List<String> renewable;
 		private List<String> VALID_TAGS;
 		private Element renew_after;
+		private LinkedList<Element> in_next_line;
 		Document xml;
 		private LinkedList<LinkedList<Element>> renewing;
 		private Hashtable<String, Boolean> page_children;
@@ -92,6 +93,7 @@ public class XMLWriter extends Writer{
 			renew_after = null;
 			this.xml = xml;
 			renewing = new LinkedList<LinkedList<Element>>();
+			in_next_line = new LinkedList<Element>();
 			renewing.push(new LinkedList<Element>());
 			page_children = new Hashtable<String, Boolean>();
 			endSplitLine = false;
@@ -358,6 +360,9 @@ public class XMLWriter extends Writer{
 			/* insert " " at beginning if last didn't end in <shy/> */
 			if (needs_whitespace)
 				peekFirst().appendChild(new Text(" "));
+      /* insert in_next_line elements first */
+      while (!in_next_line.isEmpty())
+        peekFirst().appendChild(in_next_line.pop());
 			if (new_ms)
 				new_ms_element("l", node.getAttribute("n"));
 			renew_elements();
@@ -560,7 +565,7 @@ public class XMLWriter extends Writer{
 			return TYPEFACES.contains(str);
 		}
 		private Boolean is_lineParent(String str){
-			return LINE_PARENTS.contains(str);
+			return str.equals("linegroup") || LINE_PARENTS.contains(str);
 		}
 		private Boolean is_inline(String str){
 			return INLINE_TAGS.contains(str.toUpperCase());
@@ -717,8 +722,12 @@ public class XMLWriter extends Writer{
 		public void new_stanza(Element e){
 			start_element(new_element("linegroup"));
 			String n = e.getAttributeValue("n");
-			if (n != null)
-				new_ms_element("stanza", n);
+			if (n != null){
+	      Element ms = new_element("ms");
+	      ms.addAttribute(new Attribute("t", "stanza"));
+	      ms.addAttribute(new Attribute("n", n));
+	      in_next_line.push(ms);
+			}
 		}
 
 		/**
@@ -1101,6 +1110,7 @@ public class XMLWriter extends Writer{
 					new String[] { "letter" }, null));
 			break;
 		case "STANZA":
+		  xmlStack.end_line();
 			xmlStack.new_stanza(set_attributes(node, e));
 			break;
 		case "ISEHEADER":
@@ -1159,8 +1169,8 @@ public class XMLWriter extends Writer{
    		case "LABEL":
    			xmlStack.append_before_line();
    			break;
-   		case "TITLEHEAD":
-   		  xmlStack.end_element("title");
+      case "STANZA":
+        xmlStack.end_element("linegroup");
    		default:
    			xmlStack.end_element(xml_name);
    			break;
