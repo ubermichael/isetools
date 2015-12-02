@@ -46,6 +46,15 @@ public class IdentityTransform extends Transformer {
   public void comment(CommentNode n) {
     dom.add(n);
   }
+  
+  @Override
+  public void empty_iembed(EmptyNode n) {
+    dom.add(n);
+  }
+  @Override
+  public void empty_ilink(EmptyNode n) {
+    dom.add(n);
+  }
 
   @Override
   public void empty_bl(EmptyNode n) {

@@ -555,7 +555,7 @@ public class Tag implements Comparable<Tag> {
   public boolean maybeEmpty() {
     return empty.equals("yes") || empty.equals("optional");
   }
-
+  
   /**
    * Turn the tag into a string. Useful only for debugging.
    *

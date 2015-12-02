@@ -39,13 +39,16 @@ abstract public class Transformer {
   private PeekingIterator<Node> iterator;
 
   DOM dom;
-
+  
   abstract public void abbreviation(AbbrNode n);
 
   abstract public void character(CharNode n);
 
   abstract public void comment(CommentNode n);
 
+  abstract public void empty_iembed(EmptyNode n);
+  abstract public void empty_ilink(EmptyNode n);
+  
   abstract public void empty_bl(EmptyNode n);
 
   abstract public void empty_br(EmptyNode n);
@@ -367,6 +370,10 @@ abstract public class Transformer {
 
   private void dispatch_empty(EmptyNode n) {
     switch (n.getName().toLowerCase()) {
+      case "iembed":
+        empty_iembed(n);
+      case "ilink":
+        empty_ilink(n);
       case "bl":
         empty_bl(n);
         break;

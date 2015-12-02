@@ -47,6 +47,16 @@ public class NullTransform extends Transformer {
 
   }
 
+  
+  @Override
+  public void empty_iembed(EmptyNode n) {
+
+  }
+  @Override
+  public void empty_ilink(EmptyNode n) {
+
+  }
+  
   @Override
   public void empty_bl(EmptyNode n) {
 
