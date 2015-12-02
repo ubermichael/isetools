@@ -80,8 +80,9 @@ public class XMLWriter extends Writer{
 		private Hashtable<String, Boolean> page_children;
 		private Boolean endSplitLine;
 		private String align;
+		private DOM dom;
 
-		public XMLStack(Document xml) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+		public XMLStack(Document xml, DOM expanded_dom) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 		  schema = Schema.defaultSchema();
 		  VALID_TAGS = Arrays.asList(schema.getTagNames());
 			INLINE_TAGS = schema.get_Inline_tags();
@@ -98,6 +99,7 @@ public class XMLWriter extends Writer{
 			page_children = new Hashtable<String, Boolean>();
 			endSplitLine = false;
 			align = null;
+			dom = expanded_dom;
 		}
 		
 		private List<String> array_to_lower(List<String> list){
@@ -937,6 +939,21 @@ public class XMLWriter extends Writer{
 			if (is_last_child(name))
 				work.removeChild(work.getChildElements().size() - 1);
 		}
+		
+		public void new_rdg(Element e){
+		  if (in_tag("ambig"))
+		    start_element(e);
+		}
+		
+		public void new_add(Node node, Element e){
+		  List<Node> nodes = dom.get_between(node,dom.find_forward(node, node.getName()));
+		  for(Node n : nodes)
+		    if (!(n.getName().equals("iembed") || n.getName().equals("rdg"))){
+		      ensure_in_line();
+		      break;
+		    }
+		  start_element(e);
+		}
 	}
 
 	/**
@@ -987,10 +1004,11 @@ public class XMLWriter extends Writer{
 		// First tag must be work; will now simply ignore start work tags
 		Element e = new Element("work", DOC_NS);
 		Document doc = new Document(e);
-		XMLStack xmlStack = new XMLStack(doc);
+    DOM expanded_dom = dom.expanded();
+		XMLStack xmlStack = new XMLStack(doc, expanded_dom);
 		xmlStack.push(e);
 
-		for (Node n : dom.expanded()) {
+		for (Node n : expanded_dom) {
 		  /*if tag is unknown (not in schema), pass through contents without tag*/
 		  if (is_valid_tag(n,xmlStack)){
   			switch (n.type()) {
@@ -1124,6 +1142,12 @@ public class XMLWriter extends Writer{
 		  xmlStack.end_line();
       xmlStack.start_element(set_attributes(node, e));
       break;
+		case "RDG":
+		  xmlStack.new_rdg(set_attributes(node, e));
+		  break;
+		case "ADD":
+		  xmlStack.new_add(node, set_attributes(node, e));
+		  break;
 	  //no tags for now; content goes straight through
 		case "ACCENT":
 		case "UNICODE":
