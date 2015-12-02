@@ -245,7 +245,7 @@ public class XMLWriter extends Writer{
 		 * otherwise, nothing happens
 		 */
 		public void ensure_in_line() {
-			if (!in_line() && !in_page_child())
+			if (!in_line() && !in_page_child() && !in_tag("iembed"))
 				new_line(new EmptyNode());
 		}
 		
@@ -1371,6 +1371,8 @@ public class XMLWriter extends Writer{
 	  String name = n.getName().toLowerCase();
 	  /* if the tag is in the schema */
 	  if (xmlStack.VALID_TAGS.contains(name)){
+	    if (xmlStack.schema.getTag(name).getEmpty().equals("optional"))
+	      return true;
 	    /* if the given tag and its tag in the schema have different types */
       if (xmlStack.schema.getTag(name).isEmpty() ^ n.type().equals(NodeType.EMPTY)){
         return false;
