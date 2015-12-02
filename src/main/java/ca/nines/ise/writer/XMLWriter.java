@@ -545,8 +545,10 @@ public class XMLWriter extends Writer{
 			} else
 				new_line(new EmptyNode());
 			Element e = new_element("ms");
-			e.addAttribute(new Attribute("t", ln));
-			e.addAttribute(new Attribute("n", n));
+			if (ln != null)
+			  e.addAttribute(new Attribute("t", ln));
+			if (n != null)
+			  e.addAttribute(new Attribute("n", n));
 			empty_element(e);
 		}
 
@@ -1171,6 +1173,7 @@ public class XMLWriter extends Writer{
    			break;
       case "STANZA":
         xmlStack.end_element("linegroup");
+        break;
    		default:
    			xmlStack.end_element(xml_name);
    			break;
@@ -1180,6 +1183,15 @@ public class XMLWriter extends Writer{
 	private void parse_empty(EmptyNode node, Element e, XMLStack xmlStack) {
 		String xml_name = node.getName().toLowerCase();
 		switch (node.getName().toUpperCase()) {
+    case "IEMBED":
+      xmlStack.empty_element(set_attributes(node,
+          xmlStack.new_element(xml_name, LINK_NS)));
+      break;
+    case "ILINK":
+      xmlStack.ensure_in_line();
+      xmlStack.empty_element(set_attributes(node,
+          xmlStack.new_element(xml_name, LINK_NS)));
+      break;
 		case "SHY":
 			xmlStack.empty_element(xmlStack.new_element(xml_name));
 			break;
