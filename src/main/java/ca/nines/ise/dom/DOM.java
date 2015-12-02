@@ -270,12 +270,20 @@ public class DOM implements Iterable<Node> {
    */
   public Node find_forward(Node node, String name) {
     index();
-    for (int i = node.getPosition(); i < size(); i++) {
+    for (int i = node.getPosition() + 1; i < size(); i++) {
       if (nodes.get(i).getName().equals(name)) {
         return nodes.get(i);
       }
     }
     return null;
+  }
+  
+  public List<Node> get_between(Node first, Node last) {
+    index();
+    List<Node> found = new ArrayList<Node>();
+    for (int i = first.getPosition(); i < last.getPosition(); i++)
+      found.add(nodes.get(i));
+    return found;
   }
 
   /**
