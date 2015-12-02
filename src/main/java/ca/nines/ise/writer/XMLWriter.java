@@ -1046,6 +1046,11 @@ public class XMLWriter extends Writer{
 		xmlStack.start_element(node);
 		String xml_name = node.getName().toLowerCase();
 		switch (node.getName().toUpperCase()) {
+		case "SECTION":
+      xmlStack.end_line();
+      xmlStack.empty_element(set_attributes(node,
+          xmlStack.new_element("div"),map_put(new_map(), "n", "name"),null,null));
+      break;
 		case "INDENT":
 			xmlStack.ensure_in_line();
 			xmlStack.empty_element(set_attributes(node,
