@@ -220,7 +220,7 @@
         <option>next</option>
       </attribute>
     </tag>
-    <tag name="iembed" where="anywhere">
+    <tag name="iembed" where="anywhere" empty="optional">
       <desc><![CDATA[Embedded content]]></desc>
       <attribute name="site" type="select" optional="yes">
         <desc><![CDATA[The ISE sub-site to fetch content from.]]></desc>
@@ -268,7 +268,7 @@
         <desc><![CDATA[long-form caption to show in the lightbox]]></desc>
       </attribute>
     </tag>
-    <tag name="ilink" where="anywhere">
+    <tag name="ilink" where="anywhere" empty="optional">
       <desc><![CDATA[ISE link]]></desc>
       <attribute name="site" type="select" optional="yes">
         <desc><![CDATA[The ISE sub-site to fetch content from.]]></desc>
@@ -615,7 +615,7 @@
         <desc><![CDATA[The length of space, in em's.]]></desc>
       </attribute>
     </tag>
-    <tag name="STANZA" where="primary">
+    <tag name="STANZA" where="primary" xml_line_parent="yes">
       <desc><![CDATA[Stanza of a poem. Use instead of ACT/SCENE/DIV in long-form poems.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the stanza.]]></desc>
