@@ -73,11 +73,6 @@ public class StartNodeValidator extends TagNodeValidator<StartNode> {
               .addNote("Start tag " + n.getName() + " should be self-closing.")
               .build();
       Log.addMessage(m);
-      DOM dom = n.getOwner();
-      if(dom != null) {
-          EmptyNode e = new EmptyNode(n);
-          dom.replace(n, e);
-      }
     }
     if (t.isDepreciated()) {
       Message m = Message.builder("validator.tag.depreciated")

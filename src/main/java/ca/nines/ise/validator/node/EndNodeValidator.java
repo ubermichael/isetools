@@ -66,10 +66,6 @@ public class EndNodeValidator extends TagNodeValidator<EndNode> {
               .addNote("End tag " + n.getName() + " should not occur.")
               .build();
       Log.addMessage(m);
-      DOM dom = n.getOwner();
-      if(dom != null) {
-          dom.remove(n);
-      }
     }
   }
 
