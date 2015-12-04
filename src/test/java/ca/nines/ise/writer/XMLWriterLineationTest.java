@@ -27,28 +27,6 @@ public class XMLWriterLineationTest extends XMLWriterTestBase {
         );
     }
 
-    @Test
-    public void generateLinesInsideMarg() throws SAXException, ParserConfigurationException, TransformerException {
-    	Document output = render("<WORK>a<MARG>b</MARG>d<WORK>");
-    	Nodes lines = output.query("//"+DOC_PREFIX+":l", NS_MAP);
-    	Nodes marg = output.query("//"+DOC_PREFIX+":marg", NS_MAP);
-    	assertThat(
-    			"2 lines generated",
-    			lines.size(),
-    			is(2)
-    	);
-    	assertThat(
-    			"last 2nd line is in MARG",
-    			lines.get(1).getParent(),
-    			is(marg.get(0))
-    	);
-    	assertThat(
-    			"marg is a child of the first line",
-    			marg.get(0).getParent(),
-    			is(lines.get(0))
-    	);
-    }
-
 
     @Test
     public void ignoreBlankLines() throws SAXException, ParserConfigurationException, TransformerException {

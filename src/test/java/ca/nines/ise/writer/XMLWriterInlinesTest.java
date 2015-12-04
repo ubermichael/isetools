@@ -34,7 +34,7 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
       Schema schema = Schema.defaultSchema();
       List<String> tags = schema.get_Inline_tags();
       for(String t : new ArrayList<String>(tags))
-        if (schema.getTag(t).isEmpty())
+        if (schema.getTag(t).isEmpty() || schema.getTag(t).isDepreciated())
           tags.remove(t);
       //name changes; ignore
       tags.remove("TITLEHEAD");
