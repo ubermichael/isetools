@@ -278,10 +278,17 @@ public class DOM implements Iterable<Node> {
     return null;
   }
   
+  /**
+   * Find all nodes in between first and last
+   * 
+   * @param first node
+   * @param last node
+   * @return list of nodes in between
+   */
   public List<Node> get_between(Node first, Node last) {
     index();
     List<Node> found = new ArrayList<Node>();
-    for (int i = first.getPosition(); i < last.getPosition(); i++)
+    for (int i = first.getPosition() + 1; i < last.getPosition(); i++)
       found.add(nodes.get(i));
     return found;
   }
