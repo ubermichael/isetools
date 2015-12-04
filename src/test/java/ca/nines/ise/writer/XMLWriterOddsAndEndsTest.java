@@ -22,6 +22,11 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
         Document output = render("<WORK>{ }{#}</WORK>");
         Nodes line = output.query("//"+DOC_PREFIX+":l", NS_MAP);
         assertEquals(
+            "line generated",
+            line.size(),
+            1
+        );
+        assertEquals(
             "{ } translated to extra space",
             ((Element)line.get(0).getChild(0)).getAttributeValue("t"),
             "extra"
@@ -71,6 +76,11 @@ public class XMLWriterOddsAndEndsTest extends XMLWriterTestBase {
     public void missingSpaceContainsWhitespace() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><SPACE/></WORK>");
         Nodes space = output.query("//"+DOC_PREFIX+":space", NS_MAP);
+        assertEquals(
+            "space generated",
+            space.size(),
+            1
+        );
         assertTrue(
             "space contains whitespace",
             Pattern.matches("\\s+", space.get(0).getValue())

@@ -74,7 +74,12 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
     public void translateStazaNumberIntoMS() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><STANZA n=\"1\">a</STANZA></WORK>");
         Nodes n = output.query("//"+DOC_PREFIX+":linegroup[@n]", NS_MAP);
-        Nodes l = output.query("//"+DOC_PREFIX+":l", NS_MAP);
+        Nodes ms = output.query("//"+DOC_PREFIX+":ms", NS_MAP);
+        assertEquals(
+            "ms is generated",
+            ms.size(),
+            1
+        );
         assertEquals(
             "linegroup has no attribute n",
             n.size(),
@@ -82,7 +87,7 @@ public class XMLWriterSectioningTest extends XMLWriterTestBase {
         );
         assertEquals(
         	"milestone generated with t=stanza",
-        	((Element)l.get(0).getChild(0)).getAttributeValue("t"),
+        	((Element)ms.get(0)).getAttributeValue("t"),
         	"stanza"
         );
     }
