@@ -83,7 +83,7 @@ public class XMLWriter extends Writer{
 
 		public XMLStack(Document xml, DOM expanded_dom) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 		  schema = Schema.defaultSchema();
-		  VALID_TAGS = array_to_lower(Arrays.asList(schema.getTagNames()));
+		  VALID_TAGS = Arrays.asList(schema.getTagNames());
 			INLINE_TAGS = schema.get_Inline_tags();
 			FLATTEN = array_to_lower(schema.get_flatten_tags());
 			TYPEFACES = array_to_lower(schema.get_typeface_tags());
@@ -1225,7 +1225,6 @@ public class XMLWriter extends Writer{
 			xmlStack.new_line(node);
 			break;
     case "MS":
-      //fix this
       xmlStack.new_ms_element(xml_name, node.getAttribute("n"));
       break;
 		case "QLN":
