@@ -73,11 +73,10 @@ public class XMLWriter extends Writer{
     private List<String> LINE_PARENTS;
 		private List<String> renewable;
 		private List<String> VALID_TAGS;
-		private Element renew_after;
 		private LinkedList<Element> in_next_line;
 		Document xml;
 		private LinkedList<LinkedList<Element>> renewing;
-		private Hashtable<String, Boolean> page_children;
+		private List<String> page_children;
 		private Boolean endSplitLine;
 		private String align;
 		private DOM dom;
@@ -91,12 +90,11 @@ public class XMLWriter extends Writer{
 			DONT_PARSE_TEXT = array_to_lower(schema.get_unparsed_text_tags());
 			LINE_PARENTS = array_to_lower(schema.get_line_parent_tags());
 		  renewable = schema.get_Inline_tags();
-			renew_after = null;
 			this.xml = xml;
 			renewing = new LinkedList<LinkedList<Element>>();
 			in_next_line = new LinkedList<Element>();
 			renewing.push(new LinkedList<Element>());
-			page_children = new Hashtable<String, Boolean>();
+			page_children = new ArrayList<String>();
 			endSplitLine = false;
 			align = null;
 			dom = expanded_dom;
@@ -171,11 +169,9 @@ public class XMLWriter extends Writer{
 				if (INLINE_TAGS.contains(e.getLocalName().toUpperCase()))
           ensure_in_line();
 				if (e.getLocalName().equals("s")){
-				  if (in_tag("sd")){
+				  Boolean created = new_speech(false);
+				  if (!created)
 				    s = e;
-				    continue;
-				  }else
-					new_speech(false);
 				}else
 				  start_element(e);
 			}
@@ -228,17 +224,8 @@ public class XMLWriter extends Writer{
 		 * @return true if in line, false otherwise
 		 */
 		public boolean in_line() {
-			/* get nearest line parent tag we're in */
-			Element parent = get_nearest_of(LINE_PARENTS);
-			/* get nearest line tag we're in */
-			Element line = get_nearest_tag("l");
-			/* if line tag is not a child of that parent, not in a line */
-			if (parent != null){
-				Elements children = parent.getChildElements();
-				for (int i=0; i < children.size(); i++)
-					if (children.get(i) == line)
-						return true;
-			}
+			if (in_tag("l"))
+			  return true;
 			return false;
 		}
 		
@@ -312,7 +299,6 @@ public class XMLWriter extends Writer{
 		public void end_till_line_and_start(Element e) {
 			end_till_line();
 			start_element(e);
-			renew_after = e;
 		}
 		
 		private Boolean check_whitespace(Element last_line){
@@ -392,7 +378,7 @@ public class XMLWriter extends Writer{
 			while (!e.getLocalName().equals("page"))
 				e = super.pop();
 			// reset page children
-			page_children = new Hashtable<String, Boolean>();
+			page_children = new ArrayList<String>();
 		}
 
 		/**
@@ -416,9 +402,7 @@ public class XMLWriter extends Writer{
 		 * @return true if page has child of @name, false otherwise
 		 */
 		private Boolean page_child_exists(String name) {
-			if (page_children.contains(name))
-				return page_children.get(name);
-			return false;
+			return page_children.contains(name);
 		}
 
 		/**
@@ -428,7 +412,7 @@ public class XMLWriter extends Writer{
 		 *            name of new page child
 		 */
 		private void add_page_child(String name) {
-			page_children.put(name, true);
+			page_children.add(name);
 		}
 
 		/**
@@ -444,7 +428,7 @@ public class XMLWriter extends Writer{
 			if (page == null)
 				return; // no page has been started... (error ?)
 			// can't have more than one of any in a single page
-			if (page_child_exists(e.getLocalName()))
+			if (page_child_exists(name))
 				return;
 			// if in a page, close current child
 			end_till_page();
@@ -452,7 +436,7 @@ public class XMLWriter extends Writer{
 			page.appendChild(e);
 			super.push(e);
 			// notify that this page child can't occur again
-			add_page_child(e.getLocalName());
+			add_page_child(name);
 		}
 
 		/**
@@ -461,7 +445,7 @@ public class XMLWriter extends Writer{
 		 * @return true/false
 		 */
 		public Boolean in_page_child() {
-			for (String name : page_children.keySet())
+			for (String name : page_children)
 				if (in_tag(name))
 					return true;
 			return false;
@@ -561,6 +545,9 @@ public class XMLWriter extends Writer{
 		 * @param node
 		 */
 		private void start_element(StartNode node) {
+		  /* special case of ADD, can be started outside a line, but is an inline tag */
+		  if (node.getName().equals("add"))
+		    return;
 			if (INLINE_TAGS.contains(node.getName()))
 				ensure_in_line();
 		}
@@ -640,9 +627,7 @@ public class XMLWriter extends Writer{
 				e = super.pop();
 			// renew anything being renewed if closing element in
 			// end_till_line_and_start
-			if (e == renew_after)
-				renew_elements();
-			else if (is_typeface(name))
+			if (is_typeface(name))
 				renew_elements();
 			else if (is_lineParent(name)){
 				renewing.pop();
@@ -776,16 +761,18 @@ public class XMLWriter extends Writer{
 		}
 
 		/**
+		 * Must start a line before starting a new speech
+		 * 
 		 * Starts a new speech element Speech is automatically given an "n"
 		 * attribute to differentiate speeches
 		 */
-		public void new_speech(Boolean real) {
+		public Boolean new_speech(Boolean real) {
 		  //never a case for recursive speeches
 		  if (in_tag("s"))
-		    return;
-		  if (in_tag("sd")){
-		    renew("s",null);
-		    return;
+		    return false;
+		  /* if not in a line, don't start a speech */
+		  if(!peekFirst().getLocalName().equals("l")){
+		    return false;
 		  }
 			Element e = new_element("s");
   		if (real)
@@ -795,6 +782,7 @@ public class XMLWriter extends Writer{
         e.addAttribute(new Attribute("k", String
             .valueOf(get_last_speech_index())));
   		start_element(e);
+  		return true;
 		}
 
 		/* other methods */
@@ -947,11 +935,13 @@ public class XMLWriter extends Writer{
 		
 		public void new_add(Node node, Element e){
 		  List<Node> nodes = dom.get_between(node,dom.find_forward(node, node.getName()));
-		  for(Node n : nodes)
-		    if (!(n.getName().equals("iembed") || n.getName().equals("rdg"))){
+		  for(Node n : nodes){
+	      String name = n.getName().toUpperCase();
+		    if (!name.equals("IEMBED") && !name.equals("RDG")){
 		      ensure_in_line();
 		      break;
 		    }
+		  }
 		  start_element(e);
 		}
 	}
@@ -1046,6 +1036,12 @@ public class XMLWriter extends Writer{
 		xmlStack.start_element(node);
 		String xml_name = node.getName().toLowerCase();
 		switch (node.getName().toUpperCase()) {
+    case "MARG":
+      if (xmlStack.in_line())
+        xmlStack.end_till_line_and_start(set_attributes(node, e));
+      else
+        xmlStack.start_element(set_attributes(node, e));
+    break;    
 		case "SECTION":
       xmlStack.end_line();
       xmlStack.empty_element(set_attributes(node,
@@ -1400,6 +1396,8 @@ public class XMLWriter extends Writer{
 	  String name = n.getName().toLowerCase();
 	  /* if the tag is in the schema */
 	  if (xmlStack.VALID_TAGS.contains(name)){
+	    if (xmlStack.schema.getTag(name).isDepreciated())
+	      return false;
 	    if (xmlStack.schema.getTag(name).getEmpty().equals("optional"))
 	      return true;
 	    /* if the given tag and its tag in the schema have different types */
