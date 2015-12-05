@@ -1205,8 +1205,8 @@ public class XMLWriter extends Writer{
 			xmlStack.new_line(node);
 			break;
     case "MS":
-      //fix this
-      xmlStack.new_ms_element(xml_name, node.getAttribute("n"));
+      xmlStack.ensure_in_line();
+      xmlStack.empty_element(set_attributes(node,e));
       break;
 		case "QLN":
 		case "WLN":
