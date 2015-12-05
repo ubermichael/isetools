@@ -74,15 +74,14 @@ public class XMLWriter extends Writer{
 		private List<String> renewable;
 		private List<String> VALID_TAGS;
 		private LinkedList<Element> in_next_line;
-		Document xml;
+		private Document xml;
 		private LinkedList<LinkedList<Element>> renewing;
 		private List<String> page_children;
 		private Boolean endSplitLine;
 		private Boolean endSplitLineOnNext;
 		private String align;
-		private DOM dom;
 
-		public XMLStack(Document xml, DOM expanded_dom) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+		public XMLStack(Document xml) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 		  schema = Schema.defaultSchema();
 		  VALID_TAGS = array_to_lower(Arrays.asList(schema.getTagNames()));
 			INLINE_TAGS = schema.get_Inline_tags();
@@ -99,7 +98,6 @@ public class XMLWriter extends Writer{
 			endSplitLine = false;
 			endSplitLineOnNext = false;
 			align = null;
-			dom = expanded_dom;
 		}
 		
 		private List<String> array_to_lower(List<String> list){
@@ -523,9 +521,6 @@ public class XMLWriter extends Writer{
 		 * @param node
 		 */
 		private void start_element(StartNode node) {
-		  /* special case of ADD, can be started outside a line, but is an inline tag */
-		  if (node.getName().equals("add"))
-		    return;
 			if (INLINE_TAGS.contains(node.getName()))
 				ensure_in_line();
 		}
@@ -912,18 +907,6 @@ public class XMLWriter extends Writer{
 		  if (in_tag("ambig"))
 		    start_element(e);
 		}
-		
-		public void new_add(Node node, Element e){
-		  List<Node> nodes = dom.get_between(node,dom.find_forward(node, node.getName()));
-		  for(Node n : nodes){
-	      String name = n.getName().toUpperCase();
-		    if (!name.equals("IEMBED") && !name.equals("RDG")){
-		      ensure_in_line();
-		      break;
-		    }
-		  }
-		  start_element(e);
-		}
 	}
 
 	/**
@@ -974,42 +957,54 @@ public class XMLWriter extends Writer{
 		// First tag must be work; will now simply ignore start work tags
 		Element e = new Element("work", DOC_NS);
 		Document doc = new Document(e);
-    DOM expanded_dom = dom.expanded();
-		XMLStack xmlStack = new XMLStack(doc, expanded_dom);
+		XMLStack xmlStack = new XMLStack(doc);
 		xmlStack.push(e);
+    DOM expanded_dom = dom.expanded();
+    Node skip_till = null;
 
 		for (Node n : expanded_dom) {
-		  /*if tag is unknown (not in schema), pass through contents without tag*/
-		  if (is_valid_tag(n,xmlStack)){
-  			switch (n.type()) {
-  			case COMMENT:
-  				break;
-  			case ABBR:
-  				throw new UnsupportedOperationException(
-  						"Cannot serialize depreciated abbreviation markup.");
-  			case EMPTY:
-  				parse_empty((EmptyNode) n,
-  						xmlStack.new_element(n.getName().toLowerCase()),
-  						xmlStack);
-  				break;
-  			case END:
-  				parse_end((EndNode) n, xmlStack);
-  				break;
-  			case START:
-  				parse_start((StartNode) n,
-  						xmlStack.new_element(n.getName().toLowerCase()),
-  						xmlStack);
-  				break;
-  			case TEXT:
-  				parse_text(n.getText(), xmlStack);
-  				break;
-  			default:
-  				throw new UnsupportedOperationException("Cannot convert "
-  						+ n.getName() + " to XML");
-  			}
+		  if (skip_till == null){
+  		  if (n.getName().toUpperCase().equals("ADD"))
+  		    skip_till = handle_add(n,xmlStack, expanded_dom);
+  		  else
+  		    parse_node(n,xmlStack);
 		  }
+		  else if (skip_till == n)
+		    skip_till = null;
 		}
 		return doc;
+	}
+	
+	private void parse_node(Node node, XMLStack xmlStack){
+    /*if tag is unknown (not in schema), pass through contents without tag*/
+    if (is_valid_tag(node,xmlStack)){
+      switch (node.type()) {
+      case COMMENT:
+        break;
+      case ABBR:
+        throw new UnsupportedOperationException(
+            "Cannot serialize depreciated abbreviation markup.");
+      case EMPTY:
+        parse_empty((EmptyNode) node,
+            xmlStack.new_element(node.getName().toLowerCase()),
+            xmlStack);
+        break;
+      case END:
+        parse_end((EndNode) node, xmlStack);
+        break;
+      case START:
+        parse_start((StartNode) node,
+            xmlStack.new_element(node.getName().toLowerCase()),
+            xmlStack);
+        break;
+      case TEXT:
+        parse_text(node.getText(), xmlStack);
+        break;
+      default:
+        throw new UnsupportedOperationException("Cannot convert "
+            + node.getName() + " to XML");
+      }
+    }
 	}
 
 	private void parse_start(StartNode node, Element e, XMLStack xmlStack) {
@@ -1126,9 +1121,10 @@ public class XMLWriter extends Writer{
 		case "RDG":
 		  xmlStack.new_rdg(set_attributes(node, e));
 		  break;
+		  /*
 		case "ADD":
 		  xmlStack.new_add(node, set_attributes(node, e));
-		  break;
+		  break;*/
 	  //no tags for now; content goes straight through
 		case "ACCENT":
 		case "UNICODE":
@@ -1289,6 +1285,52 @@ public class XMLWriter extends Writer{
 				xmlStack.end_line();
 		}
 	}
+	
+	/**
+	 * Parses an add tag and handles its entire contents
+	 * 
+	 * @param node
+	 * @param xmlStack
+	 * @return the last node handled; caller should skip to there
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
+	private Node handle_add(Node node, XMLStack xmlStack, DOM dom) throws IOException, SAXException, ParserConfigurationException, TransformerException{
+	  Element e = new Element("work", DOC_NS);
+	  Document doc = new Document(e);
+    XMLStack addStack = new XMLStack(doc);
+    addStack.push(e);
+    //tags between the start and end tags of this ADD
+    Node end_tag = dom.find_forward(node, node.getName());
+    List<Node> nodes = dom.get_between(node,end_tag);
+    for(Node n : nodes){
+      parse_node(n,addStack);
+    }
+    Elements elements = doc.getRootElement().getChildElements();
+    Element head = xmlStack.peekFirst();
+    for (int i=0; i<elements.size(); i++){
+      Element add = addStack.new_element("add");
+      Element child = addStack.new_element(elements.get(i));
+      if (elements.get(i).getLocalName().equals("l")){
+        Elements children = child.getChildElements();
+        for (int j=0; j<children.size(); j++){
+          add.appendChild(addStack.new_element(children.get(j)));
+        }
+        Element line = addStack.new_element("l");
+        line.appendChild(add);
+        head.appendChild(line);
+        /* if on the last item in the ADD and it's a line, push it on the stack (leave it open) */
+        if (i == elements.size() - 1)
+          xmlStack.push(line);
+      }else{
+        add.appendChild(child);
+        head.appendChild(add);
+      }
+    }
+    return end_tag;
+  }
 
 	/**
 	 * wrapper for creating a HashMap
