@@ -78,6 +78,7 @@ public class XMLWriter extends Writer{
 		private LinkedList<LinkedList<Element>> renewing;
 		private List<String> page_children;
 		private Boolean endSplitLine;
+		private Boolean endSplitLineOnNext;
 		private String align;
 		private DOM dom;
 
@@ -96,6 +97,7 @@ public class XMLWriter extends Writer{
 			renewing.push(new LinkedList<Element>());
 			page_children = new ArrayList<String>();
 			endSplitLine = false;
+			endSplitLineOnNext = false;
 			align = null;
 			dom = expanded_dom;
 		}
@@ -252,27 +254,15 @@ public class XMLWriter extends Writer{
 				renew(e.getLocalName(),get_attributes(e));
 				e = super.pop();
 			}
-			// if ending splitline, pop that as well
-			if (endSplitLine)
+			// if ending split on next line, skip this one
+			if (endSplitLineOnNext){
+			  endSplitLine = true;
+			  endSplitLineOnNext = false;
+			} 
+      // if ending splitline, pop that as well
+			else if (endSplitLine)
 				end_element("splitline");
 		}
-		
-    /**
-     * Ends the current line and all of its children (in order). Used to
-     * break out of a current line.
-     */
-    public void end_line_no_renew() {
-      if (!in_line())
-        return;
-      // pop out of all till and including line
-      Element e = super.pop();
-      while (!e.getLocalName().equals("l")) {
-        e = super.pop();
-      }
-      // if ending splitline, pop that as well
-      if (endSplitLine)
-        end_element("splitline");
-    }
 
 		/**
 		 * Ends all children until the current line, but does not end the line.
