@@ -1328,6 +1328,11 @@ public class XMLWriter extends Writer{
         add.appendChild(child);
         head.appendChild(add);
       }
+      /* if the head of xmlStack is a line, end it and make head its parent */
+      if (head.getLocalName().equals("l")){
+        xmlStack.pop();
+        head = xmlStack.peekFirst();
+      }
     }
     return end_tag;
   }
