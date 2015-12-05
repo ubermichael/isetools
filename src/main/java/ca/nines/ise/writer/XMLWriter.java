@@ -630,7 +630,9 @@ public class XMLWriter extends Writer{
 			if (is_typeface(name))
 				renew_elements();
 			else if (is_lineParent(name)){
-				renewing.pop();
+			  // splitline doesn't get its own renewing stack
+			  if (!name.equals("splitline"))
+			    renewing.pop();
 				renew_elements();
 			}
 			else if (is_flatten(name))
