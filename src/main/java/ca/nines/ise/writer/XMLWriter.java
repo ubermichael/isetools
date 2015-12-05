@@ -507,19 +507,7 @@ public class XMLWriter extends Writer{
 		 *            number of the ms element
 		 */
 		public void new_ms_element(String ln, String n) {
-			if (in_line()) {
-				List<Element> nodes = get_all_elements(get_last_tag("l"));
-				for (int i = 0; i < nodes.size(); i++)
-					// if current line has a milestone of the same type, start
-					// new line
-					if (nodes.get(i).getLocalName().equals("ms")
-							&& nodes.get(i).getAttributeValue("t").equals(ln)) {
-						end_line();
-						new_line(new EmptyNode());
-						break;
-					}
-			} else
-				new_line(new EmptyNode());
+			ensure_in_line();
 			Element e = new_element("ms");
 			if (ln != null)
 			  e.addAttribute(new Attribute("t", ln));
