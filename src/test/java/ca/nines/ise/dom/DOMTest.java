@@ -25,7 +25,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testAdd() {
-		System.out.println("add");
 		Node n = null;
 		DOM instance = new DOM();
 		instance.add(n);
@@ -39,7 +38,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testAddAll() throws IOException {
-		System.out.println("addAll");
 		DOM dom = new DOMBuilder("<a>text</a>").build();
 		DOM instance = new DOM();
 		instance.addAll(dom);
@@ -51,7 +49,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testRemove() {
-		System.out.println("remove");
 		EndNode n = new EndNode();
 		DOM instance = new DOM();
 		instance.add(n);
@@ -64,7 +61,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testReplace() {
-		System.out.println("replace");
 		Node n = new StartNode();
 		Node e = new EndNode();
 		DOM instance = new DOM();
@@ -78,7 +74,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testExpanded() throws Exception {
-		System.out.println("expanded");
 		DOM instance = new DOMBuilder("<a>text {s} etc.</a>").build();
 		DOM result = instance.expanded();
 		//<a>text <UNICODE setting="{s}">ſ</UNICODE> etc.</a>
@@ -90,7 +85,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGet() {
-		System.out.println("get");
 		Node n = new StartNode();
 		Node e = new EndNode();
 		DOM instance = new DOM();
@@ -106,7 +100,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetLine() throws IOException {
-		System.out.println("getLine");
 		DOM instance = new DOMBuilder("<a>text\n{s}\netc.</a>").build();
 		assertEquals("<a>text", instance.getLine(0));
 		assertEquals("{s}", instance.getLine(1));
@@ -119,7 +112,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetLineFragment() throws IOException {
-		System.out.println("getLineFragment");
 		int n = 0;
 		DOM instance =  new DOMBuilder("<a>text\n{s}\netc.</a>").build();
 		assertEquals(3, instance.getLineFragment(1).size());
@@ -133,7 +125,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetLines() throws IOException {
-		System.out.println("getLines");
 		DOM instance =  new DOMBuilder("<a>text\n{s}\netc.</a>").build();
 		String[] expResult = new String[]{"<a>text", "{s}", "etc.</a>"};
 		String[] result = instance.getLines();
@@ -146,7 +137,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetSource() throws IOException {
-		System.out.println("getSource");
 		DOM instance = new DOMBuilder("<a>text\n{s}\netc.</a>").build();
 		String expResult = "#STRING";
 		String result = instance.getSource();
@@ -159,7 +149,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetStatus() throws IOException {
-		System.out.println("getStatus");
 		DOM instance = new DOMBuilder("<a>text\n{s}\netc.</a>").build();
 		DOM.DOMStatus expResult = DOM.DOMStatus.CLEAN;
 		DOM.DOMStatus result = instance.getStatus();
@@ -172,7 +161,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetTln() throws IOException {
-		System.out.println("getTln");
 		String tln = "";
 		DOM instance = new DOMBuilder("<tln n='1'>text\n<tln n='3'>{s}etc.</a>").build();
 		TagNode n = (TagNode) instance.getTln("1");
@@ -186,7 +174,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testGetTlnFragment() throws IOException {
-		System.out.println("getTlnFragment");
 		DOM instance = new DOMBuilder("<tln n='1'>text\n<tln n='3'>{s}etc.</a><tln n='4'>").build();
 		assertEquals(3, instance.getTlnFragment("1", 1).size());
 		assertEquals(4, instance.getTlnFragment("3", 1).size());
@@ -197,7 +184,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testFind_forward() throws IOException {
-		System.out.println("find_forward");
 		DOM instance = new DOMBuilder("<tln n='1'>text\n<tln n='3'>{s}<a id='dd'>etc.</a><tln n='4'>").build();
 		Node tln = instance.getTln("3");		
 		Node result = instance.findForward(tln, "a");
@@ -210,7 +196,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testPlain() throws Exception {
-		System.out.println("plain");
 		DOM instance = new DOMBuilder("<tln n='1'>text\n<tln n='3'>{s}<a id='dd'>etc.</a><tln n='4'>").build();
 		String expResult = "text\nsetc.";
 		String result = instance.plain();
@@ -223,7 +208,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testSplitTextNode() throws IOException {
-		System.out.println("splitTextNode");
 		DOM instance = new DOMBuilder("This is a text node.").build();
 		TextNode tn = (TextNode)instance.get(0);
 		TextNode n = new TextNode();
@@ -238,7 +222,6 @@ public class DOMTest {
 	 */
 	@Test
 	public void testUnicode() throws Exception {
-		System.out.println("unicode");
 		DOM instance = new DOMBuilder("<a>Cres{s}ida.").build();
 		String expResult = "Cresſida.";
 		String result = instance.unicode();

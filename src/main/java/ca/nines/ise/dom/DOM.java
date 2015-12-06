@@ -151,6 +151,9 @@ public class DOM implements Iterable<Node> {
    * @return The requested node or NULL.
    */
   public Node get(int i) {
+	if(i >= nodes.size()) {
+	  return null;
+	}
     return nodes.get(i);
   }
 
@@ -291,7 +294,7 @@ public class DOM implements Iterable<Node> {
   public Node findForward(Node node, String name) {
     index();
     for (int i = node.getPosition(); i < size(); i++) {
-      if (nodes.get(i).getName().equals(name)) {
+      if (nodes.get(i).getName().toLowerCase().equals(name.toLowerCase())) {
         return nodes.get(i);
       }
     }
