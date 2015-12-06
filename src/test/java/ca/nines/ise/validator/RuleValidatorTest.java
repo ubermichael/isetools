@@ -23,25 +23,10 @@ public class RuleValidatorTest {
 	
 	Log log;
 	
-	public RuleValidatorTest() {
-	}
-	
-	@BeforeClass
-	public static void setUpClass() {
-	}
-	
-	@AfterClass
-	public static void tearDownClass() {
-	}
-	
 	@Before
 	public void setUp() {
 		log = Log.getInstance();
 		log.clear();
-	}
-	
-	@After
-	public void tearDown() {
 	}
 
 	/**
@@ -50,7 +35,7 @@ public class RuleValidatorTest {
 	 */
 	@Test
 	public void testValidate() throws Exception {
-		System.out.println("validate");
+		
 		DOM dom = new DOMBuilder("<RULE/>").build();
 		RuleValidator instance = new RuleValidator();
 		instance.validate(dom);
@@ -63,7 +48,7 @@ public class RuleValidatorTest {
 	 */
 	@Test
 	public void testValidateBad() throws Exception {
-		System.out.println("validate");
+		
 		DOM dom = new DOMBuilder("<RULE/> content ").build();
 		RuleValidator instance = new RuleValidator();
 		instance.validate(dom);
@@ -77,7 +62,7 @@ public class RuleValidatorTest {
 	 */
 	@Test
 	public void testValidateTags() throws Exception {
-		System.out.println("validate");
+		
 		DOM dom = new DOMBuilder("<tln/><RULE/><foo><bar>").build();
 		RuleValidator instance = new RuleValidator();
 		instance.validate(dom);
@@ -90,7 +75,7 @@ public class RuleValidatorTest {
 	 */
 	@Test
 	public void testValidateComment() throws Exception {
-		System.out.println("validate");
+		
 		DOM dom = new DOMBuilder("<RULE/><!-- comment -->").build();
 		RuleValidator instance = new RuleValidator();
 		instance.validate(dom);
@@ -103,7 +88,7 @@ public class RuleValidatorTest {
 	 */
 	@Test
 	public void testValidateSpaceChars() throws Exception {
-		System.out.println("validate");
+		
 		DOM dom = new DOMBuilder("<RULE/>{ }{#}").build();
 		RuleValidator instance = new RuleValidator();
 		instance.validate(dom);
@@ -116,7 +101,7 @@ public class RuleValidatorTest {
 	 */
 	@Test
 	public void testValidateContentChars() throws Exception {
-		System.out.println("validate");
+		
 		DOM dom = new DOMBuilder("<RULE/>{s}{ffl}").build();
 		RuleValidator instance = new RuleValidator();
 		instance.validate(dom);
