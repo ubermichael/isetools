@@ -87,7 +87,7 @@ public class DOM implements Iterable<Node> {
     reindex = true;
     status = DOMStatus.CLEAN;
   }
-
+  
   /**
    * Append a node to the DOM.
    *
@@ -145,6 +145,11 @@ public class DOM implements Iterable<Node> {
     return dom;
   }
 
+  /**
+   * Get the nth node in the DOM. The DOM starts counting nodes at zero.
+   * @param i
+   * @return The requested node or NULL.
+   */
   public Node get(int i) {
     return nodes.get(i);
   }
@@ -179,14 +184,14 @@ public class DOM implements Iterable<Node> {
    * @param n
    * @return Node[]
    */
-  public Node[] getParsedLine(int n) {
-      List<Node> list = new ArrayList<>();
+  public Fragment getLineFragment(int n) {
+	  Fragment fragment = new Fragment();
       for(Node node : nodes) {
           if(node.getLine() == n){
-              list.add(node);
+              fragment.add(node);
           }
       }
-      return list.toArray(new Node[list.size()]);
+      return fragment;
   }
 
   /**
@@ -265,11 +270,11 @@ public class DOM implements Iterable<Node> {
     if (n != null) {
       for (int i = idx; i < nodes.size() && found <= length; i++) {
         Node t = nodes.get(i);
-        if (found <= length) {
-          fragment.add(t);
-        }
         if (t.getName().toLowerCase().equals("tln")) {
           found++;
+        }
+        if (found <= length) {
+          fragment.add(t);
         }
       }
     }
@@ -283,7 +288,7 @@ public class DOM implements Iterable<Node> {
    * @param name
    * @return Node or null
    */
-  public Node find_forward(Node node, String name) {
+  public Node findForward(Node node, String name) {
     index();
     for (int i = node.getPosition(); i < size(); i++) {
       if (nodes.get(i).getName().equals(name)) {
@@ -352,6 +357,11 @@ public class DOM implements Iterable<Node> {
     return nodes.iterator();
   }
 
+  /**
+   * Create a plain-text representation of a DOM, stripping out all markup.
+   * @return
+   * @throws IOException 
+   */
   public String plain() throws IOException {
     StringBuilder sb = new StringBuilder();
     for (Node n : nodes) {
@@ -361,7 +371,8 @@ public class DOM implements Iterable<Node> {
   }
 
   /**
-   * Split text node o into new nodes at position p, and put n between them.
+   * Split text node oldText into new nodes at position p in oldText, 
+   * and put newNode between them.
    *
    * @param oldText
    * @param newNode
@@ -380,7 +391,7 @@ public class DOM implements Iterable<Node> {
     nodes.add(oldText.getPosition(), afterNode);
     nodes.add(oldText.getPosition(), newNode);
     nodes.add(oldText.getPosition(), beforeNode);
-    index(); // positions/indexes have changed.
+    requestReindex(); // positions/indexes have changed.
   }
 
   /**
