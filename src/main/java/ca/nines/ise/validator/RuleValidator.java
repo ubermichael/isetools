@@ -18,13 +18,12 @@ package ca.nines.ise.validator;
 
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
+import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.node.CommentNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TagNode;
-import ca.nines.ise.node.TextNode;
-import java.util.Arrays;
+import java.io.IOException;
 
 /**
  *
@@ -35,34 +34,24 @@ public class RuleValidator {
     @ErrorCode(code = {
         "validator.rule.linenotempty"
     })    
-    public void validate(DOM dom) {
-        for (Node n : dom) {
-            if ((n instanceof TagNode) && ((TagNode) n).getName().toLowerCase().equals("rule")) {
-                Node[] line = dom.getParsedLine(n.getLine());
-                if(line.length == 1) {
-                    return;
-                }
-                StringBuilder sb = new StringBuilder();
-                for (Node node : line) {
-                    if (node instanceof CommentNode) {
-                        continue;
-                    }
-                    if ((node instanceof TextNode) && ((TextNode) node).isWs()) {
-                        continue;
-                    }
-                    if ((node instanceof TagNode) && ((TagNode) node).getName().toLowerCase().equals("rule")) {
-                        continue;
-                    }
-                    sb.append(node.getText());
-                }
-                if(sb.length() > 0) {
-                    Message m = Message.builder("validator.rule.linenotempty")
-                            .fromNode(n)
-                            .addNote("Line also contains " + sb.toString())
-                            .build();
-                    Log.addMessage(m);
-                }
-            }
+    public void validate(DOM dom) throws IOException {
+        for (Node n : dom) {			
+			if( ! (n instanceof TagNode)) {
+				continue;
+			}
+			TagNode tagNode = (TagNode)n;
+			if( ! tagNode.getName().toLowerCase().equals("rule")) {
+				continue;
+			}
+			Fragment fragment = dom.getLineFragment(n.getLine());
+			String content = fragment.plain();
+			if(content.trim().length() > 0) {
+				Message m = Message.builder("validator.rule.linenotempty")
+						.fromNode(n)
+						.addNote("Line also contains \"" + content.trim() + "\"")
+						.build();
+				Log.addMessage(m);
+			}
         }
     }
     
