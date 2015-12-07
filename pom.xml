@@ -80,7 +80,8 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>ca.nines.ise.Main</mainClass>
+                            <mainClass>ca.nines.ise.Gui</mainClass>
+                            <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
                     <descriptorRefs>
