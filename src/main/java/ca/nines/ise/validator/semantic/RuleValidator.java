@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package ca.nines.ise.validator;
+package ca.nines.ise.validator.semantic;
 
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
@@ -29,30 +29,31 @@ import java.io.IOException;
  *
  * @author Michael Joyce <ubermichael@gmail.com>
  */
-public class RuleValidator {
-    
+public class RuleValidator extends SemanticValidator {
+
     @ErrorCode(code = {
         "validator.rule.linenotempty"
-    })    
-    public void validate(DOM dom) throws IOException {
-        for (Node n : dom) {			
-			if( ! (n instanceof TagNode)) {
-				continue;
-			}
-			TagNode tagNode = (TagNode)n;
-			if( ! tagNode.getName().toLowerCase().equals("rule")) {
-				continue;
-			}
-			Fragment fragment = dom.getLineFragment(n.getLine());
-			String content = fragment.plain();
-			if(content.trim().length() > 0) {
-				Message m = Message.builder("validator.rule.linenotempty")
-						.fromNode(n)
-						.addNote("Line also contains \"" + content.trim() + "\"")
-						.build();
-				Log.addMessage(m);
-			}
+    })
+    @Override
+    public void validateDOM(DOM dom) throws IOException {
+        for (Node n : dom) {
+            if (!(n instanceof TagNode)) {
+                continue;
+            }
+            TagNode tagNode = (TagNode) n;
+            if (!tagNode.getName().toLowerCase().equals("rule")) {
+                continue;
+            }
+            Fragment fragment = dom.getLineFragment(n.getLine());
+            String content = fragment.plain();
+            if (content.trim().length() > 0) {
+                Message m = Message.builder("validator.rule.linenotempty")
+                        .fromNode(n)
+                        .addNote("Line also contains \"" + content.trim() + "\"")
+                        .build();
+                Log.addMessage(m);
+            }
         }
     }
-    
+
 }
