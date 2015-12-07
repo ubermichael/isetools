@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ca.nines.ise.validator;
+package ca.nines.ise.validator.semantic;
 
+import ca.nines.ise.validator.semantic.OrnamentValidator;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
