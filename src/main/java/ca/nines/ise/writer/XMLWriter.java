@@ -1311,28 +1311,36 @@ public class XMLWriter extends Writer{
     Elements elements = doc.getRootElement().getChildElements();
     Element head = xmlStack.peekFirst();
     for (int i=0; i<elements.size(); i++){
-      Element add = addStack.new_element("add");
-      Element child = addStack.new_element(elements.get(i));
-      if (elements.get(i).getLocalName().equals("l")){
-        Elements children = child.getChildElements();
-        for (int j=0; j<children.size(); j++){
-          add.appendChild(addStack.new_element(children.get(j)));
-        }
+      elements.get(i).detach();
+      Element child = elements.get(i);
+      if (child.getLocalName().equals("l")){
+        /*  l becomes an add */
+        child.setLocalName("add");
+        /* create new l */
         Element line = addStack.new_element("l");
-        line.appendChild(add);
+        /* move attributes to new line */
+        for(int j=0; j<child.getAttributeCount(); j++){
+          Attribute a = child.getAttribute(j);
+          a.detach();
+          line.addAttribute(a);
+        }
+        /* set add's attributes */
+        child = set_attributes((StartNode)node,child);
+        /* wrap new add in new l */
+        line.appendChild(child);
         head.appendChild(line);
         /* if on the last item in the ADD and it's a line, push it on the stack (leave it open) */
         if (i == elements.size() - 1)
           xmlStack.push(line);
       }else{
+        Element add = set_attributes((StartNode)node, addStack.new_element("add"));
         add.appendChild(child);
         head.appendChild(add);
       }
       /* if the head of xmlStack is a line, end it and make head its parent */
-      if (head.getLocalName().equals("l")){
+      if (head.getLocalName().equals("l"))
         xmlStack.pop();
         head = xmlStack.peekFirst();
-      }
     }
     return end_tag;
   }
