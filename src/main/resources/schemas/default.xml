@@ -220,7 +220,7 @@
         <option>next</option>
       </attribute>
     </tag>
-    <tag name="iembed" where="anywhere" empty="optional">
+    <tag name="iembed" where="anywhere" empty="optional" xml_inline="yes" xml_unparsed_text="yes">
       <desc><![CDATA[Embedded content]]></desc>
       <attribute name="site" type="select" optional="yes">
         <desc><![CDATA[The ISE sub-site to fetch content from.]]></desc>
@@ -268,7 +268,7 @@
         <desc><![CDATA[long-form caption to show in the lightbox]]></desc>
       </attribute>
     </tag>
-    <tag name="ilink" where="anywhere" empty="optional">
+    <tag name="ilink" where="anywhere" empty="optional" xml_inline="yes">
       <desc><![CDATA[ISE link]]></desc>
       <attribute name="site" type="select" optional="yes">
         <desc><![CDATA[The ISE sub-site to fetch content from.]]></desc>

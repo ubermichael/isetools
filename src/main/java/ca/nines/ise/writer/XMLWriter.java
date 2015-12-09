@@ -50,6 +50,7 @@ import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
+import nu.xom.ParentNode;
 import nu.xom.Text;
 import nu.xom.Serializer;
 
@@ -234,7 +235,7 @@ public class XMLWriter extends Writer{
 		 * otherwise, nothing happens
 		 */
 		public void ensure_in_line() {
-			if (!in_line() && !in_page_child() && !in_tag("iembed"))
+			if (!in_line() && !in_page_child())
 				new_line(new EmptyNode());
 		}
 		
@@ -257,9 +258,37 @@ public class XMLWriter extends Writer{
 			  endSplitLine = true;
 			  endSplitLineOnNext = false;
 			} 
+			// if the l tag we just closed contains only iembeds
+			if (contains_only(e,"iembed")){
+			  ParentNode parent = e.getParent();
+			  // attach the iembeds to l's parent
+			  Elements children = e.getChildElements();
+			  for(int i=0; i<children.size(); i++){
+			    children.get(i).detach();
+			    parent.appendChild(children.get(i));
+			  }
+			  //detach l
+			  e.detach();
+			}
+			
       // if ending splitline, pop that as well
 			else if (endSplitLine)
 				end_element("splitline");
+		}
+		
+		private Boolean contains_only(Element e, String child){
+		  /* empty line does not contain given child */
+		  if (e.getChildCount() == 0)
+		    return false;
+      for(int i=0; i<e.getChildCount(); i++)
+        /* false if non-empty text exists */
+        if (e.getChild(i) instanceof Text){
+          if (e.getChild(i).getValue().trim().length() > 0)
+            return false;
+        }
+        else if (!((Element)e.getChild(i)).getLocalName().equals(child))
+          return false;
+      return true;
 		}
 
 		/**
@@ -643,7 +672,9 @@ public class XMLWriter extends Writer{
 		 * @return new Element
 		 */
 		public Element new_element(String name) {
-			return new Element(name, DOC_NS);
+		  if (name.equals("ilink") || name.equals("iembed"))
+		    return new Element(name, LINK_NS);
+		  return new Element(name, DOC_NS);
 		}
 
 		/**
@@ -1029,6 +1060,7 @@ public class XMLWriter extends Writer{
 					new Attribute[] { new Attribute("t", "formatting") }));
 			break;
 		case "IEMBED":
+		  xmlStack.ensure_in_line();
 			xmlStack.start_element(set_attributes(node,
 					xmlStack.new_element(xml_name, LINK_NS)));
 			break;
@@ -1185,6 +1217,7 @@ public class XMLWriter extends Writer{
 		String xml_name = node.getName().toLowerCase();
 		switch (node.getName().toUpperCase()) {
     case "IEMBED":
+      xmlStack.ensure_in_line();
       xmlStack.empty_element(set_attributes(node,
           xmlStack.new_element(xml_name, LINK_NS)));
       break;
@@ -1284,6 +1317,9 @@ public class XMLWriter extends Writer{
 			if (i < (lines.length - 1))
 				xmlStack.end_line();
 		}
+		/* if the text ends in a newline character, end the last line */
+		if (text.charAt(text.length()-1) == '\n')
+		  xmlStack.end_line();
 	}
 	
 	/**

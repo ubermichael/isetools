@@ -33,11 +33,13 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
     public static List<Object[]> inlineTags() throws IOException, SAXException, ParserConfigurationException, TransformerException {
       Schema schema = Schema.defaultSchema();
       List<String> tags = schema.get_Inline_tags();
-      for(String t : new ArrayList<String>(tags))
+      for(String t : new ArrayList<String>(tags)){
         if (schema.getTag(t).isEmpty() || schema.getTag(t).isDepreciated())
           tags.remove(t);
-      //name changes; ignore
-      tags.remove("TITLEHEAD");
+        /* iembeds are a special case; don't have to be inline */
+        if (schema.getTag(t).getName().equals("iembed"))
+          tags.remove(t);
+      }
     	List<Object[]> list2 = new ArrayList<Object[]>();
     	for(String t:tags)
     		list2.add(new Object[]{t});
@@ -46,12 +48,19 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
 
     @Parameter
     public String tagName;
+    
+    private String prefix(String tagName){
+      String prefix = DOC_PREFIX;
+      if (tagName.equals("ilink"))
+        prefix = LINK_PREFIX;
+      return prefix;
+    }
 
 
     @Test
     public void lowercaseInlines() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><"+tagName+">a</"+tagName+"></WORK>");
-        Nodes tags = output.query("//"+DOC_PREFIX+":"+tagName.toLowerCase(), NS_MAP);
+        Nodes tags = output.query("//"+prefix(tagName)+":"+tagName.toLowerCase(), NS_MAP);
         assertTrue(
             tagName+" translated to lowercase",
             tags.size() > 0 // i'm too lazy to import more of hamcrest...
@@ -61,7 +70,7 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
     @Test
     public void wrapInLine() throws SAXException, ParserConfigurationException, TransformerException {
         Document output = render("<WORK><"+tagName+">a</"+tagName+"></WORK>");
-        Nodes tags = output.query("//"+DOC_PREFIX+":l/"+DOC_PREFIX+":"+tagName.toLowerCase(), NS_MAP);
+        Nodes tags = output.query("//"+DOC_PREFIX+":l/"+prefix(tagName)+":"+tagName.toLowerCase(), NS_MAP);
         assertThat(
             "single line "+tagName+" wrapped in a line",
             tags.size(),
@@ -76,16 +85,19 @@ public class XMLWriterInlinesTest extends XMLWriterTestBase {
     @Test
     public void propagateInlineIntoLines() throws SAXException, ParserConfigurationException, TransformerException {
         switch (tagName) {
+            /* ilink/iembed can not contain newlines */
+            case "ilink":
+            case "iembed":
+            /* these never cross lines */
             case "HW":
             case "ORNAMENT":
             case "PERSON":
             case "PLACE":
             case "PROP":
-                // these never cross lines
                 break;
             default:
                 Document output = render("<WORK><"+tagName+">a\nb\nc</"+tagName+"></WORK>");
-                Nodes tags = output.query("//"+DOC_PREFIX+":l/"+DOC_PREFIX+":"+tagName.toLowerCase(), NS_MAP);
+                Nodes tags = output.query("//"+DOC_PREFIX+":l/"+prefix(tagName)+":"+tagName.toLowerCase(), NS_MAP);
                 assertThat(
                     "multi-line "+tagName+" split across lines",
                     tags.size(),

@@ -292,6 +292,21 @@ public class DOM implements Iterable<Node> {
       found.add(nodes.get(i));
     return found;
   }
+  
+  /**
+   * Get next node in the dom after @node
+   * 
+   * @param node
+   * @return
+   */
+  public Node get_next(Node node){
+    index();
+    if (node.getPosition() < size())
+      return get(node.getPosition()+1);
+    else
+      return null;
+  }
+  
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
