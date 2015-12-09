@@ -81,6 +81,7 @@ public class XMLWriter extends Writer{
 		private Boolean endSplitLine;
 		private Boolean endSplitLineOnNext;
 		private String align;
+		private List<Element> real_lines;
 
 		public XMLStack(Document xml) throws IOException, SAXException, ParserConfigurationException, TransformerException {
 		  schema = Schema.defaultSchema();
@@ -99,6 +100,7 @@ public class XMLWriter extends Writer{
 			endSplitLine = false;
 			endSplitLineOnNext = false;
 			align = null;
+			real_lines = new ArrayList<Element>();
 		}
 		
 		private List<String> array_to_lower(List<String> list){
@@ -236,7 +238,7 @@ public class XMLWriter extends Writer{
 		 */
 		public void ensure_in_line() {
 			if (!in_line() && !in_page_child())
-				new_line(new EmptyNode());
+				new_line(new EmptyNode(), false);
 		}
 		
 		/**
@@ -259,7 +261,7 @@ public class XMLWriter extends Writer{
 			  endSplitLineOnNext = false;
 			} 
 			// if the l tag we just closed contains only iembeds
-			if (contains_only(e,"iembed")){
+			if (contains_only(e,"iembed") && !real_lines.contains(e)){
 			  ParentNode parent = e.getParent();
 			  // attach the iembeds to l's parent
 			  Elements children = e.getChildElements();
@@ -335,7 +337,7 @@ public class XMLWriter extends Writer{
 		 * 
 		 * @node the node from which to create the line element
 		 */
-		public void new_line(TagNode node) {
+		public void new_line(TagNode node, Boolean real) {
 			if (in_page())
 				end_page();
 			if (in_page_child())
@@ -371,6 +373,9 @@ public class XMLWriter extends Writer{
 			if (new_ms)
 				new_ms_element("l", node.getAttribute("n"));
 			renew_elements();
+			/* if it's a real line, add it to real_lines */
+			if (real)
+			  real_lines.add(e);
 		}
 
 		/* page methods */
@@ -1143,9 +1148,6 @@ public class XMLWriter extends Writer{
 			break;
 		case "ISEHEADER":
 		  break;
-		case "L":
-		  xmlStack.new_line(node);
-		  break;
 		case "BRACEGROUP":
 		  xmlStack.end_line();
       xmlStack.start_element(set_attributes(node, e));
@@ -1231,7 +1233,7 @@ public class XMLWriter extends Writer{
 			break;
 		case "L":
 			xmlStack.end_line();
-			xmlStack.new_line(node);
+			xmlStack.new_line(node, true);
 			break;
     case "MS":
       xmlStack.ensure_in_line();
@@ -1257,7 +1259,7 @@ public class XMLWriter extends Writer{
 			break;
 		case "BR":
 			xmlStack.end_line();
-			xmlStack.new_line(new EmptyNode());
+			xmlStack.new_line(new EmptyNode(), false);
 			break;
 		}
 	}
