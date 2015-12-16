@@ -59,6 +59,8 @@ public class RTFWriter extends Writer {
 
     private static final Logger logger = Logger.getLogger(RTFWriter.class.getName());
 
+	private final String COMMON_PUNCT = ".,;:?!\"";
+	
     private final Document doc;
     private final RtfWriter2 writer;
     private ArrayDeque<Font> fontStack;
@@ -191,8 +193,12 @@ public class RTFWriter extends Writer {
                 if (n instanceof TextNode) {
                     offset -= n.getText().length();
                 }
-            }
+            }			
             String txt = n.getText();
+			if((txt.length() + offset < txt.length()) && COMMON_PUNCT.contains(""+txt.charAt(txt.length() + offset))) {
+				offset++;
+			}
+			
             EmptyNode fn = new EmptyNode("FNLOC");
             fn.setAttribute("ref", "" + note.getId());
             dom.splitTextNode((TextNode) n, txt.length() + offset, fn);
