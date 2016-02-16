@@ -270,13 +270,43 @@ public class DOM implements Iterable<Node> {
    */
   public Node find_forward(Node node, String name) {
     index();
-    for (int i = node.getPosition(); i < size(); i++) {
+    for (int i = node.getPosition() + 1; i < size(); i++) {
       if (nodes.get(i).getName().equals(name)) {
         return nodes.get(i);
       }
     }
     return null;
   }
+  
+  /**
+   * Find all nodes in between first and last
+   * 
+   * @param first node
+   * @param last node
+   * @return list of nodes in between
+   */
+  public List<Node> get_between(Node first, Node last) {
+    index();
+    List<Node> found = new ArrayList<Node>();
+    for (int i = first.getPosition() + 1; i < last.getPosition(); i++)
+      found.add(nodes.get(i));
+    return found;
+  }
+  
+  /**
+   * Get next node in the dom after @node
+   * 
+   * @param node
+   * @return
+   */
+  public Node get_next(Node node){
+    index();
+    if (node.getPosition() < size())
+      return get(node.getPosition()+1);
+    else
+      return null;
+  }
+  
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also

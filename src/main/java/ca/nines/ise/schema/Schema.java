@@ -22,8 +22,10 @@ import ca.nines.ise.util.XMLDriver;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,12 +47,10 @@ import org.xml.sax.SAXException;
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class Schema {
-
   /**
    * The edition for the schema
    */
   private final String edition;
-
   /**
    * The group for the schema. "ise" or "qme" or "dre"
    */
@@ -255,6 +255,58 @@ public class Schema {
       sb.append(t);
     }
     return sb.toString();
+  }
+  
+
+  public List<String>  get_Inline_tags() {
+    List<String> list = new ArrayList<String>();
+    Tag[] tags = getTags();
+    for(int i=0; i<tags.length; i++){
+      if (tags[i].getXMLInline().equals("yes")){
+        list.add(tags[i].getName());
+      }
+    }
+    return list;
+  }
+  public List<String>  get_flatten_tags() {
+    List<String> list = new ArrayList<String>();
+    Tag[] tags = getTags();
+    for(int i=0; i<tags.length; i++){
+      if (tags[i].getXMLFlatten().equals("yes")){
+        list.add(tags[i].getName());
+      }
+    }
+    return list;
+  }
+  public List<String>  get_typeface_tags() {
+    List<String> list = new ArrayList<String>();
+    Tag[] tags = getTags();
+    for(int i=0; i<tags.length; i++){
+      if (tags[i].getXMLTypeface().equals("yes")){
+        list.add(tags[i].getName());
+      }
+    }
+    return list;
+  }
+  public List<String>  get_line_parent_tags() {
+    List<String> list = new ArrayList<String>();
+    Tag[] tags = getTags();
+    for(int i=0; i<tags.length; i++){
+      if (tags[i].getXMLLineParent().equals("yes")){
+        list.add(tags[i].getName());
+      }
+    }
+    return list;
+  }
+  public List<String>  get_unparsed_text_tags() {
+    List<String> list = new ArrayList<String>();
+    Tag[] tags = getTags();
+    for(int i=0; i<tags.length; i++){
+      if (tags[i].getXMLUnparsedText().equals("yes")){
+        list.add(tags[i].getName());
+      }
+    }
+    return list;
   }
 
 }
