@@ -20,7 +20,7 @@ public class TagBalanceValidator {
   ArrayDeque<StartNode> nodeStack;
   
   @ErrorCode(code = {
-    "validator.nesting.missing_start_tag"
+    "validator.tagBalance.missing_start_tag"
   })
   private void process_end(EndNode n) {
     if (nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
@@ -29,17 +29,19 @@ public class TagBalanceValidator {
     }
   
     // this is a split tag.
+    Boolean hasStart = false;
     ArrayDeque<StartNode> splitStack = new ArrayDeque<>();
     while (nodeStack.size() >= 1) {
-      StartNode start = nodeStack.peek();
+      StartNode start = nodeStack.pop();
       if (start.getName().toLowerCase().equals(n.getName().toLowerCase())) {
+        hasStart = true;
         break; // while.
       }
-      splitStack.push(nodeStack.pop());
+      splitStack.push(start);
     }
   
-    if (nodeStack.isEmpty()) {
-      Message m = Message.builder("validator.TagBalance.missing_start")
+    if (!hasStart) {
+      Message m = Message.builder("validator.tagBalance.missing_start_tag")
               .fromNode(n)
               .addNote("Cannot find start tag that corresponds to end tag " + n.getName())
               .build();
