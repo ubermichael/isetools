@@ -324,7 +324,7 @@
     <tag name="LABEL" where="all" xml_unparsed_text="yes">
 		<desc><![CDATA[Label]]></desc>
     </tag>
-    <tag name="LB" depreciated="Use L on an empty line instead of LB to preserve empty lines." where="anywhere">
+    <tag name="LB" depreciated="Use L on an empty line instead of LB to preserve empty lines." where="anywhere" empty="yes">
       <desc><![CDATA[Previously used for line break. <L/> is recommended.]]></desc>
     </tag>    
     <tag name="LD" where="all" xml_inline="yes">
