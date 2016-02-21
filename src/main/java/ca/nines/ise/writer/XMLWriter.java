@@ -350,10 +350,12 @@ public class XMLWriter extends Writer{
 					new_ms = true;
 				else if (name.equals("part")) {
 					if (node.getAttribute(name).equals("i")) {
-						// new splitline element
-						Element e = new_element("splitline");
-						super.peekFirst().appendChild(e);
-						super.push(e);
+						// new splitline element if not already in a splitline
+					  if (!in_tag("splitline")){
+					    Element e = new_element("splitline");
+						  super.peekFirst().appendChild(e);
+						  super.push(e);
+					  }
 					} else if (node.getAttribute(name).equals("f")) {
 						// close splitline element
 						// flag that splitline is closing on next line close
