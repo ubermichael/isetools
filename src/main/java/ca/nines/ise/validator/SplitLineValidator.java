@@ -15,27 +15,28 @@ import ca.nines.ise.schema.Schema;
 public class SplitLineValidator {
   public SplitLineValidator() {}
   
-ArrayDeque<EmptyNode> splitStack;
+EmptyNode current;
 
 @ErrorCode(code = {
     "validator.splitLine.recursive"
 })
 private void process_start(EmptyNode n) {
-    for (EmptyNode s : splitStack) {
+    if (current != null) {
         Message m = Message.builder("validator.splitLine.recursive")
                .fromNode(n)
-               .addNote(get_name(n) + " cannot start a new split line (part=\"i\") before the current one ("+get_name(s)+" @ TLN="+s.getTLN()+") is finished")
+               .addNote(get_name(n) + " cannot start a new split line (part=\"i\") before the current one ("+get_name(current)+" @ TLN="+current.getTLN()+") is finished")
                .build();
         Log.addMessage(m);
     }
-    splitStack.push(n);
+    else
+      current = n;
 }
 
 @ErrorCode(code = {
     "validator.splitLine.notStartedM"
 })
 private void process_middle(EmptyNode n) {
-  if (splitStack.isEmpty()){
+  if (current == null){
     Message m = Message.builder("validator.splitLine.notStartedM")
         .fromNode(n)
         .addNote(get_name(n) + " has a part=\"m\" but no matching \"i\" L tag")
@@ -48,15 +49,14 @@ private void process_middle(EmptyNode n) {
   "validator.splitLine.notStartedF"
 })
 private void process_finish(EmptyNode n) {
-  if (!splitStack.isEmpty())
-    splitStack.pop();
-  else{
+  if (current == null){
     Message m = Message.builder("validator.splitLine.notStartedF")
             .fromNode(n)
             .addNote(get_name(n) + " has a part=\"f\" but no matching \"i\" L tag")
             .build();
     Log.addMessage(m);
-  }
+  }else 
+    current = null;
 }
 
 
@@ -72,7 +72,7 @@ private String get_name(EmptyNode n){
   "validator.splitLine.unclosed"
 })
 public void validate(DOM dom) {
-  splitStack = new ArrayDeque<>();
+  current = null;
 
   for (Node n : dom) {
     if (n.getName().toLowerCase().equals("l")){
@@ -92,10 +92,10 @@ public void validate(DOM dom) {
     } 
   }
 
-  for (EmptyNode n : splitStack) {
+  if (current != null) {
     Message m = Message.builder("validator.splitLine.unclosed")
-            .fromNode(n)
-            .addNote(get_name(n) + " has a part=\"i\" but no matching \"f\" L tag")
+            .fromNode(current)
+            .addNote(get_name(current) + " has a part=\"i\" but no matching \"f\" L tag")
             .build();
     Log.addMessage(m);
   }
