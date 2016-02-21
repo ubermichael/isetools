@@ -92,6 +92,19 @@
     <message code="validator.nesting.unclosed" severity="error">
     <![CDATA[This tag is not closed.]]>
     </message>
+    
+    <message code="validator.splitLine.recursive" severity="error">
+    <![CDATA[Splitlines cannot be recursive.]]>
+    </message> 
+    <message code="validator.splitLine.notStartedM" severity="error">
+    <![CDATA[Middle splitline without a start.]]>
+    </message>
+    <message code="validator.splitLine.notStartedF" severity="error">
+    <![CDATA[Final splitline without a start.]]>
+    </message>
+    <message code="validator.splitLine.unclosed" severity="error">
+    <![CDATA[Unclosed initial splitline.]]>
+    </message>
 
     <message code="validator.tag.depreciated" severity="error">
     <![CDATA[This tag is depreciated.]]>
