@@ -68,7 +68,7 @@ public class SectionCoverageValidator {
     if (nodeStack.isEmpty()){
       Message m = Message.builder("validator.coverage.not_covered")
           .fromNode(n)
-          .addNote("Tag " + n.getName() + " is not within a sectioning tag (DIV, ACT, SCENE, PAGE)")
+          .addNote("Text is not within a sectioning tag (DIV, ACT, SCENE, PAGE)")
           .build();
       Log.addMessage(m);
       return;
@@ -140,8 +140,6 @@ public class SectionCoverageValidator {
           break;
       }
     }
-    
-    nodeStack = new LinkedList<StartNode>();
     
     //second pass
     for (Node n : dom) {
