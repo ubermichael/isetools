@@ -83,6 +83,11 @@ public class Tag implements Comparable<Tag> {
    * Where the tag is valid.
    */
   private final String where;
+  
+  /**
+   * Tags this tag cannot split
+   */
+  private final String noSplit;
 
   /**
    * A builder class for constructing tags. Use Tag#builder() to get a
@@ -95,6 +100,7 @@ public class Tag implements Comparable<Tag> {
     private String desc;
     private String empty;
     private String where;
+    private String noSplit;
 
     private int lineNumber;
     private String name;
@@ -111,6 +117,7 @@ public class Tag implements Comparable<Tag> {
       desc = "";
       empty = "";
       where = "";
+      noSplit = "";
       name = "";
       lineNumber = 0;
       source = "";
@@ -134,7 +141,7 @@ public class Tag implements Comparable<Tag> {
      */
     @Override
     public Tag build() {
-      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber);
+      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber, noSplit);
     }
 
     /**
@@ -161,6 +168,11 @@ public class Tag implements Comparable<Tag> {
       tmp = map.getNamedItem("where");
       if (tmp != null) {
         setWhere(tmp.getTextContent());
+      }
+      
+      tmp = map.getNamedItem("noSplit");
+      if (tmp != null) {
+        setNoSplit(tmp.getTextContent());
       }
 
       tmp = map.getNamedItem("depreciated");
@@ -245,8 +257,13 @@ public class Tag implements Comparable<Tag> {
     }
     
     public TagBuilder setWhere(String where) {
-        this.where = where;
-        return this;
+      this.where = where;
+      return this;
+    }
+    
+    public TagBuilder setNoSplit(String noSplit) {
+      this.noSplit = noSplit;
+      return this;
     }
 
     /**
@@ -304,10 +321,11 @@ public class Tag implements Comparable<Tag> {
    * @param source
    * @param lineNumber
    */
-  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber) {
+  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber, String noSplit) {
     this.name = name;
     this.desc = desc;
     this.where = where;
+    this.noSplit = noSplit;
     this.empty = empty;
     this.depreciated = depreciated;
     this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -411,6 +429,10 @@ public class Tag implements Comparable<Tag> {
       return where;
   }
 
+  public String getNoSplit() {
+    return noSplit;
+  }
+  
   /**
    * Get the line number where the tag is defined.
    *
@@ -492,4 +514,5 @@ public class Tag implements Comparable<Tag> {
 
     return formatter.toString();
   }
+
 }
