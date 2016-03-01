@@ -102,6 +102,9 @@
     <message code="validator.splitLine.notStartedF" severity="error">
     <![CDATA[Final splitline without a start.]]>
     </message>
+    <message code="validator.splitLine.crossing" severity="error">
+    <![CDATA[Sectioning tag crosses a split line.]]>
+    </message>  
     <message code="validator.splitLine.unclosed" severity="error">
     <![CDATA[Unclosed initial splitline.]]>
     </message>
