@@ -24,7 +24,12 @@ import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.schema.Schema;
+import ca.nines.ise.schema.Tag;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -112,12 +117,31 @@ public class NestingValidator {
       nodeStack.pop();
       return;
     }
-
-    Message m = Message.builder("validator.nesting.split_tag")
+    
+    Tag t = schema.getTag(n.getName());
+    List<String> noSplit = Arrays.asList(t.getNoSplit().split(",[ ]*"));
+    
+    if (!noSplit.isEmpty()){
+      String splitTags = "";
+      for (int i=nodeStack.size(); i>=0; i--){
+        if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
+          break;
+        for (String ns : noSplit){
+          if (nodeStack.get(i).getName().toLowerCase().equals(ns.toLowerCase()))
+            splitTags += ns + " ";
+          }
+      }
+      
+      if (!splitTags.equals("")){
+        Message m = Message.builder("validator.nesting.split_tag")
             .fromNode(n)
-            .addNote("Tag " + n.getName() + " splits other tags.")
+            .addNote("Tag " + n.getName() + " cannot split these tags: "+splitTags)
             .build();
-    Log.addMessage(m);
+        Log.addMessage(m);
+      }
+    }
+          
+          
   }
 
   private void process_start(StartNode n) {

@@ -88,7 +88,7 @@
         <desc><![CDATA[The expanded form of the abbreviated word. This will eventually permit searches on the word.]]></desc>
       </attribute>
     </tag>
-    <tag name="ACT" where="primary">
+    <tag name="ACT" where="primary" noSplit="MARG, BRACEGROUP, ACT">
       <desc>Act division as in the modern edition.</desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the act. If the original includes an act division which has been retained, the notation would be thus: </ACT><ACT n="2">
@@ -107,7 +107,7 @@
     <tag name="annotations" where="annotations">
       <desc><![CDATA[Root element of an annotation file.]]></desc>
     </tag>
-    <tag name="BACKMATTER" where="all">
+    <tag name="BACKMATTER" where="all" noSplit = "MARG, BRACEGROUP">
       <desc><![CDATA[Surrounds all sections of an edition that follow the last scene. The actual division(s) of BACKMATTER are designated by the <DIV> tag, and include (and replace) such items as Epilogue, Colophon and so on.]]></desc>
     </tag>
     <tag name="BL" depreciated="Use BLL for black letter or L for blank line instead of BL." where="unknown">
@@ -125,10 +125,10 @@
     <tag name="C" where="all">
       <desc><![CDATA[Centered text. This tag should be applied to a whole line, except for portions marked up by RA.]]></desc>
     </tag>
-    <tag name="CL" where="primary">
+    <tag name="CL" where="primary" noSplit="LD">
       <desc><![CDATA[Closing statement (e.g. Finis).]]></desc>
     </tag>
-    <tag name="COL" where="oldspelling">
+    <tag name="COL" where="oldspelling" noSplit="COL">
       <desc><![CDATA[Defines columns in a page.]]></desc>
       <attribute name="n" type="select">
         <desc><![CDATA[<COL n="0">...</COL> Defines pages with no columns in a document that elsewhere has columns. <COL n="1 | 2">...</COL> Column 1 or 2 (Folio).]]></desc>
@@ -143,10 +143,10 @@
     <tag name="collations" where="collations">
       <desc><![CDATA[Root element of a collations file.]]></desc>
     </tag>
-    <tag name="CW" where="oldspelling">
+    <tag name="CW" where="oldspelling" noSplit="SIG, RT, PN, CW">
       <desc><![CDATA[Catchword]]></desc>
     </tag>
-    <tag name="DIV" where="all">
+    <tag name="DIV" where="all" noSplit="MARG, BRACEGROUP, DIV, FRONTMATTER, BACKMATTER">
       <desc><![CDATA[Named Division of the text that is not an ACT or SCENE.]]></desc>
       <attribute name="link" type="string" optional="yes" depreciated="Link attributes should be dropped from the text.">
         <desc><![CDATA[]]></desc>
@@ -191,7 +191,7 @@
         <desc><![CDATA[The name of the language used.]]></desc>
       </attribute>
     </tag>
-    <tag name="FRONTMATTER" where="all">
+    <tag name="FRONTMATTER" where="all" noSplit="MARG, BRACEGROUP">
       <desc><![CDATA[Surrounds all sections of an edition that precede the first scene. The actual division(s) of FRONTMATTER are designated by the <DIV> tag, and include (and replace) such items as Prologue, Epistle, Dedication and so on.]]></desc>
     </tag>
     <tag name="H1" depreciated="Use LD instead of H1." where="modern">
@@ -324,7 +324,7 @@
     <tag name="LB" depreciated="Use L on an empty line instead of LB to preserve empty lines." where="anywhere">
       <desc><![CDATA[Previously used for line break. <L/> is recommended.]]></desc>
     </tag>    
-    <tag name="LD" where="all">
+    <tag name="LD" where="all" noSplit="CL">
       <desc><![CDATA[Header for a Literary Division (e.g. Act, Scene.).]]></desc>
     </tag>
     <tag name="lem" where="annotations">
@@ -445,7 +445,7 @@
     <tag name="note" where="collations">
       <desc><![CDATA[Additional notes about the variant. Use as a child of <coll> when the note applies to the collation as a whole, or as a child of <rdg> when it applies to a specific reading.]]></desc>
     </tag>
-    <tag name="ORNAMENT" empty="optional" where="oldspelling">
+    <tag name="ORNAMENT" empty="optional" where="oldspelling" noSplit="L">
       <desc><![CDATA[Self-closing <ORNAMENT /> is a printer's ornament. <ORNAMENT> </ORNAMENT> is used for decorative or large font letters only.]]></desc>
       <attribute name="drop" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Marks this ornament as a drop-capital, and specifies the number of lines to span.]]></desc>
@@ -459,14 +459,14 @@
       <attribute name="n" type="number"  renumber="yes">
         <desc><![CDATA[The "through page number" for the text.]]></desc>
       </attribute>
-      <attribute name="sig" type="string" optional="yes">
+      <attribute name="sig" type="string" optional="yes" noSplit="SIG, RT, PN, CW">
         <desc><![CDATA[The page signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
       <attribute name="compositor" type="string" optional="yes">
         <desc><![CDATA[The compositor(s) of this page.]]></desc>
       </attribute>
     </tag>
-    <tag name="PN" where="oldspelling">
+    <tag name="PN" where="oldspelling" noSplit="SIG, RT, PN, CW">
       <desc><![CDATA[Page number as printed.]]></desc>
       <attribute name="n" type="number" optional="yes" renumber="no" depreciated="Use @n on the PAGE element instead.">
         <desc><![CDATA[Actual page number where it differs from the printed number.]]></desc>
@@ -526,7 +526,7 @@
         <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omitted when used within AMBIG.]]></desc>
       </attribute>
     </tag>
-    <tag name="RT" where="oldspelling">
+    <tag name="RT" where="oldspelling" noSplit="SIG, RT, PN, CW">
       <desc><![CDATA[Running title.]]></desc>
     </tag>
     <tag name="RULE" empty="yes" where="all">
@@ -544,7 +544,7 @@
     <tag name="SC" where="oldspelling">
       <desc><![CDATA[Small caps.]]></desc>
     </tag>
-    <tag name="SCENE" where="primary">
+    <tag name="SCENE" where="primary" noSplit="MARG, BRACEGROUP, SCENE">
       <desc><![CDATA[Scene division as in the modern edition. Note: In plays with a non-diegetic chorus, like Henry V (F) and Pericles, use <SCENE n="0"> to designate chorus passages that are not prologues or epilogues. SCENEs may be used with or without enclosing ACTs.]]></desc>
       <attribute name="n" type="number" renumber="yes">
         <desc><![CDATA[The number of the scene, not including any Act numbering.]]></desc>
