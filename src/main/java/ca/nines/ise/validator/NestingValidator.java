@@ -120,9 +120,6 @@ public class NestingValidator {
     Log.addMessage(m);
   }
 
-  @ErrorCode(code = {
-    "validator.nesting.recursive"
-  })
   private void process_start(StartNode n) {
     check_redundant_nesting(n);
     //check for mandatory nesting
@@ -140,17 +137,6 @@ public class NestingValidator {
       case "col":
         is_descendant_of(n, "page");
         break;
-    }
-    
-    for (StartNode s : nodeStack) {
-      if (s.getName().toLowerCase().equals(n.getName().toLowerCase())) {
-        Message m = Message.builder("validator.nesting.recursive")
-                .fromNode(n)
-                .addNote("Tag " + n.getName() + " cannot be recursive.")
-                .addNote("Or the tag " + s.getName() + " at TLN " + s.getTLN() + " on line " + s.getLine() + " may be unclosed.")
-                .build();
-        Log.addMessage(m);
-      }
     }
     nodeStack.push(n);
   }

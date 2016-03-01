@@ -83,9 +83,6 @@
     <message code="validator.tagBalance.missing_start_tag" severity="error">
     <![CDATA[End tag without a start tag.]]>
     </message>
-    <message code="validator.nesting.recursive" severity="error">
-    <![CDATA[ISE tags cannot be nested recursively.]]>
-    </message>
     <message code="validator.nesting.split_tag" severity="warning">
     <![CDATA[This tag is split/improperly nested.]]>
     </message>
