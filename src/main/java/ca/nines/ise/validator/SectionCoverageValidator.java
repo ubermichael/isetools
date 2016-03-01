@@ -59,8 +59,10 @@ public class SectionCoverageValidator {
   
   @ErrorCode(code = {
       "validator.coverage.not_covered",
-      "validator.coverage.matter",
-      "validator.coverage.outside_div"
+      "validator.coverage.inside_matter_outside_div",
+      "validator.coverage.outside_div",
+      "validator.coverage.outside_scene_or_Act",
+      "validator.coverage.outside_page"
   })
   private void process_text(TextNode n){
     if (nodeStack.isEmpty()){
@@ -73,7 +75,7 @@ public class SectionCoverageValidator {
     }
     
     if ((in_tag("frontmatter") || in_tag("backmatter")) && !in_tag("div")){
-      Message m = Message.builder("validator.coverage.matter")
+      Message m = Message.builder("validator.coverage.inside_matter_outside_div")
           .fromNode(n)
           .addNote("Text in FRONTMATTER or BACKMATTER must be within a DIV")
           .build();
