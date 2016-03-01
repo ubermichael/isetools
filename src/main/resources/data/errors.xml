@@ -89,6 +89,9 @@
     <message code="validator.nesting.split_tag" severity="warning">
     <![CDATA[This tag is split/improperly nested.]]>
     </message>
+    <message code="validator.nesting.required" severity="error">
+	<![CDATA[This tag is not the descendent of a required parent]]>
+    </message>
     <message code="validator.tagBalance.unclosed" severity="error">
     <![CDATA[This tag is not closed.]]>
     </message>

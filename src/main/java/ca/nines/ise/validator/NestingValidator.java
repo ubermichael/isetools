@@ -59,6 +59,23 @@ public class NestingValidator {
     "validator.nesting.recursive"
   })
   private void process_start(StartNode n) {
+    //check for mandatory nesting
+    switch(n.getName().toLowerCase()){
+      case "sp":
+        is_descendant_of(n, "s");
+        break;
+      case "br":
+        is_descendant_of(n, "hw");
+        break;
+      case "cw":
+      case "rt":
+      case "sig":
+      case "pn":
+      case "col":
+        is_descendant_of(n, "page");
+        break;
+    }
+    
     for (StartNode s : nodeStack) {
       if (s.getName().toLowerCase().equals(n.getName().toLowerCase())) {
         Message m = Message.builder("validator.nesting.recursive")
@@ -70,6 +87,24 @@ public class NestingValidator {
       }
     }
     nodeStack.push(n);
+  }
+  
+  @ErrorCode(code = {
+      "validator.nesting.required"
+  })
+  private void is_descendant_of(Node n, String parent){
+    for (StartNode s : nodeStack) {
+      if (s.getName().toLowerCase().equals(parent)) {
+        //it's a descendant
+        return;
+      }
+    }
+    //else, log error message
+    Message m = Message.builder("validator.nesting.required")
+        .fromNode(n)
+        .addNote("Tag " + n.getName() + " must be the descendant of a "+parent.toUpperCase()+" tag")
+        .build();
+    Log.addMessage(m);
   }
 
   public void validate(DOM dom) {
