@@ -181,6 +181,11 @@ public class IdentityTransform extends Transformer {
   public void end_epilogue(EndNode n) {
     dom.add(n);
   }
+  
+  @Override
+  public void end_font(EndNode n) {
+    dom.add(n);
+  }
 
   @Override
   public void end_fontgroup(EndNode n) {
@@ -408,6 +413,11 @@ public class IdentityTransform extends Transformer {
   }
 
   @Override
+  public void end_title(EndNode n) {
+    dom.add(n);
+  }
+  
+  @Override
   public void end_titlehead(EndNode n) {
     dom.add(n);
   }
@@ -494,6 +504,11 @@ public class IdentityTransform extends Transformer {
 
   @Override
   public void start_epilogue(StartNode n) {
+    dom.add(n);
+  }
+  
+  @Override
+  public void start_font(StartNode n) {
     dom.add(n);
   }
 
@@ -719,6 +734,11 @@ public class IdentityTransform extends Transformer {
 
   @Override
   public void start_swash(StartNode n) {
+    dom.add(n);
+  }
+  
+  @Override
+  public void start_title(StartNode n) {
     dom.add(n);
   }
 
