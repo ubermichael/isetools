@@ -36,7 +36,7 @@ import ca.nines.ise.node.TextNode;
  */
 public class SpanLineValidator {
   ArrayDeque<StartNode> nodeStack;
-  Boolean in_tag;
+  StartNode start;
   
   @ErrorCode(code = {
     "validator.spanLine.spannedLines"
@@ -45,7 +45,7 @@ public class SpanLineValidator {
   private void process_start(StartNode n) {
     switch (n.getName().toLowerCase()){
       case "ornament":
-        in_tag = true;
+        start = n;
         break;
     }
     nodeStack.push(n);
@@ -54,7 +54,7 @@ public class SpanLineValidator {
   private void process_end(EndNode n) {
     switch (n.getName().toLowerCase()){
       case "ornament":
-        in_tag = false;
+        start = null;
         break;
     }
     nodeStack.pop();
@@ -64,11 +64,11 @@ public class SpanLineValidator {
       "validator.spanLine.spannedLines"
   })
   private void process_text(TextNode n) {
-    if (in_tag){
+    if (start != null){
       if (n.getText().contains("\n")){
         Message m = Message.builder("validator.spanLine.spannedLines")
             .fromNode(n)
-            .addNote("Tag " + n.getName() + " spans more than one line")
+            .addNote("Tag " + start.getName() + " spans more than one line")
             .build();
         Log.addMessage(m);
       }
@@ -77,7 +77,7 @@ public class SpanLineValidator {
   
   public void validate(DOM dom) {
     nodeStack = new ArrayDeque<>();
-    in_tag = false;
+    start = null;
     
     for (Node n : dom) {
       switch (n.type()) {
