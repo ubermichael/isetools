@@ -99,6 +99,8 @@ abstract public class Transformer {
   abstract public void end_em(EndNode n);
 
   abstract public void end_epilogue(EndNode n);
+  
+  abstract public void end_font(EndNode n);
 
   abstract public void end_fontgroup(EndNode n);
 
@@ -189,6 +191,8 @@ abstract public class Transformer {
   abstract public void end_sup(EndNode n);
 
   abstract public void end_swash(EndNode n);
+  
+  abstract public void end_title(EndNode n);
 
   abstract public void end_titlehead(EndNode n);
 
@@ -225,6 +229,8 @@ abstract public class Transformer {
   abstract public void start_em(StartNode n);
 
   abstract public void start_epilogue(StartNode n);
+  
+  abstract public void start_font(StartNode n);
 
   abstract public void start_fontgroup(StartNode n);
 
@@ -315,6 +321,8 @@ abstract public class Transformer {
   abstract public void start_sup(StartNode n);
 
   abstract public void start_swash(StartNode n);
+  
+  abstract public void start_title(StartNode n);
 
   abstract public void start_titlehead(StartNode n);
 
@@ -456,6 +464,9 @@ abstract public class Transformer {
       case "epilogue":
         end_epilogue(n);
         break;
+      case "font":
+        end_font(n);
+        break;
       case "fontgroup":
         end_fontgroup(n);
         break;
@@ -591,6 +602,9 @@ abstract public class Transformer {
       case "swash":
         end_swash(n);
         break;
+      case "title":
+        end_title(n);
+        break;
       case "titlehead":
         end_titlehead(n);
         break;
@@ -652,6 +666,9 @@ abstract public class Transformer {
         break;
       case "epilogue":
         start_epilogue(n);
+        break;
+      case "font":
+        start_font(n);
         break;
       case "fontgroup":
         start_fontgroup(n);
@@ -787,6 +804,9 @@ abstract public class Transformer {
         break;
       case "swash":
         start_swash(n);
+        break;
+      case "title":
+        start_title(n);
         break;
       case "titlehead":
         start_titlehead(n);
