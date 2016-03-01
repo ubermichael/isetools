@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Michael Joyce <ubermichael@gmail.com>
+ * Copyright (C) 2016 Malcolm Moran
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ import ca.nines.ise.node.TextNode;
 /**
  * Converts deprecated tags to correct tags
  *
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class DeprecatedTransform extends IdentityTransform {
   @Override
@@ -143,6 +142,42 @@ public class DeprecatedTransform extends IdentityTransform {
     String size = n.getAttribute("n");
     n.deleteAttribute("n");
     n.setAttribute("size", size);
+    dom.add(n);
+  }
+  
+  @Override
+  public void start_h1(StartNode n) {
+    n.setName("LD");
+    dom.add(n);
+  }
+
+  @Override
+  public void start_h2(StartNode n) {
+    n.setName("LD");
+    dom.add(n);
+  }
+
+  @Override
+  public void start_h3(StartNode n) {
+    n.setName("LD");
+    dom.add(n);
+  }
+
+  @Override
+  public void start_h4(StartNode n) {
+    n.setName("LD");
+    dom.add(n);
+  }
+
+  @Override
+  public void start_h5(StartNode n) {
+    n.setName("LD");
+    dom.add(n);
+  }
+
+  @Override
+  public void start_h6(StartNode n) {
+    n.setName("LD");
     dom.add(n);
   }
   
