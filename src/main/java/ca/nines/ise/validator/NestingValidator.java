@@ -24,7 +24,7 @@ import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.schema.Schema;
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 
 /**
  *
@@ -37,7 +37,72 @@ public class NestingValidator {
         this.schema = schema;
     }
     
-  ArrayDeque<StartNode> nodeStack;
+  LinkedList<StartNode> nodeStack;
+  
+  @ErrorCode(code = {
+      "validator.nesting.redundant"
+  })
+  private void check_redundant_nesting(StartNode n){
+    String message = null;
+    StartNode temp = null;
+    
+    switch(n.getName().toLowerCase()){
+      //basic no redundancies
+      case "c":
+      case "cl":
+      case "cw":
+      case "em":
+      case "i":
+      case "j":
+      case "ld":
+      case "ls":
+      case "pn":
+      case "ra":
+      case "rt":
+      case "sc":
+      //have to come back to this one
+      //case "sd":
+      case "sig":
+      case "sp":
+      case "title":
+      case "work":
+        if (is_nested(n) != null){
+          message = "Tag " + n.getName() + " cannot be nested within a " + n.getName() + " tag.";
+        }
+        break;
+      //special cases
+      case "font":
+        if ((temp = is_nested(n)) != null &&
+            temp.hasAttribute("size") &&
+            n.hasAttribute("size") &&
+            temp.getAttribute("size").equals(n.getAttribute("size"))){
+            message = "Tag FONT cannot be nested within a FONT tag of the same size";
+        }
+        break;
+      case "foreign":
+        if ((temp = is_nested(n)) != null && 
+            temp.hasAttribute("lang") &&
+            n.hasAttribute("lang") &&
+            temp.getAttribute("lang").equals(n.getAttribute("lang"))){
+            message = "Tag FOREIGN cannot be nested within a FOREIGN tag of the same language (lang)";
+        }
+        break;
+    }
+    if (message != null){
+      Message m = Message.builder("validator.nesting.redundant")
+          .fromNode(n)
+          .addNote(message)
+          .build();
+      Log.addMessage(m);
+    }
+  }
+  
+  private StartNode is_nested(Node n){
+    for (int i=nodeStack.size(); i>=0; i--)
+      if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
+        return nodeStack.get(i);
+    return null;
+  }
 
   @ErrorCode(code = {
     "validator.nesting.split",
@@ -59,6 +124,7 @@ public class NestingValidator {
     "validator.nesting.recursive"
   })
   private void process_start(StartNode n) {
+    check_redundant_nesting(n);
     //check for mandatory nesting
     switch(n.getName().toLowerCase()){
       case "sp":
@@ -108,7 +174,7 @@ public class NestingValidator {
   }
 
   public void validate(DOM dom) {
-    nodeStack = new ArrayDeque<>();
+    nodeStack = new LinkedList<>();
 
     for (Node n : dom) {
       switch (n.type()) {

@@ -92,6 +92,9 @@
     <message code="validator.nesting.required" severity="error">
 	<![CDATA[This tag is not the descendent of a required parent]]>
     </message>
+    <message code="validator.nesting.redundant" severity="warning">
+	<![CDATA[This tag is redundantly nested]]>
+    </message>
     <message code="validator.tagBalance.unclosed" severity="error">
     <![CDATA[This tag is not closed.]]>
     </message>
