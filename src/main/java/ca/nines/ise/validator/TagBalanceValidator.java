@@ -53,6 +53,9 @@ public class TagBalanceValidator {
     nodeStack.push(n);
   }
 
+  @ErrorCode(code = {
+    "validator.tagBalance.unclosed"
+  })
   public void validate(DOM dom) {
     nodeStack = new ArrayDeque<>();
   

@@ -39,8 +39,35 @@ public class TagBalanceValidatorTest extends TestBase{
     
     //should produce an error
     setUp();
-    validator.validate(getDOM("<WORK><x></x></x>></WORK>"));
+    validator.validate(getDOM("<WORK><x></x></x></WORK>"));
     checkLog(new String[]{"validator.tagBalance.missing_start_tag"});
+    
+    //should be no problems
+    setUp();
+    validator.validate(getDOM("<WORK><x></x></WORK>"));
+    checkLog();
+    
+    //should be no problems
+    setUp();
+    validator.validate(getDOM("<WORK><x/></WORK>"));
+    checkLog();
+  }
+  
+  /**
+   * Tests if an end tag is missing
+   * @throws Exception
+   */
+  @Test
+  public void testMissingEnd() throws Exception {
+    //should produce an error
+    setUp();
+    validator.validate(getDOM("<WORK><x></WORK>"));
+    checkLog(new String[]{"validator.tagBalance.unclosed"});
+    
+    //should produce an error
+    setUp();
+    validator.validate(getDOM("<WORK><x><x></x></WORK>"));
+    checkLog(new String[]{"validator.tagBalance.unclosed"});
     
     //should be no problems
     setUp();
