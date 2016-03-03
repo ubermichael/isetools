@@ -88,6 +88,11 @@ public class Tag implements Comparable<Tag> {
    * Tags this tag cannot split
    */
   private final String noSplit;
+  
+  /**
+   * Tag this tag should be a child of
+   */
+  private final String ancestor;
 
   /**
    * A builder class for constructing tags. Use Tag#builder() to get a
@@ -101,6 +106,7 @@ public class Tag implements Comparable<Tag> {
     private String empty;
     private String where;
     private String noSplit;
+    private String ancestor;
 
     private int lineNumber;
     private String name;
@@ -118,6 +124,7 @@ public class Tag implements Comparable<Tag> {
       empty = "";
       where = "";
       noSplit = "";
+      ancestor = "";
       name = "";
       lineNumber = 0;
       source = "";
@@ -141,7 +148,7 @@ public class Tag implements Comparable<Tag> {
      */
     @Override
     public Tag build() {
-      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber, noSplit);
+      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber, noSplit, ancestor);
     }
 
     /**
@@ -173,6 +180,11 @@ public class Tag implements Comparable<Tag> {
       tmp = map.getNamedItem("noSplit");
       if (tmp != null) {
         setNoSplit(tmp.getTextContent());
+      }
+      
+      tmp = map.getNamedItem("ancestor");
+      if (tmp != null) {
+        setAncestor(tmp.getTextContent());
       }
 
       tmp = map.getNamedItem("depreciated");
@@ -265,6 +277,11 @@ public class Tag implements Comparable<Tag> {
       this.noSplit = noSplit;
       return this;
     }
+    
+    public TagBuilder setAncestor(String ancestor) {
+      this.ancestor = ancestor;
+      return this;
+    }
 
     /**
      * Set the tag's line number
@@ -321,11 +338,12 @@ public class Tag implements Comparable<Tag> {
    * @param source
    * @param lineNumber
    */
-  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber, String noSplit) {
+  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber, String noSplit, String ancestor) {
     this.name = name;
     this.desc = desc;
     this.where = where;
     this.noSplit = noSplit;
+    this.ancestor = ancestor;
     this.empty = empty;
     this.depreciated = depreciated;
     this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -431,6 +449,10 @@ public class Tag implements Comparable<Tag> {
 
   public String getNoSplit() {
     return noSplit;
+  }
+  
+  public String getAncestor() {
+    return ancestor;
   }
   
   /**
