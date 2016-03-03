@@ -53,6 +53,7 @@ public class NestingValidator {
     
     switch(n.getName().toLowerCase()){
       //basic no redundancies
+      case "col":
       case "c":
       case "cl":
       case "cw":
@@ -103,7 +104,7 @@ public class NestingValidator {
   }
   
   private StartNode is_nested(Node n){
-    for (int i=nodeStack.size(); i>=0; i--)
+    for (int i=0; i<nodeStack.size(); i++)
       if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
         return nodeStack.get(i);
     return null;
@@ -119,21 +120,25 @@ public class NestingValidator {
     }
     
     Tag t = schema.getTag(n.getName());
-    List<String> noSplit = Arrays.asList(t.getNoSplit().split(",[ ]*"));
+    List<String> noSplit = null;
+    if (t != null)
+      noSplit = Arrays.asList(t.getNoSplit().split(",[ ]*"));
     
-    if (!noSplit.isEmpty()){
+    if (noSplit != null && !noSplit.isEmpty()){
       String splitTags = "";
-      for (int i=nodeStack.size(); i>=0; i--){
-        if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
-          break;
+      for (int i=0; i<nodeStack.size(); i++){
         for (String ns : noSplit){
           if (nodeStack.get(i).getName().toLowerCase().equals(ns.toLowerCase()))
             splitTags += ns + " ";
-          }
+        }
+        if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase())){
+          nodeStack.remove(i);
+          break;
+        }
       }
       
       if (!splitTags.equals("")){
-        Message m = Message.builder("validator.nesting.split_tag")
+        Message m = Message.builder("validator.nesting.split")
             .fromNode(n)
             .addNote("Tag " + n.getName() + " cannot split these tags: "+splitTags)
             .build();
@@ -146,22 +151,9 @@ public class NestingValidator {
 
   private void process_start(StartNode n) {
     check_redundant_nesting(n);
-    //check for mandatory nesting
-    switch(n.getName().toLowerCase()){
-      case "sp":
-        is_descendant_of(n, "s");
-        break;
-      case "br":
-        is_descendant_of(n, "hw");
-        break;
-      case "cw":
-      case "rt":
-      case "sig":
-      case "pn":
-      case "col":
-        is_descendant_of(n, "page");
-        break;
-    }
+    Tag t = schema.getTag(n.getName());
+    if (t != null && !t.getAncestor().equals(""))
+      is_descendant_of(n, t.getAncestor());
     nodeStack.push(n);
   }
   
