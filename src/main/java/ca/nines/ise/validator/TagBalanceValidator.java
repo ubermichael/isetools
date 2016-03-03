@@ -11,11 +11,6 @@ import ca.nines.ise.schema.Schema;
 import java.util.ArrayDeque;
 
 public class TagBalanceValidator {
-  private final Schema schema;
-
-  public TagBalanceValidator(Schema schema) {
-      this.schema = schema;
-  }
   
   ArrayDeque<StartNode> nodeStack;
   
