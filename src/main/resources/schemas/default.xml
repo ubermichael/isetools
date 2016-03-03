@@ -119,7 +119,7 @@
     <tag name="BLOCKQUOTE" depreciated="Use QUOTE instead of BLOCKQUOTE" where="oldspelling">
       <desc><![CDATA[Previously used to denote a quoted piece of text (e.g. letter).]]></desc>
     </tag>
-    <tag name="BR" empty="yes" where="primary">
+    <tag name="BR" empty="yes" where="primary" ancestor="HW">
       <desc><![CDATA[Break between lines of hung-words. Should NOT be used to force line breaks in any other context.]]></desc>
     </tag>
     <tag name="C" where="all">
@@ -128,7 +128,7 @@
     <tag name="CL" where="primary" noSplit="LD">
       <desc><![CDATA[Closing statement (e.g. Finis).]]></desc>
     </tag>
-    <tag name="COL" where="oldspelling" noSplit="COL">
+    <tag name="COL" where="oldspelling" noSplit="COL" ancestor="PAGE">
       <desc><![CDATA[Defines columns in a page.]]></desc>
       <attribute name="n" type="select">
         <desc><![CDATA[<COL n="0">...</COL> Defines pages with no columns in a document that elsewhere has columns. <COL n="1 | 2">...</COL> Column 1 or 2 (Folio).]]></desc>
@@ -582,7 +582,7 @@
         <desc><![CDATA[The signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
     </tag>
-    <tag name="SP" where="primary">
+    <tag name="SP" where="primary" ancestor="S">
       <desc><![CDATA[Speaker(s) for the enclosing speech. Should appear before any speech text. If a prefix is not given in the source material, use an empty SP tag to indicate its omission.]]></desc>
       <attribute name="norm" type="string">
         <desc><![CDATA[Normalized form of the name. If there is more than one speaker, separate the noramlized names by commas.]]></desc>
