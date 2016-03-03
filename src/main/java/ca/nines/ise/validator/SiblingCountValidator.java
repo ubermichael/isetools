@@ -31,6 +31,7 @@ public class SiblingCountValidator {
   //<parent,<child,count>>
   static final Map<String , HashMap<String,String>> SIBLING_MAP = new HashMap<String , HashMap<String,String>>() {{
     put("s", new HashMap<String , String>() {{put("sp","1");}});
+    put("bracegroup", new HashMap<String , String>() {{put("label","1");}});
    }};
 
   public SiblingCountValidator(Schema schema) {
@@ -41,9 +42,12 @@ public class SiblingCountValidator {
       "validator.siblingCount.overCount"
     })
   private void process_start(StartNode n){
-    String count = SIBLING_MAP.get(parentStack.peekFirst().getName().toLowerCase()).get(n.getName().toLowerCase());
+    HashMap<String, String> children = SIBLING_MAP.get(parentStack.peekFirst().getName().toLowerCase());
+    String count = null;
+    if (children != null)
+      count = children.get(n.getName().toLowerCase());
     
-    if (!count.equals("")){
+    if (count != null){
       int sibCount = Integer.parseInt(count);
       int childCount = 0;
       
@@ -62,7 +66,6 @@ public class SiblingCountValidator {
           Log.addMessage(m);
         }
       }
-      
     }
     
   }
