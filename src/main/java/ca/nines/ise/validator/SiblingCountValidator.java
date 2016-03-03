@@ -42,32 +42,39 @@ public class SiblingCountValidator {
       "validator.siblingCount.overCount"
     })
   private void process_start(StartNode n){
-    HashMap<String, String> children = SIBLING_MAP.get(parentStack.peekFirst().getName().toLowerCase());
-    String count = null;
-    if (children != null)
-      count = children.get(n.getName().toLowerCase());
+    StartNode parent = parentStack.peekFirst();
     
-    if (count != null){
-      int sibCount = Integer.parseInt(count);
-      int childCount = 0;
+    if (parent != null){
+      String parent_name = parent.getName();
+      HashMap<String, String> children = SIBLING_MAP.get(parent_name.toLowerCase());
+      String count = null;
+      if (children != null)
+        count = children.get(n.getName().toLowerCase());
       
-      if (childStack.peekFirst().isEmpty()){
-        childStack.peekFirst().add(n);
-      }else{
-        for(StartNode c : childStack.peekFirst()){
-          if (c.getName().toLowerCase().equals(n.getName().toLowerCase()))
-            childCount ++;
-        }
-        if (childCount > sibCount){
-          Message m = Message.builder("validator.siblingCount.overCount")
-              .fromNode(n)
-              .addNote("Tag " + n.getName() + " cannot have more than " + count + " " + n.getName() + " siblings.")
-              .build();
-          Log.addMessage(m);
+      if (count != null){
+        int sibCount = Integer.parseInt(count);
+        int childCount = 0;
+        
+        if (childStack.peekFirst().isEmpty()){
+          childStack.peekFirst().add(n);
+        }else{
+          for(StartNode c : childStack.peekFirst()){
+            if (c.getName().toLowerCase().equals(n.getName().toLowerCase()))
+              childCount ++;
+          }
+          if (childCount > sibCount){
+            Message m = Message.builder("validator.siblingCount.overCount")
+                .fromNode(n)
+                .addNote("Tag " + parent_name + " cannot have more than " + count + " " + n.getName() + " children.")
+                .build();
+            Log.addMessage(m);
+          }
         }
       }
     }
     
+    parentStack.push(n);
+    childStack.push(new ArrayList<StartNode>());
   }
   
   public void validate(DOM dom){
@@ -78,11 +85,10 @@ public class SiblingCountValidator {
       switch (n.type()) {
         case START:
           process_start((StartNode) n);
-          parentStack.push((StartNode) n);
-          childStack.push(new ArrayList<StartNode>());
           break;
         case END:
-          if (n.getName().toLowerCase().equals(parentStack.peekFirst().getName().toLowerCase())){
+          StartNode parent = parentStack.peekFirst();
+          if (parent != null && n.getName().toLowerCase().equals(parent.getName().toLowerCase())){
             parentStack.pop();
             childStack.pop();
           }
