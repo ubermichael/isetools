@@ -23,20 +23,15 @@ import ca.nines.ise.schema.Tag;
  */
 
 public class SiblingCountValidator {
-  private final Schema schema;
   //these stacks are parallel: each list in childStack correlates to the node in parentStack at that position
   LinkedList<StartNode> parentStack;
   LinkedList<List<StartNode>> childStack;
   
   //<parent,<child,count>>
   static final Map<String , HashMap<String,String>> SIBLING_MAP = new HashMap<String , HashMap<String,String>>() {{
-    put("s", new HashMap<String , String>() {{put("sp","1");}});
-    put("bracegroup", new HashMap<String , String>() {{put("label","1");}});
+    put("s", new HashMap<String , String>() {{put("sp","0");}});
+    put("bracegroup", new HashMap<String , String>() {{put("label","0");}});
    }};
-
-  public SiblingCountValidator(Schema schema) {
-    this.schema = schema;
-  }
   
   @ErrorCode(code = {
       "validator.siblingCount.overCount"
