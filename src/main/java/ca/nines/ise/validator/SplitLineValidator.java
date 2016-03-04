@@ -17,6 +17,12 @@ public class SplitLineValidator {
   
 EmptyNode current;
 ArrayDeque<Node> nodeStack;
+/**
+ * array to hold recursive split lines so that they don't generate
+ * multiple errors (one for recursive and one for a part="f" missing part="i"
+ * even though one exists
+ * */
+ArrayDeque<Node> extraSplits;
 
 @ErrorCode(code = {
     "validator.splitLine.recursive"
@@ -28,6 +34,7 @@ private void process_start(EmptyNode n) {
                .addNote(get_name(n) + " cannot start a new split line (@part=\"i\") before the current one ("+get_name(current)+" @ TLN="+current.getTLN()+") is finished")
                .build();
         Log.addMessage(m);
+        extraSplits.push(n);
     }
     else{
       current = n;
@@ -68,7 +75,9 @@ private void process_finish(EmptyNode n) {
     Log.addMessage(m);
     nodeStack.remove(current);
     current = null;
-  }else{
+  }else if (!extraSplits.isEmpty())
+    extraSplits.pop();
+  else{
     nodeStack.remove(current);
     current = null;
   }
@@ -88,7 +97,7 @@ private String get_name(EmptyNode n){
 })
 private void process_sectioning_end(EndNode n) {
   //if closing itself with nothing in between, we're good
-  if (nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
+  if (!nodeStack.isEmpty() && nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
     nodeStack.pop();
     return;
   }
@@ -121,6 +130,7 @@ private void process_sectioning_start(StartNode n){
 public void validate(DOM dom) {
   current = null;
   nodeStack = new ArrayDeque<>();
+  extraSplits = new ArrayDeque<>();
 
   for (Node n : dom) {      
     switch (n.getName().toLowerCase()){
