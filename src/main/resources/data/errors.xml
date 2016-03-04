@@ -133,5 +133,23 @@
     <message code="validator.text.depreciatedhash" severity="error">
     <![CDATA[{#} is depreciated SGML markup. ]]>
     </message>
+    
+    <message code="validator.coverage.not_covered" severity="error">
+    <![CDATA[This tag must be in a sectioning element.]]>
+    </message>    
+    <message code="validator.coverage.inside_matter_outside_div" severity="error">
+    <![CDATA[This tag is not in a DIV and inside matter.]]>
+    </message>    
+    <message code="validator.coverage.outside_div" severity="error">
+    <![CDATA[This tag is outside a DIV and matter, but such DIVs exist.]]>
+    </message>    
+    <message code="validator.coverage.outside_scene_or_Act" severity="error">
+    <![CDATA[This tag is outside a SCENE and ACT, but such tags exist.]]>
+    </message>    
+    <message code="validator.coverage.outside_page" severity="error">
+    <![CDATA[This tag is outside a PAGE, but PAGE tags exist.]]>
+    </message>
+    
+    
   </errorCodes>
 </messages>
