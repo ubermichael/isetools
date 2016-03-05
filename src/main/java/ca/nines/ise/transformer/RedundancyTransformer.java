@@ -95,147 +95,147 @@ public class RedundancyTransformer extends IdentityTransform {
     return null;
   }
   
-  @Override
+  
   public void start_c(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_cl(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_cw(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_em(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_i(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_j(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_ld(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_ls(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_pn(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_ra(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_rt(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_sc(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_sig(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_sp(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_title(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_work(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_foreign(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void start_font(StartNode n) {
     start_node(n);
   }
-  @Override
+  
   public void end_c(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_cl(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_cw(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_em(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_i(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_j(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_ld(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_ls(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_pn(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_ra(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_rt(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_sc(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_sig(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_sp(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_title(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_work(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_foreign(EndNode n) {
     end_node(n);
   }
-  @Override
+  
   public void end_font(EndNode n) {
     end_node(n);
   }
