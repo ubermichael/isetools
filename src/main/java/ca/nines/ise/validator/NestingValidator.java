@@ -42,7 +42,7 @@ public class NestingValidator {
         this.schema = schema;
     }
     
-  LinkedList<StartNode> nodeStack;
+  ValidatorStack<StartNode> nodeStack;
   
   @ErrorCode(code = {
       "validator.nesting.redundant"
@@ -104,17 +104,14 @@ public class NestingValidator {
   }
   
   private StartNode is_nested(Node n){
-    for (int i=0; i<nodeStack.size(); i++)
-      if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
-        return nodeStack.get(i);
-    return null;
+    return nodeStack.get_first(n);
   }
 
   @ErrorCode(code = {
     "validator.nesting.split",
   })
   private void process_end(EndNode n) {
-    if (nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
+    if (nodeStack.is_head_equal(n.getName())){
       nodeStack.pop();
       return;
     }
@@ -131,7 +128,7 @@ public class NestingValidator {
           if (nodeStack.get(i).getName().toLowerCase().equals(ns.toLowerCase()))
             splitTags += ns + " ";
         }
-        if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase())){
+        if (nodeStack.is_equal(i,n.getName())){
           nodeStack.remove(i);
           break;
         }
@@ -176,7 +173,7 @@ public class NestingValidator {
   }
 
   public void validate(DOM dom) {
-    nodeStack = new LinkedList<>();
+    nodeStack = new ValidatorStack<StartNode>();
 
     for (Node n : dom) {
       switch (n.type()) {

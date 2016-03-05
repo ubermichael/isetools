@@ -16,13 +16,13 @@ public class SplitLineValidator {
   public SplitLineValidator() {}
   
 EmptyNode current;
-ArrayDeque<Node> nodeStack;
+ValidatorStack<Node> nodeStack;
 /**
  * array to hold recursive split lines so that they don't generate
  * multiple errors (one for recursive and one for a part="f" missing part="i"
  * even though one exists
  * */
-ArrayDeque<Node> extraSplits;
+ValidatorStack<Node> extraSplits;
 
 @ErrorCode(code = {
     "validator.splitLine.recursive"
@@ -67,10 +67,10 @@ private void process_finish(EmptyNode n) {
             .build();
     Log.addMessage(m);
   //if there's a sectioning open in the split line, it's crossing
-  }else if (!nodeStack.peekFirst().getName().toLowerCase().equals("l")){
+  }else if (!nodeStack.is_head_equal("l")){
     Message m = Message.builder("validator.partLine.crossing")
         .fromNode(n)
-        .addNote("Tag " + nodeStack.peekFirst().getName() + " crosses a split-line ("+get_name(current)+" @ TLN="+current.getTLN()+")")
+        .addNote("Tag " + nodeStack.get_head_name() + " crosses a split-line ("+get_name(current)+" @ TLN="+current.getTLN()+")")
         .build();
     Log.addMessage(m);
     nodeStack.remove(current);
@@ -97,7 +97,7 @@ private String get_name(EmptyNode n){
 })
 private void process_sectioning_end(EndNode n) {
   //if closing itself with nothing in between, we're good
-  if (!nodeStack.isEmpty() && nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
+  if (nodeStack.is_head_equal(n.getName())) {
     nodeStack.pop();
     return;
   }
@@ -129,8 +129,8 @@ private void process_sectioning_start(StartNode n){
 })
 public void validate(DOM dom) {
   current = null;
-  nodeStack = new ArrayDeque<>();
-  extraSplits = new ArrayDeque<>();
+  nodeStack = new ValidatorStack<Node>();
+  extraSplits = new ValidatorStack<Node>();
 
   for (Node n : dom) {      
     switch (n.getName().toLowerCase()){

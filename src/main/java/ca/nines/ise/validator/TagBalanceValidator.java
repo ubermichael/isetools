@@ -12,13 +12,13 @@ import java.util.ArrayDeque;
 
 public class TagBalanceValidator {
   
-  ArrayDeque<StartNode> nodeStack;
+  ValidatorStack<StartNode> nodeStack;
   
   @ErrorCode(code = {
     "validator.tagBalance.missing_start_tag"
   })
   private void process_end(EndNode n) {
-    if (nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
+    if (nodeStack.is_head_equal(n.getName())) {
       nodeStack.pop();
       return;
     }
@@ -57,7 +57,7 @@ public class TagBalanceValidator {
     "validator.tagBalance.unclosed"
   })
   public void validate(DOM dom) {
-    nodeStack = new ArrayDeque<>();
+    nodeStack = new ValidatorStack<StartNode>();
   
     for (Node n : dom) {
       switch (n.type()) {

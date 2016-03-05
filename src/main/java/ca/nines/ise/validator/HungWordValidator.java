@@ -36,7 +36,7 @@ import ca.nines.ise.node.TextNode;
  */
 public class HungWordValidator {
 
-  ArrayDeque<StartNode> nodeStack;
+  ValidatorStack<StartNode> nodeStack;
   Boolean in_hm, after_hm;
   
   @ErrorCode(code = {
@@ -81,7 +81,7 @@ public class HungWordValidator {
   }
 
   public void validate(DOM dom) {
-    nodeStack = new ArrayDeque<>();
+    nodeStack = new ValidatorStack<StartNode>();
     in_hm = false;
     after_hm = false;
     

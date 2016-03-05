@@ -35,7 +35,6 @@ import ca.nines.ise.node.TextNode;
  * and, therefore, span multiple lines
  */
 public class SpanLineValidator {
-  ArrayDeque<StartNode> nodeStack;
   StartNode start;
   
   @ErrorCode(code = {
@@ -48,7 +47,6 @@ public class SpanLineValidator {
         start = n;
         break;
     }
-    nodeStack.push(n);
   }
   
   private void process_end(EndNode n) {
@@ -57,26 +55,22 @@ public class SpanLineValidator {
         start = null;
         break;
     }
-    nodeStack.pop();
   }
   
   @ErrorCode(code = {
       "validator.spanLine.spannedLines"
   })
   private void process_text(TextNode n) {
-    if (start != null){
-      if (n.getText().contains("\n")){
-        Message m = Message.builder("validator.spanLine.spannedLines")
-            .fromNode(n)
-            .addNote("Tag " + start.getName() + " spans more than one line")
-            .build();
-        Log.addMessage(m);
-      }
+    if (start != null && n.getText().contains("\n")){
+      Message m = Message.builder("validator.spanLine.spannedLines")
+          .fromNode(n)
+          .addNote("Tag " + start.getName() + " spans more than one line")
+          .build();
+      Log.addMessage(m);
     }
   }
   
   public void validate(DOM dom) {
-    nodeStack = new ArrayDeque<>();
     start = null;
     
     for (Node n : dom) {

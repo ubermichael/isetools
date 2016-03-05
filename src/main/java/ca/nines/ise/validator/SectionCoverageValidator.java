@@ -14,7 +14,7 @@ import ca.nines.ise.node.TextNode;
 
 public class SectionCoverageValidator {
 
-  LinkedList<StartNode> nodeStack;
+  ValidatorStack<StartNode> nodeStack;
   ArrayList<StartNode> coverAll;
   ArrayList<StartNode> acts;
   ArrayList<StartNode> scenes;
@@ -27,9 +27,9 @@ public class SectionCoverageValidator {
     else if (n.getName().toLowerCase().equals("scene"))
       scenes.add(n);
     else if (n.getName().toLowerCase().equals("acts"))
-      scenes.add(n);
+      acts.add(n);
     else if (n.getName().toLowerCase().equals("pages"))
-      scenes.add(n);
+      pages.add(n);
   }
   
   private void process_start(StartNode n){
@@ -38,15 +38,9 @@ public class SectionCoverageValidator {
   
   private void process_end(EndNode n){
     //remove node from stack, we don't care about splitting here
-    Node end = null;
-    for (int i= nodeStack.size() -1; i>= 0; i--) {
-      Node s = nodeStack.get(i);
-      if (s.getName().toLowerCase().equals(n.getName().toLowerCase()))
-        end = s;
-    }
+    Node end = nodeStack.get_first(n);
     if (end != null)
       nodeStack.remove(end);
-    
   }
   
   private Boolean in_tag(String name){
@@ -71,7 +65,6 @@ public class SectionCoverageValidator {
           .addNote("Text is not within a sectioning tag (DIV, ACT, SCENE, PAGE)")
           .build();
       Log.addMessage(m);
-      return;
     }
     
     if ((in_tag("frontmatter") || in_tag("backmatter")) && !in_tag("div")){
@@ -80,7 +73,6 @@ public class SectionCoverageValidator {
           .addNote("Text in FRONTMATTER or BACKMATTER must be within a DIV")
           .build();
       Log.addMessage(m);
-      return;
     }
     
     Boolean outside = true;
@@ -94,7 +86,6 @@ public class SectionCoverageValidator {
           .addNote("All text in the document must be contained within DIV tags if a DIV exists outside FRONTMATTER and BACKMATTER")
           .build();
       Log.addMessage(m);
-      return;
     }
     
     //if outside frontmatter and backmatter
@@ -108,7 +99,6 @@ public class SectionCoverageValidator {
             .addNote("All text outside FRONTMATTER and BACKMATTER must be within an ACT and/or SCENE if ACT and/or SCENE tags exist in the document")
             .build();
           Log.addMessage(m);
-          return;
         }
       }
     }
@@ -120,13 +110,12 @@ public class SectionCoverageValidator {
           .addNote("if PAGE tags exists, all text must be within a PAGE")
           .build();
       Log.addMessage(m);
-      return;
     }
     
   }
   
   public void validate(DOM dom) {
-    nodeStack = new LinkedList<StartNode>();
+    nodeStack = new ValidatorStack<StartNode>();
     coverAll = new ArrayList<StartNode>();
     acts = new ArrayList<StartNode>();
     scenes = new ArrayList<StartNode>();

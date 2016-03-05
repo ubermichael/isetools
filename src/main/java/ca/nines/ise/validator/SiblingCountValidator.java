@@ -24,8 +24,8 @@ import ca.nines.ise.schema.Tag;
 
 public class SiblingCountValidator {
   //these stacks are parallel: each list in childStack correlates to the node in parentStack at that position
-  LinkedList<StartNode> parentStack;
-  LinkedList<List<StartNode>> childStack;
+  ValidatorStack<StartNode> parentStack;
+  LinkedList<ValidatorStack<StartNode>> childStack;
   
   //<parent,<child,count>>
   static final Map<String , HashMap<String,String>> SIBLING_MAP = new HashMap<String , HashMap<String,String>>() {{
@@ -69,12 +69,12 @@ public class SiblingCountValidator {
     }
     
     parentStack.push(n);
-    childStack.push(new ArrayList<StartNode>());
+    childStack.push(new ValidatorStack<StartNode>());
   }
   
   public void validate(DOM dom){
-    parentStack = new LinkedList<>();
-    childStack = new LinkedList<List<StartNode>>();
+    parentStack = new ValidatorStack<StartNode>();
+    childStack = new LinkedList<ValidatorStack<StartNode>>();
     
     for (Node n : dom) {
       switch (n.type()) {
