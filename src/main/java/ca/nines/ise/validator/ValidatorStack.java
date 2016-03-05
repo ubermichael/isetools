@@ -49,11 +49,40 @@ public class ValidatorStack<E extends Node> extends LinkedList<E>{
    * null if no occurence
    */
   public E get_first(Node n){
-    for (int i=0; i<this.size(); i++){
-      if (this.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
-        return this.get(i);
+    for (E s : this){
+      if (s.getName().toLowerCase().equals(n.getName().toLowerCase()))
+        return s;
+    }
+    return null;
+  }
+
+  /**
+   * returns the first instance of s in nodeStack
+   * null if no occurence
+   */
+  public E get_first(String s){
+    for (E n : this){
+      if (n.getName().toLowerCase().equals(s.toLowerCase()))
+        return n;
     }
     return null;
   }
   
+  /**
+   * returns true if name exists in the list
+   * false otherwise
+   * @param name
+   */
+  public Boolean in_tag(String name){
+    return get_first(name) != null;
+  }
+  
+/**
+ * removes the first occurence of a node with the same name as @n
+ */
+  public void remove_first(Node n){
+    Node end = this.get_first(n);
+    if (end != null)
+      this.remove(end);
+  }
 }

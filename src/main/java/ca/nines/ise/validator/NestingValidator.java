@@ -123,13 +123,13 @@ public class NestingValidator {
     
     if (noSplit != null && !noSplit.isEmpty()){
       String splitTags = "";
-      for (int i=0; i<nodeStack.size(); i++){
+      for (StartNode s : nodeStack){
         for (String ns : noSplit){
-          if (nodeStack.get(i).getName().toLowerCase().equals(ns.toLowerCase()))
+          if (s.getName().toLowerCase().equals(ns.toLowerCase()))
             splitTags += ns + " ";
         }
-        if (nodeStack.is_equal(i,n.getName())){
-          nodeStack.remove(i);
+        if (s.getName().toLowerCase().equals(n.getName().toLowerCase())){
+          nodeStack.remove(s);
           break;
         }
       }
@@ -141,9 +141,9 @@ public class NestingValidator {
             .build();
         Log.addMessage(m);
       }
+    }else{
+      nodeStack.remove_first(n);
     }
-          
-          
   }
 
   private void process_start(StartNode n) {
