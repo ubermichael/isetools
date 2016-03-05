@@ -1,29 +1,13 @@
 package ca.nines.ise.validator;
 
 import org.junit.Test;
-import static org.junit.Assume.assumeThat;
 
-import java.io.IOException;
-
-import static org.hamcrest.CoreMatchers.is;
-
-import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMBuilder;
-
-import ca.nines.ise.validator.node.TestBase;
-
-public class SplitLineValidatorTest extends TestBase{
+public class SplitLineValidatorTest extends ValidatorTestBase{
   
   SplitLineValidator validator;
   
-  public SplitLineValidatorTest(){
+  public SplitLineValidatorTest() throws Exception {
     validator = new SplitLineValidator();
-  }
-  
-  private DOM getDOM(String iml) throws IOException{
-    DOM d = new DOMBuilder(iml).build();
-    assumeThat(d.getStatus(), is(DOM.DOMStatus.CLEAN));
-    return d;
   }
   
   /**

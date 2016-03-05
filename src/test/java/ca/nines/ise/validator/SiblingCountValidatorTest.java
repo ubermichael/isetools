@@ -1,29 +1,13 @@
 package ca.nines.ise.validator;
 
 import org.junit.Test;
-import static org.junit.Assume.assumeThat;
 
-import java.io.IOException;
-
-import static org.hamcrest.CoreMatchers.is;
-
-import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.DOMBuilder;
-
-import ca.nines.ise.validator.node.TestBase;
-
-public class SiblingCountValidatorTest extends TestBase{
+public class SiblingCountValidatorTest extends ValidatorTestBase{
   
   SiblingCountValidator validator;
   
-  public SiblingCountValidatorTest(){
+  public SiblingCountValidatorTest() throws Exception{
     validator = new SiblingCountValidator();
-  }
-  
-  private DOM getDOM(String iml) throws IOException{
-    DOM d = new DOMBuilder(iml).build();
-    assumeThat(d.getStatus(), is(DOM.DOMStatus.CLEAN));
-    return d;
   }
   
   /**
