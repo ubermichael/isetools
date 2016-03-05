@@ -21,6 +21,15 @@ public class SectionCoverageValidatorTest extends ValidatorTestBase{
     setUp();
     validator.validate(getDOM("<WORK><FRONTMATTER>x</FRONTMATTER></WORK>"));
     checkLog(new String[]{"validator.coverage.outside_div"});
+    
+    //should be okay
+    
+    setUp();
+    validator.validate(getDOM("<WORK><FRONTMATTER><DIV>x</DIV></FRONTMATTER></WORK>"));
+    checkLog();
+    setUp();
+    validator.validate(getDOM("<WORK><FRONTMATTER><DIV>x</DIV><DIV>y</DIV></FRONTMATTER></WORK>"));
+    checkLog();
   }
   
   /**
@@ -30,10 +39,20 @@ public class SectionCoverageValidatorTest extends ValidatorTestBase{
   @Test
   public void testBodyCoverage() throws Exception {
     //should produce error(s)
-    
     setUp();
     validator.validate(getDOM("<WORK><ACT>x</ACT>x</WORK>"));
     checkLog(new String[]{"validator.coverage.outside_body"});
+    setUp();
+    validator.validate(getDOM("<WORK><DIV>x</DIV><ACT>x</ACT></WORK>"));
+    checkLog(new String[]{"validator.coverage.outside_body","validator.coverage.outside_body"});
+    setUp();
+    validator.validate(getDOM("<WORK><DIV>x</DIV>x</WORK>"));
+    checkLog(new String[]{"validator.coverage.outside_body"});
+    //should be okay
+    
+    setUp();
+    validator.validate(getDOM("<WORK><ACT>x</ACT></WORK>"));
+    checkLog();
   }
   
   /**
@@ -47,6 +66,18 @@ public class SectionCoverageValidatorTest extends ValidatorTestBase{
     setUp();
     validator.validate(getDOM("<WORK>x</WORK>"));
     checkLog(new String[]{"validator.coverage.required"});
+    
+    //should be okay
+    
+    setUp();
+    validator.validate(getDOM("<WORK><DIV>x</DIV></WORK>"));
+    checkLog();
+    setUp();
+    validator.validate(getDOM("<WORK><DIV>x</DIV></WORK>"));
+    checkLog();
+    setUp();
+    validator.validate(getDOM("<WORK><DIV><ACT>x</ACT></DIV></WORK>"));
+    checkLog();
   }
   
   /**
@@ -60,6 +91,21 @@ public class SectionCoverageValidatorTest extends ValidatorTestBase{
     setUp();
     validator.validate(getDOM("<WORK><PAGE></PAGE>x</WORK>"));
     checkLog(new String[]{"validator.coverage.outside_page"});
+    setUp();
+    validator.validate(getDOM("<WORK><FRONTMATTER><DIV>x</DIV></FRONTMATTER><PAGE>y</PAGE></WORK>"));
+    checkLog(new String[]{"validator.coverage.outside_page"});
+    
+    //should be okay
+    
+    setUp();
+    validator.validate(getDOM("<WORK><PAGE>x</PAGE></WORK>"));
+    checkLog();
+    setUp();
+    validator.validate(getDOM("<WORK><PAGE>x</PAGE><PAGE>y</PAGE></WORK>"));
+    checkLog();
+    setUp();
+    validator.validate(getDOM("<WORK><PAGE><FRONTMATTER><DIV>x</DIV></FRONTMATTER>y</PAGE></WORK>"));
+    checkLog();
   }
   
 }
