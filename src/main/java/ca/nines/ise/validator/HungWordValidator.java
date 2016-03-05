@@ -22,6 +22,7 @@ import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
+import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.NodeType;
@@ -31,59 +32,70 @@ import ca.nines.ise.node.TextNode;
  * 
  * @author Malcolm Moran <malcolm.moran@outlook.com>
  * 
- * Ensures HW tags do not span more than one line, 
- * and are always used at the end of a line.
+ * Ensures HW are always used at the end of a line.
  */
 public class HungWordValidator {
-
-  ValidatorStack<StartNode> nodeStack;
-  Boolean in_hm, after_hm;
+  Boolean in_hw, after_hw;
+  StartNode last_hw;
   
   @ErrorCode(code = {
       "validator.hungWord.endOfLine"
   })
   private void process_start(StartNode n){
-    if (n.getName().toLowerCase().equals("hm"))
-      in_hm = true;
-    if (after_hm){
+    if (n.getName().toLowerCase().equals("hw")){
+      in_hw = true;
+      last_hw = n;
+    }
+    if (after_hw){
       Message m = Message.builder("validator.hungWord.endOfLine")
-          .fromNode(n)
-          .addNote("Tag " + n.getName() + " is following an HW tag on the same line")
+          .fromNode(last_hw)
+          .addNote("HW tags must be at the end of a line")
           .build();
       Log.addMessage(m);
     }
-    nodeStack.push(n);
   }
-  
-  private void process_end(EndNode n) {
-    if (n.getName().toLowerCase().equals("hm")){
-      in_hm = false;
-      after_hm = true;
+
+  @ErrorCode(code = {
+      "validator.hungWord.endOfLine"
+  })
+  private void process_empty(EmptyNode n){
+    if (after_hw){
+      Message m = Message.builder("validator.hungWord.endOfLine")
+          .fromNode(last_hw)
+          .addNote("HW tags must be at the end of a line")
+          .build();
+      Log.addMessage(m);
     }
-    nodeStack.pop();
   }
   
   @ErrorCode(code = {
-      "validator.hungWord.spannedLines"
+      "validator.hungWord.endOfLine"
   })
+  private void process_end(EndNode n) {
+    // if last_hw is null (ie. there was no start tag, we'll let the tag_balance_validator attach an error
+    if (n.getName().toLowerCase().equals("hw") && last_hw != null){
+      in_hw = false;
+      after_hw = true;
+    }
+  }
+  
   private void process_text(TextNode n) {
     if (n.getText().contains("\n")){
-      if (in_hm){
-          Message m = Message.builder("validator.hungWord.spannedLines")
-              .fromNode(n)
-              .addNote("Tag " + n.getName() + " spans more than one line")
-              .build();
-          Log.addMessage(m);
-      }else if (after_hm){
-          after_hm = false;
-      }
+      in_hw = false;
+      after_hw = false;
+    } else if (after_hw){
+      Message m = Message.builder("validator.hungWord.endOfLine")
+          .fromNode(last_hw)
+          .addNote("HW tags must be at the end of a line")
+          .build();
+      Log.addMessage(m);
     }
   }
 
   public void validate(DOM dom) {
-    nodeStack = new ValidatorStack<StartNode>();
-    in_hm = false;
-    after_hm = false;
+    in_hw = false;
+    after_hw = false;
+    last_hw = null;
     
     for (Node n : dom) {
       switch (n.type()) {
@@ -93,6 +105,9 @@ public class HungWordValidator {
         case START:
           process_start((StartNode) n);
           break;        
+        case EMPTY:
+          process_empty((EmptyNode) n);
+          break;
         case TEXT:
           process_text((TextNode) n);
           break;

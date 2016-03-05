@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.validator;
 
-import java.util.ArrayDeque;
 
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
@@ -24,7 +23,6 @@ import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
-import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 /**
@@ -44,6 +42,7 @@ public class SpanLineValidator {
   private void process_start(StartNode n) {
     switch (n.getName().toLowerCase()){
       case "ornament":
+      case "hw":
         start = n;
         break;
     }
@@ -52,6 +51,7 @@ public class SpanLineValidator {
   private void process_end(EndNode n) {
     switch (n.getName().toLowerCase()){
       case "ornament":
+      case "hw":
         start = null;
         break;
     }

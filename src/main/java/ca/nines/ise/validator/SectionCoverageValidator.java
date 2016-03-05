@@ -26,9 +26,9 @@ public class SectionCoverageValidator {
       coverAll.add(n);
     else if (n.getName().toLowerCase().equals("scene"))
       scenes.add(n);
-    else if (n.getName().toLowerCase().equals("acts"))
+    else if (n.getName().toLowerCase().equals("act"))
       acts.add(n);
-    else if (n.getName().toLowerCase().equals("pages"))
+    else if (n.getName().toLowerCase().equals("page"))
       pages.add(n);
   }
   
@@ -52,23 +52,22 @@ public class SectionCoverageValidator {
   }
   
   @ErrorCode(code = {
-      "validator.coverage.not_covered",
-      "validator.coverage.inside_matter_outside_div",
+      "validator.coverage.required",
       "validator.coverage.outside_div",
-      "validator.coverage.outside_scene_or_Act",
+      "validator.coverage.outside_body",
       "validator.coverage.outside_page"
   })
   private void process_text(TextNode n){
-    if (nodeStack.isEmpty()){
-      Message m = Message.builder("validator.coverage.not_covered")
+    if (!(in_tag("frontmatter") || in_tag("backmatter")) &&
+        coverAll.isEmpty() && scenes.isEmpty() && acts.isEmpty() && pages.isEmpty()){
+      Message m = Message.builder("validator.coverage.required")
           .fromNode(n)
-          .addNote("Text is not within a sectioning tag (DIV, ACT, SCENE, PAGE)")
+          .addNote("Text in the document must be within at least one type of sectioning element (ex. DIV, ACT, SCENE, etc.)")
           .build();
-      Log.addMessage(m);
+      Log.addMessage(m); 
     }
-    
     if ((in_tag("frontmatter") || in_tag("backmatter")) && !in_tag("div")){
-      Message m = Message.builder("validator.coverage.inside_matter_outside_div")
+      Message m = Message.builder("validator.coverage.outside_div")
           .fromNode(n)
           .addNote("Text in FRONTMATTER or BACKMATTER must be within a DIV")
           .build();
@@ -76,12 +75,16 @@ public class SectionCoverageValidator {
     }
     
     Boolean outside = true;
-    for (Node c : coverAll){
-      if (in_tag(c.getName()))
-         outside = false;
+    if (coverAll.isEmpty())
+      outside = false;
+    else{
+      for (Node c : coverAll){
+        if (in_tag(c.getName()))
+           outside = false;
+      }
     }
     if (outside){
-      Message m = Message.builder("validator.coverage.outside_div")
+      Message m = Message.builder("validator.coverage.outside_body")
           .fromNode(n)
           .addNote("All text in the document must be contained within DIV tags if a DIV exists outside FRONTMATTER and BACKMATTER")
           .build();
@@ -94,7 +97,7 @@ public class SectionCoverageValidator {
       if (!in_tag("act") && !in_tag("scene")){
         //if acts or scenes exist
         if (!scenes.isEmpty() || !acts.isEmpty()){
-          Message m = Message.builder("validator.coverage.outside_scene_or_Act")
+          Message m = Message.builder("validator.coverage.outside_body")
             .fromNode(n)
             .addNote("All text outside FRONTMATTER and BACKMATTER must be within an ACT and/or SCENE if ACT and/or SCENE tags exist in the document")
             .build();

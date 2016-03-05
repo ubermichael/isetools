@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +47,17 @@ public class ForeignValidator {
     //read in all codes from data file
     BufferedReader reader = null;
     try {
-      File file = new File("data/iso-639-3_Language_Name_Index.tab");
+      URL url = getClass().getResource("/data/iso-639-3_Language_Name_Index.tab");
+      File file = new File(url.getPath());
       reader = new BufferedReader(new FileReader(file));
 
       String line;
       while ((line = reader.readLine()) != null) {
-          langCodes.add(line.substring(line.indexOf(0,'\t')));
+          String id = "Id";
+          if (line.indexOf('\t') > 0)
+            id = line.substring(0, line.indexOf('\t'));
+          if (!id.equals("Id"))
+            langCodes.add(id);
       }
       
     } catch (IOException e) {
