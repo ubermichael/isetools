@@ -79,9 +79,9 @@ public class RedundancyTransformer extends IdentityTransform {
   }
   
   private void end_node(EndNode n){
-    for (int i=nestedTags.size(); i>=0; i--){
-      if (nestedTags.get(i).toLowerCase().equals(n.getName().toLowerCase())){
-        nestedTags.remove(i);
+    for (String s : nestedTags){
+      if (s.toLowerCase().equals(n.getName().toLowerCase())){
+        nestedTags.remove(s);
         return;
       }
     }
@@ -89,9 +89,9 @@ public class RedundancyTransformer extends IdentityTransform {
   }
   
   private StartNode is_nested(StartNode n){
-    for (int i=nodeStack.size(); i>=0; i--)
-      if (nodeStack.get(i).getName().toLowerCase().equals(n.getName().toLowerCase()))
-        return nodeStack.get(i);
+    for (StartNode s : nodeStack)
+      if (s.getName().toLowerCase().equals(n.getName().toLowerCase()))
+        return s;
     return null;
   }
   
