@@ -23,7 +23,7 @@ import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.schema.Schema;
-import ca.nines.ise.transformer.DeprecatedTransform;
+import ca.nines.ise.transformer.DeprecatedTransformer;
 import ca.nines.ise.validator.DOMValidator;
 import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.writer.Writer;
@@ -99,7 +99,7 @@ public class Transform extends Command {
     nv.validate(dom);    
     
     if (dom.getStatus() != DOMStatus.ERROR) {
-      DeprecatedTransform dt = new DeprecatedTransform();
+      DeprecatedTransformer dt = new DeprecatedTransformer();
       dom = dt.transform(dom);
       if (files.length == 2) {
         Annotation ann = Annotation.builder().from(new File(files[1])).build();
