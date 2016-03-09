@@ -53,7 +53,7 @@ public class DeprecatedTransformerTest extends TransformerTestBase{
       if (n.equals("meta") ||  n.equals("link"))
         d = transformer.transform(getDOM("<WORK><"+n+"/></WORK>"));
       else
-        d = transformer.transform(getDOM("<WORK><"+n+">x<"+n+"/></WORK>"));
+        d = transformer.transform(getDOM("<WORK><"+n+">x</"+n+"></WORK>"));
       
       if (TAG_MAP.get(n) == null)
         assertTrue(
