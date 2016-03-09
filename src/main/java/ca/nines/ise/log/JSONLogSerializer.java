@@ -41,7 +41,7 @@ import java.nio.charset.StandardCharsets;
 public class JSONLogSerializer {
 
     private static String escapeString(String s) {
-        return s.replace("\"", "\\\"");
+        return s.replace("\"", "\\\"").replace("\n", "\\\\n");
     }
 
     public static String serializeToJSON(Log l) {
