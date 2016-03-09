@@ -10,6 +10,7 @@ import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.node.TextNode;
 
 public class RedundancyTransformer extends IdentityTransform {
   LinkedList<StartNode> nodeStack;
@@ -48,7 +49,7 @@ public class RedundancyTransformer extends IdentityTransform {
           nestedTags.add(n.getName());    
         else{
           dom.add(n);
-          nodeStack.add(n);
+          nodeStack.push(n);
          }
         break;
       //special cases
@@ -60,7 +61,7 @@ public class RedundancyTransformer extends IdentityTransform {
           nestedTags.add(n.getName());
         }else{
           dom.add(n);
-          nodeStack.add(n);
+          nodeStack.push(n);
         }
         break;
       case "foreign":
@@ -71,7 +72,7 @@ public class RedundancyTransformer extends IdentityTransform {
           nestedTags.add(n.getName());
         }else{
           dom.add(n);
-          nodeStack.add(n);
+          nodeStack.push(n);
         }
         break;
     }
@@ -83,6 +84,12 @@ public class RedundancyTransformer extends IdentityTransform {
       if (s.toLowerCase().equals(n.getName().toLowerCase())){
         nestedTags.remove(s);
         return;
+      }
+    }
+    for (StartNode s : nodeStack){
+      if (s.getName().toLowerCase().equals(n.getName().toLowerCase())){
+        nodeStack.remove(s);
+        break;
       }
     }
     dom.add(n);

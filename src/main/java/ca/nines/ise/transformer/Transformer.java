@@ -66,7 +66,7 @@ abstract public class Transformer {
         }
         String tag = "";
         if (n instanceof TagNode) {
-            tag = "_" + ((TagNode) n).getName();
+            tag = "_" + ((TagNode) n).getName().toLowerCase();
         }
         String methodName = type + tag;
         Class<?> cls = this.getClass();
