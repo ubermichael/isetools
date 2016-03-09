@@ -38,6 +38,7 @@ public class Normalizer extends IdentityTransform {
      * @param n
      */
     public void text(TextNode n) {
+        System.out.println("Normalizing " + n);
         sb.append(n.getText());
 
         if (peek().type() != NodeType.TEXT) {

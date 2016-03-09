@@ -82,4 +82,8 @@ public class TextNode extends Node {
     return text;
   }
 
+    public boolean isWs() {
+        return text.trim().isEmpty();
+    }
+
 }
