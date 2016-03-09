@@ -47,6 +47,9 @@ public class SectionCoverageValidator {
       "validator.coverage.outside_page"
   })
   private void process_text(TextNode n){
+    //if text is empty, return
+    if (n.getText().trim().equals(""))
+      return;
     //if not in matter
     if (!nodeStack.in_tag("frontmatter") && !nodeStack.in_tag("backmatter")){
       //if no sectioning exists

@@ -124,13 +124,13 @@ public class NestingValidator {
     if (noSplit != null && !noSplit.isEmpty()){
       String splitTags = "";
       for (StartNode s : nodeStack){
-        for (String ns : noSplit){
-          if (s.getName().toLowerCase().equals(ns.toLowerCase()))
-            splitTags += ns + " ";
-        }
         if (s.getName().toLowerCase().equals(n.getName().toLowerCase())){
           nodeStack.remove(s);
           break;
+        }
+        for (String ns : noSplit){
+          if (s.getName().toLowerCase().equals(ns.toLowerCase()))
+            splitTags += ns + " ";
         }
       }
       
@@ -159,7 +159,7 @@ public class NestingValidator {
   })
   private void is_descendant_of(Node n, String parent){
     for (StartNode s : nodeStack) {
-      if (s.getName().toLowerCase().equals(parent)) {
+      if (s.getName().toLowerCase().equals(parent.toLowerCase())) {
         //it's a descendant
         return;
       }
