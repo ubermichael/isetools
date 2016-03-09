@@ -115,7 +115,9 @@
     <message code="validator.splitLine.missingPart" severity="warning">
     <![CDATA[This line is within a split line but does not have a @part=m attribute.]]>
     </message>
-
+    <message code="validator.rule.linenotempty" severity="warning">
+    <![CDATA[RULE tags should only occur on a line by themselves.]]>
+    </message>
     <message code="validator.tag.depreciated" severity="error">
     <![CDATA[This tag is depreciated.]]>
     </message>

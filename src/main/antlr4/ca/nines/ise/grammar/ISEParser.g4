@@ -129,4 +129,7 @@ tagName
 
 // content - should be last.
 
-content : TEXT ;
+content 
+    : TEXT 
+    | NEWLINE
+    ;
