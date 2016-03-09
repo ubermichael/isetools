@@ -96,7 +96,11 @@ TAG_START
 
 // general content.
 TEXT 
-    : ~[<{|]+ 
+    : ~[<{|\n]+ 
+    ;
+
+NEWLINE
+    : '\n'
     ;
 
 mode TAG ;
