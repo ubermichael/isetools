@@ -83,7 +83,11 @@
     <message code="validator.tagBalance.missing_start_tag" severity="error">
     <![CDATA[End tag without a start tag.]]>
     </message>
-    <message code="validator.nesting.split_tag" severity="warning">
+    <message code="validator.tagBalance.unclosed" severity="error">
+    <![CDATA[This tag is not closed.]]>
+    </message>
+    
+    <message code="validator.nesting.split" severity="warning">
     <![CDATA[This tag is split/improperly nested.]]>
     </message>
     <message code="validator.nesting.required" severity="error">
@@ -91,9 +95,6 @@
     </message>
     <message code="validator.nesting.redundant" severity="warning">
 	<![CDATA[This tag is redundantly nested]]>
-    </message>
-    <message code="validator.tagBalance.unclosed" severity="error">
-    <![CDATA[This tag is not closed.]]>
     </message>
     
     <message code="validator.splitLine.recursive" severity="error">
@@ -110,6 +111,9 @@
     </message>  
     <message code="validator.splitLine.unclosed" severity="error">
     <![CDATA[Unclosed initial splitline.]]>
+    </message>  
+    <message code="validator.splitLine.missingPart" severity="warning">
+    <![CDATA[This line is within a split line but does not have a @part=m attribute.]]>
     </message>
 
     <message code="validator.tag.depreciated" severity="error">
@@ -135,15 +139,36 @@
     </message>
     
     <message code="validator.coverage.outside_div" severity="error">
-     <![CDATA[This tag is inside matter, but not inside a DIV.]]>
+     <![CDATA[This text is inside matter, but not inside a DIV.]]>
     </message>    
     <message code="validator.coverage.outside_body" severity="error">
-    <![CDATA[This tag is outside a SCENE and/or ACT and/or DIV, but such tags exist.]]>
+    <![CDATA[This text is outside a SCENE and/or ACT and/or DIV, but such tags exist.]]>
     </message>    
     <message code="validator.coverage.outside_page" severity="error">
-    <![CDATA[This tag is outside a PAGE, but PAGE tags exist.]]>
+    <![CDATA[This text is outside a PAGE, but PAGE tags exist.]]>
+    </message>    
+    <message code="validator.coverage.required" severity="error">
+    <![CDATA[Text must be within at least one type of sectioning element.]]>
     </message>
     
+    <message code="validator.foreign.invalidCode" severity="error">
+    <![CDATA[The @lang attribute is invalid.]]>
+    </message>    
+    <message code="validator.foreign.missingCode" severity="error">
+    <![CDATA[This tag is missing a required (@lang) attribute.]]>
+    </message>
+    
+    <message code="validator.hungWord.endOfLine" severity="error">
+    <![CDATA[HW tags may only be at the end of a line.]]>
+    </message>
+    
+    <message code="validator.siblingCount.overCount" severity="error">
+    <![CDATA[This tag has too many siblings of the same name.]]>
+    </message>
+    
+    <message code="validator.spanLine.spannedLines" severity="error">
+    <![CDATA[This tag may not span more than one line.]]>
+    </message>
     
   </errorCodes>
 </messages>
