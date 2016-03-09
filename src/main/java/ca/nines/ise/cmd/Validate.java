@@ -24,6 +24,12 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.DOMValidator;
 import ca.nines.ise.validator.NestingValidator;
+import ca.nines.ise.validator.SectionCoverageValidator;
+import ca.nines.ise.validator.SiblingCountValidator;
+import ca.nines.ise.validator.SpanLineValidator;
+import ca.nines.ise.validator.SplitLineValidator;
+import ca.nines.ise.validator.TagBalanceValidator;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -61,6 +67,12 @@ public class Validate extends Command {
     Schema schema = Schema.defaultSchema();
     DOMValidator dv = new DOMValidator();
     NestingValidator nv = new NestingValidator(schema);
+    SectionCoverageValidator scv = new SectionCoverageValidator();
+    SiblingCountValidator sbv = new SiblingCountValidator();
+    SpanLineValidator slv = new SpanLineValidator();
+    SplitLineValidator spv = new SplitLineValidator();
+    TagBalanceValidator tbv = new TagBalanceValidator();
+    
     PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
     if (cmd.hasOption("l")) {
@@ -75,6 +87,11 @@ public class Validate extends Command {
         if (dom.getStatus() != DOM.DOMStatus.ERROR) {
           dv.validate(dom, schema);
           nv.validate(dom);
+          scv.validate(dom);
+          sbv.validate(dom);
+          slv.validate(dom);
+          spv.validate(dom);
+          tbv.validate(dom);
         } else {
           Message m = Message.builder("dom.errors")
                   .setSource(dom.getSource())
