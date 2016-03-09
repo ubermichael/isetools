@@ -240,7 +240,7 @@ public class Renumberer extends IdentityTransform {
 
         // should the first line in the scene be numbered from 0 or 1?
         line = 1;
-        Node l = dom.find_forward(n, "L");
+        Node l = dom.findForward(n, "L");
         if (l == null || !(l instanceof TagNode)) {
             return;
         }

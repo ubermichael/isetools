@@ -122,7 +122,7 @@ public class DOMStream {
   }
 
   /**
-   * Constructs a MessageBuilder from a File. The resulting DOM source will
+   * Constructs a DOMStream from a File. The resulting DOM source will
    * return the absolute path to the file.
    *
    * @param input The file to read and parse.
