@@ -212,6 +212,9 @@ public class XMLWriter extends Writer{
 		public void append_to_line(String text){
 			Element last_line = get_tag_at("l", -1);
 			Element this_line = get_last_tag("l");
+			/* if this text is whitespace and this line has a shy, don't add the text*/
+      if (!check_whitespace(this_line) && text.trim().equals(""))
+        return;
 			if (last_line != null){
 				/* if there was a shy on last line and this is the first child of current line */
 				if (!check_whitespace(last_line) && this_line.getChildCount() == 0)
@@ -1285,45 +1288,18 @@ public class XMLWriter extends Writer{
 	 * @return true if parsed, false otherwise (in page/no newline characters)
 	 */
 	private static void parse_text(String text, XMLStack xmlStack) {
-		/*
-		 * if text is all whitespace or in an element which should not be parsed
-		 * element, don't parse further
-		 */
-		if (trim_whitespace(text).isEmpty() || xmlStack.in_dont_parse()){
-			xmlStack.append_to_line(text);
-			return;
+	  /* if text is a newline character, end line */
+	  if (text.equals("\n"))
+	    xmlStack.end_line();
+	  else if (trim_whitespace(text).isEmpty() || xmlStack.in_dont_parse())
+	    /* if text is all whitespace or in an element which should not be parsed
+	     * don't parse further */
+	    xmlStack.append_to_line(text);
+		else{
+  		/* if not in a line, start one; text can not be the child of work */
+  		xmlStack.ensure_in_line();
+  		xmlStack.append_to_line(text);
 		}
-		String[] lines = null;
-		lines = text.split("\\n+");
-		/* if the text only contains a newline */
-		if (lines.length == 0){
-			xmlStack.end_line();
-			return;
-		}
-		if (lines[0].equals(""))
-			xmlStack.end_line();
-		/* if not in a line, start one; text can not be the child of work */
-		xmlStack.ensure_in_line();
-		/* if there is no newline character, don't parse further */
-		if (!text.contains("\n")){
-			xmlStack.append_to_line(text);
-			return;
-		}
-		for (int i = 0; i < lines.length; i++) {
-			/* end empty lines */
-			if (normalizeBoundary(lines[i]).isEmpty()){
-				continue;
-			}
-			/* add each line as its own line */
-			xmlStack.ensure_in_line();
-			xmlStack.append_to_line(lines[i]);
-			/* don't end the last line*/
-			if (i < (lines.length - 1))
-				xmlStack.end_line();
-		}
-		/* if the text ends in a newline character, end the last line */
-		if (text.charAt(text.length()-1) == '\n')
-		  xmlStack.end_line();
 	}
 	
 	/**
@@ -1343,7 +1319,7 @@ public class XMLWriter extends Writer{
     XMLStack addStack = new XMLStack(doc);
     addStack.push(e);
     //tags between the start and end tags of this ADD
-    Node end_tag = dom.find_forward(node, node.getName());
+    Node end_tag = dom.findForward(node, node.getName());
     List<Node> nodes = dom.get_between(node,end_tag);
     for(Node n : nodes){
       parse_node(n,addStack);
