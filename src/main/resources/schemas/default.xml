@@ -439,14 +439,14 @@
         <option>uncertain</option>
       </attribute>
     </tag>
-    <tag name="MS" empty="yes" where="primary">
-      <desc><![CDATA[Milestone]]></desc>
-      <attribute name="t" type="string">
-        <desc><![CDATA[The type of milestone.]]></desc>
-      </attribute>
-      <attribute name="n" type="number">
-        <desc><![CDATA[The number of the milestone.]]></desc>
-      </attribute>
+    <tag name="MS" empty="yes" where="all" xml_inline="yes">
+		<desc><![CDATA[Milestone]]></desc>
+		<attribute name="t" type="string" optional="no">
+			<desc><![CDATA[Type of milestone]]></desc>
+		</attribute>
+		<attribute name="n" type="string" optional="no">
+			<desc><![CDATA[Value of the milestone]]></desc>
+		</attribute>
     </tag>
     <tag name="note" where="annotations">
       <desc><![CDATA[Top level element for an annotation. Contains information on the lemma to annotate (<lem>), and all level 1 or 2 notes attached to that lemma (<level>).]]></desc>
