@@ -30,10 +30,10 @@ public class SplitLineValidatorTest extends ValidatorTestBase{
     setUp();
     validator.validate(getDOM("<WORK><L part=\"i\"/></WORK>"));
     checkLog(new String[]{"validator.splitLine.unclosed"});
-    setUp();
+    /*setUp();
     validator.validate(getDOM("<WORK><L part=\"i\"/><L/><L part=\"f\"/></WORK>"));
     checkLog(new String[]{"validator.splitLine.missingPart"});
-    
+    */
     //should be okay
     
     setUp();

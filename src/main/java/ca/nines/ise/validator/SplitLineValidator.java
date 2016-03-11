@@ -164,14 +164,14 @@ public void validate(DOM dom) {
             case "f":
               process_finish(en);
           }
-        }else if (current != null){
+        }/*else if (current != null){
           // line in a splitline but doesn't have a part attribute
           Message m = Message.builder("validator.splitLine.missingPart")
               .fromNode(n)
               .addNote(get_name(en) + " doesn't have a @part attribute but is within a split line ("+get_name(current)+" @ TLN="+current.getTLN()+")")
               .build();
           Log.addMessage(m);
-        }
+        }*/
       }
   }
 
