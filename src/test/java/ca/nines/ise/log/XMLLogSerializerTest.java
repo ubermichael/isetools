@@ -1,6 +1,7 @@
 /*
  *
  * Copyright (C) 2015 Maxwell Terpstra <terpstra@alumni.uvic.ca>
+ * Copyright (C) 2016 Michael Joyce <ubermichael@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +24,7 @@ import static org.junit.Assert.*;
 
 /**
  * @author Maxwell Terpstra <terpstra@alumni.uvic.ca>
+ * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class XMLLogSerializerTest {
 
@@ -31,15 +33,16 @@ public class XMLLogSerializerTest {
     @Before
     public void setup() {
         l = Log.getInstance();
+		l.clear();
     }
 
     @Test
     public void emptyLog() {
         Document d = XMLLogSerializer.serializeToXom(l);
         Nodes root = d.query("/log");
-        assertTrue("root node named \"log\"", root.size() == 1);
+        assertEquals("root node named \"log\"", root.size(), 1);
         Nodes descendants = d.query("/log//*");
-        assertTrue("root should be empty", descendants.size() == 0);
+        assertEquals("root should be empty", descendants.size(), 0);
     }
 
     @Test
@@ -47,7 +50,7 @@ public class XMLLogSerializerTest {
         l.add(Message.builder(null).build());
         Document d = XMLLogSerializer.serializeToXom(l);
         Nodes sources = d.query("/log/source");
-        assertTrue("one source", sources.size() == 1);
+        assertEquals("one source", sources.size(), 1);
     }
 
     @Test
@@ -56,13 +59,11 @@ public class XMLLogSerializerTest {
         l.add(Message.builder(null).setSource("two").build());
         Document d = XMLLogSerializer.serializeToXom(l);
         Nodes sources = d.query("/log/source");
-        assertTrue("two sources", sources.size() == 2);
+        assertEquals("two sources", sources.size(), 2);
         Nodes messageOne = d.query("/log/source[@name='one']/entry");
         Nodes messageTwo = d.query("/log/source[@name='two']/entry");
-        assertTrue(
-            "one message in each source",
-            messageOne.size() == 1 && messageTwo.size() == 1
-        );
+		assertEquals("one message in source 1", messageOne.size(), 1);
+		assertEquals("one message in source 1", messageTwo.size(), 1);
     }
 
     @Test
@@ -70,9 +71,9 @@ public class XMLLogSerializerTest {
         l.add(Message.builder(null).build());
         Document d = XMLLogSerializer.serializeToXom(l);
         Nodes messages = d.query("/log/source/entry");
-        assertTrue("one entry", messages.size() == 1);
+        assertEquals("one entry", messages.size(), 1);
         Element e = (Element) messages.get(0);
-        assertTrue("entry should be empty: "+e.toXML(), e.getChildCount() == 0);
+        assertEquals("entry should be empty: "+e.toXML(), e.getChildCount(), 0);
     }
 
     @Test
@@ -85,10 +86,10 @@ public class XMLLogSerializerTest {
         );
         Document d = XMLLogSerializer.serializeToXom(l);
         Nodes messages = d.query("/log/source/entry");
-        assertTrue("one entry", messages.size() == 1);
+        assertEquals("one entry", messages.size(), 1);
         Element e = (Element) messages.get(0);
         Nodes notes = e.query("note");
-        assertTrue("entry has two notes", notes.size() == 2);
+        assertEquals("entry has two notes", notes.size(), 2);
     }
 
     @Test
@@ -100,7 +101,7 @@ public class XMLLogSerializerTest {
         );
         Document d = XMLLogSerializer.serializeToXom(l);
         Nodes ctx = d.query("/log/source/entry/context");
-        assertTrue("one context", ctx.size() == 1);
+        assertEquals("one context", ctx.size(), 1);
     }
 
     @After
