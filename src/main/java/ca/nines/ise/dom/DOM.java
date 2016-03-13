@@ -20,8 +20,10 @@ import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.node.TextNode;
+import ca.nines.ise.node.Attribute;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -454,11 +456,17 @@ public class DOM implements Iterable<Node> {
     StringBuilder sb = new StringBuilder();
 
     for (Node n : nodes) {
-      sb.append(n).append("\n");
+      sb.append(n);
+	  if(n instanceof TagNode) {
+		  for(Attribute a : ((TagNode) n).getAttrs()) {
+			  sb.append("\n  ").append(a);
+		  }
+	  }
+	  sb.append("\n");
     }
     return sb.toString();
   }
-
+  
   /**
    * Produce a string by concatenating the unicode version of each text, char,
    * and abbr node.

@@ -34,6 +34,7 @@ import ca.nines.ise.grammar.ISEParserBaseListener;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.*;
 import ca.nines.ise.node.chr.CodePointCharNode;
+import ca.nines.ise.node.Attribute;
 import ca.nines.ise.util.BuilderInterface;
 
 import java.io.File;
@@ -83,9 +84,9 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   private final ANTLRInputStream ais;
 
   /**
-   * Name of the attribute being parsed.
+   * Attribute being processed.
    */
-  private String currentAttrName;
+  private Attribute currentAttr;
 
   /**
    * The tag currently being processed.
@@ -197,7 +198,9 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
    */
   @Override
   public void enterAttributeName(AttributeNameContext ctx) {
-    currentAttrName = ctx.TAG_NAME().getText();
+	  currentAttr = (Attribute) setupNode(new Attribute(), ctx);
+	  String name = ctx.TAG_NAME().getText();
+	  currentAttr.setName(name);
   }
 
   /**
@@ -209,8 +212,9 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   public void enterAttributeValue(AttributeValueContext ctx) {
     String value = ctx.ATTRIBUTE_VALUE().getText();
     value = value.replaceAll("^['\"]|['\"]$", "");
-    currentTag.setAttribute(currentAttrName, value);
-    currentAttrName = null;
+    currentAttr.setValue(value);
+	currentTag.setAttribute(currentAttr);
+	
   }
 
   /**
@@ -385,7 +389,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
       dom.add(currentTag);
     }
     currentTag = null;
-    currentAttrName = null;
+    currentAttr = null;
   }
 
   /**

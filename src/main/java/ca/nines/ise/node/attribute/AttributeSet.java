@@ -6,6 +6,7 @@
 
 package ca.nines.ise.node.attribute;
 
+import ca.nines.ise.node.Attribute;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -45,8 +46,20 @@ public class AttributeSet {
     }
     
     public void setAttribute(String name, String value) {
-        setAttribute(new Attribute(name, value));
+		Attribute a = new Attribute();
+		a.setName(name);
+		a.setValue(value);
+        this.setAttribute(a);
     }
+	
+	public void setAttribute(String name, String value, int line, int column) {
+		Attribute a = new Attribute();
+		a.setName(name);
+		a.setValue(value);
+		a.setLine(line);
+		a.setColumn(column);
+        this.setAttribute(a);
+	}
     
     public void setAttribute(Attribute value) {
         this.attributes.put(value.getName(), value);
@@ -75,7 +88,7 @@ public class AttributeSet {
         String names[] = getAttributeNames(true);
         
         for(int i = 0; i < size; i++) {
-            list[i] = new Attribute(names[i], this.attributes.get(names[i]).getValue());
+            list[i] = new Attribute(this.attributes.get(names[i]));
         }
         return list;
     }

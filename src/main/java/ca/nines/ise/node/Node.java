@@ -154,8 +154,8 @@ abstract public class Node {
   }
 
   /**
-   * Get the name of the tag that this node came from. For non-tag nodes, this
-   * is one of #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT
+   * Get the name of the tag that this node came from. For non-tag and 
+   * non-attribute nodes, this is one of #ABBR, #CHAR, #COMMENT, #EOF, or #TEXT.
    * <p>
    * @return String
    */

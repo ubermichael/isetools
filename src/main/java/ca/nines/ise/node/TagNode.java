@@ -18,7 +18,6 @@ package ca.nines.ise.node;
 
 import ca.nines.ise.node.attribute.AttributeSet;
 import ca.nines.ise.dom.Fragment;
-import ca.nines.ise.node.attribute.Attribute;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -141,6 +140,14 @@ abstract public class TagNode extends Node {
             return attributes.getAttribute(name).getValue();
         }
     }
+	
+	public Attribute getAttr(String name) {
+		return attributes.getAttribute(name);
+	}
+	
+	public Attribute[] getAttrs() {
+		return attributes.getAttributes();
+	}
 
     /**
      * Check if a node has an attribute. Attribute names are case insensitive.
@@ -221,11 +228,18 @@ abstract public class TagNode extends Node {
         if(attributes == null) {
             logger.log(Level.SEVERE, "attributes is null. wtf.");
         }
-        attributes.setAttribute(new Attribute(name, value));
+		Attribute a = new Attribute();
+		a.setName(name);
+		a.setValue(value);
+        attributes.setAttribute(a);
         if (name.equalsIgnoreCase("n") && ownerDom != null) {
             ownerDom.requestReindex();
         }
     }
+	
+	public void setAttribute(Attribute a) {
+		attributes.setAttribute(a);
+	}
 
     /**
      * Set the tag name. May cause the owner DOM to be reindexed.

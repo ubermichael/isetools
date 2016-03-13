@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.node.attribute;
 
+import ca.nines.ise.node.Attribute;
 import ca.nines.ise.node.attribute.AttributeSet;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -44,7 +45,9 @@ public class AttributeSetTest {
     @Test
     public void testHasAttribute() {
         AttributeSet instance = new AttributeSet();
-        Attribute a = new Attribute("foo", "bar");        
+        Attribute a = new Attribute();
+		a.setName("foo");
+		a.setValue("bar");
         instance.setAttribute(a);
         assertTrue(instance.hasAttribute("foo"));
         assertTrue(instance.hasAttribute("FOO"));

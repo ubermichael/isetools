@@ -46,32 +46,14 @@ public class Tester {
 	public static void main(String[] args) throws Exception {
 		Log log = Log.getInstance();
 		String s = "<MODE t=\"verse\">\n"
-			+ "<L n=\"1\" /><TLN n=\"3\" /><S><SP norm=\"Roderigo\">Roderigo</SP>\n"
-			+ "<L n=\"2\" /><TLN n=\"4\" />Tush, never tell me! I take it much unkindly.\n"
+			+ "<L n=\"1\" part='i'/><TLN n=\"3\" /><S><SP norm=\"Roderigo\">Roderigo</SP>\n"
+			+ "<L n=\"2\" part='f'/><TLN n=\"4\" />Tush, never tell me! I take it much unkindly.\n"
+			+ "<L n=\"6\" part='cheese it the cops'/><TLN n=\"damn\" m='got me again copper'/><S><SP norm=\"Roderigo\">Roderigo</SP>\n"
 			+ "</MODE>";
 
-		String t = "<annotations>"
-			+ "<note>\n"
-			+ "<ln tln=\"4\"/>\n"
-			+ "<lem>tell me</lem>\n"
-			+ "<level n=\"1\">\n"
-			+ "Exclamation of impatience.\n"
-			+ "</level>\n"
-			+ "</note>"
-			+ "<note>\n"
-			+ "<ln tln=\"4\"/>\n"
-			+ "<lem>unkindly</lem>\n"
-			+ "<level n=\"1\">\n"
-			+ "Exclamation of impatience.\n"
-			+ "</level>\n"
-			+ "</note>"
-			+ "</annotations>";
-
 		DOM d = new DOMBuilder(s).build();
-		Annotation a = Annotation.builder().from(t).build();
+		System.out.println(d);
 
-		Writer rtf = new RTFWriter();
-		rtf.render(d, a);
 		
 		if (log.count() > 0) {
 			System.err.println("");

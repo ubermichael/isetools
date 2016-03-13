@@ -5,6 +5,7 @@
  */
 package ca.nines.ise.node.attribute;
 
+import ca.nines.ise.node.Attribute;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -29,5 +29,6 @@ public enum NodeType {
   EMPTY,
   END,
   START,
-  TEXT
+  TEXT,
+  ATTR
 }
