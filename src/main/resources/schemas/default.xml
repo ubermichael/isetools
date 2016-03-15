@@ -122,13 +122,13 @@
     <tag name="BR" empty="yes" where="primary" ancestor="HW">
       <desc><![CDATA[Break between lines of hung-words. Should NOT be used to force line breaks in any other context.]]></desc>
     </tag>
-    <tag name="C" where="all">
+    <tag name="C" where="all" redundant="yes">
       <desc><![CDATA[Centered text. This tag should be applied to a whole line, except for portions marked up by RA.]]></desc>
     </tag>
-    <tag name="CL" where="primary" noSplit="LD">
+    <tag name="CL" where="primary" noSplit="LD" redundant="yes">
       <desc><![CDATA[Closing statement (e.g. Finis).]]></desc>
     </tag>
-    <tag name="COL" where="oldspelling" noSplit="COL" ancestor="PAGE">
+    <tag name="COL" where="oldspelling" noSplit="COL" ancestor="PAGE" redundant="yes">
       <desc><![CDATA[Defines columns in a page.]]></desc>
       <attribute name="n" type="select">
         <desc><![CDATA[<COL n="0">...</COL> Defines pages with no columns in a document that elsewhere has columns. <COL n="1 | 2">...</COL> Column 1 or 2 (Folio).]]></desc>
@@ -143,7 +143,7 @@
     <tag name="collations" where="collations">
       <desc><![CDATA[Root element of a collations file.]]></desc>
     </tag>
-    <tag name="CW" where="oldspelling" noSplit="SIG, RT, PN, CW">
+    <tag name="CW" where="oldspelling" noSplit="SIG, RT, PN, CW" redundant="yes">
       <desc><![CDATA[Catchword]]></desc>
     </tag>
     <tag name="DIV" where="all" noSplit="MARG, BRACEGROUP, DIV, FRONTMATTER, BACKMATTER">
@@ -155,7 +155,7 @@
         <desc><![CDATA[Name of the section]]></desc>
       </attribute>
     </tag>
-    <tag name="EM" where="anywhere">
+    <tag name="EM" where="anywhere" redundant="yes">
       <desc><![CDATA[Words to be emphasized.]]></desc>
     </tag>
     <tag name="EPILOGUE" depreciated="Use BACKMATTER with DIV instead of EPILOGUE" where="primary">
@@ -212,7 +212,7 @@
     <tag name="H6" depreciated="Use LD instead of H6." where="modern">
       <desc><![CDATA[Heading for scenes in the modern text.]]></desc>
     </tag>
-    <tag name="HW" where="oldspelling">
+    <tag name="HW" where="oldspelling" spansLines="no">
       <desc><![CDATA[Hung-Word(s). Note that the hung-word should be restored to the line it continues; the "type" indicates whether it was originally displaced to the previous or next line. Multiple lines of hung-word content should be separated with BR.]]></desc>
       <attribute name="t" type="select">
         <desc><![CDATA[The type of hung-word indicates whether it appears on lines preceding or following the line it continues.]]></desc>
@@ -291,7 +291,7 @@
         <desc><![CDATA[the resource to link to]]></desc>
       </attribute>
     </tag>
-    <tag name="I" where="anywhere">
+    <tag name="I" where="anywhere" redundant="yes">
       <desc><![CDATA[Italic text.]]></desc>
     </tag>
     <tag name="INDENT" where="all">
@@ -306,7 +306,7 @@
     <tag name="iseHeader" where="all">
       <desc><![CDATA[metadata block]]></desc>
     </tag>
-    <tag name="J" where="all">
+    <tag name="J" where="all" redundant="yes">
       <desc><![CDATA[Justified line. Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
     </tag>
     <tag name="L" empty="yes" where="all">
@@ -324,7 +324,7 @@
     <tag name="LB" depreciated="Use L on an empty line instead of LB to preserve empty lines." where="anywhere">
       <desc><![CDATA[Previously used for line break. <L/> is recommended.]]></desc>
     </tag>    
-    <tag name="LD" where="all" noSplit="CL">
+    <tag name="LD" where="all" noSplit="CL" redundant="yes">
       <desc><![CDATA[Header for a Literary Division (e.g. Act, Scene.).]]></desc>
     </tag>
     <tag name="lem" where="annotations">
@@ -407,7 +407,7 @@
         <desc><![CDATA[Editor's line number.]]></desc>
       </attribute>
     </tag>
-    <tag name="LS" where="oldspelling">
+    <tag name="LS" where="oldspelling" redundant="yes">
       <desc><![CDATA[Surrounds letter-spaced words (e.g., "G O D").]]></desc>
     </tag>
     <tag name="MARG" where="all">
@@ -454,7 +454,7 @@
     <tag name="note" where="collations">
       <desc><![CDATA[Additional notes about the variant. Use as a child of <coll> when the note applies to the collation as a whole, or as a child of <rdg> when it applies to a specific reading.]]></desc>
     </tag>
-    <tag name="ORNAMENT" empty="optional" where="oldspelling" noSplit="L">
+    <tag name="ORNAMENT" empty="optional" where="oldspelling" noSplit="L" spansLines="no">
       <desc><![CDATA[Self-closing <ORNAMENT /> is a printer's ornament. <ORNAMENT> </ORNAMENT> is used for decorative or large font letters only.]]></desc>
       <attribute name="drop" type="number" optional="yes" renumber="no">
         <desc><![CDATA[Marks this ornament as a drop-capital, and specifies the number of lines to span.]]></desc>
@@ -475,7 +475,7 @@
         <desc><![CDATA[The compositor(s) of this page.]]></desc>
       </attribute>
     </tag>
-    <tag name="PN" where="oldspelling" noSplit="SIG, RT, PN, CW">
+    <tag name="PN" where="oldspelling" noSplit="SIG, RT, PN, CW" redundant="yes">
       <desc><![CDATA[Page number as printed.]]></desc>
       <attribute name="n" type="number" optional="yes" renumber="no" depreciated="Use @n on the PAGE element instead.">
         <desc><![CDATA[Actual page number where it differs from the printed number.]]></desc>
@@ -520,7 +520,7 @@
     <tag name="R" where="primary">
       <desc><![CDATA[Roman type. This tag is used only in texts where the default font is black letter.]]></desc>
     </tag>
-    <tag name="RA" where="all">
+    <tag name="RA" where="all" redundant="yes">
       <desc><![CDATA[Right Aligned text. This tag may be applied to a portion of a line that is otherwise left aligned (the default), centered (with C), or justified (with J) so that only the indicated portion is affected.]]></desc>
     </tag>
     <tag name="rdg" where="collations">
@@ -535,7 +535,7 @@
         <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omitted when used within AMBIG.]]></desc>
       </attribute>
     </tag>
-    <tag name="RT" where="oldspelling" noSplit="SIG, RT, PN, CW">
+    <tag name="RT" where="oldspelling" noSplit="SIG, RT, PN, CW" redundant="yes">
       <desc><![CDATA[Running title.]]></desc>
     </tag>
     <tag name="RULE" empty="yes" where="all">
@@ -550,7 +550,7 @@
     <tag name="S" where="primary">
       <desc><![CDATA[Speech. Should include a speech prefix (SP).]]></desc>
     </tag>
-    <tag name="SC" where="oldspelling">
+    <tag name="SC" where="oldspelling" redundant="yes">
       <desc><![CDATA[Small caps.]]></desc>
     </tag>
     <tag name="SCENE" where="primary" noSplit="MARG, BRACEGROUP, SCENE">
@@ -585,13 +585,13 @@
         <desc>The section number or name.</desc>
       </attribute>
     </tag>
-    <tag name="SIG" where="oldspelling">
+    <tag name="SIG" where="oldspelling" redundant="yes">
       <desc><![CDATA[Page Signature.  Encloses the printed page signature.]]></desc>
       <attribute name="n" type="string" optional="yes" renumber="no" depreciated="Use @sig on PAGE instead">
         <desc><![CDATA[The signature in its normalized and accurate form. This will include all signatures that are implied rather than actually printed, and must include either "r" or "v" for recto and verso.]]></desc>
       </attribute>
     </tag>
-    <tag name="SP" where="primary" ancestor="S">
+    <tag name="SP" where="primary" ancestor="S" redundant="yes">
       <desc><![CDATA[Speaker(s) for the enclosing speech. Should appear before any speech text. If a prefix is not given in the source material, use an empty SP tag to indicate its omission.]]></desc>
       <attribute name="norm" type="string">
         <desc><![CDATA[Normalized form of the name. If there is more than one speaker, separate the noramlized names by commas.]]></desc>
@@ -627,7 +627,7 @@
         <option>both</option>
       </attribute>
     </tag>
-    <tag name="TITLE" where="primary">
+    <tag name="TITLE" where="primary" redundant="yes">
         <desc><![CDATA[Title of the work, often appearing in initial headings and introductory pages.]]></desc>
     </tag>
     <tag name="TITLEHEAD" where="primary" depreciated="replaced by TITLE">
@@ -663,7 +663,7 @@
         <desc><![CDATA[An identifier for the witness that the passage came from. If omitted, the source witness referenced in the metadata is assumed.]]></desc>
       </attribute>
     </tag>
-    <tag name="WORK" where="all">
+    <tag name="WORK" where="all" redundant="yes">
       <desc><![CDATA[The tag that surrounds the entire document.]]></desc>
       <attribute name="genre" type="string" empty="yes" optional="yes" depreciated="Use metadata instead of the genre attribute.">
         <desc><![CDATA[Previously used to decribe the work's genre.]]></desc>
