@@ -236,6 +236,7 @@ public class Renumberer extends IdentityTransform {
             n.setAttribute("n", String.valueOf(scene));
             scene++;
         }
+        dom.add(n);
 
         // should the first line in the scene be numbered from 0 or 1?
         line = 1;
@@ -250,7 +251,6 @@ public class Renumberer extends IdentityTransform {
         if (tn.getAttribute("n").startsWith("0")) {
             line = 0;
         }
-        dom.add(n);
     }
 
     public void start_stanza(StartNode n) {
