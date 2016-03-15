@@ -16,48 +16,41 @@
  */
 package ca.nines.ise.validator;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.StartNode;
 /**
+ * Ensures FOREIGN tags have valid @lang attributes, with respect to ISO 639-1/3
  * 
  * @author Malcolm Moran <malcolm.moran@outlook.com>
- * 
- * Ensures FOREIGN tags have valid @lang attributes, with respect to ISO 639-1/3
  */
 public class ForeignValidator {
   private final List<String> langCodes;
   
   public ForeignValidator(){
     langCodes = new ArrayList<String>();
-    //read in all codes from data file
-    BufferedReader reader = null;
     try {
       URL url = getClass().getResource("/data/iso-639-3_Language_Name_Index.tab");
       File file = new File(url.getPath());
-      reader = new BufferedReader(new FileReader(file));
-
-      String line;
-      while ((line = reader.readLine()) != null) {
-          String id = "Id";
-          if (line.indexOf('\t') > 0)
-            id = line.substring(0, line.indexOf('\t'));
-          if (!id.equals("Id"))
-            langCodes.add(id);
+      CSVParser parser = CSVParser.parse(file, Charset.defaultCharset(), CSVFormat.TDF.withHeader());
+      
+      for (CSVRecord record : parser){
+        langCodes.add(record.get(0));
       }
       
     } catch (IOException e) {

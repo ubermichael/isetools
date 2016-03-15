@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Malcolm Moran <malcolm.moran@outlook.com>
+ * Copyright (C) 2016 Malcolm Moran <malcolm.moran@outlook.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.validator;
 
-
 import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
@@ -25,14 +24,25 @@ import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
+import ca.nines.ise.schema.Schema;
+import ca.nines.ise.schema.Tag;
+
 /**
  * 
- * @author Malcolm Moran <malcolm.moran@outlook.com>
+ * Checks to see if certain elements contain a newline character and, therefore, span multiple lines
+ * ex:
+ *    <ORNAMENT>\n</ORNAMENT> => spanned a line
+ *    <ORNAMENT>valid</ORANMENT> => didn't span a line
  * 
- * Checks to see if certain elements contain a newline character,
- * and, therefore, span multiple lines
+ * @author Malcolm Moran <malcolm.moran@outlook.com>
  */
 public class SpanLineValidator {
+  private final Schema schema;
+
+  public SpanLineValidator(Schema schema) {
+      this.schema = schema;
+  }
+  
   StartNode start;
   
   @ErrorCode(code = {
@@ -40,21 +50,15 @@ public class SpanLineValidator {
   })
   
   private void process_start(StartNode n) {
-    switch (n.getName().toLowerCase()){
-      case "ornament":
-      case "hw":
-        start = n;
-        break;
-    }
+    Tag t = schema.getTag(n.getName());
+    if (t != null && t.getSpansLines().equals("no"))
+      start = n;
   }
   
   private void process_end(EndNode n) {
-    switch (n.getName().toLowerCase()){
-      case "ornament":
-      case "hw":
-        start = null;
-        break;
-    }
+    Tag t = schema.getTag(n.getName());
+    if (t != null && t.getSpansLines().equals("no"))
+      start = null;
   }
   
   @ErrorCode(code = {

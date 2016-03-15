@@ -30,9 +30,9 @@ import ca.nines.ise.node.StartNode;
 import ca.nines.ise.node.TextNode;
 /**
  * 
- * @author Malcolm Moran <malcolm.moran@outlook.com>
+ * Ensures HW tags are always used at the end of a line.
  * 
- * Ensures HW are always used at the end of a line.
+ * @author Malcolm Moran <malcolm.moran@outlook.com>
  */
 public class HungWordValidator {
   Boolean in_hw, after_hw;

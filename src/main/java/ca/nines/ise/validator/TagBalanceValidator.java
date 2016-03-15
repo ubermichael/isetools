@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 Malcolm Moran <malcolm.moran@outlook.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation version 2.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package ca.nines.ise.validator;
 
 import ca.nines.ise.annotation.ErrorCode;
@@ -7,8 +23,12 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
-import ca.nines.ise.schema.Schema;
 import java.util.ArrayDeque;
+
+/**
+ * Checks to see if every start tag in the  DOM has a matching end tag.
+ * @author Malcolm Moran <malcolm.moran@outlook.com>
+ */
 
 public class TagBalanceValidator {
   

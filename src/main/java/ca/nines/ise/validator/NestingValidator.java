@@ -32,7 +32,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Checks a couple different things:
+ *    That tags that must be the descendant of a certain ancestor are.
+ *    That tags which must not be recursive are not (redundant tagging).
+ *    That tags that may be recursive are not redundant (font and foreign must have different @size and @lang attributes, respectively).
+ *    That tags which should not split each other do not.
+ 
  * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class NestingValidator {
@@ -50,32 +55,15 @@ public class NestingValidator {
   private void check_redundant_nesting(StartNode n){
     String message = null;
     StartNode temp = null;
+    Tag t = schema.getTag(n.getName());
+    
+    //if nesting this tag is redundant
+    if (t != null && t.getRedundant().equals("yes")){
+      if (is_nested(n) != null)
+        message = "Tag " + n.getName() + " cannot be nested within a " + n.getName() + " tag.";
+    }
     
     switch(n.getName().toLowerCase()){
-      //basic no redundancies
-      case "col":
-      case "c":
-      case "cl":
-      case "cw":
-      case "em":
-      case "i":
-      case "j":
-      case "ld":
-      case "ls":
-      case "pn":
-      case "ra":
-      case "rt":
-      case "sc":
-      //have to come back to this one
-      //case "sd":
-      case "sig":
-      case "sp":
-      case "title":
-      case "work":
-        if (is_nested(n) != null){
-          message = "Tag " + n.getName() + " cannot be nested within a " + n.getName() + " tag.";
-        }
-        break;
       //special cases
       case "font":
         if ((temp = is_nested(n)) != null &&
@@ -119,7 +107,7 @@ public class NestingValidator {
     Tag t = schema.getTag(n.getName());
     List<String> noSplit = null;
     if (t != null)
-      noSplit = Arrays.asList(t.getNoSplit().split(",[ ]*"));
+      noSplit = t.getNoSplit();
     
     if (noSplit != null && !noSplit.isEmpty()){
       String splitTags = "";
