@@ -23,6 +23,7 @@ import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.schema.Schema;
+import ca.nines.ise.transformer.DeprecatedTransformer;
 import ca.nines.ise.validator.DOMValidator;
 import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.writer.Writer;
@@ -30,10 +31,12 @@ import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
 import ca.nines.ise.writer.TextWriter;
 import ca.nines.ise.writer.XMLWriter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Locale;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
@@ -96,6 +99,8 @@ public class Transform extends Command {
     nv.validate(dom);    
     
     if (dom.getStatus() != DOMStatus.ERROR) {
+      DeprecatedTransformer dt = new DeprecatedTransformer();
+      dom = dt.transform(dom);
       if (files.length == 2) {
         Annotation ann = Annotation.builder().from(new File(files[1])).build();
         renderer.render(dom, ann);

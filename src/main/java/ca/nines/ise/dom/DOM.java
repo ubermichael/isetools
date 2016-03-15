@@ -300,6 +300,23 @@ public class DOM implements Iterable<Node> {
     }
     return null;
   }
+  
+  /**
+   * find a node called name in the DOM.
+   *
+   * @param name
+   * @return Node or null
+   */
+  public Node find(String name) {
+    index();
+    for (int i = 0; i < size(); i++) {
+      if (nodes.get(i).getName().equals(name)) {
+        return nodes.get(i);
+      }
+    }
+    return null;
+  }
+
 
   /**
    * Calculate an internal index for the DOM to make some lookups faster. Also
