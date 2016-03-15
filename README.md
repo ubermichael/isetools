@@ -48,3 +48,9 @@ The tools can output XML, SGML, RTF, and plain text.
 Copyright (C) 2014-2015 Michael Joyce <ubermichael@gmail.com>
 
 This program is licensed under the GPL version 2. For details see GPL.txt
+
+ISO-639/3 language name index used is from SIL:
+	http://www-01.sil.org/iso639-3
+	Copyright © 2015 SIL International
+	
+	
