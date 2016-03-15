@@ -97,8 +97,8 @@
 	<![CDATA[This tag is redundantly nested]]>
     </message>
     
-    <message code="validator.splitLine.recursive" severity="error">
-    <![CDATA[Splitlines cannot be recursive.]]>
+    <message code="validator.splitLine.invalid" severity="error">
+    <![CDATA[Splitlines cannot be started before a current one is finished.]]>
     </message> 
     <message code="validator.splitLine.notStartedM" severity="error">
     <![CDATA[Middle splitline without a start.]]>
@@ -164,8 +164,8 @@
     <![CDATA[HW tags may only be at the end of a line.]]>
     </message>
     
-    <message code="validator.siblingCount.overCount" severity="error">
-    <![CDATA[This tag has too many siblings of the same name.]]>
+    <message code="validator.descendantCount.overCount" severity="error">
+    <![CDATA[This tag has too many descendants of the same name.]]>
     </message>
     
     <message code="validator.spanLine.spannedLines" severity="error">
