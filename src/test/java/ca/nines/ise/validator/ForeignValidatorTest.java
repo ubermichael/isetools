@@ -15,13 +15,9 @@ public class ForeignValidatorTest extends ValidatorTestBase{
    */
   @Test
   public void testValidLanguage() throws Exception {
-    //should produce error(s)
-    
     setUp();
     validator.validate(getDOM("<WORK><FOREIGN lang=\"notalanguage\">x</FOREIGN></WORK>"));
     checkLog(new String[]{"validator.foreign.invalidCode"});
-    
-    //should be fine
     
     setUp();
     validator.validate(getDOM("<WORK><FOREIGN lang=\"aaa\">x</FOREIGN></WORK>"));
@@ -33,8 +29,6 @@ public class ForeignValidatorTest extends ValidatorTestBase{
    */
   @Test
   public void testLanguageExists() throws Exception {
-    //should produce error(s)
-    
     setUp();
     validator.validate(getDOM("<WORK><FOREIGN>x</FOREIGN></WORK>"));
     checkLog(new String[]{"validator.foreign.missingCode"});

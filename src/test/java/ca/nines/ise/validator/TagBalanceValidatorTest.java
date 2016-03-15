@@ -21,16 +21,17 @@ public class TagBalanceValidatorTest extends ValidatorTestBase{
     validator.validate(getDOM("<WORK></x></WORK>"));
     checkLog(new String[]{"validator.tagBalance.missing_start_tag"});
     
-    //should produce an error
-    setUp();
-    validator.validate(getDOM("<WORK><x></x></x></WORK>"));
-    checkLog(new String[]{"validator.tagBalance.missing_start_tag"});
-    
     //should be no problems
     setUp();
     validator.validate(getDOM("<WORK><x></x></WORK>"));
     checkLog();
-    
+  }
+  
+  /**
+   * Tests empty tag
+   */
+  @Test
+  public void testEmpty() throws Exception {
     //should be no problems
     setUp();
     validator.validate(getDOM("<WORK><x/></WORK>"));
@@ -48,19 +49,9 @@ public class TagBalanceValidatorTest extends ValidatorTestBase{
     validator.validate(getDOM("<WORK><x></WORK>"));
     checkLog(new String[]{"validator.tagBalance.unclosed"});
     
-    //should produce an error
-    setUp();
-    validator.validate(getDOM("<WORK><x><x></x></WORK>"));
-    checkLog(new String[]{"validator.tagBalance.unclosed"});
-    
     //should be no problems
     setUp();
     validator.validate(getDOM("<WORK><x></x></WORK>"));
-    checkLog();
-    
-    //should be no problems
-    setUp();
-    validator.validate(getDOM("<WORK><x/></WORK>"));
     checkLog();
   }
 

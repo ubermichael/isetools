@@ -7,7 +7,7 @@ public class SpanLineValidatorTest extends ValidatorTestBase{
   SpanLineValidator validator;
   
   public SpanLineValidatorTest() throws Exception {
-    validator = new SpanLineValidator();
+    validator = new SpanLineValidator(schema);
   }
   
   /**

@@ -2,16 +2,16 @@ package ca.nines.ise.validator;
 
 import org.junit.Test;
 
-public class SiblingCountValidatorTest extends ValidatorTestBase{
+public class DescendantCountValidatorTest extends ValidatorTestBase{
   
-  SiblingCountValidator validator;
+  DescendantCountValidator validator;
   
-  public SiblingCountValidatorTest() throws Exception{
-    validator = new SiblingCountValidator();
+  public DescendantCountValidatorTest() throws Exception{
+    validator = new DescendantCountValidator();
   }
   
   /**
-   * Test direct siblings
+   * Test siblings
    * @throws Exception
    */
   @Test
@@ -19,7 +19,7 @@ public class SiblingCountValidatorTest extends ValidatorTestBase{
     //should produce an error
     setUp();
     validator.validate(getDOM("<WORK><s><sp>x</sp><sp>y</sp></s></WORK>"));
-    checkLog(new String[]{"validator.siblingCount.overCount"});
+    checkLog(new String[]{"validator.descendantCount.overCount"});
     
     //should be no problems
     setUp();
@@ -37,10 +37,10 @@ public class SiblingCountValidatorTest extends ValidatorTestBase{
    */
   @Test
   public void testAllDescendants() throws Exception {
-    //should be no problems
+    //should error
     setUp();
     validator.validate(getDOM("<WORK><s><sp>x</sp><y><sp>y</sp></y></s></WORK>"));
-    checkLog();
+    checkLog(new String[]{"validator.descendantCount.overCount"});
   }
   
   /**
