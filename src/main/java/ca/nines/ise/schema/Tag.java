@@ -20,9 +20,12 @@ import ca.nines.ise.schema.Attribute.AttributeBuilder;
 import ca.nines.ise.util.BuilderInterface;
 import ca.nines.ise.util.LocationData;
 import ca.nines.ise.util.XMLDriver;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -44,7 +47,7 @@ import org.xml.sax.SAXException;
 public class Tag implements Comparable<Tag> {
 
   /**
-   * A mapping of attribute names and attribut objects.
+   * A mapping of attribute names and attribute objects.
    */
   private final Map<String, Attribute> attributes;
 
@@ -87,12 +90,24 @@ public class Tag implements Comparable<Tag> {
   /**
    * Tags this tag cannot split
    */
-  private final String noSplit;
+  private final List<String> noSplit;
   
   /**
    * Tag this tag should be a child of
    */
   private final String ancestor;
+  
+  /**
+   * Whether or not nesting this tag is redundant
+   * yes/no
+   */
+  private final String redundant;
+  
+  /**
+   * Whether or not this tag may span multiple lines
+   * yes/no
+   */
+  private final String spansLines;
 
   /**
    * A builder class for constructing tags. Use Tag#builder() to get a
@@ -105,8 +120,10 @@ public class Tag implements Comparable<Tag> {
     private String desc;
     private String empty;
     private String where;
-    private String noSplit;
+    private List<String> noSplit;
     private String ancestor;
+    private String redundant;
+    private String spansLines;
 
     private int lineNumber;
     private String name;
@@ -123,8 +140,10 @@ public class Tag implements Comparable<Tag> {
       desc = "";
       empty = "";
       where = "";
-      noSplit = "";
+      noSplit = null;
       ancestor = "";
+      redundant = "";
+      spansLines = "";
       name = "";
       lineNumber = 0;
       source = "";
@@ -148,7 +167,7 @@ public class Tag implements Comparable<Tag> {
      */
     @Override
     public Tag build() {
-      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber, noSplit, ancestor);
+      return new Tag(name, desc, empty, where, depreciated, attributes, source, lineNumber, noSplit, ancestor, redundant, spansLines);
     }
 
     /**
@@ -185,6 +204,16 @@ public class Tag implements Comparable<Tag> {
       tmp = map.getNamedItem("ancestor");
       if (tmp != null) {
         setAncestor(tmp.getTextContent());
+      }
+      
+      tmp = map.getNamedItem("redundant");
+      if (tmp != null) {
+        setRedundant(tmp.getTextContent());
+      }
+      
+      tmp = map.getNamedItem("spansLines");
+      if (tmp !=  null){
+        setSpansLines(tmp.getTextContent());
       }
 
       tmp = map.getNamedItem("depreciated");
@@ -268,18 +297,55 @@ public class Tag implements Comparable<Tag> {
       return this;
     }
     
+    /**
+     * Set where the tag should be.
+     * 
+     * @param where the where to set
+     * @return
+     */
     public TagBuilder setWhere(String where) {
       this.where = where;
       return this;
     }
     
+    /**
+     * Set the tags this tag should not split
+     * 
+     * @param noSplit comma delimited list of tags not to split
+     * @return
+     */
     public TagBuilder setNoSplit(String noSplit) {
-      this.noSplit = noSplit;
+      this.noSplit = Arrays.asList(noSplit.split(",[ ]*"));
       return this;
     }
     
+    /**
+     * Ancestor of this tag
+     * 
+     * @param ancestor the ancestor to set
+     * @return
+     */
     public TagBuilder setAncestor(String ancestor) {
       this.ancestor = ancestor;
+      return this;
+    }
+    
+    /**
+     * Sets whether or not this tag is redundant
+     * 
+     * @param redundant the redundancy to set
+     * @return
+     */
+    public TagBuilder setRedundant(String redundant) {
+      this.redundant = redundant;
+      return this;
+    }
+    
+    /**
+     * Sets whether or not this tag may span lines
+     */
+    public TagBuilder setSpansLines(String spansLines) {
+      this.spansLines = spansLines;
       return this;
     }
 
@@ -338,12 +404,14 @@ public class Tag implements Comparable<Tag> {
    * @param source
    * @param lineNumber
    */
-  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber, String noSplit, String ancestor) {
+  private Tag(String name, String desc, String empty, String where, String depreciated, Map<String, Attribute> attributes, String source, int lineNumber, List noSplit, String ancestor, String redundant, String spansLines) {
     this.name = name;
     this.desc = desc;
     this.where = where;
     this.noSplit = noSplit;
     this.ancestor = ancestor;
+    this.redundant = redundant;
+    this.spansLines = spansLines;
     this.empty = empty;
     this.depreciated = depreciated;
     this.attributes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -440,6 +508,10 @@ public class Tag implements Comparable<Tag> {
     return "no";
   }
   
+  /**
+   * returns where this tag should be in a document.
+   * @return
+   */
   public String getWhere() {
       if(where.equals("")) {
           return "anywhere";
@@ -447,12 +519,36 @@ public class Tag implements Comparable<Tag> {
       return where;
   }
 
-  public String getNoSplit() {
+  /**
+   * Returns a list of tags that this tag may not split.
+   * @return
+   */
+  public List getNoSplit() {
     return noSplit;
   }
   
+  /**
+   * Returns this tag's mandatory ancestor.
+   * @return
+   */
   public String getAncestor() {
     return ancestor;
+  }
+  
+  /**
+   * Returns the redundant field of this tag
+   * @return
+   */
+  public String getRedundant() {
+    return redundant;
+  }
+  
+  /**
+   * returns the spansLines field of this tag
+   * @return
+   */
+  public String getSpansLines() {
+    return spansLines;
   }
   
   /**
