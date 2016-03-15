@@ -23,16 +23,15 @@ import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.DOMValidator;
+import ca.nines.ise.validator.DescendantCountValidator;
 import ca.nines.ise.validator.HungWordValidator;
 import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.validator.SectionCoverageValidator;
-import ca.nines.ise.validator.SiblingCountValidator;
 import ca.nines.ise.validator.SpanLineValidator;
 import ca.nines.ise.validator.SplitLineValidator;
 import ca.nines.ise.validator.TagBalanceValidator;
 import ca.nines.ise.validator.semantic.OrnamentValidator;
 import ca.nines.ise.validator.semantic.RuleValidator;
-import ca.nines.ise.validator.semantic.SemanticValidator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,8 +71,8 @@ public class Validate extends Command {
     DOMValidator dv = new DOMValidator();
     NestingValidator nv = new NestingValidator(schema);
     SectionCoverageValidator scv = new SectionCoverageValidator();
-    SiblingCountValidator sbv = new SiblingCountValidator();
-    SpanLineValidator slv = new SpanLineValidator();
+    DescendantCountValidator sbv = new DescendantCountValidator();
+    SpanLineValidator slv = new SpanLineValidator(schema);
     SplitLineValidator spv = new SplitLineValidator();
     TagBalanceValidator tbv = new TagBalanceValidator();
     HungWordValidator hwv = new HungWordValidator();
