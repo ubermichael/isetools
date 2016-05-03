@@ -44,20 +44,20 @@ public class SectionCoverageValidator {
 
   ValidatorStack<StartNode> nodeStack;
   ArrayList<StartNode> coverAll;
-  ArrayList<StartNode> acts;
-  ArrayList<StartNode> scenes;
-  ArrayList<StartNode> pages;
+  Boolean acts;
+  Boolean scenes;
+  Boolean pages;
   
   private void process_init(StartNode n){
     //if we're not in either frontmatter or backmatter, coverAll should cover everything
     if (n.getName().toLowerCase().equals("div") && !nodeStack.in_tag("frontmatter") && !nodeStack.in_tag("backmatter"))
       coverAll.add(n);
     else if (n.getName().toLowerCase().equals("scene"))
-      scenes.add(n);
+      scenes = true;
     else if (n.getName().toLowerCase().equals("act"))
-      acts.add(n);
+      acts = true;
     else if (n.getName().toLowerCase().equals("page"))
-      pages.add(n);
+      pages = true;
   }
   
   private void process_start(StartNode n){
@@ -81,7 +81,7 @@ public class SectionCoverageValidator {
     //if not in matter
     if (!nodeStack.in_tag("frontmatter") && !nodeStack.in_tag("backmatter")){
       //if no sectioning exists
-      if (coverAll.isEmpty() && scenes.isEmpty() && acts.isEmpty() && pages.isEmpty()){
+      if (coverAll.isEmpty() && !scenes && !acts && !pages){
         Message m = Message.builder("validator.coverage.required")
           .fromNode(n)
           .addNote("Text in the document must be within at least one type of sectioning element (ex. DIV, ACT, SCENE, etc.)")
@@ -91,7 +91,7 @@ public class SectionCoverageValidator {
       //if not in a scene or act
       if (!nodeStack.in_tag("act") && !nodeStack.in_tag("scene")){
         //if acts or scenes exist
-        if (!scenes.isEmpty() || !acts.isEmpty()){
+        if (scenes || acts){
           Message m = Message.builder("validator.coverage.outside_body")
             .fromNode(n)
             .addNote("All text outside FRONTMATTER and BACKMATTER must be within an ACT and/or SCENE if ACT and/or SCENE tags exist in the document")
@@ -125,7 +125,7 @@ public class SectionCoverageValidator {
     }
     
     //if not in a page but pages exist, error
-    if (!pages.isEmpty() && !nodeStack.in_tag("page")){
+    if (pages && !nodeStack.in_tag("page")){
       Message m = Message.builder("validator.coverage.outside_page")
           .fromNode(n)
           .addNote("if PAGE tags exists, all text must be within a PAGE")
@@ -138,9 +138,9 @@ public class SectionCoverageValidator {
   public void validate(DOM dom) {
     nodeStack = new ValidatorStack<StartNode>();
     coverAll = new ArrayList<StartNode>();
-    acts = new ArrayList<StartNode>();
-    scenes = new ArrayList<StartNode>();
-    pages = new ArrayList<StartNode>();
+    acts = false;
+    scenes = false;
+    pages = false;
     
     //first pass
     for (Node n : dom) {
