@@ -44,9 +44,9 @@ public class SectionCoverageValidator {
 
   ValidatorStack<StartNode> nodeStack;
   ArrayList<StartNode> coverAll;
-  Boolean acts;
-  Boolean scenes;
-  Boolean pages;
+  boolean acts;
+  boolean scenes;
+  boolean pages;
   
   private void process_init(StartNode n){
     //if we're not in either frontmatter or backmatter, coverAll should cover everything
