@@ -23,6 +23,9 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
 import ca.nines.ise.node.StartNode;
+import ca.nines.ise.schema.Schema;
+import ca.nines.ise.schema.Tag;
+
 import java.util.ArrayDeque;
 
 /**
@@ -31,6 +34,11 @@ import java.util.ArrayDeque;
  */
 
 public class TagBalanceValidator {
+  private final Schema schema;
+
+  public TagBalanceValidator(Schema schema) {
+      this.schema = schema;
+  }
   
   ValidatorStack<StartNode> nodeStack;
   
@@ -80,13 +88,17 @@ public class TagBalanceValidator {
     nodeStack = new ValidatorStack<StartNode>();
   
     for (Node n : dom) {
-      switch (n.type()) {
-        case END:
-          process_end((EndNode) n);
-          break;
-        case START:
-          process_start((StartNode) n);
-          break;
+      Tag t = schema.getTag(n.getName());
+      // if the tag must be empty, ignore it (don't want missing start/end tag)
+      if (t == null || !t.isEmpty()){
+        switch (n.type()) {
+          case END:
+            process_end((EndNode) n);
+            break;
+          case START:
+            process_start((StartNode) n);
+            break;
+        }
       }
     }
   

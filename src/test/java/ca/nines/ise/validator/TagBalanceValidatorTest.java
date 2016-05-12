@@ -7,7 +7,7 @@ public class TagBalanceValidatorTest extends ValidatorTestBase{
   TagBalanceValidator validator;
   
   public TagBalanceValidatorTest() throws Exception {
-    validator = new TagBalanceValidator();
+    validator = new TagBalanceValidator(schema);
   }
   
   /**
