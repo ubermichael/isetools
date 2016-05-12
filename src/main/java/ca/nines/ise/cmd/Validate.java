@@ -74,7 +74,7 @@ public class Validate extends Command {
     DescendantCountValidator sbv = new DescendantCountValidator();
     SpanLineValidator slv = new SpanLineValidator(schema);
     SplitLineValidator spv = new SplitLineValidator();
-    TagBalanceValidator tbv = new TagBalanceValidator();
+    TagBalanceValidator tbv = new TagBalanceValidator(schema);
     HungWordValidator hwv = new HungWordValidator();
     OrnamentValidator ov = new OrnamentValidator();
     RuleValidator rv = new RuleValidator();
