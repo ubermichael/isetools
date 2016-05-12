@@ -25,6 +25,10 @@ start =
         attribute depreciated { text }?,
         attribute empty { "yes" | "no" | "optional" }?,
         attribute where { xsd:IDREF },
+        attribute noSplit { text }?,
+        attribute ancestor { text }?,
+        attribute redundant { "yes" | "no" }?,
+        attribute spansLines { "yes" | "no" }?,
         desc,
         element attribute {
           attribute name { xsd:NCName },
