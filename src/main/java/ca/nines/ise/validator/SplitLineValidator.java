@@ -23,6 +23,7 @@ import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
 import ca.nines.ise.node.Node;
+import ca.nines.ise.node.NodeType;
 import ca.nines.ise.node.StartNode;
 
 /**
@@ -167,26 +168,28 @@ public class SplitLineValidator {
           }
           break;
         case "l":
-          EmptyNode en = (EmptyNode) n;
-          if (en.hasAttribute("part")){
-            switch (en.getAttribute("part")) {
-              case "i":
-                process_start(en);
-                break;
-              case "m":
-                process_middle(en);
-                break;
-              case "f":
-                process_finish(en);
-            }
-          }/*else if (current != null){
-            // line in a splitline but doesn't have a part attribute
-            Message m = Message.builder("validator.splitLine.missingPart")
-                .fromNode(n)
-                .addNote(get_name(en) + " doesn't have a @part attribute but is within a split line ("+get_name(current)+" @ TLN="+current.getTLN()+")")
-                .build();
-            Log.addMessage(m);
-          }*/
+          if (n.type().equals(NodeType.EMPTY)){
+            EmptyNode en = (EmptyNode) n;
+            if (en.hasAttribute("part")){
+              switch (en.getAttribute("part")) {
+                case "i":
+                  process_start(en);
+                  break;
+                case "m":
+                  process_middle(en);
+                  break;
+                case "f":
+                  process_finish(en);
+              }
+            }/*else if (current != null){
+              // line in a splitline but doesn't have a part attribute
+              Message m = Message.builder("validator.splitLine.missingPart")
+                  .fromNode(n)
+                  .addNote(get_name(en) + " doesn't have a @part attribute but is within a split line ("+get_name(current)+" @ TLN="+current.getTLN()+")")
+                  .build();
+              Log.addMessage(m);
+          ` }*/
+          }
         }
     }
   
