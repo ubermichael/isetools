@@ -25,6 +25,11 @@ start =
         attribute depreciated { text }?,
         attribute empty { "yes" | "no" | "optional" }?,
         attribute where { xsd:IDREF },
+        attribute xml_inline { "yes" | "no" }?,
+        attribute xml_flatten { "yes" | "no" }?,
+        attribute xml_typeface { "yes" | "no" }?,
+        attribute xml_line_parent { "yes" | "no" }?,
+        attribute xml_unparsed_text { "yes" | "no" }?,
         desc,
         element attribute {
           attribute name { xsd:NCName },

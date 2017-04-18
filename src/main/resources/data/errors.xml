@@ -80,7 +80,7 @@
     <![CDATA[The rdg @resp attribute does not look correct.]]>
     </message>
 
-    <message code="validator.nesting.missing_start" severity="error">
+    <message code="validator.tagBalance.missing_start_tag" severity="error">
     <![CDATA[End tag without a start tag.]]>
     </message>
     <message code="validator.nesting.recursive" severity="error">
@@ -89,7 +89,7 @@
     <message code="validator.nesting.split_tag" severity="warning">
     <![CDATA[This tag is split/improperly nested.]]>
     </message>
-    <message code="validator.nesting.unclosed" severity="error">
+    <message code="validator.tagBalance.unclosed" severity="error">
     <![CDATA[This tag is not closed.]]>
     </message>
     <message code="validator.rule.linenotempty" severity="warning">

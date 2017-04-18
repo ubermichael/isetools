@@ -41,7 +41,6 @@ public class NestingValidator {
 
   @ErrorCode(code = {
     "validator.nesting.split",
-    "validator.nesting.missing_start_tag"
   })
   private void process_end(EndNode n) {
     if (nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
@@ -54,29 +53,6 @@ public class NestingValidator {
             .addNote("Tag " + n.getName() + " splits other tags.")
             .build();
     Log.addMessage(m);
-
-    // this is a split tag.
-    ArrayDeque<StartNode> splitStack = new ArrayDeque<>();
-    while (nodeStack.size() >= 1) {
-      StartNode start = nodeStack.pop();
-      if (start.getName().toLowerCase().equals(n.getName().toLowerCase())) {
-        break; // while.
-      }
-      splitStack.push(start);
-    }
-
-    if (nodeStack.isEmpty()) {
-      m = Message.builder("validator.nesting.missing_start")
-              .fromNode(n)
-              .addNote("Cannot find start tag that corresponds to end tag " + n.getName())
-              .build();
-      Log.addMessage(m);
-    }
-
-    while (splitStack.size() >= 1) {
-      nodeStack.push(splitStack.pop());
-    }
-
   }
 
   @ErrorCode(code = {
@@ -108,14 +84,6 @@ public class NestingValidator {
           process_start((StartNode) n);
           break;
       }
-    }
-
-    for (StartNode n : nodeStack) {
-      Message m = Message.builder("validator.nesting.unclosed")
-              .fromNode(n)
-              .addNote("Start tag " + n.getName() + " has no matching end tag")
-              .build();
-      Log.addMessage(m);
     }
 
   }

@@ -65,12 +65,14 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
     }
     if (!t.maybeEmpty()) {
       Message m = Message.builder("validator.tag.emptystart")
+              .fromNode(n)
               .addNote("Tag " + n.getName() + " should not be self-closing.")
               .build();
       Log.addMessage(m);
     }
     if (t.isDepreciated()) {
       Message m = Message.builder("validator.tag.depreciated")
+              .fromNode(n)
               .addNote(t.getDepreciated())
               .build();
       Log.addMessage(m);
