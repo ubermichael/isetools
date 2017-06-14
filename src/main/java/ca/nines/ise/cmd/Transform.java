@@ -30,6 +30,7 @@ import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
 import ca.nines.ise.writer.TextWriter;
 import ca.nines.ise.writer.XMLWriter;
+import ca.nines.ise.writer.ExpandedSGMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -79,6 +80,9 @@ public class Transform extends Command {
     if(cmd.hasOption("sgml")) {
         renderer = new SGMLWriter(out);
     }
+    if(cmd.hasOption("ximl")) {
+        renderer = new ExpandedSGMLWriter(out);
+    }
 
     if (renderer == null) {
       System.err.println("You must specify a transformation");
@@ -126,6 +130,7 @@ public class Transform extends Command {
     opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
     opts.addOption("rtf", false, "Transform output to an RTF document.");
     opts.addOption("sgml", false, "Transform output to an SGML document, after validating.");
+    opts.addOption("ximl", false, "Transform output to an SGML document with expanded tagging.");
     return opts;
   }
 
