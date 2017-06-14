@@ -661,4 +661,10 @@
       </attribute>
     </tag>
   </tags>
+  <tag name="PLACENAME" where="modern">
+    <desc><![CDATA[contains an absolute or relative place name]]></desc>
+    <attribute name="ref" type="string" empty="no" optional="yes">
+      <desc><![CDATA[reference to a canonical place definition]]></desc>
+    </attribute>
+  </tag>
 </schema>
