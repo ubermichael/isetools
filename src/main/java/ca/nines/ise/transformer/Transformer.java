@@ -73,7 +73,6 @@ abstract public class Transformer {
             Method m = cls.getMethod(methodName, n.getClass());
             m.invoke(this, n);
         } catch (NoSuchMethodException ex) {
-            System.out.println("Cannot find " + methodName + "(" + n.getClass() + ")");
             this.defaultTransform(n);
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
