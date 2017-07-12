@@ -96,9 +96,9 @@
       </attribute>
     </tag>
     <tag name="ADD" where="modern">
-      <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version. May contain LEM and RDG elements, or directly contain added text for the extended version (as if RDG were used around the entire contents).]]></desc>
-      <attribute name="wit" type="string" optional="yes">
-        <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omit if using a child RDG.]]></desc>
+      <desc><![CDATA[Indicates a passage in an "extended" text that has been added from an alternative version.]]></desc>
+      <attribute name="wit" type="string" optional="no">
+        <desc><![CDATA[An identifier for the textual "witness" that the passage came from.]]></desc>
       </attribute>
     </tag>
     <tag name="AMBIG" where="modern">
@@ -341,9 +341,6 @@
         <option>false</option>
       </attribute>
     </tag>
-    <tag name="LEM" where="modern">
-      <desc><![CDATA[Used inside of ADD to mark text that will appear only in the non-extended version of the text.]]></desc>
-    </tag>
     <tag name="level" where="annotations">
       <desc><![CDATA[Surrounds the annotation content.]]></desc>
       <attribute name="n" type="select">
@@ -521,10 +518,7 @@
       </attribute>
     </tag>
     <tag name="RDG" where="modern">
-      <desc><![CDATA[A Reading within an AMBIG or ADD.]]></desc>
-      <attribute name="wit" type="string" optional="yes">
-        <desc><![CDATA[An identifier for the textual "witness" that the passage came from. Omitted when used within AMBIG.]]></desc>
-      </attribute>
+      <desc><![CDATA[A Reading within an AMBIG.]]></desc>
     </tag>
     <tag name="RT" where="oldspelling">
       <desc><![CDATA[Running title.]]></desc>
