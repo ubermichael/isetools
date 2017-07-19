@@ -306,7 +306,7 @@
     <tag name="iseHeader" where="all">
       <desc><![CDATA[metadata block]]></desc>
     </tag>
-    <tag name="J" where="all">
+    <tag name="J" where="oldspelling" depreciated="Do not record justification. SPACE and INDENT may be appropriate in some cases.">
       <desc><![CDATA[Justified line. Only fully justified lines are tagged. Note that verse lines that reach to the end of the column should not be tagged as justified (though many draft texts do), since these are not justified in the way that prose lines are.]]></desc>
     </tag>
     <tag name="L" empty="yes" where="all">
