@@ -26,8 +26,7 @@ import java.util.Map;
 /**
  * Common functionality for Annotation and Collation collections.
  *
-
- * @param <T>
+ * @param <T> A type.
  */
 abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
 
@@ -79,7 +78,7 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     /**
      * Add a lemma to the list.
      *
-     * @param t
+     * @param t The lemma to add.
      */
     public void addLemma(T t) {
       lemmas.add(t);
@@ -88,7 +87,7 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     /**
      * Set the source of the lemmas.
      *
-     * @param source
+     * @param source the source of the lemma data.
      */
     public void setSource(String source) {
       this.source = source;
@@ -111,8 +110,8 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   /**
    * Protected constructor. Child classes should have private constructors.
    *
-   * @param source
-   * @param lemmas
+   * @param source The source of the aparatus data
+   * @param lemmas List of lemmas.
    */
   protected Apparatus(String source, List<T> lemmas) {
     this.source = source;
@@ -134,7 +133,7 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   /**
    * Return the i-th lemma.
    *
-   * @param i
+   * @param i The zero-based index of the apparat to get.
    * @return T
    */
   public T get(int i) {
@@ -144,7 +143,7 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
   /**
    * Get a list of lemmas for a TLN.
    *
-   * @param tln
+   * @param tln The TLN of the line in question.
    * @return List
    */
   public List<T> get(String tln) {
@@ -153,16 +152,6 @@ abstract public class Apparatus<T extends Lemma> implements Iterable<T> {
     } else {
       return null;
     }
-  }
-
-  /**
-   * WTF is this?
-   *
-   * @param id
-   * @return Lemma
-   */
-  public T find(long id) {
-    return idIndex.get(id);
   }
 
   /**

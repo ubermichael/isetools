@@ -23,8 +23,8 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- * @author Maxwell Terpstra <terpstra@alumni.uvic.ca>
- * @author Michael Joyce <ubermichael@gmail.com>
+
+
  */
 public class XMLLogSerializerTest {
 

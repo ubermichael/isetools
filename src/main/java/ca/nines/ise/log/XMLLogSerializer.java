@@ -24,22 +24,22 @@ import java.util.HashMap;
 
 /**
  * Serializes a Log as to XML
- *
+ * <p>
  * The output will be structured like:
- * <log>
- *  <source name="">
- *       <entry code="" columnNumber="" lineNumber="" severity="" tln="">
- *           <message>...</message>
- *           <context>...</context>
- *           <note>...</note>
- *       </entry>
- *   </source>
- * </log>
- * 
+ * <blockquote><pre><code>&lt;log&gt;
+ *  &lt;source name=""&gt;
+ *       &lt;entry code="" columnNumber="" lineNumber="" severity="" tln=""&gt;
+ *           &lt;message&gt;...&lt;/message&gt;
+ *           &lt;context&gt;...&lt;/context&gt;
+ *           &lt;note&gt;...&lt;/note&gt;
+ *       &lt;/entry&gt;
+ *   &lt;/source&gt;
+ * &lt;/log&gt;
+ * </code></pre></blockquote>
+ * <p>
  * Log entries are grouped by source, and each may contain a "message" string,
  * a "context" quote, and multiple "note"s.
  *
-
  */
 public class XMLLogSerializer {
 

@@ -26,7 +26,7 @@ import org.junit.Before;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class DOMStreamTest {
 

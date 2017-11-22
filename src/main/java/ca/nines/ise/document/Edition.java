@@ -27,8 +27,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 /**
- *
-
+ * An edition of a Work.
  */
 public class Edition extends Document implements Comparable<Edition> {
 
@@ -56,7 +55,7 @@ public class Edition extends Document implements Comparable<Edition> {
    * Contruct an edition from a file.
    *
    * @param file full path to the file.
-   * @throws IOException
+   * @throws IOException if the file cannot be found or read.
    */
   public Edition(File file) throws IOException {
     this.file = file;
@@ -73,9 +72,9 @@ public class Edition extends Document implements Comparable<Edition> {
   }
 
   /**
-   * Compare edition codes case-insensitively.
+   * Compare edition codes case-insensitively for lexicographical sorting.
    *
-   * @param o
+   * @param o Other edition to compare to.
    * @return int
    */
   @Override
@@ -105,11 +104,11 @@ public class Edition extends Document implements Comparable<Edition> {
    * Build an Annotations collection for the edition.
    *
    * @return Annotation
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
-   * @throws XPathExpressionException
-   * @throws TransformerException
+    * @throws ParserConfigurationException if the parser is broken.
+    * @throws SAXException if the XML is not well-formed
+    * @throws IOException if the XML file cannot be found
+    * @throws XPathExpressionException if the XPath is bad.
+     * @throws javax.xml.transform.TransformerException if the transformer exceptions
    */
   public Annotation getAnnotation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
     return Annotation.builder().from(expectedAnnotationFile()).build();
@@ -119,10 +118,10 @@ public class Edition extends Document implements Comparable<Edition> {
    * Get the Collations collection for the edition.
    *
    * @return Collation
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
-   * @throws XPathExpressionException
+     * @throws ParserConfigurationException if the parser is broken.
+     * @throws SAXException if the XML is not well-formed
+     * @throws IOException if the XML file cannot be found
+     * @throws XPathExpressionException if the XPath is bad.
    */
   public Collation getCollation() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -132,7 +131,7 @@ public class Edition extends Document implements Comparable<Edition> {
    * Build and return a DOM for the edition.
    *
    * @return DOM
-   * @throws IOException
+   * @throws IOException if the DOM cannot be read from disk.
    */
   public DOM getDOM() throws IOException {
     return new DOMBuilder(file).build();

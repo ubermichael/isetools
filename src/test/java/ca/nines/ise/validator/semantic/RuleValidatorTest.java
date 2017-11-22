@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author michael
+
  */
 public class RuleValidatorTest {
 	

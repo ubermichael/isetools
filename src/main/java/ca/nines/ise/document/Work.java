@@ -52,8 +52,8 @@ public class Work extends Document implements Comparable<Work> {
   /**
    * Construct a work from file path to the root directory.
    *
-   * @param file
-   * @throws IOException
+   * @param file On-disk file to read.
+   * @throws IOException if the file cannot be read.
    */
   public Work(File file) throws IOException {
     this.editions = new HashMap<>();
@@ -64,8 +64,8 @@ public class Work extends Document implements Comparable<Work> {
   /**
    * Add an edition to the work.
    *
-   * @param file
-   * @throws IOException
+   * @param file On-disk file to read.
+   * @throws IOException if the file cannot be read.
    */
   public void addEdition(File file) throws IOException {
     String filename = file.getName();
@@ -76,9 +76,9 @@ public class Work extends Document implements Comparable<Work> {
   }
 
   /**
-   * Compare two works' play codes in a case-insensitive manner.
+   * Compare two works' play codes in a case-insensitive manner for sorting.
    *
-   * @param o
+   * @param o Other work to compare this one to.
    * @return int
    */
   @Override
@@ -89,7 +89,7 @@ public class Work extends Document implements Comparable<Work> {
   /**
    * Get an edition for the work.
    *
-   * @param code
+   * @param code Edition code (F, M, Q1, etc)
    * @return Edition
    * @throws IOException if the edition does not exist.
    */
@@ -110,7 +110,7 @@ public class Work extends Document implements Comparable<Work> {
    * Return a list of editions for available for the work.
    *
    * @return Edition[]
-   * @throws IOException
+   * @throws IOException if no editions can be found.
    */
   public Edition[] getEditions() throws IOException {
     File files[] = root.listFiles(new FilenameFilter() {
@@ -136,7 +136,7 @@ public class Work extends Document implements Comparable<Work> {
    * Get the root file system path.
    *
    * @return String
-   * @throws IOException
+   * @throws IOException if the filesystem goes away.
    */
   public String getPath() throws IOException {
     return root.getCanonicalPath();
@@ -153,7 +153,7 @@ public class Work extends Document implements Comparable<Work> {
    * Return true if the work has a title page.
    *
    * @return boolean
-   * @throws IOException
+   * @throws IOException if the filesystem gets all wonky.
    */
   public boolean hasTitlePage() throws IOException {
     return root.getCanonicalPath().contains("withTitlePage");

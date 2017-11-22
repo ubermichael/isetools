@@ -28,8 +28,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * A corpus is a collection of Works.
- *
-
  */
 public class Corpus {
 
@@ -65,7 +63,7 @@ public class Corpus {
   /**
    * Get a work from the corpus
    *
-   * @param code
+   * @param code The code of the work to fetch (eg Rom, Ham, 1H4)
    * @return Work
    * @throws IOException if the work does not exist.
    */
@@ -92,7 +90,7 @@ public class Corpus {
    * Return a list of Works, sorted by play code.
    *
    * @return Work[]
-   * @throws IOException
+   * @throws IOException if the directories cannot be read.
    */
   public Work[] getWorks() throws IOException {
     File[] dirs = ArrayUtils.addAll(

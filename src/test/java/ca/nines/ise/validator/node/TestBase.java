@@ -24,7 +24,7 @@ import org.junit.Before;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class TestBase {
 

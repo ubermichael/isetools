@@ -21,8 +21,6 @@ import java.util.regex.Pattern;
 
 /**
  * ISE Document class - metadata about a document.
- *
-
  */
 abstract public class Document {
 
@@ -35,7 +33,7 @@ abstract public class Document {
   /**
    * Check the validity of a file name or path.
    *
-   * @param filename
+   * @param filename file name to check.
    * @return boolean
    */
   public static final boolean validName(String filename) {
@@ -46,7 +44,7 @@ abstract public class Document {
   /**
    * Extract the work code from the file name (Rom from Rom_F1.txt).
    *
-   * @param filename
+   * @param filename name of an ISE document.
    * @return String
    */
   public static final String extractName(String filename) {
@@ -63,7 +61,7 @@ abstract public class Document {
   /**
    * Extract the edition code from a file name.
    *
-   * @param filename
+   * @param filename name of an ISE document.
    * @return String
    */
   public static final String extractEdition(String filename) {

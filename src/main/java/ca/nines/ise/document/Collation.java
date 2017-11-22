@@ -28,8 +28,6 @@ import org.xml.sax.SAXException;
 
 /**
  * STUB A file containing collations for an Edition.
- *
-
  */
 public class Collation extends Apparatus<Coll> {
 
@@ -58,10 +56,10 @@ public class Collation extends Apparatus<Coll> {
     /**
      * STUB Parse collations in an XML node.
      *
-     * @param in
-     * @return CollationBuilder.
-     * @throws ParserConfigurationException
-     * @throws XPathExpressionException
+     * @param in XML Node from which to build a collation
+     * @return CollationBuilder
+     * @throws ParserConfigurationException If the XML node tosses a wibbily.
+     * @throws XPathExpressionException If the XPath is broken.
      */
     public CollationBuilder from(Node in) throws ParserConfigurationException, XPathExpressionException {
       return this;
@@ -70,12 +68,12 @@ public class Collation extends Apparatus<Coll> {
     /**
      * STUB Parse collations in a string.
      *
-     * @param in
+     * @param in Input string
      * @return CollationBuilder
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @throws XPathExpressionException
+     * @throws ParserConfigurationException if the parser is broken.
+     * @throws SAXException if the XML is not well-formed
+     * @throws IOException if the XML file cannot be found
+     * @throws XPathExpressionException if the XPath is bad.
      */
     public CollationBuilder from(String in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
       return this;
@@ -84,12 +82,12 @@ public class Collation extends Apparatus<Coll> {
     /**
      * STUB Parse collations in a file.
      *
-     * @param in
+     * @param in Input file
      * @return CollationBuilder
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     * @throws XPathExpressionException
+     * @throws ParserConfigurationException if the parser is broken.
+     * @throws SAXException if the XML is not well-formed
+     * @throws IOException if the XML file cannot be found
+     * @throws XPathExpressionException if the XPath is bad.
      */
     public CollationBuilder from(File in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
       return this;
@@ -109,8 +107,8 @@ public class Collation extends Apparatus<Coll> {
   /**
    * Use a collation builder to get the collations.
    *
-   * @param source
-   * @param lemmas
+   * @param source Source of the collation data.
+   * @param lemmas List of collations.
    */
   private Collation(String source, List<Coll> lemmas) {
     super(source, lemmas);

@@ -35,8 +35,6 @@ import org.atteo.classindex.IndexSubclasses;
 
 /**
  * Superclass for all executable commands.
- *
-
  */
 @IndexSubclasses
 abstract public class Command {
@@ -59,18 +57,19 @@ abstract public class Command {
   /**
    * Execute a command.
    *
-   * @param cmd
-   * @throws Exception
+   * @param cmd Parsed command line options.
+   * @throws Exception if an exception happens.
    */
   abstract public void execute(CommandLine cmd) throws Exception;
 
   /**
    * Parse the command line args[] array and return the result.
    *
-   * @param opts
-   * @param args
+   * @param opts Description of the options expected
+   * @param args Raw arguments from teh command line.
+   * @throws ParseException if the command line cannot be parsed.
+   * 
    * @return CommandLine
-   * @throws ParseException
    */
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
@@ -82,7 +81,7 @@ abstract public class Command {
   /**
    * Get a list of file paths from the command line arguments.
    *
-   * @param cmd
+   * @param cmd Parsed command line arguments.
    * @return File[]
    */
   public File[] getFilePaths(CommandLine cmd) {
@@ -110,7 +109,7 @@ abstract public class Command {
   /**
    * Get a list of arguments for the command.
    *
-   * @param cmd
+   * @param cmd Get the list of arguments (not options) passed from the command line.
    * @return String[]
    */
   public String[] getArgList(CommandLine cmd) {
@@ -138,7 +137,7 @@ abstract public class Command {
   /**
    * Generates the Options for the command.
    *
-   * @return Options
+   * @return Options A description of the options expected on the command line.
    */
   public abstract Options getOptions();
 

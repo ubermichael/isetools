@@ -30,7 +30,7 @@ import org.junit.BeforeClass;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class SpaceCharNodeTest extends TestBase {
 

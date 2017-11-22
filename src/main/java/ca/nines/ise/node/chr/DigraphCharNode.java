@@ -48,7 +48,7 @@ public class DigraphCharNode extends CharNode {
   /**
    * Return a copy of the mapping.
    *
-   * @return Map<> duplicate.
+   * @return Map of curly-brace diagraphs to unicode characters.
    */
   public static Map<String, String> mapping() {
     return new HashMap<>(charMap);

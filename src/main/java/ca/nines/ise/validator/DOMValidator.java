@@ -37,8 +37,7 @@ import java.util.Map;
  * <p>
  * Usage example:
  * <p>
- * <
- * pre> null {@code
+ * <pre> {@code
  * DOM dom = new DOM();
  * Schema schema = new Schema(); // optional
  * DOMValidator validator = new DOMValidator(schema);

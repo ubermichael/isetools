@@ -60,20 +60,16 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
  * File file = new File("/path/to/file");
  * DOMBuilderInterface builder = new DOMBuilderInterface(file);
  * DOM dom = builder.build();
- * </code></pre></blockquote></p>
+ * </code></pre></blockquote>
  * <p>
  * Or
- * <p>
  * <blockquote><pre><code>
- * String input = "<WORK>Hello world.</WORK>";
+ * String input = "&lt;WORK&gt;Hello world.&lt;/WORK&gt;";
  * DOMBuilderInterface builder = new DOMBuilderInterface(input);
  * DOM dom = builder.build();
- * </code></pre></blockquote></p>
- * <p>
+ * </code></pre></blockquote>
  * <p>
  * @see ParserErrorListener
- * <p>
-
  */
 public class DOMBuilder extends ISEParserBaseListener implements BuilderInterface<DOM> {
 

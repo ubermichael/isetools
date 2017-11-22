@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class LigatureCharNodeTest extends CharNodeTestBase {
 
