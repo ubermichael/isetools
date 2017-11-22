@@ -16,9 +16,7 @@
  */
 package ca.nines.ise.validator.semantic;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
-import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
 import ca.nines.ise.node.EndNode;
@@ -29,7 +27,6 @@ import java.io.IOException;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class OrnamentValidator extends SemanticValidator {
 
@@ -40,11 +37,6 @@ public class OrnamentValidator extends SemanticValidator {
                 .build();
         Log.addMessage(m);
     }
-
-    @ErrorCode(code = {
-        "validator.ornament.multiline",
-        "validator.ornament.unclosed"
-    })
 
     @Override
     public void validateDOM(DOM dom) throws IOException {

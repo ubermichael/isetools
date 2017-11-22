@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
 /**
  * A single note in a collection of annotations. Notes are immutable objects.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Note extends Lemma {
 

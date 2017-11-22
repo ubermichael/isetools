@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Digraph characters are like ligatures but are not ligatures.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class DigraphCharNode extends CharNode {
 

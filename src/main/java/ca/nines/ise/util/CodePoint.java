@@ -18,7 +18,7 @@ package ca.nines.ise.util;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class CodePoint {
 

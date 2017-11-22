@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 /**
  * STUB A file containing collations for an Edition.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Collation extends Apparatus<Coll> {
 

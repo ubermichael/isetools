@@ -22,7 +22,7 @@ import ca.nines.ise.node.Node;
  * Base class for transformers which don't need ot make many changes - leaves
  * all nodes unchanged.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class IdentityTransform extends Transformer {
 

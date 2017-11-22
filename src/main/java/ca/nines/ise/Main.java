@@ -28,7 +28,7 @@ import org.apache.commons.cli.ParseException;
  * Main entry point into the ISE tools. Figures out what command to run, what
  * options go to that command, and then runs it.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Main {
 

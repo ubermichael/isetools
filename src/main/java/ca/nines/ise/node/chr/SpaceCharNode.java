@@ -25,7 +25,7 @@ import ca.nines.ise.node.EmptyNode;
 /**
  * Non-standard space characters.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class SpaceCharNode extends CharNode {
 

@@ -39,7 +39,7 @@ import java.util.HashMap;
  * Log entries are grouped by source, and each may contain a "message" string,
  * a "context" quote, and multiple "note"s.
  *
- * @author Maxwell Terpstra <terpstra@alumni.uvic.ca>
+
  */
 public class XMLLogSerializer {
 

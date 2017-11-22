@@ -41,7 +41,7 @@ import org.apache.commons.cli.Options;
 /**
  * Modernize an old-spelling edition.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Modernize extends Command {
 

@@ -36,7 +36,7 @@ import java.nio.charset.StandardCharsets;
  *   * line (string|null)
  *   * notes (array of string)
  *
- * @author Maxwell Terpstra <terpstra@alumni.uvic.ca>
+
  */
 public class JSONLogSerializer {
 

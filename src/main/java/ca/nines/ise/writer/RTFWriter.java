@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.writer;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOMBuilder;
@@ -53,7 +52,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class RTFWriter extends Writer {
 
@@ -156,7 +155,6 @@ public class RTFWriter extends Writer {
         p.add(fn);
     }
 
-    @ErrorCode(code = {"rtfwriter.note.notfound"})
     private void preprocess(DOM dom, Annotation ann) throws IOException {
         int i = 0;
         for (Note note : ann) {

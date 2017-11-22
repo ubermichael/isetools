@@ -15,7 +15,7 @@ import org.atteo.classindex.IndexSubclasses;
  * 
  * Subclasses are automatically indexed, and will be called in validate(). 
  *
- * @author michael
+
  */
 @IndexSubclasses
 abstract public class SemanticValidator {

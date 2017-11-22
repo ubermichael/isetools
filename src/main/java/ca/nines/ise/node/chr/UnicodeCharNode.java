@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Named unicode characters.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class UnicodeCharNode extends CharNode {
 

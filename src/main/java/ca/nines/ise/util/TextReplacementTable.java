@@ -18,7 +18,7 @@ import org.apache.commons.csv.CSVRecord;
 
 /**
  *
- * @author michael
+
  */
 public class TextReplacementTable {
     

@@ -28,7 +28,7 @@ import javax.xml.transform.TransformerException;
 /**
  * Writers produce output.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class Writer {
 

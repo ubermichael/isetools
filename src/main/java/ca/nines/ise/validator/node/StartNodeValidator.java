@@ -17,7 +17,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.log.Log;
@@ -39,7 +38,7 @@ import ca.nines.ise.schema.Tag;
  *
  * Attribute validations are handled by TagNodeValidator.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class StartNodeValidator extends TagNodeValidator<StartNode> {
 
@@ -51,11 +50,6 @@ public class StartNodeValidator extends TagNodeValidator<StartNode> {
    * @throws AttributeTypeException if the node contains an attribute of an
    * unknown type.
    */
-  @ErrorCode(code = {
-    "validator.tag.unknown",
-    "validator.tag.startempty",
-    "validator.tag.depreciated"
-  })
   @Override
   public void validate(StartNode n, Schema schema) throws AttributeTypeException {
     Tag t = schema.getTag(n.getName());

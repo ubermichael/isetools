@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Named unicode typographic characters.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class TypographicCharNode extends CharNode {
 

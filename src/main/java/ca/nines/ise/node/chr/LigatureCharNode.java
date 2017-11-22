@@ -22,7 +22,7 @@ import ca.nines.ise.node.CharNode;
 /**
  * Two or more characters ligatured together.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class LigatureCharNode extends CharNode {
 

@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.validator;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
@@ -28,7 +27,7 @@ import java.util.ArrayDeque;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class NestingValidator {
     private final Schema schema;
@@ -39,10 +38,6 @@ public class NestingValidator {
     
   ArrayDeque<StartNode> nodeStack;
 
-  @ErrorCode(code = {
-    "validator.nesting.split",
-    "validator.nesting.missing_start_tag"
-  })
   private void process_end(EndNode n) {
     if (nodeStack.peekFirst().getName().toLowerCase().equals(n.getName().toLowerCase())) {
       nodeStack.pop();
@@ -79,9 +74,6 @@ public class NestingValidator {
 
   }
 
-  @ErrorCode(code = {
-    "validator.nesting.recursive"
-  })
   private void process_start(StartNode n) {
     for (StartNode s : nodeStack) {
       if (s.getName().toLowerCase().equals(n.getName().toLowerCase())) {

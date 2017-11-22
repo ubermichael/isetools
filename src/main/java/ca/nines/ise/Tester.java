@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 /**
  * Dumb main class to test out experimental stuff.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Tester {
 

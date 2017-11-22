@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * A case-insensitive, case-preserving, order-preserving collection of 
  * attributes.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class AttributeSet {
     private static final Logger logger = Logger.getLogger( AttributeSet.class.getName() );

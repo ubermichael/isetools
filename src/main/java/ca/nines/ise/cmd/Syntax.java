@@ -34,7 +34,7 @@ import org.apache.commons.cli.Options;
 /**
  * Check the syntax of one or more documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Syntax extends Command {
 

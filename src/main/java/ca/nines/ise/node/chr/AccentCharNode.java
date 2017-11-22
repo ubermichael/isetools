@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class AccentCharNode extends CharNode {
 

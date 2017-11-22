@@ -22,7 +22,7 @@ import ca.nines.ise.schema.Attribute;
 /**
  * An interface for attribute validators.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public interface AttributeValidator {
 

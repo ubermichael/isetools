@@ -42,7 +42,7 @@ import org.xml.sax.SAXException;
  *
  * Schemas are immutable. Use SchemaBuilder to create them.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Schema {
 

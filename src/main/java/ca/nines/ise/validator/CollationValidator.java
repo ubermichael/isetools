@@ -20,7 +20,7 @@ import ca.nines.ise.document.Collation;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class CollationValidator extends ApparatusValidator<Collation> {
 

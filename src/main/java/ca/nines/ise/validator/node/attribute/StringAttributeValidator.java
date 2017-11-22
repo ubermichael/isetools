@@ -18,7 +18,6 @@ package ca.nines.ise.validator.node.attribute;
 
 import ca.nines.ise.validator.node.*;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
@@ -28,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  * Validate a string attribute value. A string is valid if it contains at least
  * one non-whitespace character.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class StringAttributeValidator implements AttributeValidator {
 
@@ -44,9 +43,6 @@ public class StringAttributeValidator implements AttributeValidator {
    * @param n TagNode to validate
    * @param attr attribute to validate against
    */
-  @ErrorCode(code = {
-    "validator.attribute.badstring"
-  })
   @Override
   public void validate(TagNode n, Attribute attr) {
     String value = n.getAttribute(attr.getName());

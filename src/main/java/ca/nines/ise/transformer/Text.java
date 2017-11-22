@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * Normalize an ISE document, by combining adjacent text nodes and fixing up
  * newlines.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Text extends IdentityTransform {
 

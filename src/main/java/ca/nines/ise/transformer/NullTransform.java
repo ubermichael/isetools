@@ -20,7 +20,7 @@ package ca.nines.ise.transformer;
  * Base class for transformers which drops everything - subclasses can override
  * methods as needed for output.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class NullTransform extends Transformer {
 

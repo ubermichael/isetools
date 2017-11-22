@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.validator.semantic;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
@@ -27,13 +26,9 @@ import java.io.IOException;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 public class RuleValidator extends SemanticValidator {
 
-    @ErrorCode(code = {
-        "validator.rule.linenotempty"
-    })
     @Override
     public void validateDOM(DOM dom) throws IOException {
         for (Node n : dom) {

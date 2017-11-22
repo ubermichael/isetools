@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
  * Create trac-friendly wiki pages describing some aspect of the toolset, based
  * on the code and annotations.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Wikify extends Command {
 

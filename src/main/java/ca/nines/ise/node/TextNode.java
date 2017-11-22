@@ -21,7 +21,7 @@ import ca.nines.ise.dom.Fragment;
 /**
  * Text content node type.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class TextNode extends Node {
 

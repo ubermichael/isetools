@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author michael
+
  */
 public class Attribute {
     

@@ -26,7 +26,7 @@ import org.apache.commons.cli.Options;
 /**
  * Produce a list of works that the toolset should understand.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Works extends Command {
 

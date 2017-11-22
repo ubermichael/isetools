@@ -29,7 +29,7 @@ import org.apache.commons.lang3.ArrayUtils;
 /**
  * A corpus is a collection of Works.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Corpus {
 

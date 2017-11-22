@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 /**
  * Tag node.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class TagNode extends Node {
 

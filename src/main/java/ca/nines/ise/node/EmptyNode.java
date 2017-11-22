@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 /**
  * Empty nodes.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class EmptyNode extends TagNode {
 

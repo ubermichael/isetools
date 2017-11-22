@@ -25,7 +25,7 @@ import org.apache.commons.cli.Options;
 /**
  * Return various version information.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Version extends Command {
 

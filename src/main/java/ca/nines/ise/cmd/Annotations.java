@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
@@ -36,7 +35,7 @@ import org.apache.commons.cli.Options;
  * Validate an ISE annotations xml file against an ISE SGMLish document,
  * checking that the lemmas match up.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Annotations extends Command {
 
@@ -48,12 +47,6 @@ public class Annotations extends Command {
     return "Validate annotations for an ISE document.";
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @ErrorCode(code = {
-    "dom.errors"
-  })
   @Override
   public void execute(CommandLine cmd) throws Exception {
     Log log = Log.getInstance();

@@ -17,7 +17,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.AbbrNode;
 import ca.nines.ise.schema.Schema;
@@ -38,7 +37,7 @@ import ca.nines.ise.schema.Schema;
  * <p>
  * @see AbbrNode#expanded()
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class AbbrNodeValidator implements NodeValidator<AbbrNode> {
 
@@ -55,10 +54,6 @@ public class AbbrNodeValidator implements NodeValidator<AbbrNode> {
    * @param n AbbrNode to validate.
    * @param schema Schema to validate against.
    */
-  @ErrorCode(code = {
-    "validator.abbr.depreciated",
-    "validator.abbr.long"
-  })
   @Override
   public void validate(AbbrNode n, Schema schema) {
     Message m;

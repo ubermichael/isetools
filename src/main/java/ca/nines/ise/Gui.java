@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author michael
+
  */
 public class Gui extends javax.swing.JFrame {
 

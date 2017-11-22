@@ -23,7 +23,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class AnnotationValidator extends ApparatusValidator<Annotation> {
 

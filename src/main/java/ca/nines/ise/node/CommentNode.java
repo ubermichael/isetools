@@ -21,7 +21,7 @@ import ca.nines.ise.dom.Fragment;
 /**
  * Comment node
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class CommentNode extends Node {
 

@@ -47,7 +47,7 @@ import java.util.Map;
  * }
  * </pre>
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class DOMValidator {
 

@@ -41,7 +41,7 @@ import org.apache.commons.cli.Options;
 /**
  * Transform a document into a new document.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Transform extends Command {
 

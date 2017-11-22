@@ -18,7 +18,6 @@ package ca.nines.ise.validator.node;
 
 import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.TagNode;
 import ca.nines.ise.schema.Attribute;
@@ -36,7 +35,7 @@ import java.util.Map;
  * Abstract class to handle the commonalities in tag validations. Also provides
  * attribute validation.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  * @param <T>
  */
 abstract public class TagNodeValidator<T extends TagNode> implements NodeValidator<T> {
@@ -81,9 +80,6 @@ abstract public class TagNodeValidator<T extends TagNode> implements NodeValidat
    * @throws ca.nines.ise.exceptions.AttributeTypeException if the attribute
    * type is unknown.
    */
-  @ErrorCode(code = {
-    "validator.attribute.unknowntype"
-  })
   public void validate_attribute(TagNode n, Attribute attr) throws AttributeTypeException {
     AttributeType at = attr.getType();
     AttributeValidator v = TagNodeValidator.validators.get(attr.getType());
@@ -115,11 +111,6 @@ abstract public class TagNodeValidator<T extends TagNode> implements NodeValidat
    * @param schema Schema to validate against
    * @throws ca.nines.ise.exceptions.AttributeTypeException
    */
-  @ErrorCode(code = {
-    "validator.attribute.unknown",
-    "validator.attribute.depreciated",
-    "validator.attribute.nonempty",
-    "validator.attribute.missing",})
   public void validate_attributes(TagNode n, Schema schema) throws AttributeTypeException {
     String tagName = n.getName();
     Tag tag = schema.getTag(tagName);

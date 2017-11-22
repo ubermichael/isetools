@@ -33,7 +33,7 @@ import org.apache.commons.cli.Options;
 /**
  * Report the special characters used in one or more documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Chars extends Command {
 

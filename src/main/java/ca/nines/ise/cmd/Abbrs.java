@@ -31,7 +31,7 @@ import org.apache.commons.cli.Options;
 /**
  * Find and report old-stye abbreviation markup in one or more documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Abbrs extends Command {
 

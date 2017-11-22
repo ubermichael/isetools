@@ -29,7 +29,7 @@ import javax.xml.transform.TransformerException;
 /**
  * SGMLWriter serializes a document into the ISE variant of SGML.
  *
- * @author Maxwell Terpstra <terpstra@alumni.uvic.ca>
+
  */
 public class ExpandedSGMLWriter extends Writer {
 
