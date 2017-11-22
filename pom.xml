@@ -187,16 +187,16 @@
                 <version>2.8</version>
             </plugin>
             <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <version>4.2.0</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.0-M1</version>
                 <configuration>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+                <version>4.2.0</version>
             </plugin>
         </plugins>
     </reporting>

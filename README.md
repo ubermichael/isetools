@@ -47,7 +47,7 @@ The tools can output XML, SGML, RTF, and plain text.
 
 Code coverage metrics can be collected with [clover](http://openclover.org/doc/manual/4.2.0/maven--quick-start-guide.html) like so:
 
-`$ mvn clean clover:setup test clover:aggregate clover:clover`
+`$ mvn clean clover:instrument test clover:aggregate clover:clover site`
 
 ## License & Copyright
 
