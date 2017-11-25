@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.writer;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -70,20 +69,5 @@ public class TextWriter extends Writer {
     }
   }
 
-  /**
-   * Unsupported.
-   *
-   * @param dom the DOM to render
-   * @param ann annotations
-   *
-   * @throws TransformerConfigurationException
-   * @throws TransformerException
-   * @throws IOException
-   * @throws Exception
-   */
-  @Override
-  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
-    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
-  }
 
 }

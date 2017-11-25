@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.writer;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
 import java.io.IOException;
@@ -62,21 +61,6 @@ public class ExpandedSGMLWriter extends Writer {
     for (Node n : dom.expanded()) {
         out.print(n.sgml());
     }
-  }
-
-  /**
-   * This is unsupported.
-   *
-   * @param dom
-   * @param ann
-   * @throws TransformerConfigurationException
-   * @throws TransformerException
-   * @throws IOException
-   * @throws Exception
-   */
-  @Override
-  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
-    throw new UnsupportedOperationException("Not supported.");
   }
 
 }
