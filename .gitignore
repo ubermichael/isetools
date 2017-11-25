@@ -22,3 +22,6 @@ nb-configuration.xml
 nbactions.xml
 nbactions*.xml
 src/main/javadoc
+
+# generated jar files.
+isetools.jar
