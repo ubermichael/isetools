@@ -42,6 +42,14 @@ public class Abbrs extends Command {
   public String description() {
     return "Report depreciated abbrs in one or more ISE documents.";
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "abbrs";
+  }
 
   /**
    * {@inheritDoc}

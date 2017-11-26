@@ -19,7 +19,6 @@ package ca.nines.ise.node;
 /**
  * Node types.
  *
-
  */
 public enum NodeType {
 

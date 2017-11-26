@@ -44,6 +44,14 @@ public class Validate extends Command {
   public String description() {
     return "Validate one or more ISE SGML documents.";
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "validate";
+  }
 
   @Override
   public void execute(CommandLine cmd) throws Exception {

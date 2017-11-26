@@ -49,6 +49,14 @@ public class Chars extends Command {
    * {@inheritDoc}
    */
   @Override
+  public String getName() {
+      return "chars";
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void execute(CommandLine cmd) throws Exception {
     File[] files;
     Locale.setDefault(Locale.ENGLISH);

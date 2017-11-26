@@ -20,14 +20,9 @@ import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
@@ -46,6 +41,14 @@ public class Syntax extends Command {
     return "Syntax check one or more ISE SGML documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "syntax";
+  }
+  
   /**
    * {@inheritDoc}
    */

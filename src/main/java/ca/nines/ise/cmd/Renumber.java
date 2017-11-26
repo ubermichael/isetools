@@ -44,6 +44,14 @@ public class Renumber extends Command {
   public String description() {
     return "Renumber the @n attributes in a tag.";
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "renumber";
+  }  
 
   @Override
   public void execute(CommandLine cmd) throws Exception {

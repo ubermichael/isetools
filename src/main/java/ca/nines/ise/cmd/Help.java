@@ -16,16 +16,10 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.Main;
-import java.util.Arrays;
 import java.util.Formatter;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.atteo.classindex.ClassIndex;
 
 /**
  * Describes the commands available and how they can be used.
@@ -46,9 +40,17 @@ public class Help extends Command {
    * {@inheritDoc}
    */
   @Override
+  public String getName() {
+      return "help";
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void execute(CommandLine cmd) throws Exception {
 
-    System.out.println("iTools " + Main.version());
+    System.out.println("isetools version 2");
     System.out.println("General usage: java -jar path/to/isetools.jar [command] [options]");
     System.out.println("For a specific command: java -jar path/to/isetools.jar [command] -h\n");
     System.out.println("[command] is one of the following: ");
@@ -74,15 +76,10 @@ public class Help extends Command {
     Formatter formatter = new Formatter(System.out);
     formatter.format("%n%12s   %s%n%n", "command", "description");
 
-    Map<String, String> descriptions = new HashMap<>();
-    for (Class<?> cls : ClassIndex.getSubclasses(Command.class)) {
-      Command cmd = (Command) cls.newInstance();
-      descriptions.put(cls.getSimpleName().toLowerCase(), cmd.description());
-    }
-    String names[] = descriptions.keySet().toArray(new String[descriptions.size()]);
-    Arrays.sort(names);
-    for (String name : names) {
-      formatter.format("%12s   %s%n", name, descriptions.get(name));
+    Map<String, Command> commands = Command.getCommands();
+    for (String name : commands.keySet()) {
+        Command c = commands.get(name);
+      formatter.format("%12s   %s%n", name, c.description());
     }
   }
 }

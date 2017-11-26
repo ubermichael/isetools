@@ -55,6 +55,14 @@ public class Transform extends Command {
    * {@inheritDoc}
    */
   @Override
+  public String getName() {
+      return "transform";
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void execute(CommandLine cmd) throws Exception {
     PrintStream out;
     Locale.setDefault(Locale.ENGLISH);
