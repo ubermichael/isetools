@@ -26,11 +26,8 @@ ABBREVIATION : '|' ~'|'* '|' ;
 CHAR_UNICODE 
     : 
     ( '{s}'       // long/medial s        ſ     U+017F
-    | '{P}'       // pilcrow              ¶     U+00B6
     | '{r}'       // lower rotunda r      ꝛ     U+A75B
     | '{R}'       // upper rotunda r      Ꝛ     U+A75A
-    | '{c}'       // lower c with cedilla ç     U+00E7
-    | '{C}'       // upper c with cedilla Ç     U+00C7
     | '{th}'      // lower thorn          þ     U+00FE
     | '{TH}'      // upper thorn          Þ     U+00DE  
     ) 

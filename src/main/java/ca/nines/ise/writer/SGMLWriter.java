@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.writer;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.Node;
 import java.io.IOException;
@@ -29,7 +28,7 @@ import javax.xml.transform.TransformerException;
 /**
  * SGMLWriter serializes a document into the ISE variant of SGML.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class SGMLWriter extends Writer {
 
@@ -70,19 +69,5 @@ public class SGMLWriter extends Writer {
     }
   }
 
-  /**
-   * This is unsupported.
-   *
-   * @param dom
-   * @param ann
-   * @throws TransformerConfigurationException
-   * @throws TransformerException
-   * @throws IOException
-   * @throws Exception
-   */
-  @Override
-  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
-    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
-  }
 
 }

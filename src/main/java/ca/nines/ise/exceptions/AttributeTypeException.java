@@ -20,7 +20,7 @@ package ca.nines.ise.exceptions;
  * A class to encapsulate Attribute type exceptions, thrown for unknown
  * attribute types.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 @SuppressWarnings("serial")
 public class AttributeTypeException extends Exception {

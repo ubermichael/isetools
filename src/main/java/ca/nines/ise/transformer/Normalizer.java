@@ -24,7 +24,7 @@ import ca.nines.ise.node.TextNode;
  * Normalize an ISE document, by combining adjacent text nodes and fixing up
  * newlines.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Normalizer extends IdentityTransform {
 

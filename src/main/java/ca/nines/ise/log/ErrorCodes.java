@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
 /**
  * Collection of ErrorCode objects, indexed by code.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class ErrorCodes {
 

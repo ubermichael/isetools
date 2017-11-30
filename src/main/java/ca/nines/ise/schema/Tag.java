@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
  * A tag as defined in a schema. Tags are immutable, use TagBuilder to create
  * them.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Tag implements Comparable<Tag> {
 

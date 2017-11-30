@@ -23,7 +23,7 @@ import ca.nines.ise.util.BuilderInterface;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class LemmaTest {
 

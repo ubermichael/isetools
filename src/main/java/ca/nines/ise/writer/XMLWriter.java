@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.writer;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.node.EmptyNode;
 import ca.nines.ise.node.EndNode;
@@ -48,7 +47,7 @@ import org.w3c.dom.Text;
  * <b>NOTE</b>: The generated XML is surrounded in &lt;root&gt; tags. This is a
  * bug and will be fixed in the future.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class XMLWriter extends Writer {
 
@@ -174,21 +173,6 @@ public class XMLWriter extends Writer {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-  }
-
-  /**
-   * Unsupported.
-   *
-   * @param dom
-   * @param ann
-   * @throws TransformerConfigurationException
-   * @throws TransformerException
-   * @throws IOException
-   * @throws Exception
-   */
-  @Override
-  public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception {
-    throw new UnsupportedOperationException("Not supported."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }

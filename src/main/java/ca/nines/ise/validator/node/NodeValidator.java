@@ -25,7 +25,7 @@ import ca.nines.ise.schema.Schema;
  * validators. Each node validator is responsible for validating a single node,
  * via the validate() method.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  * @param <T> extends Node
  */
 abstract public interface NodeValidator<T extends Node> {

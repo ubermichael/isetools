@@ -31,7 +31,7 @@ import org.apache.commons.cli.Options;
 /**
  * Find and report old-stye abbreviation markup in one or more documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Abbrs extends Command {
 
@@ -41,6 +41,14 @@ public class Abbrs extends Command {
   @Override
   public String description() {
     return "Report depreciated abbrs in one or more ISE documents.";
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "abbrs";
   }
 
   /**

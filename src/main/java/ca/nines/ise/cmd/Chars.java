@@ -33,7 +33,7 @@ import org.apache.commons.cli.Options;
 /**
  * Report the special characters used in one or more documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Chars extends Command {
 
@@ -45,6 +45,14 @@ public class Chars extends Command {
     return "Report on the special characters used in one or more documents.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "chars";
+  }
+  
   /**
    * {@inheritDoc}
    */

@@ -19,7 +19,6 @@ package ca.nines.ise.node;
 /**
  * Node types.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 public enum NodeType {
 

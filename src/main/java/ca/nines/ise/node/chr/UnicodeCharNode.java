@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Named unicode characters.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class UnicodeCharNode extends CharNode {
 
@@ -38,11 +38,8 @@ public class UnicodeCharNode extends CharNode {
    */
   static {
     charMap.put("{s}", "\u017F");
-    charMap.put("{P}", "\u00B6");
     charMap.put("{r}", "\uA75B");
     charMap.put("{R}", "\uA75A");
-    charMap.put("{c}", "\u00e7");
-    charMap.put("{C}", "\u00c7");
     charMap.put("{th}", "\u00fe");
     charMap.put("{TH}", "\u00de");
   }

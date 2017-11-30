@@ -47,7 +47,7 @@ import org.xml.sax.XMLReader;
  * documents and nodes returned from XMLDriver include location information
  * about where the document or node came from.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class XMLDriver {
 

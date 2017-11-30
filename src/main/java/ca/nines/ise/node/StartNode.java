@@ -19,7 +19,7 @@ package ca.nines.ise.node;
 /**
  * Start node type.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class StartNode extends TagNode {
 
@@ -32,6 +32,7 @@ public class StartNode extends TagNode {
 
   /**
    * Copy constructor.
+   * @param n Node to copy
    */
   public StartNode(Node n) {
     super(n);
@@ -39,6 +40,7 @@ public class StartNode extends TagNode {
 
   /**
    * Create a start node with a name.
+   * @param tagname Name of the tag to create.
    */
   public StartNode(String tagname) {
     super(tagname);

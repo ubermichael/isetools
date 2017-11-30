@@ -20,8 +20,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -31,23 +34,31 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.atteo.classindex.ClassIndex;
 import org.atteo.classindex.IndexSubclasses;
 
 /**
  * Superclass for all executable commands.
- *
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 @IndexSubclasses
 abstract public class Command {
 
-  /**
-   * List of commands, which are subclasses of Command. Subclass indexing is
-   * provided by ClassIndex.
-   *
-   * @see org.atteo.classindex.IndexSubclasses
-   */
-  protected static final HashMap<String, Class<? extends Command>> commandList = new HashMap<>();
+    private static Map<String, Command> commandList = null;
+    
+    public static Map<String, Command> getCommands() {
+        if(commandList == null) {
+            commandList = new TreeMap<>();
+            for(Class<? extends Command> cls : ClassIndex.getSubclasses(Command.class)) {
+                try {
+                    Command c = cls.newInstance();
+                    commandList.put(c.getName(), c);
+                } catch (InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(Command.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return commandList;
+    }
 
   /**
    * Return a description of the command.
@@ -55,22 +66,38 @@ abstract public class Command {
    * @return String
    */
   abstract public String description();
+  
+  /**
+   * Get the name of the command, which the user types at the commandline to
+   * execute the command.
+   * 
+   * @return the command name.
+   */
+  abstract public String getName();
 
   /**
    * Execute a command.
    *
-   * @param cmd
-   * @throws Exception
+   * @param cmd Parsed command line options.
+   * @throws Exception if an exception happens.
    */
   abstract public void execute(CommandLine cmd) throws Exception;
 
   /**
+   * Generates the Options for the command.
+   *
+   * @return Options A description of the options expected on the command line.
+   */
+  public abstract Options getOptions();
+
+  /**
    * Parse the command line args[] array and return the result.
    *
-   * @param opts
-   * @param args
+   * @param opts Description of the options expected
+   * @param args Raw arguments from teh command line.
+   * @throws ParseException if the command line cannot be parsed.
+   * 
    * @return CommandLine
-   * @throws ParseException
    */
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
@@ -82,7 +109,7 @@ abstract public class Command {
   /**
    * Get a list of file paths from the command line arguments.
    *
-   * @param cmd
+   * @param cmd Parsed command line arguments.
    * @return File[]
    */
   public File[] getFilePaths(CommandLine cmd) {
@@ -110,11 +137,11 @@ abstract public class Command {
   /**
    * Get a list of arguments for the command.
    *
-   * @param cmd
+   * @param cmd Get the list of arguments (not options) passed from the command line.
    * @return String[]
    */
   public String[] getArgList(CommandLine cmd) {
-    List<?> argList = cmd.getArgList();
+    List<String> argList = cmd.getArgList();
     argList = argList.subList(1, argList.size());
     String[] args = argList.toArray(new String[argList.size()]);
     return args;
@@ -134,13 +161,6 @@ abstract public class Command {
       System.out.println(this.getClass().getSimpleName().toLowerCase() + " " + getUsage());
     }
   }
-
-  /**
-   * Generates the Options for the command.
-   *
-   * @return Options
-   */
-  public abstract Options getOptions();
 
   /**
    * Generate a brief usage of the command.

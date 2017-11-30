@@ -26,7 +26,7 @@ import java.util.List;
  * <p>
  * Log is a singleton: use getInstance() to get an object, rather than new().
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public final class Log {
 

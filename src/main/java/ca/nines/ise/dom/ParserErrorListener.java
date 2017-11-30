@@ -18,7 +18,6 @@ package ca.nines.ise.dom;
 
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -53,9 +52,6 @@ public class ParserErrorListener extends BaseErrorListener {
    * @param msg
    * @param e
    */
-  @ErrorCode(code = {
-    "parser.syntax"
-  })
   @Override
   public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
     dom.setStatus(DOM.DOMStatus.ERROR);

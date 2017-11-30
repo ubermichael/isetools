@@ -17,7 +17,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.CommentNode;
 import ca.nines.ise.schema.Schema;
@@ -34,7 +33,7 @@ import ca.nines.ise.schema.Schema;
  * end.</li>
  * </ul>
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class CommentNodeValidator implements NodeValidator<CommentNode> {
 
@@ -44,11 +43,6 @@ public class CommentNodeValidator implements NodeValidator<CommentNode> {
    * @param n CommentNode to validate
    * @param schema Schema to validate against.
    */
-  @ErrorCode(code = {
-    "validator.comment.badstart",
-    "validator.comment.badend",
-    "validator.comment.dashes"
-  })
   @Override
   public void validate(CommentNode n, Schema schema) {
     Message m;

@@ -22,15 +22,13 @@ import ca.nines.ise.node.attribute.Attribute;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Tag node.
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class TagNode extends Node {
 
@@ -73,6 +71,7 @@ abstract public class TagNode extends Node {
  
     /**
      * Create a new tag node with a name.
+     * @param tagname Name of the tag.
      */
     public TagNode(String tagname) {
         this.attributes = new AttributeSet();
@@ -125,8 +124,9 @@ abstract public class TagNode extends Node {
     /**
      * Get an attribute value. Attribute names are case insensitive.
      * <p>
-     * @param name
-     * <p>
+     * @param name Name of the attribute
+     * @param unicodify Convert the attribute to unicode if true.
+     * 
      * @return String
      */
     public String getAttribute(String name, boolean unicodify) {

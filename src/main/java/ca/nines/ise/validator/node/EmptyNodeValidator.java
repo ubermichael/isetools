@@ -17,7 +17,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.exceptions.AttributeTypeException;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.EmptyNode;
@@ -35,7 +34,7 @@ import ca.nines.ise.schema.Tag;
  * <li>The tag is not depreciated.</li>
  * </ul>
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
 
@@ -47,11 +46,6 @@ public class EmptyNodeValidator extends TagNodeValidator<EmptyNode> {
    * @throws ca.nines.ise.exceptions.AttributeTypeException for unknown
    * attribute types.
    */
-  @ErrorCode(code = {
-    "validator.tag.unknown",
-    "validator.tag.emptystart",
-    "validator.tag.depreciated"
-  })
   @Override
   public void validate(EmptyNode n, Schema schema) throws AttributeTypeException {
     Tag t = schema.getTag(n.getName());

@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  * <p>
  * @see CharNode#expanded()
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class CharNodeValidator implements NodeValidator<CharNode> {
 

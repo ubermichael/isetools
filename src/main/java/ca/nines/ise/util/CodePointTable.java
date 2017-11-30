@@ -29,7 +29,7 @@ import org.apache.commons.csv.CSVRecord;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class CodePointTable {
 

@@ -33,7 +33,7 @@ import org.apache.commons.cli.Options;
  * Renumber the \@n attributes in one or more tags in a document, following some
  * very arcane rules.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Renumber extends Command {
 
@@ -44,6 +44,14 @@ public class Renumber extends Command {
   public String description() {
     return "Renumber the @n attributes in a tag.";
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "renumber";
+  }  
 
   @Override
   public void execute(CommandLine cmd) throws Exception {

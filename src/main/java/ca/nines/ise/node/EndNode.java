@@ -19,7 +19,7 @@ package ca.nines.ise.node;
 /**
  * End tag node.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class EndNode extends TagNode {
 

@@ -43,6 +43,12 @@ ISE documents are based on SGML, with some variations:
 
 The tools can output XML, SGML, RTF, and plain text. 
 
+## Code Coverage
+
+Code coverage metrics can be collected with [clover](http://openclover.org/doc/manual/4.2.0/maven--quick-start-guide.html) like so:
+
+`$ mvn clean clover:instrument test clover:aggregate clover:clover site`
+
 ## License & Copyright
 
 Copyright (C) 2014-2015 Michael Joyce <ubermichael@gmail.com>

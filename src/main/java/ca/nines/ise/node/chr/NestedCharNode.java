@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * Special characters nested together to make a ligature.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class NestedCharNode extends CharNode {
 

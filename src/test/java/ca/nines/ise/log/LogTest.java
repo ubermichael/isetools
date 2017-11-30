@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class LogTest {
 

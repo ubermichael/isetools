@@ -34,7 +34,7 @@ import java.io.IOException;
  * Char nodes. There are many char node sub-types. Has many convenience methods
  * to create the subtypes.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class CharNode extends Node {
 

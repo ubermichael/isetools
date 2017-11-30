@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.dom.DOM.DOMStatus;
 import ca.nines.ise.dom.DOMBuilder;
@@ -26,10 +25,10 @@ import ca.nines.ise.schema.Schema;
 import ca.nines.ise.validator.DOMValidator;
 import ca.nines.ise.validator.NestingValidator;
 import ca.nines.ise.writer.Writer;
-import ca.nines.ise.writer.RTFWriter;
 import ca.nines.ise.writer.SGMLWriter;
 import ca.nines.ise.writer.TextWriter;
 import ca.nines.ise.writer.XMLWriter;
+import ca.nines.ise.writer.ExpandedSGMLWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -40,7 +39,7 @@ import org.apache.commons.cli.Options;
 /**
  * Transform a document into a new document.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Transform extends Command {
 
@@ -52,6 +51,14 @@ public class Transform extends Command {
     return "Transform an ISE SGML document another format.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getName() {
+      return "transform";
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -73,11 +80,11 @@ public class Transform extends Command {
     if (cmd.hasOption("xml")) {
       renderer = new XMLWriter(out);
     }
-    if (cmd.hasOption("rtf")) {
-      renderer = new RTFWriter(out);
-    }
     if(cmd.hasOption("sgml")) {
         renderer = new SGMLWriter(out);
+    }
+    if(cmd.hasOption("ximl")) {
+        renderer = new ExpandedSGMLWriter(out);
     }
 
     if (renderer == null) {
@@ -96,12 +103,7 @@ public class Transform extends Command {
     nv.validate(dom);    
     
     if (dom.getStatus() != DOMStatus.ERROR) {
-      if (files.length == 2) {
-        Annotation ann = Annotation.builder().from(new File(files[1])).build();
-        renderer.render(dom, ann);
-      } else {
-        renderer.render(dom);
-      }
+      renderer.render(dom);
     } else {
       Message m = Message.builder("dom.errors")
               .setSource(dom.getSource())
@@ -124,8 +126,8 @@ public class Transform extends Command {
     opts.addOption("o", true, "Send output to file.");
     opts.addOption("xml", false, "Transform output to XML.");
     opts.addOption("text", false, "Transform output to UTF-8 (unicode) text.");
-    opts.addOption("rtf", false, "Transform output to an RTF document.");
     opts.addOption("sgml", false, "Transform output to an SGML document, after validating.");
+    opts.addOption("ximl", false, "Transform output to an SGML document with expanded tagging.");
     return opts;
   }
 

@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.node;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.Fragment;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.log.Message;
@@ -26,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Abbreviation node. Abbreviation markup is depreciated in ISE documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class AbbrNode extends Node {
 
@@ -45,9 +44,6 @@ public class AbbrNode extends Node {
    *
    * @return Fragment with the expanded nodes.
    */
-  @ErrorCode(code = {
-    "abbr.expand.syntax"
-  })
   @Override
   public Fragment expanded() {
 

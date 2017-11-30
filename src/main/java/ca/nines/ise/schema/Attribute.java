@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
  * An attribute as defined in a schema. Attribute is an immutable class. Use
  * AttributeBuilder to create them.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Attribute implements Comparable<Attribute> {
 

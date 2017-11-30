@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class UnicodeCharNodeTest extends TestBase {
 
@@ -64,8 +64,6 @@ public class UnicodeCharNodeTest extends TestBase {
     testExpansion("{s}", "\u017F");
     testExpansion("{r}", "\uA75B");
     testExpansion("{R}", "\uA75A");
-    testExpansion("{c}", "\u00E7");
-    testExpansion("{C}", "\u00C7");
     testExpansion("{th}", "\u00FE");
     testExpansion("{TH}", "\u00DE");
     testExpansion("{pd}", "\uFFFD", new String[]{"char.unicode.unknown"});

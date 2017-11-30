@@ -18,7 +18,7 @@ import org.apache.commons.csv.CSVRecord;
 
 /**
  *
- * @author michael
+
  */
 public class TextReplacementTable {
     
@@ -26,12 +26,13 @@ public class TextReplacementTable {
 
     public static class TextReplacementTableBuilder implements BuilderInterface<TextReplacementTable> {
         
-        private Map<String, String> table;
+        private final Map<String, String> table;
         
         private TextReplacementTableBuilder() {
             table = new HashMap<>();            
         }
         
+        @Override
         public TextReplacementTable build() {
             return new TextReplacementTable(table);
         }

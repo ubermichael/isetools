@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class TagNodeTest extends TestBase {
 

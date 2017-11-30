@@ -40,7 +40,7 @@ import org.apache.commons.io.input.BOMInputStream;
  * not UTF-8. It will also correct any typographic quotes to straight quotes,
  * and normalizes the input to NFKC.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class DOMStream {
 

@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.writer;
 
-import ca.nines.ise.document.Annotation;
 import ca.nines.ise.dom.DOM;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -28,7 +27,7 @@ import javax.xml.transform.TransformerException;
 /**
  * Writers produce output.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class Writer {
 
@@ -67,18 +66,5 @@ abstract public class Writer {
    * @throws Exception
    */
   abstract public void render(DOM dom) throws TransformerConfigurationException, TransformerException, IOException, Exception;
-
-  /**
-   * Render a DOM with annotations/footnotes - NOT ALL OUTPUT FORMATS SUPPORT
-   * ANNOTATIONS.
-   *
-   * @param dom
-   * @param ann
-   * @throws TransformerConfigurationException
-   * @throws TransformerException
-   * @throws IOException
-   * @throws Exception
-   */
-  abstract public void render(DOM dom, Annotation ann) throws TransformerConfigurationException, TransformerException, IOException, Exception;
 
 }

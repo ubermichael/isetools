@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 /**
  * A node is a piece of a DOM.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
  */
 abstract public class Node {
 

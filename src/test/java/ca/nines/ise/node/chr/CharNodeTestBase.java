@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 abstract public class CharNodeTestBase extends TestBase {
 

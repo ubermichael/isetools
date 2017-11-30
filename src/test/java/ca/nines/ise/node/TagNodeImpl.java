@@ -18,7 +18,7 @@ package ca.nines.ise.node;
 
 /**
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class TagNodeImpl extends TagNode {
 

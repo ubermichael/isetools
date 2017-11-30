@@ -17,7 +17,6 @@
 package ca.nines.ise.validator.node;
 
 import ca.nines.ise.log.Message;
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.log.Log;
 import ca.nines.ise.node.TextNode;
 import ca.nines.ise.schema.Schema;
@@ -27,7 +26,7 @@ import ca.nines.ise.schema.Schema;
  * text nodes cannot contain the octothorpe. This validator also creates an
  * error for bad unicode characters (\uFFFD).
  * <p>
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class TextNodeValidator implements NodeValidator<TextNode> {
 
@@ -37,10 +36,6 @@ public class TextNodeValidator implements NodeValidator<TextNode> {
    * @param n TextNode to validate
    * @param schema Schema to validate against.
    */
-  @ErrorCode(code = {
-    "validator.text.depreciatedhash",
-    "validator.text.badunicode"
-  })
   @Override
   public void validate(TextNode n, Schema schema) {
     if (n.getText().contains("#")) {

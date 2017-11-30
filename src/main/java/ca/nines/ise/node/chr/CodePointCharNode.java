@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 /**
  * Numeric and named character entities, similar to SGML entities.
  *
- * @author Michael Joyce <michael@negativespatternace.net>
+
  */
 public class CodePointCharNode extends CharNode {
 

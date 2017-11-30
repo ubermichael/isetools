@@ -16,7 +16,6 @@
  */
 package ca.nines.ise.cmd;
 
-import ca.nines.ise.annotation.ErrorCode;
 import ca.nines.ise.dom.DOMBuilder;
 import ca.nines.ise.dom.DOM;
 import ca.nines.ise.log.Log;
@@ -34,7 +33,7 @@ import org.apache.commons.cli.Options;
 /**
  * Validate a document or documents.
  *
- * @author Michael Joyce <ubermichael@gmail.com>
+
  */
 public class Validate extends Command {
 
@@ -45,13 +44,15 @@ public class Validate extends Command {
   public String description() {
     return "Validate one or more ISE SGML documents.";
   }
-
+  
   /**
    * {@inheritDoc}
    */
-  @ErrorCode(code = {
-    "dom.errors"
-  })
+  @Override
+  public String getName() {
+      return "validate";
+  }
+
   @Override
   public void execute(CommandLine cmd) throws Exception {
     File[] files;
