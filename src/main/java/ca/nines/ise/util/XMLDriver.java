@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -150,7 +151,7 @@ public class XMLDriver {
     DOMResult domResult = new DOMResult(doc);
     LocationAnnotator locationAnnotator = new LocationAnnotator(xmlReader, doc);
 
-    InputSource inputSource = new InputSource(IOUtils.toInputStream(in));
+    InputSource inputSource = new InputSource(IOUtils.toInputStream(in, Charset.forName("UTF-8")));
     SAXSource saxSource = new SAXSource(locationAnnotator, inputSource);
     nullTransformer.transform(saxSource, domResult);
 

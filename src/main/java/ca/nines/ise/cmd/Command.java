@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -94,14 +94,14 @@ abstract public class Command {
    * Parse the command line args[] array and return the result.
    *
    * @param opts Description of the options expected
-   * @param args Raw arguments from teh command line.
+   * @param args Raw arguments from the command line.
    * @throws ParseException if the command line cannot be parsed.
    * 
    * @return CommandLine
    */
   public CommandLine getCommandLine(Options opts, String[] args) throws ParseException {
     CommandLine cmd;
-    CommandLineParser parser = new BasicParser();
+    CommandLineParser parser = new DefaultParser();
     cmd = parser.parse(opts, args);
     return cmd;
   }

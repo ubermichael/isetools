@@ -41,7 +41,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -76,7 +77,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
   /**
    * Input Stream for the Antlr parser.
    */
-  private final ANTLRInputStream ais;
+  private final CharStream ais;
 
   /**
    * Name of the attribute being parsed.
@@ -111,7 +112,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     DOMStream domStream = new DOMStream(in, source);
     dom.setSource(source);
     dom.setLines(domStream.getLines());
-    ais = new ANTLRInputStream(domStream.getContent());
+    ais = CharStreams.fromString(domStream.getContent());
   }
 
   /**
@@ -126,7 +127,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     DOMStream domStream = new DOMStream(in);
     dom.setSource("#STRING");
     dom.setLines(domStream.getLines());
-    ais = new ANTLRInputStream(domStream.getContent());
+    ais = CharStreams.fromString(domStream.getContent());
   }
 
   /**
@@ -143,7 +144,7 @@ public class DOMBuilder extends ISEParserBaseListener implements BuilderInterfac
     DOMStream domStream = new DOMStream(in);
     dom.setSource(in.getCanonicalPath());
     dom.setLines(domStream.getLines());
-    ais = new ANTLRInputStream(domStream.getContent());
+    ais = CharStreams.fromString(domStream.getContent());
   }
 
   /**
