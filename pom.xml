@@ -105,7 +105,7 @@
                 <artifactId>clover-maven-plugin</artifactId>
                 <version>4.2.0</version>     
             </plugin>
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
@@ -124,7 +124,7 @@
                         <argument>isetools.jar</argument>
                     </arguments>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.0.0</version>
@@ -187,6 +187,11 @@
             <groupId>com.io7m.xom</groupId>
             <artifactId>xom</artifactId>
             <version>1.2.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.neovisionaries</groupId>
+            <artifactId>nv-i18n</artifactId>
+            <version>1.22</version>
         </dependency>
     </dependencies>
     <reporting>
